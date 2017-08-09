@@ -9,6 +9,7 @@ heroBanner {
     text-align: center;
     color: mapGet($basecolor, white);
     text-shadow: 2px 2px mapGet($basecolor, black);
+    border-bottom: solid 1px mapGet($basecolor, border);
 
     .siteTitle {
       font-size: 84px;

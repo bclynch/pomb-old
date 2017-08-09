@@ -20,7 +20,7 @@ Running The App
 ### In a Browser
 ```bash
 $ ionic serve
-$ postgraphql  --schema laze,laze_private --secret some_secret -t laze.jwt_token  //seperate terminal
+$ postgraphql  --schema pomb,pomb_private --secret some_secret -t pomb.jwt_token  //seperate terminal
 ```
 - Some kind of CORS extension will be needed for cross security issues
     - https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
