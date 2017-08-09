@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'HelveticaNeue-Light', 'RobotoThin', sans-serif-light;
+    src: url(../fonts/roboto-Thin.ttf) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue', 'RobotoLight', sans-serif;
+    src: url(../fonts/roboto-Light.ttf) format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Bold', 'RobotoBold', sans-serif;
+    src: url(../fonts/roboto-Bold.ttf) format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+$basefont: (
+  family: (
+    light:   'HelveticaNeue-Light',
+    regular: 'Helvetica Neue',
+    strong:  'HelveticaNeue-Bold',
+  ),
+  color: (
+    white:   #fff,
+    primary:   #21bbee,
+    secondary: #2c343f,
+    dark:      #606060,
+    light:     #c9c9c9
+  ),
+  size: (
+    supersized: 5rem,
+    huge:       3rem,
+    large:      2.5rem,
+    header:     1.9rem,
+    subheader:  1.6rem,
+    standard:   1.4rem,
+    small:      1.2rem,
+    tiny:       1rem,
+    micro:      0.8rem
+  ),
+  pdfsize: (
+    large:    24px,
+    title:    16px,
+    header:   12px,
+    standard: 10px,
+    small:    8px,
+    tiny:     7px
+  )
+);

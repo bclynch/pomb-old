@@ -1,0 +1,6 @@
+@function mapGet($map, $list...) {
+  @each $key in $list {
+    $map: map-get($map, $key);
+  }
+  @return $map; // Our value
+}

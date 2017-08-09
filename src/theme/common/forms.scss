@@ -1,0 +1,29 @@
+  form {
+
+    // untouched
+    .invalid {
+      border-right-color: mapGet($basecolor, danger) !important;
+    }
+
+    // invalid
+    .untouched {
+      border-right-color: mapGet($basecolor, primary) !important;
+    }
+
+    // input valid
+    .touched {
+      border-right-color: mapGet($basecolor, secondary) !important;
+    }
+
+    // form valid
+    .valid {
+      border-right-color: mapGet($basecolor, secondary) !important;
+    }
+
+    input {
+      &.ng-invalid {
+        color: mapGet($basefont, color, light) !important;
+      }
+    }
+
+  }

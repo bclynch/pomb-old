@@ -1,0 +1,175 @@
+%popoverArrow {
+  position: absolute;
+  top: -8px;
+  right: 50px;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: -1;
+
+  @include boxshadow(0px 0px 10px 0px rgba(0, 0, 0, 0.3));
+  @include rotate(45);
+
+  animation: showArrow;
+  animation-duration: 0.5s;
+  background-color: mapGet($basecolor, white);
+
+  > div {
+    width: inherit;
+    height: inherit;
+    background-color: inherit;
+  }
+}
+
+%popoverContent {
+  transform-origin: 0 !important;
+  transform: scale(1) !important;
+  border-radius: 2px !important;
+  overflow: visible;
+  @include boxshadow(0px 0px 10px 0px rgba(0, 0, 0, 0.3));
+}
+
+%popoverList {
+  background: mapGet($basecolor, white);
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+
+  .popoverList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 10px 0;
+
+    .popoverItem {
+      padding: 20px 13px;
+      width: 100%;
+      font-size: mapGet($basefont, size, standard);
+      color: mapGet($basefont, color, dark);
+      white-space: nowrap;
+      padding: 13px 25px;
+      cursor: pointer;
+
+      &.popoverActive {
+        color: mapGet($basefont, color, primary);
+      }
+
+      .popoverLabel {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      ion-icon {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 7px 0 0;
+        width: 30px;
+        text-align: center;
+        font-size: mapGet($basefont, size, large);
+      }
+      &:hover {
+        background-color: mapGet($basecolor, light);
+      }
+    }
+  }
+}
+
+%standardfont {
+  color: mapGet($basefont, color, dark);
+  font: {
+    size: mapGet($basefont, size, standard);
+    family: mapGet($basefont, family, regular);
+  }
+}
+
+
+%headerfont {
+  color: mapGet($basefont, color, dark);
+  font: {
+    size: mapGet($basefont, size, header);
+    family: mapGet($basefont, family, regular);
+  }
+}
+
+%strongfont {
+  color: mapGet($basefont, color, dark);
+  font: {
+    family: mapGet($basefont, family, strong);
+  }
+}
+
+%lightfont {
+  color: mapGet($basefont, color, dark);
+  font: {
+    family: mapGet($basefont, family, light);
+  }
+}
+
+%standardbuttonfont {
+  > div {
+    @extend %standardfont;
+  }
+  &.active {
+    border-bottom: {
+      size: 3px;
+      style: solid;
+      color: mapGet($basefont, color, primary);
+    }
+    > div {
+      margin: auto;
+      color: mapGet($basefont, color, primary);
+    }
+  }
+}
+
+%backgroundimage {
+  background: {
+    size: contain;
+    position: center center;
+    repeat: no-repeat;
+  }
+}
+
+%checkbox {
+  .checkbox-icon {
+    border-color: mapGet($basefont, color, primary);
+  }
+  .checkbox-checked{
+    border-color: mapGet($basefont, color, primary);
+    background-color: mapGet($basefont, color, primary);
+  }
+}
+
+%checkboxfix {
+  button {
+    &.item-cover {
+      margin-top: auto;
+    }
+  }
+}
+
+%fixedRatioWrapper {
+  width: 100%;
+  position: relative;
+  > div {
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+%cardstyle {
+  @include boxshadow(0 0px 6px 0 rgba(0, 0, 0, 0.25));
+  border-radius: 3px !important;
+  overflow: hidden;
+}

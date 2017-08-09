@@ -1,0 +1,115 @@
+@mixin boxshadow($args...) {
+  -webkit-box-shadow: $args !important;
+     -moz-box-shadow: $args !important;
+      -ms-box-shadow: $args !important;
+       -o-box-shadow: $args !important;
+          box-shadow: $args !important;
+}
+
+@mixin gradient($angle, $first, $second) {
+  background: $first;
+  background: -webkit-linear-gradient($angle, $first, $second);
+  background:    -moz-linear-gradient($angle, $first, $second);
+  background:      -o-linear-gradient($angle, $first, $second);
+  background:         linear-gradient($angle, $first, $second);
+}
+
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+     -moz-transition: $args;
+      -ms-transition: $args;
+       -o-transition: $args;
+          transition: $args;
+}
+
+@mixin transform($args) {
+  -webkit-transform: $args;
+     -moz-transform: $args;
+      -ms-transform: $args;
+       -o-transform: $args;
+          transform: $args;
+}
+
+//transform origin
+@mixin transform-origin ($origin) {
+	-webkit-transform-origin: $origin;
+     -moz-transform-origin: $origin;
+      -ms-transform-origin: $origin;
+	     -o-transform-origin: $origin;
+          transform-origin: $origin;
+}
+
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+
+// scale
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+}
+
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+
+// breakpoints
+$break-min: mapGet($breakpoint, min);
+$break-micro: mapGet($breakpoint, micro);
+$break-tiny: mapGet($breakpoint, tiny);
+$break-small: mapGet($breakpoint, small);
+$break-medium: mapGet($breakpoint, medium);
+$break-large: mapGet($breakpoint, large);
+$break-large: mapGet($breakpoint, jumbo);
+
+@mixin respond-to($breakpoint) {
+
+  @if $breakpoint == "min" {
+    @media (min-width: $break-min) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == "micro" {
+    @media (min-width: $break-micro) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == "tiny" {
+    @media (min-width: $break-tiny) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == "small" {
+    @media (min-width: $break-small) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint == "medium" {
+    @media (min-width: $break-medium) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint == "large" {
+    @media (min-width: $break-large) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint == "jumbo" {
+    @media (min-width: $break-jumbo) {
+      @content;
+    }
+  }
+}

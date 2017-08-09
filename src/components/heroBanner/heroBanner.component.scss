@@ -1,0 +1,17 @@
+heroBanner {
+
+  .heroBannerContainer {
+    background: black;
+    padding: 64px 16px;
+    text-align: center;
+
+    .siteTitle {
+      font-size: 84px;
+      color: white;
+    }
+    .subHeader {
+      color: white;
+      font-size: 20px;
+    }
+  }
+}
