@@ -1,0 +1,19 @@
+navBar {
+  width: 100%;
+
+  .navBarContainer {
+    display: flex;
+    justify-content: center;
+    background: mapGet($basecolor, black);
+    height: 45px;
+    color: mapGet($basecolor, white);
+    border-bottom: solid 1px mapGet($basecolor, border);
+
+    .navBarWrapper {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

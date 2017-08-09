@@ -20,6 +20,7 @@ import { HomePage } from '../pages/home/home';
 
 const appRoutes: Routes = [
   { path: '',   component: HomePage },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 // const appRoutes: Routes = [

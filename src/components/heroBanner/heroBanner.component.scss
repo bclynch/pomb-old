@@ -1,16 +1,20 @@
 heroBanner {
+  width: 100%;
 
   .heroBannerContainer {
-    background: black;
+    background: url('https://images4.alphacoders.com/751/thumb-1920-751911.jpg');
+    background-size: cover;
+    background-position: center;
     padding: 64px 16px;
     text-align: center;
+    color: mapGet($basecolor, white);
+    text-shadow: 2px 2px mapGet($basecolor, black);
 
     .siteTitle {
       font-size: 84px;
-      color: white;
+      
     }
     .subHeader {
-      color: white;
       font-size: 20px;
     }
   }

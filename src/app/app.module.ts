@@ -11,6 +11,7 @@ import { PageNotFoundComponent } from './not-found.component';
 import { Grid } from '../components/grid/grid.component';
 import { GridCard } from '../components/gridCard/gridCard.component';
 import { HeroBanner } from '../components/heroBanner/heroBanner.component';
+import { NavBar } from '../components/navBar/navBar.component';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -22,7 +23,8 @@ import { HomePage } from '../pages/home/home';
     PageNotFoundComponent,
     Grid,
     GridCard,
-    HeroBanner
+    HeroBanner,
+    NavBar
   ],
   imports: [
     BrowserModule,
