@@ -1,5 +1,7 @@
 <div class="gridContainer">
-  <div *ngFor="let row of gridConfiguration;" class="cardRow">
-    <GridCard *ngFor="let card of row" [style.width]="100 / card + '%'"></GridCard>
-  </div>
+  <GridCard 
+    *ngFor="let post of posts; let i = index" 
+    [style.flex-basis]="width(i)" 
+    [data]="post"
+  ></GridCard>
 </div>

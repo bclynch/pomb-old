@@ -1,13 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'Grid',
   templateUrl: 'grid.component.html'
 })
 export class Grid {
+  @Input() gridConfig: number[];
+  @Input() posts = [];
 
-  gridConfiguration: number[][] = [ [ 3, 1.5 ], [ 1.5, 3 ], [ 3, 3, 3 ] ];
+  constructor(
+    private sanitizer: DomSanitizer
+  ) { }
 
-  constructor() { }
+  width(i: number) {
+    const calculatedWidth = this.sanitizer.bypassSecurityTrustStyle(`calc(${this.gridConfig[i] * 10}% - 1px * 2)`);
+    // console.log(calculatedWidth);
+    return calculatedWidth;
+  }
 
 }

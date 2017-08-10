@@ -5,7 +5,10 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'gridCard.component.html'
 })
 export class GridCard {
+  @Input() data;
 
-  constructor() { }
+  constructor() { 
+
+  }
 
 }
