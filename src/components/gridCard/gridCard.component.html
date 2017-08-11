@@ -1,4 +1,12 @@
-<div class="gridCardContainer">
-  <div>{{data.title}}</div>
-  <!-- <div class="cardThumb" [ngStyle]="{ 'background-image': 'url(' + data.leadphoto + ')'}"></div> -->
+<div class="gridCardContainer" [ngClass]="size < 6 ? 'smallCard' : 'largeCard'">
+  <div 
+    class="cardThumb" 
+    [ngStyle]="{ 'background-image': 'url(' + data.leadphoto + ')'}"
+  ></div>
+  <div 
+    class="contentContainer" 
+  >
+    <div class="contentTitle">{{data.title}}</div>
+    <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.userByAuthor || 'John Doe'}}</span></div>
+  </div>
 </div>

@@ -1,7 +1,8 @@
-<div class="gridContainer">
+<div class="gridContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'">
   <GridCard 
     *ngFor="let post of posts; let i = index" 
-    [style.flex-basis]="width(i)" 
     [data]="post"
+    [size]="gridConfig[i]"
+    [ngClass]="gridConfig[i] > 5 ? 'largeCard' : gridConfig[i] === 5 ? 'mediumCard' : gridConfig[i] > 3 ? 'smallCard' : 'tinyCard'"
   ></GridCard>
 </div>

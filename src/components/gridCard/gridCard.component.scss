@@ -1,16 +1,78 @@
 gridcard {
-  margin: 1px;
+  //margin: 1px;
 
   .gridCardContainer {
     background: mapGet($basecolor, black);
-    height: 375px;
+    height: 110px;
     color: mapGet($basecolor, white);
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    margin: 1px;
 
     .cardThumb {
-        background-position: center;
-        background-size: cover;
-        height: 100px;
-        width: 100px;
+      flex: 4;
+      background-position: center;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+    }
+    .contentContainer {
+      flex: 6;
+      padding: 0 8px;
+
+      .contentTitle {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .authorContainer {
+        font-size: 12px;
+      }
+    }
+  }
+  .gridCardContainer:first-of-type {
+    margin-top: 0;
+  }
+}
+
+@include respond-to(tiny) {
+  gridcard {
+    margin: 1px;
+
+    .gridCardContainer {
+      height: 375px;
+      padding: 0; 
+
+      &.smallCard {
+        flex-direction: column;
+
+        .cardThumb {
+          flex: 7;
+        }
+        .contentContainer {
+          flex: 3;
+          padding: 16px;
+
+          .contentTitle {
+            font-size: 22px;
+          }
+        }
+      }
+      &.largeCard {
+        
+        .cardThumb {
+          flex: 1;
+        }
+        .contentContainer {
+          flex: 1;
+          padding: 32px;
+          text-transform: uppercase;
+
+          .contentTitle {
+            font-size: 56px;
+          }
+        }
+      }
     }
   }
 }

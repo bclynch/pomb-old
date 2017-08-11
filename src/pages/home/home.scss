@@ -13,12 +13,22 @@ page-home {
     align-items: center;
     width: 100%;
 
-    .heroMast {
+    HeroBanner {
       width: 100%;
+      display: none; 
     }
     .contentWrapper {
       max-width: 1280px;
       width: 100%;
+    }
+  }
+
+  @include respond-to(tiny) {
+    .pageWrapper {
+
+      HeroBanner {
+        display: block;
+      }
     }
   }
 }

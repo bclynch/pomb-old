@@ -26,6 +26,7 @@ import { APIService } from '../services/api.service';
 import { LocalStorageService } from '../services/localStorage.service';
 import { UserService } from '../services/user.service';
 import { CacheService } from '../services/cache.service';
+import { SettingsService } from '../services/settings.service';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { CacheService } from '../services/cache.service';
     APIService,
     LocalStorageService,
     UserService,
+    SettingsService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

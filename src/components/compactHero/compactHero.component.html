@@ -1,3 +1,9 @@
-<div class="compactHeroContainer">
-
+<div class="compactHeroContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'"> 
+  <div class="contentWrapper">
+    <div class="left">
+      <div class="contentTitle">{{post?.title}}</div>
+      <div class="boldFont authorContainer">By {{post?.userByAuthor || 'John Doe'}}</div>
+    </div>
+    <div class="right boldFont">{{post?.subtitle}}</div>
+  </div>
 </div>

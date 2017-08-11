@@ -1,6 +1,7 @@
 # Pack On My Back
 
 ## Todos
+- Setup a style service that you can pass in the primary/secondary colors for site wide. WOuld have to do a lot with inline styling, but could be fun
 
 ## Long Term Todos
 - Better error handling
