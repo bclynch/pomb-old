@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class HeroBanner {
 
-  tagline: string = 'Be Your Best';
+  tagline: string = 'Do The Dew';
   today: number = Date.now();
 
   constructor() { }

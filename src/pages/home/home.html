@@ -1,8 +1,8 @@
 
-  <div class="pageWrapper">
-    <HeroBanner></HeroBanner>
-    <NavBar></NavBar>
-    <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
-    <CompactHero [post]="compactHeroPost"></CompactHero>
-  </div>
+<PageWrapper backgroundColor="black">
+  <HeroBanner></HeroBanner>
+  <NavBar [displayLogo]="false"></NavBar>
+  <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
+  <CompactHero [post]="compactHeroPost"></CompactHero>
+</PageWrapper>
 

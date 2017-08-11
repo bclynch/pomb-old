@@ -19,34 +19,50 @@ const getAllPosts = gql`
   query allPosts {
     allPosts {
       nodes {
+        id,
         title,
         userByAuthor {
           firstName,
           lastName
         }
-        id,
-        postToTagsByPostId {
-          nodes {
-            postTagByPostTagId {
-              name
-            }
-          }
-        },
-        postToCommentsByPostId {
-          nodes {
-            postCommentByCommentId {
-              userByAuthor {
-                username
-              }
-              content,
-              createdAt
-            }
-          }
-        },
         subtitle,
         leadphoto,
         createdAt,
-        updatedAt
+      }
+    }
+  }
+`;
+
+const getPostById = gql`
+  query postById($id: Int!) {
+    postById(id: $id) {
+      id,
+      title,
+      subtitle,
+      leadphoto,
+      createdAt,
+      updatedAt,
+      userByAuthor {
+        firstName,
+        lastName
+      },
+      postToTagsByPostId {
+        nodes {
+          postTagByPostTagId {
+            name
+          }
+        }
+      },
+      postToCommentsByPostId {
+        nodes {
+          postCommentByCommentId {
+            userByAuthor {
+            firstName 
+            },
+            content,
+            createdAt
+          }
+        }
       }
     }
   }
@@ -66,9 +82,18 @@ export class APIService {
     });
   }
 
-  getAllPosts(): any {
+  getAllPosts() {
     return this.apollo.watchQuery<any>({
       query: getAllPosts
+    });
+  }
+
+  getPostById(postId: number) {
+    return this.apollo.watchQuery<any>({
+      query: getPostById,
+      variables: {
+          id: postId
+      }
     });
   }
 }

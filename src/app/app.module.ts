@@ -2,9 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { getClient } from './client';
+
+// 3rd Party Libraries
 import { ApolloModule } from 'apollo-angular';
 import { AgmCoreModule } from '@agm/core';
-import { getClient } from './client';
+import "froala-editor/js/froala_editor.pkgd.min.js";
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 // App
 import { MyApp } from './app.component';
@@ -17,9 +21,13 @@ import { GridCard } from '../components/gridCard/gridCard.component';
 import { HeroBanner } from '../components/heroBanner/heroBanner.component';
 import { NavBar } from '../components/navBar/navBar.component';
 import { CompactHero } from '../components/compactHero/compactHero.component';
+import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
+import { ContentWrapper } from '../components/contentWrapper/contentWrapper.component';
 
 // Pages
 import { HomePage } from '../pages/home/home';
+import { PostPage } from '../pages/post/post';
+import { PostCreator } from '../pages/postCreator/postCreator';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -27,17 +35,22 @@ import { LocalStorageService } from '../services/localStorage.service';
 import { UserService } from '../services/user.service';
 import { CacheService } from '../services/cache.service';
 import { SettingsService } from '../services/settings.service';
+import { RouterService } from '../services/router.service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
+    PostPage,
+    PostCreator,
     PageNotFoundComponent,
     Grid,
     GridCard,
     HeroBanner,
     NavBar,
-    CompactHero
+    CompactHero,
+    PageWrapper,
+    ContentWrapper
   ],
   imports: [
     BrowserModule,
@@ -47,12 +60,16 @@ import { SettingsService } from '../services/settings.service';
     ApolloModule.withClient(getClient),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', //this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
-    })
+    }),
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    PostPage,
+    PostCreator,
     PageNotFoundComponent
   ],
   providers: [
@@ -60,6 +77,7 @@ import { SettingsService } from '../services/settings.service';
     LocalStorageService,
     UserService,
     SettingsService,
+    RouterService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

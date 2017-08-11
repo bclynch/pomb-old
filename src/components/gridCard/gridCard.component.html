@@ -2,11 +2,12 @@
   <div 
     class="cardThumb" 
     [ngStyle]="{ 'background-image': 'url(' + data.leadphoto + ')'}"
+    (click)="navigateToPost()"
   ></div>
   <div 
     class="contentContainer" 
   >
-    <div class="contentTitle">{{data.title}}</div>
+    <div class="contentTitle" (click)="navigateToPost()">{{data.title}}</div>
     <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.userByAuthor || 'John Doe'}}</span></div>
   </div>
 </div>

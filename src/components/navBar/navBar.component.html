@@ -1,6 +1,32 @@
 <div class="navBarContainer">
+  <div class="mobileWrapper">
+    <div class="boldFont mobileLogo" (click)="routerService.navigateToPage('/')">POMB</div>
+    <div class="right">
+      <div><ion-icon name="md-person"></ion-icon></div>
+      <div><ion-icon name="ios-search"></ion-icon></div>
+    </div>
+  </div>
   <div class="navBarWrapper">
-    <div *ngIf="displayLogo">POMB</div>
-    <div>hey</div>
+    <div *ngIf="displayLogo" class="logoWrapper">
+      <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
+    </div>
+    <div class="sectionsWrapper">
+      <div *ngFor="let option of sectionOptions;" class="boldFont">{{option}}</div>
+    </div>
+    <div class="socialWrapper">
+      <a 
+        *ngFor="let option of socialOptions;" 
+        [href]="option.url" 
+        target="_blank"
+      >
+        <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
+      </a>
+    </div>
+    <div class="profileWrapper">
+      <div><ion-icon name="md-person"></ion-icon></div>
+    </div>
+    <div class="searchWrapper">
+      <div><ion-icon name="ios-search"></ion-icon></div>
+    </div>
   </div>
 </div>
