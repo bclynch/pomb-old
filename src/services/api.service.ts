@@ -76,6 +76,44 @@ export class APIService {
     private apollo: Apollo
   ) {}
 
+  // S3
+  getSignedRequest(file: File) {
+    console.log(file);
+    return this.http.get(`http://localhost:8080/sign-s3?file-name=${file.name}&file-type=${file.type}`)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  uploadS3(file: File, signedRequest: string) {
+    return new Promise<any>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', signedRequest);
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+          if(xhr.status === 200){
+            console.log('successfully uploaded');
+            resolve();
+          }
+          else{
+            alert('Could not upload file.');
+            reject('failed');
+          }
+        }
+      };
+      xhr.send(file);
+    });
+  }
+
+  // Graphql Queries
   getCurrentPerson(): any {
     return this.apollo.watchQuery<any>({
       query: currentUserQuery

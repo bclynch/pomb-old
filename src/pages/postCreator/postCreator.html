@@ -1,7 +1,40 @@
 <PageWrapper>
   <NavBar></NavBar>
   <ContentWrapper>
-    <div [froalaEditor] [(froalaModel)]="derp"></div>
+    <form 
+      class="postForm" 
+      novalidate
+      #postForm="ngForm"
+    >
+      <input 
+        type="text"
+        placeholder="Post title"
+        required
+        name="postTitle"
+        [(ngModel)]="postModel.postTitle" 
+      />
+      <input 
+        type="text"
+        placeholder="Post subtitle"
+        required
+        name="postSubtitle"
+        [(ngModel)]="postModel.postSubtitle" 
+      />
+      <input 
+        type="file" 
+        (change)="fileChange($event)" 
+        placeholder="Upload file" 
+        accept=".jpg"
+      />
+      <input 
+        type="text" 
+        placeholder="Photo title"
+        required
+        name="photoTitle"
+        [(ngModel)]="postModel.leadPhotoTitle" 
+      />
+    </form>
+    <div [froalaEditor] [(froalaModel)]="postModel.content"></div>
     <div (click)="getHTML()">Click me</div>
     <div [froalaView]="test"></div>
   </ContentWrapper>

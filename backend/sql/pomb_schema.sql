@@ -32,30 +32,32 @@ create table pomb.post (
   author              integer not null references pomb.user(id),
   title               text not null check (char_length(title) < 200),
   subtitle            text not null check (char_length(title) < 300),
+  content             text not null,
   leadPhoto           text not null,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
 
-insert into pomb.post (author, title, subtitle, leadPhoto) values
-  (1, 'Explore The World', 'Neat Info', 'https://static.pexels.com/photos/39811/pexels-photo-39811.jpeg'),
-  (1, 'Lose Your Way? Find a Beer', 'No Bud Light though', 'https://s-media-cache-ak0.pinimg.com/originals/1a/f9/ed/1af9ed39dbf3f34b716df6d6e2bcf690.jpg'),
-  (1, 'Sports through the lense of global culture', 'Its not all football out there', 'https://iso.500px.com/wp-content/uploads/2016/03/stock-photo-142984111-1500x1000.jpg'),
-  (1, 'Riding the Silk Road', 'Bets way to see central asia', 'http://cdn.playbuzz.com/cdn/d071f701-c20d-4ac2-8fa5-7d32c6c5ed79/87665b9b-0731-42e2-8ced-aa2b14f38ee1.jpg'),
-  (1, 'Why You Should Go', 'Because youre a wimp', 'https://static.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg'),
-  (1, 'Getting Over Some BS', 'Get under some broad', 'https://static.pexels.com/photos/34107/milky-way-stars-night-sky.jpg'),
-  (1, 'Food Finds From Your Moms House', 'Tastes good man', 'http://dreamatico.com/data_images/mountain/mountain-1.jpg'),
-  (1, 'Finding Peace', 'Dont even have to India', 'https://shorelineobx.com/wp-content/uploads/2017/01/hero-image-lg-1500x609.jpg'),
-  (1, 'Scaling the Sky', 'Beat boredom with these journeys', 'http://visitsedona.com/wp-content/uploads/2015/05/peach-sky-web.jpg'),
-  (1, 'Cars, Trains, and Gangs', 'Staying safe on the road is harder than you thought', 'http://danversfishandgameclub.com/dfgc/wp-content/uploads/2014/10/the-great-outdoors.jpg'),
-  (1, 'Love Your Life', 'Schmarmy garbage', 'https://www.travelalaskaoutdoors.com/img/masthead/mountains.jpg'),
-  (1, 'Another Blog Post', 'You better check this shit out', 'https://greatist.com/sites/default/files/Running_Mountain.jpg'),
-  (1, 'Through the Looking Glass', 'Bring your spectacles', 'http://www.recreatingwithkids.com/app/uploads/2012/01/Great-Outdoors-1024x768.jpg');
+insert into pomb.post (author, title, subtitle, content, leadPhoto) values
+  (1, 'Explore The World', 'Neat Info', 'World Info', 'https://static.pexels.com/photos/39811/pexels-photo-39811.jpeg'),
+  (1, 'Lose Your Way? Find a Beer', 'No Bud Light though', 'Beer Info', 'https://s-media-cache-ak0.pinimg.com/originals/1a/f9/ed/1af9ed39dbf3f34b716df6d6e2bcf690.jpg'),
+  (1, 'Sports through the lense of global culture', 'Its not all football out there', 'Sports Info', 'https://iso.500px.com/wp-content/uploads/2016/03/stock-photo-142984111-1500x1000.jpg'),
+  (1, 'Riding the Silk Road', 'Bets way to see central asia', 'Road Info', 'http://cdn.playbuzz.com/cdn/d071f701-c20d-4ac2-8fa5-7d32c6c5ed79/87665b9b-0731-42e2-8ced-aa2b14f38ee1.jpg'),
+  (1, 'Why You Should Go', 'Because youre a wimp', 'Lame Info', 'https://static.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg'),
+  (1, 'Getting Over Some BS', 'Get under some broad', 'Get over it Info', 'https://static.pexels.com/photos/34107/milky-way-stars-night-sky.jpg'),
+  (1, 'Food Finds From Your Moms House', 'Tastes good man', 'Yum Info', 'http://dreamatico.com/data_images/mountain/mountain-1.jpg'),
+  (1, 'Finding Peace', 'Dont even have to India', 'Peace Info', 'https://shorelineobx.com/wp-content/uploads/2017/01/hero-image-lg-1500x609.jpg'),
+  (1, 'Scaling the Sky', 'Beat boredom with these journeys', 'Scale Info', 'http://visitsedona.com/wp-content/uploads/2015/05/peach-sky-web.jpg'),
+  (1, 'Cars, Trains, and Gangs', 'Staying safe on the road is harder than you thought', 'Transport Info', 'http://danversfishandgameclub.com/dfgc/wp-content/uploads/2014/10/the-great-outdoors.jpg'),
+  (1, 'Love Your Life', 'Schmarmy garbage', 'Heart Info', 'https://www.travelalaskaoutdoors.com/img/masthead/mountains.jpg'),
+  (1, 'Another Blog Post', 'You better check this shit out', 'Dumb Info', 'https://greatist.com/sites/default/files/Running_Mountain.jpg'),
+  (1, 'Through the Looking Glass', 'Bring your spectacles', 'Spec Info', 'http://www.recreatingwithkids.com/app/uploads/2012/01/Great-Outdoors-1024x768.jpg');
 
 comment on table pomb.post is 'Table with POMB posts';
 comment on column pomb.post.id is 'Primary id for post';
 comment on column pomb.post.title is 'Title of the post';
 comment on column pomb.post.subtitle is 'Subtitle of post';
+comment on column pomb.post.content is 'Content of post';
 comment on column pomb.post.leadPhoto is 'Main image of post';
 comment on column pomb.post.created_at is 'When post created';
 comment on column pomb.post.updated_at is 'Last updated date';
