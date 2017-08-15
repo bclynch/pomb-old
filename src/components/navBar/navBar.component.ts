@@ -8,6 +8,11 @@ interface social {
   url: string;
 }
 
+interface section {
+  label: string;
+  value: string;
+}
+
 @Component({
   selector: 'NavBar',
   templateUrl: 'navBar.component.html'
@@ -21,11 +26,20 @@ export class NavBar {
     { icon: 'logo-github', url: 'https://github.com/bclynch' },
   ];
 
-  sectionOptions: string[] = ['Trekking', 'Biking', 'Culture', 'Food', 'Gear'];
+  sectionOptions: section[] = [
+    {label: 'Trekking', value: 'trekking'}, 
+    {label: 'Biking', value: 'biking'}, 
+    {label: 'Culture', value: 'culture'}, 
+    {label: 'Food', value: 'food'},
+    {label: 'Gear', value: 'gear'},];
 
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService
   ) { }
+
+  navigate(path: string) {
+    this.routerService.navigateToPage(`/${path}`);
+  }
 
 }

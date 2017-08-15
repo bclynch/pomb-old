@@ -23,11 +23,13 @@ import { NavBar } from '../components/navBar/navBar.component';
 import { CompactHero } from '../components/compactHero/compactHero.component';
 import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
 import { ContentWrapper } from '../components/contentWrapper/contentWrapper.component';
+import { PostCard } from '../components/postCard/postCard.component';
 
 // Pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
 import { PostCreator } from '../pages/postCreator/postCreator';
+import { HubPage } from '../pages/hub/hub';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -43,6 +45,7 @@ import { RouterService } from '../services/router.service';
     HomePage,
     PostPage,
     PostCreator,
+    HubPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -50,7 +53,9 @@ import { RouterService } from '../services/router.service';
     NavBar,
     CompactHero,
     PageWrapper,
-    ContentWrapper
+    ContentWrapper,
+    PostCard,
+    
   ],
   imports: [
     BrowserModule,
@@ -70,6 +75,7 @@ import { RouterService } from '../services/router.service';
     HomePage,
     PostPage,
     PostCreator,
+    HubPage,
     PageNotFoundComponent
   ],
   providers: [

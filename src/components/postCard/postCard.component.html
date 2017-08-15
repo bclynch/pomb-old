@@ -1,0 +1,16 @@
+<div class="postCardContainer">
+  <div class="imgWrapper" (click)="navigateToPost()">
+    <div  
+      class="cardImg" 
+      [ngStyle]="{ 'background-image': 'url(' + data.leadphoto + ')'}"
+    ></div>
+  </div>
+  <div class="cardWrapper">
+    <div class="cardTitle" (click)="navigateToPost()">{{data.title}}</div>
+    <div class="bottomWrapper">
+      <div>by <span [style.color]="settingsService.secondaryColor">{{data.authorByUser || 'John Doe'}}</span></div>
+      <span class="pipeDivider"> | </span>
+      <div>{{data.createdAt | date:'mediumDate'}}</div>
+    </div>
+  </div>
+</div>

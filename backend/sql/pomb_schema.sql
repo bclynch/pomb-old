@@ -70,7 +70,7 @@ create table pomb.post_tag (
 insert into pomb.post_tag (name) values
   ('Colombia'),
   ('Biking'),
-  ('Hiking'),
+  ('Trekking'),
   ('Camping'),
   ('Food'),
   ('Travel'),
@@ -158,6 +158,26 @@ insert into pomb.post_to_comment (post_id, comment_id) values
 comment on table pomb.post_to_comment is 'Join table for comments on a post';
 comment on column pomb.post_to_comment.post_id is 'Id of the post';
 comment on column pomb.post_to_comment.comment_id is 'Id of the comment';
+
+-- *******************************************************************
+-- *********************** Function Queries **************************
+-- *******************************************************************
+CREATE FUNCTION pomb.posts_by_tag(tag_id INTEGER) returns setof pomb.post AS $$
+  SELECT pomb.post.* 
+  FROM pomb.post 
+  INNER JOIN pomb.post_to_tag ON pomb.post.id = pomb.post_to_tag.post_id 
+  WHERE pomb.post_to_tag.post_tag_id = tag_id;
+$$ language sql stable;
+
+COMMENT ON FUNCTION pomb.posts_by_tag(INTEGER) is 'Returns posts that include a given tag';
+
+CREATE FUNCTION pomb.post_tag_by_name(tag_name TEXT) returns setof pomb.post_tag AS $$
+  SELECT pomb.post_tag.*
+  FROM pomb.post_tag 
+  WHERE pomb.post_tag.name = tag_name;
+$$ language sql stable;
+
+COMMENT ON FUNCTION pomb.post_tag_by_name(TEXT) is 'Returns posts that include a given tag';
 
 -- *******************************************************************
 -- ************************* Triggers ********************************
@@ -293,6 +313,8 @@ grant ALL on table pomb.user to pomb_user;
 -- grant execute on function pomb.register_user(text, text, text, text, text) to pomb_anonymous;
 grant execute on function pomb.authenticate_user(text, text) to pomb_anonymous;
 grant execute on function pomb.current_user() to pomb_user;
+grant execute on function pomb.posts_by_tag(integer) to pomb_anonymous; 
+grant execute on function pomb.post_tag_by_name(TEXT) to pomb_anonymous;
 
 -- ///////////////// RLS Policies ////////////////////////////////
 

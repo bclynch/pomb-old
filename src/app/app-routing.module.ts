@@ -6,9 +6,11 @@ import { PageNotFoundComponent } from './not-found.component';
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
 import { PostCreator } from '../pages/postCreator/postCreator';
+import { HubPage } from '../pages/hub/hub';
 
 const appRoutes: Routes = [
-  { path: 'post',
+  { 
+    path: 'post',
     children: [
       {
         path: ':id',
@@ -21,6 +23,11 @@ const appRoutes: Routes = [
       }
     ]
   },
+  { path: 'trekking', component: HubPage},
+  { path: 'biking', component: HubPage},
+  { path: 'culture', component: HubPage},
+  { path: 'food', component: HubPage},
+  { path: 'gear', component: HubPage},
   { path: 'create-post', component: PostCreator },
   { path: '',   component: HomePage },
   { path: '**', component: PageNotFoundComponent }

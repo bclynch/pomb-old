@@ -1,7 +1,9 @@
 # Pack On My Back
 
 ## Todos
-- Setup a style service that you can pass in the primary/secondary colors for site wide. WOuld have to do a lot with inline styling, but could be fun
+- Post create page coming along. Nee dto style up the form a bit and add some validation. Set up a submit btn and create post mutation to include our title, subtitle, leadphoto s3 url, and content from the editor.
+    - Need to have the img title be written before sending off to s3. Probably want some kind of submit for it to make sure thats done.
+    - Would be nice to reuse most of this page as an editor for existing posts too. Can display what the post already has an make changes.
 
 ## Long Term Todos
 - Better error handling

@@ -1,0 +1,45 @@
+postcard {
+
+  .postCardContainer {
+    display: flex;
+    border-top: solid 1px mapGet($basecolor, border-light);
+    margin-bottom: 8px;
+
+    .imgWrapper {
+      width: 30%; 
+      @extend %fixedRatioWrapper;
+      cursor: pointer;
+
+      .cardImg {
+        background-size: cover;
+      }
+    }
+    .cardWrapper {
+      flex: 1;
+      padding: 16px;
+
+      .cardTitle {
+        font-size: 24px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .cardTitle:hover {
+        opacity: .7;
+      }
+      .bottomWrapper {
+        display: flex;
+
+        .pipeDivider {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  @include respond-to(tiny) {
+    .cardTitle {
+      font-size: 32px!important;
+      margin-bottom: 15px;
+    }
+  }
+}

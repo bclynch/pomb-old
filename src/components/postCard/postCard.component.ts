@@ -6,12 +6,11 @@ import { RouterService } from '../../services/router.service';
 import { Post } from '../../models/Post.model';
 
 @Component({
-  selector: 'GridCard',
-  templateUrl: 'gridCard.component.html'
+  selector: 'PostCard',
+  templateUrl: 'postCard.component.html'
 })
-export class GridCard {
+export class PostCard {
   @Input() data: Post;
-  @Input() size: number;
 
   constructor(
     private settingsService: SettingsService,

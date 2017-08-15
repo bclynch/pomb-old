@@ -33,6 +33,17 @@ const getAllPosts = gql`
   }
 `;
 
+const getAllPostTags = gql`
+query allPostTags {
+  allPostTags {
+    nodes {
+      id,
+      name
+    }
+  }
+}
+`;
+
 const getPostById = gql`
   query postById($id: Int!) {
     postById(id: $id) {
@@ -66,6 +77,34 @@ const getPostById = gql`
       }
     }
   }
+`;
+
+const getPostsByTag = gql`
+  query postsByTag($tagId: Int!) {
+    postsByTag(tagId: $tagId) {
+      nodes {
+        id,
+        title,
+        userByAuthor {
+          firstName,
+          lastName
+        }
+        subtitle,
+        leadphoto,
+        createdAt
+      }
+    }
+  }
+`;
+
+const getTagByName = gql`
+query postTagByName($tagName: String!) {
+  postTagByName(tagName: $tagName) {
+    nodes {
+      id
+    }
+  }
+}
 `;
 
 @Injectable()
@@ -131,6 +170,31 @@ export class APIService {
       query: getPostById,
       variables: {
           id: postId
+      }
+    });
+  }
+
+  getPostsByTag(tagId: number) {
+    return this.apollo.watchQuery<any>({
+      query: getPostsByTag,
+      variables: {
+        tagId
+      }
+    });
+  }
+
+  getAllPostTags() {
+    return this.apollo.watchQuery<any>({
+      query: getAllPostTags
+    });
+  }
+
+  
+  getTagByName(tagName: string) {
+    return this.apollo.watchQuery<any>({
+      query: getTagByName,
+      variables: {
+        tagName
       }
     });
   }

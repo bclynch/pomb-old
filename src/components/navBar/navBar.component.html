@@ -11,7 +11,11 @@
       <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
     </div>
     <div class="sectionsWrapper">
-      <div *ngFor="let option of sectionOptions;" class="boldFont">{{option}}</div>
+      <div 
+        *ngFor="let option of sectionOptions;" 
+        class="boldFont"
+        (click)="navigate(option.value)"
+      >{{option.label}}</div>
     </div>
     <div class="socialWrapper">
       <a 
