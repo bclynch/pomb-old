@@ -1,5 +1,6 @@
 heroBanner {
   width: 100%;
+  display: none;
 
   .heroBannerContainer {
     background: url('https://images4.alphacoders.com/751/thumb-1920-751911.jpg');
@@ -19,4 +20,9 @@ heroBanner {
       font-size: 20px;
     }
   }
+}
+@include respond-to(tiny) {
+  heroBanner {
+    display: block;
+  } 
 }

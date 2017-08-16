@@ -101,7 +101,8 @@ const getTagByName = gql`
 query postTagByName($tagName: String!) {
   postTagByName(tagName: $tagName) {
     nodes {
-      id
+      id,
+      tagDescription
     }
   }
 }

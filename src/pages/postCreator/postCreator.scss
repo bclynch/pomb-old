@@ -1,34 +1,6 @@
-page-home {
-  position: fixed;
-  top:        0;
-  bottom:     0;
-  left:       0;
-  right:      0;
-  overflow:   scroll;
-
-  .pageWrapper {
-    background: mapGet($basecolor, black);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
-    HeroBanner {
-      width: 100%;
-      display: none; 
-    }
-    .contentWrapper {
-      max-width: 1280px;
-      width: 100%;
-    }
-  }
+page-postCreator {
 
   @include respond-to(tiny) {
-    .pageWrapper {
 
-      HeroBanner {
-        display: block;
-      }
-    }
   }
 }

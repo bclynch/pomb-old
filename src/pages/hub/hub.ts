@@ -12,6 +12,7 @@ import { Post } from '../../models/Post.model';
 export class HubPage implements OnInit {
 
   currentHub: string;
+  tagInformation = null;
   posts: Post[] = [];
   gridPosts: Post[] = [];
   otherPosts: Post[] = [];
@@ -27,7 +28,7 @@ export class HubPage implements OnInit {
   ngOnInit() {
     this.apiService.getTagByName(this.currentHub).subscribe(
       ({ data }) => {
-        console.log(data.postTagByName.nodes[0].id);
+        this.tagInformation = data.postTagByName.nodes[0];
         this.apiService.getPostsByTag(data.postTagByName.nodes[0].id).subscribe(({ data }) => {
           console.log('got data: ', data);
           this.posts = data.postsByTag.nodes;

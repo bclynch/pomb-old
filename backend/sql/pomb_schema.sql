@@ -64,22 +64,24 @@ comment on column pomb.post.updated_at is 'Last updated date';
 
 create table pomb.post_tag (
   id                  serial primary key,
-  name                text not null
+  name                text not null,
+  tag_description     text
 );
 
-insert into pomb.post_tag (name) values
-  ('Colombia'),
-  ('Biking'),
-  ('Trekking'),
-  ('Camping'),
-  ('Food'),
-  ('Travel'),
-  ('Culture'),
-  ('Gear');
+insert into pomb.post_tag (name, tag_description) values
+  ('Colombia', 'What was once a haven for drugs and violence, Colombia has become a premiere destination for those who seek adventure, beauty, and intrepid charm.'),
+  ('Biking', 'Featuring the latest in biking stories, information, and experiences POMBike has all the content you need to keep the rubber side down.'),
+  ('Trekking', 'Featuring inspiring stories, helpful tutorials, and a glimpse into nature the trekking hub has something for everyone.'),
+  ('Camping', 'Have no fear, the camping hub is here. Learn tips for around the site, checkout cool spots, and find how to make the most of your time in the outdoors.'),
+  ('Food', 'There are few things better than exploring the food on offer throughout the world and in your backyard. The food hub has you covered to find your next craving.'),
+  ('Travel', 'Whats life without a little globe trotting. The travel hub has articles to keep you informed and lusting about your next big trip.'),
+  ('Culture', 'The culture hub is a place to become informed and grow fascinated at what the world has to offer from language, to the arts, to what it means to be human.'),
+  ('Gear', 'Do not be caught anywhere without the proper equipment. Gear heads will appreciate this hub to find information and reviews on the latest in products for trekking, biking, and travel.');
 
 comment on table pomb.post_tag is 'Table with the type of post tags available';
 comment on column pomb.post_tag.id is 'Primary id for the tag';
 comment on column pomb.post_tag.name is 'Name of the post tag';
+comment on column pomb.post_tag.tag_description is 'Description of the post tag';
 
 create table pomb.post_to_tag ( --one to many
   post_id            integer not null references pomb.post(id),

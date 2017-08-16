@@ -65,6 +65,9 @@ navBar {
           text-decoration: none;
         }
       }
+      .logoWrapper {
+        display: none;
+      }
       .profileWrapper {
         width: 48px;
         display: none;
@@ -90,6 +93,7 @@ navBar {
       }
       .logoWrapper {
         font-size: 24px;
+        display: block!important;
 
         > div {
           cursor: pointer;

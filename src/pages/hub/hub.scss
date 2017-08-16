@@ -1,5 +1,26 @@
 page-hub {
 
+  .hubHeader {
+    max-width: 1280px;
+    background: mapGet($basecolor, white);
+    width: 100%;
+    border-bottom: 5px solid mapGet($basecolor, border-light);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 240px;
+
+    > div {
+      font-size: 48px;
+    }
+    .hubDescription {
+      max-width: 728px;
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
 
   @include respond-to(small) {
 

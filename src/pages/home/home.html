@@ -4,15 +4,6 @@
   <NavBar [displayLogo]="false"></NavBar>
   <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <CompactHero [post]="compactHeroPost"></CompactHero>
-  <div class="homeContentContainer">
-      <div class="contentWrapper">
-        <div class="leftColumn">
-          <PostCard *ngFor="let post of otherPosts;" [data]="post"></PostCard>
-        </div>
-        <div class="rightColumn">
-    
-        </div>
-    </div>
-  </div>
+  <PostList [data]="otherPosts"></PostList>
 </PageWrapper>
 
