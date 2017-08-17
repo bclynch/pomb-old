@@ -5,9 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 
-const currentUserQuery = gql`
-  query currentUser {
-    currentUser {
+const currentAccountQuery = gql`
+  query currentAccount {
+    currentAccount {
         id,
         firstName,
         lastName
@@ -21,7 +21,7 @@ const getAllPosts = gql`
       nodes {
         id,
         title,
-        userByAuthor {
+        accountByAuthor {
           firstName,
           lastName
         }
@@ -50,10 +50,11 @@ const getPostById = gql`
       id,
       title,
       subtitle,
+      content,
       leadphoto,
       createdAt,
       updatedAt,
-      userByAuthor {
+      accountByAuthor {
         firstName,
         lastName
       },
@@ -67,7 +68,7 @@ const getPostById = gql`
       postToCommentsByPostId {
         nodes {
           postCommentByCommentId {
-            userByAuthor {
+            accountByAuthor {
             firstName 
             },
             content,
@@ -85,7 +86,7 @@ const getPostsByTag = gql`
       nodes {
         id,
         title,
-        userByAuthor {
+        accountByAuthor {
           firstName,
           lastName
         }
@@ -154,9 +155,9 @@ export class APIService {
   }
 
   // Graphql Queries
-  getCurrentPerson(): any {
+  getCurrentAccount(): any {
     return this.apollo.watchQuery<any>({
-      query: currentUserQuery
+      query: currentAccountQuery
     });
   }
 

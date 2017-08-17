@@ -14,7 +14,7 @@ export class MyApp {
     private localStorageService: LocalStorageService,
     private userService: UserService
   ) {
-    this.apiService.getCurrentPerson().subscribe(({ data }) => { 
+    this.apiService.getCurrentAccount().subscribe(({ data }) => { 
       //checking in to snag user data
       console.log('got data', data); 
       if(data.currentUser) {

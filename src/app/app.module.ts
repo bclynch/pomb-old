@@ -22,7 +22,6 @@ import { HeroBanner } from '../components/heroBanner/heroBanner.component';
 import { NavBar } from '../components/navBar/navBar.component';
 import { CompactHero } from '../components/compactHero/compactHero.component';
 import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
-import { ContentWrapper } from '../components/contentWrapper/contentWrapper.component';
 import { PostCard } from '../components/postCard/postCard.component';
 import { PostList } from '../components/postList/postList.component';
 
@@ -54,7 +53,6 @@ import { RouterService } from '../services/router.service';
     NavBar,
     CompactHero,
     PageWrapper,
-    ContentWrapper,
     PostCard,
     PostList,
     

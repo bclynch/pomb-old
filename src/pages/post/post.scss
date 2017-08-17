@@ -1,6 +1,26 @@
 page-post {
+  display: flex;
+  justify-content: center;
 
-  @include respond-to(tiny) {
+  .postContentWrapper {
+    max-width: 730px;
+    width: 100%;
 
+    .postSandbox {
+      img {
+        width: 100%!important;
+      }
+    }
+  }
+}
+@include respond-to(tiny) {
+  page-post {
+    .postContentWrapper {
+      .postSandbox {
+        img {
+          width: 300px!important; 
+        }
+      }
+    }
   }
 }

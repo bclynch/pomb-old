@@ -1,8 +1,9 @@
 <PageWrapper>
   <NavBar></NavBar>
-  <ContentWrapper>
+  <div class="postContentWrapper">
     <h1>{{post?.title}}</h1>
     <h3>{{post?.subtitle}}</h3>
-  </ContentWrapper>
+    <div class="postSandbox" [froalaView]="post?.content"></div>
+  </div>
 </PageWrapper>
 

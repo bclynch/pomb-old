@@ -1,6 +1,6 @@
 <PageWrapper>
   <NavBar></NavBar>
-  <ContentWrapper>
+  <div class="contentWrapperContainer">
     <form 
       class="postForm" 
       novalidate
@@ -37,6 +37,6 @@
     <div [froalaEditor] [(froalaModel)]="postModel.content"></div>
     <div (click)="getHTML()">Click me</div>
     <div [froalaView]="test"></div>
-  </ContentWrapper>
+  </div>
 </PageWrapper>
 

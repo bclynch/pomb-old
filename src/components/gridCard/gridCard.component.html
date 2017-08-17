@@ -8,6 +8,6 @@
     class="contentContainer" 
   >
     <div class="contentTitle" (click)="navigateToPost()">{{data.title}}</div>
-    <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.userByAuthor || 'John Doe'}}</span></div>
+    <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span></div>
   </div>
 </div>

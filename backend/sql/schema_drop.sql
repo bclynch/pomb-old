@@ -5,6 +5,6 @@
 begin;
 
 drop schema if exists pomb, pomb_private cascade;
-drop role if exists pomb_admin, pomb_anonymous, pomb_user;
+drop role if exists pomb_admin, pomb_anonymous, pomb_account;
 
 commit;
