@@ -1,0 +1,19 @@
+<div class="popoverContainer">
+  <div class="popoverList" *ngIf="userService.signedIn">
+    <div class="signedInContainer popoverItem">Signed in as {{userService.user.username}}</div>
+    <div 
+      class="popoverItem"
+      *ngFor="let navOption of navOptions" 
+      (click)="selectOption(navOption.value)" 
+    >
+      <ion-icon [name]="navOption.icon"></ion-icon>
+      <div class="popoverLabel">{{navOption.label}}</div>
+    </div>
+  </div>
+  <div class="popoverList" *ngIf="!userService.signedIn">
+    <div class="popoverItem" (click)="selectOption('login')">
+      <ion-icon name="md-log-in"></ion-icon>
+      <div class="popoverLabel">Login</div>
+    </div>
+  </div>
+</div>

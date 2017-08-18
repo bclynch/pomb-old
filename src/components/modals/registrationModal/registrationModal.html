@@ -1,0 +1,104 @@
+<div class="modalContainer">
+  <div 
+    class="closeModal" 
+    name="close"
+    (click)="onCloseModal()"
+  >
+    <ion-icon name="close"></ion-icon>
+  </div>
+  <div class="registrationCard" *ngIf="isRegister">
+    <h3>Create Your Account</h3>
+    <form 
+      class="registrationForm" 
+      novalidate
+      #registrationForm="ngForm"
+      (ngSubmit)="userService.registerAccount(registrationForm.value)"
+    >
+    <input
+      type="text"
+      placeholder="Username"
+      required
+      name="username"
+      [(ngModel)]="registrationModel.username" 
+    />
+      <div class="nameRow">
+        <input 
+          type="text"
+          placeholder="First name"
+          name="firstName"
+          [(ngModel)]="registrationModel.firstName" 
+        />
+        <input
+          type="text"
+          placeholder="Last name"
+          name="lastName"
+          [(ngModel)]="registrationModel.lastName" 
+        />
+      </div>
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        name="email"
+        [(ngModel)]="registrationModel.email" 
+        pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+      />
+      <input
+        type="password"
+        placeholder="Password (8 character min.)"
+        required
+        name="password"
+        [(ngModel)]="registrationModel.password"
+        validateEqual="confirmPassword" 
+        reverse="true" 
+        minlength="8" 
+      />
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        name="confirm"
+        required
+        [(ngModel)]="registrationModel.confirm"
+        validateEqual="password" 
+        reverse="false"
+      />
+      <button 
+        type="submit" 
+        class="createBtn boldFont" 
+        [disabled]="!registrationForm.valid"
+      >Create Your Account</button>
+    </form>
+    <div class="alreadyMember">Already a POMB member? <span class="boldFont" (click)="toggleView()" [style.color]="settingsService.secondaryColor">Sign in</span></div>
+    <div class="terms">By creating your POMB account, you agree to the <span [style.color]="settingsService.secondaryColor">Terms of Use</span> and <span [style.color]="settingsService.secondaryColor">Privacy Policy</span>.</div>
+  </div>
+  <div class="loginCard" *ngIf="!isRegister">
+    <h3>Sign in with your POMB account</h3>
+    <form 
+      class="loginForm"
+      novalidate
+      #loginForm="ngForm"
+      (ngSubmit)="userService.loginUser(loginForm.value)"  
+    >
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        name="email"
+        [(ngModel)]="loginModel.email"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        required
+        name="password"
+        [(ngModel)]="loginModel.password"
+      />
+      <button
+        type="submit" 
+        class="createBtn boldFont" 
+        [disabled]="!loginForm.valid"
+      >Sign In</button>
+    </form>
+    <div class="notMember">Don't have an account? <span class="boldFont" (click)="toggleView()" [style.color]="settingsService.secondaryColor">Sign Up</span></div>
+  </div>
+</div>

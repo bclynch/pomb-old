@@ -25,11 +25,20 @@ import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
 import { PostCard } from '../components/postCard/postCard.component';
 import { PostList } from '../components/postList/postList.component';
 
+// Popovers
+import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
+
+// Modals
+import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
+
 // Pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
 import { PostCreator } from '../pages/postCreator/postCreator';
 import { HubPage } from '../pages/hub/hub';
+import { ProfilePage } from '../pages/profile/profile';
+import { FavoritesPage } from '../pages/favorites/favorites';
+import { SettingsPage } from '../pages/settings/settings';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -38,6 +47,7 @@ import { UserService } from '../services/user.service';
 import { CacheService } from '../services/cache.service';
 import { SettingsService } from '../services/settings.service';
 import { RouterService } from '../services/router.service';
+import { AlertService } from '../services/alert.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +56,9 @@ import { RouterService } from '../services/router.service';
     PostPage,
     PostCreator,
     HubPage,
+    ProfilePage,
+    FavoritesPage,
+    SettingsPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -55,7 +68,8 @@ import { RouterService } from '../services/router.service';
     PageWrapper,
     PostCard,
     PostList,
-    
+    ProfilePopover,
+    RegistrationModal,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +90,12 @@ import { RouterService } from '../services/router.service';
     PostPage,
     PostCreator,
     HubPage,
-    PageNotFoundComponent
+    ProfilePage,
+    FavoritesPage,
+    SettingsPage,
+    PageNotFoundComponent,
+    ProfilePopover,
+    RegistrationModal,
   ],
   providers: [
     APIService,
@@ -84,6 +103,7 @@ import { RouterService } from '../services/router.service';
     UserService,
     SettingsService,
     RouterService,
+    AlertService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

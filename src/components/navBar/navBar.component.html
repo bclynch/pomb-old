@@ -1,7 +1,7 @@
 <div class="navBarContainer">
   <div class="mobileWrapper">
     <div class="boldFont mobileLogo" (click)="routerService.navigateToPage('/')">POMB</div>
-    <div class="right">
+    <div class="right" (click)="presentPopover($event)">
       <div><ion-icon name="md-person"></ion-icon></div>
       <div><ion-icon name="ios-search"></ion-icon></div>
     </div>
@@ -26,7 +26,7 @@
         <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
       </a>
     </div>
-    <div class="profileWrapper">
+    <div class="profileWrapper" (click)="presentPopover($event)">
       <div><ion-icon name="md-person"></ion-icon></div>
     </div>
     <div class="searchWrapper">

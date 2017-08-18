@@ -1,0 +1,101 @@
+registrationmodal {
+  .modalContainer {
+    background: mapGet($basecolor, white);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .closeModal {
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: mapGet($basecolor, black);
+      border: solid 1px mapGet($basecolor, white);
+
+      ion-icon {
+        color: mapGet($basecolor, white);
+        padding: 5px;
+        font-size: 1.3em;
+      }
+    }
+    .registrationCard, .loginCard {
+      max-width: 90%;
+    }
+    .registrationForm, .loginForm {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 400px;
+      max-width: 100%;
+      margin: 20px auto;
+
+      input {
+        padding: 12px 16px;
+        line-height: 1.45;
+        margin-bottom: 15px;
+        width: 100%;
+        border: solid 1px #CCCCCC;
+      }
+
+      > div, input {
+        flex: 1;
+        width: 100%;
+      }
+
+      .nameRow {
+        display: flex;
+        justify-content: space-between;
+        
+        input:first-child {
+          margin-right: 5px;
+        }
+        input:last-child {
+          margin-left: 5px;
+        }
+      }
+      .createBtn {
+        text-align: center;
+        background: mapGet($basecolor, black);
+        color: mapGet($basecolor, white);
+        padding: 20px 0;
+        cursor: pointer;
+        width: 100%;
+        font-size: 14px;
+      }
+      button[disabled] {
+        cursor: not-allowed;
+        pointer-events: auto;
+      }
+    }
+    .registrationForm .ng-valid[required], .registrationForm .ng-valid.required  {
+      border-left: 5px solid #42A948;
+    }
+    .registrationForm .ng-invalid:not(form)  {
+      &.ng-touched {
+        border-left: 5px solid #a94442;
+      } 
+    }
+    .alreadyMember, .notMember {
+
+      span {
+        cursor: pointer;
+      }
+    }
+    .terms {
+      font-size: 12px;
+      margin-top: 15px;
+
+      span {
+      cursor: pointer;
+      }
+    }
+  }
+}
+

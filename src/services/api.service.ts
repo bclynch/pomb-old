@@ -5,12 +5,18 @@ import { Observable, Subscription } from 'rxjs';
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 
+import { AlertService } from './alert.service';
+
+//////////////////////////
+/////////// queries
+////////////////////////
 const currentAccountQuery = gql`
   query currentAccount {
     currentAccount {
-        id,
-        firstName,
-        lastName
+      id,
+      firstName,
+      lastName,
+      username
     }
   }
 `;
@@ -109,12 +115,46 @@ query postTagByName($tagName: String!) {
 }
 `;
 
+//////////////////////////
+/////////// mutations
+////////////////////////
+const registerAccount = gql`
+mutation registerAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
+  registerAccount(input:{
+    username: $username
+    firstName: $firstName,
+    lastName: $lastName,
+    password: $password,
+    email: $email,
+  }) 
+  {
+    account {
+      id,
+      firstName,
+      lastName,
+      username
+    }
+  }
+}
+`;
+const authAccount = gql`
+mutation authAccount($email: String!, $password: String!) {
+  authenticateAccount(input:{
+    email: $email,
+    password: $password
+  }) {
+    jwtToken
+  }
+}
+`;
+
 @Injectable()
 export class APIService {
 
   constructor(
     private http: Http,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private alertService: AlertService
   ) {}
 
   // S3
@@ -145,7 +185,7 @@ export class APIService {
             resolve();
           }
           else{
-            alert('Could not upload file.');
+            this.alertService.alert('Error', 'Could not upload file.');
             reject('failed');
           }
         }
@@ -197,6 +237,29 @@ export class APIService {
       query: getTagByName,
       variables: {
         tagName
+      }
+    });
+  }
+
+  registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
+    return this.apollo.mutate({
+      mutation: registerAccount,
+      variables: {
+        username,
+        firstName,
+        lastName,
+        password,
+        email
+      }
+      });
+    }
+
+  authAccount(email: string, password: string) {
+    return this.apollo.mutate({
+      mutation: authAccount,
+      variables: {
+        email,
+        password
       }
     });
   }

@@ -1,9 +1,9 @@
 <div class="compactHeroContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'"> 
   <div class="contentWrapper">
     <div class="left">
-      <div class="contentTitle">{{post?.title}}</div>
-      <div class="boldFont authorContainer">By {{post?.accountByAuthor}}</div>
+      <div (click)="navigateToPost()" class="contentTitle">{{post?.title}}</div>
+      <div class="boldFont authorContainer">By {{post?.accountByAuthor.firstName}} {{post?.accountByAuthor.lastName}}</div>
     </div>
-    <div class="right boldFont">{{post?.subtitle}}</div>
+    <div (click)="navigateToPost()" class="right boldFont">{{post?.subtitle}}</div>
   </div>
 </div>

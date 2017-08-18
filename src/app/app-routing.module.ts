@@ -7,6 +7,9 @@ import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
 import { PostCreator } from '../pages/postCreator/postCreator';
 import { HubPage } from '../pages/hub/hub';
+import { ProfilePage } from '../pages/profile/profile';
+import { FavoritesPage } from '../pages/favorites/favorites';
+import { SettingsPage } from '../pages/settings/settings';
 
 const appRoutes: Routes = [
   { 
@@ -29,6 +32,9 @@ const appRoutes: Routes = [
   { path: 'food', component: HubPage},
   { path: 'gear', component: HubPage},
   { path: 'create-post', component: PostCreator },
+  { path: 'profile', component: ProfilePage },
+  { path: 'favorites', component: FavoritesPage },
+  { path: 'settings', component: SettingsPage },
   { path: '',   component: HomePage },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -1,0 +1,17 @@
+.profilePopover {
+  .popover-content {
+    @extend %popoverContent;
+    width: 160px !important;
+
+    ProfilePopover {
+
+      .popoverContainer {
+        @extend %popoverList;
+
+        .signedInContainer {
+          border-bottom: solid 1px mapGet($basecolor, border-light);
+        }
+      }
+    }
+  }
+}
