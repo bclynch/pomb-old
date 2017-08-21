@@ -7,11 +7,12 @@ import { AlertService } from './alert.service';
 
 import { Registration } from '../models/Registration.model';
 import { Login } from '../models/Login.model';
+import { User } from '../models/User.model';
 
 @Injectable()
 export class UserService {
   signedIn: boolean = false;
-  user;
+  user: User;
 
   constructor(
     private apiService: APIService,

@@ -10,6 +10,7 @@ import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
+import { DashboardPage } from '../pages/dashboard/dashboard';
 
 const appRoutes: Routes = [
   { 
@@ -31,7 +32,15 @@ const appRoutes: Routes = [
   { path: 'culture', component: HubPage},
   { path: 'food', component: HubPage},
   { path: 'gear', component: HubPage},
-  { path: 'create-post', component: PostCreator },
+  { 
+    path: 'post-dashboard',
+    children: [
+      {
+        path: ':username',
+        component: DashboardPage
+      }
+    ]
+  },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },

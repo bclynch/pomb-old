@@ -1,17 +1,20 @@
 # Pack On My Back
 
 ## Todos
-- Post create page coming along. Need to style up the form a bit and add some validation. Set up a submit btn and create post mutation to include our title, subtitle, leadphoto s3 url, and content from the editor.
-    - Need to have the img title be written before sending off to s3. Probably want some kind of submit for it to make sure thats done.
-    - Would be nice to reuse most of this page as an editor for existing posts too. Can display what the post already has an make changes.
-    - Look into a draft tag and coming back to open posts. Saving progress
-    - Scheduling posts
-    - Maybe get trial squarespace account to see their UX
+- Using squarespace as a template for building a nice post creation dashboard.
+    - Modal for post creation/editing
+    - Dash preview to see posts as they'd look
+    - Left menu has drafts, scheduled, and published posts.
+    - Search for within posts (titles, subtitles, content, tags)
+    - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
 - Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish
 - Implement search
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Look into proper img sizes so it doesnt run like complete shit
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
+
+### Bugs
+- On load when the JWT has expired it will make the API calls fail. Reloading puts the role back to anonymous and works, but need to make it better experience. Maybe just reload the page if its that error?
 
 ## Long Term Todos
 - Better error handling

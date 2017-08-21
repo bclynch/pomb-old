@@ -18,7 +18,7 @@ export class MyApp {
   ) {
     this.apiService.getCurrentAccount().subscribe(({ data }) => { 
       //checking in to snag user data
-      console.log('got data', data); 
+      console.log('got user data', data); 
       if(data.currentAccount) {
         this.userService.signedIn = true;
         this.userService.user = data.currentAccount;

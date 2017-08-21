@@ -1,0 +1,87 @@
+page-dashboard {
+
+  .dashboardContainer {
+    display: flex;
+    background: mapGet($basecolor, light);
+    width: 100%;
+    height: 100vh;
+
+    .leftMenu {
+      // width: 400px;
+      // min-width: 400px;
+      background: #ddd;
+      transition: .5s linear;
+
+      .logo {
+        padding: 20px 33px 40px;
+
+        > span {
+          cursor: pointer;
+          font-size: 32px;
+          font-weight: bold;
+        }
+      }
+      .menuRowWrapper {
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+        padding: 0 33px;
+        margin-bottom: 25px;
+
+        .addPost {
+          cursor: pointer;
+        }
+      }
+      .tabsRow {
+        display: flex;
+        text-align: center;
+
+        > div {
+          flex: 1;
+          line-height: 44px;
+          cursor: pointer;
+        }
+      }
+      .searchContainer {
+        background: mapGet($basecolor, white);
+        display: flex;
+
+        ion-icon {
+          padding: 15px;
+          font-size: 24px;
+        }
+        > input {
+          border: none;
+          flex: 1;
+          line-height: 24px;
+        }
+      }
+    }
+    .previewContainer {
+      background: mapGet($basecolor, white);
+      box-shadow: 0 0 25px rgba(0,0,0,.11);
+      width: 100%;
+      position: relative;
+      transition: margin .5s linear;
+      overflow: scroll;
+      padding: 15px 10px 0;
+
+      .expandArrow {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+        display: none;
+      }
+    }
+    .previewContainer:hover {
+      .expandArrow {
+        display: block;
+      }
+    }
+  }
+
+  @include respond-to(tiny) {
+
+  }
+}

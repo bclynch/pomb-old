@@ -1,0 +1,44 @@
+<PageWrapper [displayFooter]="false" [displayNav]="false">
+  <div class="dashboardContainer">
+    <div class="leftMenu" [style.width]="isExpanded ? '0' : '400px'" [style.min-width]="isExpanded ? '0' : '400px'">
+      <div class="logo">
+        <span (click)="routerService.navigateToPage('')" title="Home">POMB</span>
+      </div>
+      <div class="menuRowWrapper">
+        <div>Posts</div>
+        <ion-icon name="md-add" title="Add Post" class="addPost"></ion-icon>
+      </div>
+      <div class="searchContainer">
+        <div>
+          <ion-icon name="md-search"></ion-icon>
+        </div>
+        <input 
+          placeholder="Search posts..."
+
+        />
+      </div>
+      <div class="tabsRow">
+        <div 
+          class="tab boldFont" 
+          *ngFor="let option of tabOptions; let i = index;"
+          [style.background]="activeTab === i ? '#BABBBD' : null"
+          (click)="changeTab(i)"
+        >
+          {{option}}
+        </div>
+      </div>
+      <div class="postsList"></div>
+    </div>
+    <div class="previewContainer" [style.margin]="isExpanded ? 0 : '22px'">
+        <ion-icon 
+          name="md-arrow-up" 
+          title="Expand Preview" 
+          class="expandArrow"
+          (click)="isExpanded = !isExpanded"
+          [style.transform]="isExpanded ? 'rotate(135deg)' : 'rotate(-45deg)'"
+        ></ion-icon>
+      <div [froalaView]="postPreviewModel"></div> 
+    </div>
+  </div>
+</PageWrapper>
+

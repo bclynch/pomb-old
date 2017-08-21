@@ -67,6 +67,9 @@ export class NavBar {
         case 'logout':
           this.userService.logoutUser();
           break;
+        case 'postDashboard':
+        this.routerService.navigateToPage(`/post-dashboard/${this.userService.user.username}`);
+          break;
         default:
           if(data) this.navigate(data);
       }

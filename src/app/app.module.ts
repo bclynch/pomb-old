@@ -24,6 +24,7 @@ import { CompactHero } from '../components/compactHero/compactHero.component';
 import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
 import { PostCard } from '../components/postCard/postCard.component';
 import { PostList } from '../components/postList/postList.component';
+import { Footer } from '../components/footer/footer.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -39,6 +40,7 @@ import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
+import { DashboardPage } from '../pages/dashboard/dashboard';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -59,6 +61,7 @@ import { AlertService } from '../services/alert.service';
     ProfilePage,
     FavoritesPage,
     SettingsPage,
+    DashboardPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -70,6 +73,7 @@ import { AlertService } from '../services/alert.service';
     PostList,
     ProfilePopover,
     RegistrationModal,
+    Footer
   ],
   imports: [
     BrowserModule,
@@ -93,6 +97,7 @@ import { AlertService } from '../services/alert.service';
     ProfilePage,
     FavoritesPage,
     SettingsPage,
+    DashboardPage,
     PageNotFoundComponent,
     ProfilePopover,
     RegistrationModal,

@@ -6,6 +6,10 @@ import { Component, Input } from '@angular/core';
 })
 export class PageWrapper {
   @Input() backgroundColor: string = 'white';
+  @Input() displayNavLogo: boolean = true;
+  @Input() displayHeroBanner: boolean = false;
+  @Input() displayFooter: boolean = true;
+  @Input() displayNav: boolean = true;
 
   constructor(
 

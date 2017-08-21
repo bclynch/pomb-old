@@ -1,7 +1,9 @@
 
-<PageWrapper backgroundColor="black">
-  <HeroBanner></HeroBanner>
-  <NavBar [displayLogo]="false"></NavBar>
+<PageWrapper 
+  backgroundColor="black" 
+  [displayNavLogo]="false" 
+  [displayHeroBanner]="true"
+>
   <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <CompactHero [post]="compactHeroPost"></CompactHero>
   <PostList [data]="otherPosts"></PostList>

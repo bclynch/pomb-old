@@ -1,0 +1,48 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .footerContainer {
+    background: mapGet($basecolor, black);
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    border-top: solid 1px mapGet($basecolor, border-light); 
+
+    .footerWrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      max-width: 80%;
+      color: mapGet($basecolor, white);
+      min-width: 320px;
+
+      .logo {
+        width: 100%;
+        font-size: 32px;
+        text-align: center;
+      }
+      .linksWrapper {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin: 10px 0;
+      }
+      .infoWrapper {
+        text-align: center;
+
+        > a {
+          color: mapGet($basecolor, white);
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  @include respond-to(small) {
+
+  }
+}
