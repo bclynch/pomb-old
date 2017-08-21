@@ -1,0 +1,19 @@
+<div 
+  class="dashboardCardContainer" 
+  [style.background]="isActive ? '#BABBBD' : null" 
+  [style.border-top]="isActive ? 'solid 1px #fff': null" 
+  [style.border-bottom]="isActive ? 'solid 1px #fff': null"
+>
+  <div class="postInfoContainer" (click)="selectActive()">
+    <h2>{{data.title}}</h2>
+    <div class="btmRow">
+      <div class="boldFont cardTag" *ngIf="data.isDraft">Draft</div>
+      <div class="boldFont cardTag" *ngIf="data.isScheduled">Scheduled</div>
+      <div>{{data.updatedAt | date: 'short'}}</div>
+    </div>
+  </div>
+  <div class="btnsContainer" *ngIf="isActive">
+    <div class="boldFont editBtn">Edit</div>
+    <div class="boldFont deleteBtn">Delete</div>
+  </div>
+</div>

@@ -25,6 +25,7 @@ import { PageWrapper } from '../components/pageWrapper/pageWrapper.component';
 import { PostCard } from '../components/postCard/postCard.component';
 import { PostList } from '../components/postList/postList.component';
 import { Footer } from '../components/footer/footer.component';
+import { DashboardCard } from '../components/dashboardCard/dashboardCard.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -73,7 +74,8 @@ import { AlertService } from '../services/alert.service';
     PostList,
     ProfilePopover,
     RegistrationModal,
-    Footer
+    Footer,
+    DashboardCard
   ],
   imports: [
     BrowserModule,

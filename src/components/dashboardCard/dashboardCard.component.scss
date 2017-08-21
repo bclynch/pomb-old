@@ -1,0 +1,53 @@
+dashboardcard {
+
+  .dashboardCardContainer {
+    display: flex;
+    cursor: pointer;
+
+    .postInfoContainer {
+      flex: 1;
+      padding: 22px 0 22px 33px;
+
+      h2 {
+        margin-top: 0;
+      }
+      .btmRow {
+        display: flex;
+        align-items: center;
+
+        .cardTag {
+          background: #BABBBD;
+          padding: 5px;
+          margin-right: 5px;
+        }
+      }
+    }
+    .btnsContainer {
+      display: flex;
+      flex-direction: column;
+
+      > div {
+        flex: 1;
+        width: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: solid 1px mapGet($basecolor, white);
+      }
+      .editBtn:hover {
+        opacity: .7;
+      }
+      .deleteBtn {
+        border-top: solid 1px mapGet($basecolor, white);
+      }
+      .deleteBtn:hover {
+        background: mapGet($basecolor, danger);
+        color: mapGet($basecolor, white);
+        border-top: solid 1px mapGet($basecolor, white);
+      }
+    }
+  }
+  .dashboardCardContainer:hover {
+    background: #BABBBD;
+  }
+}

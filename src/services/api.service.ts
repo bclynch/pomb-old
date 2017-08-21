@@ -33,10 +33,40 @@ const getAllPosts = gql`
         }
         subtitle,
         leadphoto,
+        isDraft,
+        isScheduled,
+        isPublished,
         createdAt,
+        updatedAt
       }
     }
   }
+`;
+
+const getPostsByStatus = gql`
+query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!) {
+  allPosts(condition: {
+    isDraft: $isDraft,
+    isScheduled: $isScheduled,
+    isPublished: $isPublished
+  }) {
+    nodes {
+      id,
+      title,
+      accountByAuthor {
+        firstName,
+        lastName
+      }
+      subtitle,
+      leadphoto,
+      isDraft,
+      isScheduled,
+      isPublished,
+      createdAt,
+      updatedAt
+    }
+  }
+}
 `;
 
 const getAllPostTags = gql`
@@ -105,8 +135,10 @@ const getPostsByTag = gql`
 `;
 
 const getTagByName = gql`
-query postTagByName($tagName: String!) {
-  postTagByName(tagName: $tagName) {
+query allPostTags($tagName: String!) {
+  allPostTags(condition: {
+    name: $tagName
+  }) {
     nodes {
       id,
       tagDescription
@@ -207,6 +239,17 @@ export class APIService {
     });
   }
 
+  getPostsByStatus(isDraft: boolean, isScheduled: boolean, isPublished: boolean) {
+    return this.apollo.watchQuery<any>({
+      query: getPostsByStatus,
+      variables: {
+        isDraft,
+        isScheduled,
+        isPublished
+      }
+    });
+  }
+
   getPostById(postId: number) {
     return this.apollo.watchQuery<any>({
       query: getPostById,
@@ -230,7 +273,6 @@ export class APIService {
       query: getAllPostTags
     });
   }
-
   
   getTagByName(tagName: string) {
     return this.apollo.watchQuery<any>({

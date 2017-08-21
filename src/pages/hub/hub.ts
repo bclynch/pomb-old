@@ -28,8 +28,9 @@ export class HubPage implements OnInit {
   ngOnInit() {
     this.apiService.getTagByName(this.currentHub).subscribe(
       ({ data }) => {
-        this.tagInformation = data.postTagByName.nodes[0];
-        this.apiService.getPostsByTag(data.postTagByName.nodes[0].id).subscribe(({ data }) => {
+        console.log(data);
+        this.tagInformation = data.allPostTags.nodes[0];
+        this.apiService.getPostsByTag(this.tagInformation.id).subscribe(({ data }) => {
           console.log('got data: ', data);
           this.posts = data.postsByTag.nodes;
           this.gridPosts = this.posts.slice(0,this.gridConfiguration.length);

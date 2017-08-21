@@ -27,7 +27,14 @@
           {{option}}
         </div>
       </div>
-      <div class="postsList"></div>
+      <div class="postsList">
+        <DashboardCard 
+          [data]="post" 
+          [isActive]="i === activePost" 
+          *ngFor="let post of posts; let i = index"
+          (changeActive)="activePost = i"
+        ></DashboardCard>
+      </div>
     </div>
     <div class="previewContainer" [style.margin]="isExpanded ? 0 : '22px'">
         <ion-icon 
