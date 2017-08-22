@@ -26,12 +26,15 @@ import { PostCard } from '../components/postCard/postCard.component';
 import { PostList } from '../components/postList/postList.component';
 import { Footer } from '../components/footer/footer.component';
 import { DashboardCard } from '../components/dashboardCard/dashboardCard.component';
+import { PostWrapper } from '../components/postWrapper/postWrapper.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
+import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
 
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
+import { CreatePostModal } from '../components/modals/createPostModal/createPostModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -75,7 +78,10 @@ import { AlertService } from '../services/alert.service';
     ProfilePopover,
     RegistrationModal,
     Footer,
-    DashboardCard
+    DashboardCard,
+    PostWrapper,
+    CreatePostModal,
+    PostTypePopover
   ],
   imports: [
     BrowserModule,
@@ -103,6 +109,8 @@ import { AlertService } from '../services/alert.service';
     PageNotFoundComponent,
     ProfilePopover,
     RegistrationModal,
+    CreatePostModal,
+    PostTypePopover
   ],
   providers: [
     APIService,

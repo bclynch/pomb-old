@@ -2,9 +2,9 @@
 
 ## Todos
 - Using squarespace as a template for building a nice post creation dashboard.
-    - Modal for post creation/editing
-    - Dash preview to see posts as they'd look
-    - Left menu has drafts, scheduled, and published posts.
+    - Modal for post creation/editing - In progress
+    - Dash preview to see posts as they'd look - check
+    - Left menu has drafts, scheduled, and published posts. - check
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
 - Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish

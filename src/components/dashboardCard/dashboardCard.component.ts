@@ -10,6 +10,7 @@ export class DashboardCard {
   @Input() data: Post;
   @Input() isActive: boolean;
   @Output() changeActive: EventEmitter<void> = new EventEmitter<void>();
+  @Output() editPost: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
 
@@ -21,4 +22,7 @@ export class DashboardCard {
     this.changeActive.emit();
   }
 
+  editItem() {
+    this.editPost.emit();
+  }
 }

@@ -27,17 +27,36 @@ const getAllPosts = gql`
       nodes {
         id,
         title,
-        accountByAuthor {
-          firstName,
-          lastName
-        }
         subtitle,
+        content,
         leadphoto,
+        createdAt,
+        updatedAt,
         isDraft,
         isScheduled,
         isPublished,
-        createdAt,
-        updatedAt
+        accountByAuthor {
+          firstName,
+          lastName
+        },
+        postToTagsByPostId {
+          nodes {
+            postTagByPostTagId {
+              name
+            }
+          }
+        },
+        postToCommentsByPostId {
+          nodes {
+            postCommentByCommentId {
+              accountByAuthor {
+              firstName 
+              },
+              content,
+              createdAt
+            }
+          }
+        }
       }
     }
   }
@@ -53,17 +72,36 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
     nodes {
       id,
       title,
-      accountByAuthor {
-        firstName,
-        lastName
-      }
       subtitle,
+      content,
       leadphoto,
+      createdAt,
+      updatedAt,
       isDraft,
       isScheduled,
       isPublished,
-      createdAt,
-      updatedAt
+      accountByAuthor {
+        firstName,
+        lastName
+      },
+      postToTagsByPostId {
+        nodes {
+          postTagByPostTagId {
+            name
+          }
+        }
+      },
+      postToCommentsByPostId {
+        nodes {
+          postCommentByCommentId {
+            accountByAuthor {
+            firstName 
+            },
+            content,
+            createdAt
+          }
+        }
+      }
     }
   }
 }

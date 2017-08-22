@@ -6,7 +6,12 @@
       </div>
       <div class="menuRowWrapper">
         <div>Posts</div>
-        <ion-icon name="md-add" title="Add Post" class="addPost"></ion-icon>
+        <ion-icon 
+          name="md-add" 
+          title="Add Post" 
+          class="addPost"
+          (click)="launchPostEditor()"
+        ></ion-icon>
       </div>
       <div class="searchContainer">
         <div>
@@ -33,18 +38,25 @@
           [isActive]="i === activePost" 
           *ngFor="let post of posts; let i = index"
           (changeActive)="activePost = i"
+          (editPost)="launchPostEditor(post)"
         ></DashboardCard>
       </div>
     </div>
     <div class="previewContainer" [style.margin]="isExpanded ? 0 : '22px'">
-        <ion-icon 
+      <div *ngIf="activePost >= 0">
+          <ion-icon 
           name="md-arrow-up" 
           title="Expand Preview" 
           class="expandArrow"
           (click)="isExpanded = !isExpanded"
           [style.transform]="isExpanded ? 'rotate(135deg)' : 'rotate(-45deg)'"
         ></ion-icon>
-      <div [froalaView]="postPreviewModel"></div> 
+        <PostWrapper [post]="posts[activePost]"></PostWrapper>
+      </div>
+      <div class="emptyPreview" *ngIf="activePost === null">
+        <ion-icon name="md-document"></ion-icon>
+        <div>Select a post to preview</div>
+      </div> 
     </div>
   </div>
 </PageWrapper>

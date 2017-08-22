@@ -51,11 +51,7 @@ export class NavBar {
   }
 
   presentPopover(e) { 
-    let popover = this.popoverCtrl.create(
-      ProfilePopover,
-      {},
-      { cssClass: 'profilePopover' }
-    );
+    let popover = this.popoverCtrl.create(ProfilePopover, {}, { cssClass: 'profilePopover' });
     popover.present({
       ev: e
     });

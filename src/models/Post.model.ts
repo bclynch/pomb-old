@@ -4,6 +4,8 @@ export class Post {
   id: number;
   leadphoto: string;
   title: string;
+  subtitle: string;
+  content: string;
   userByAuthor: string;
   isDraft: boolean;
   isScheduled: boolean;

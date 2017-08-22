@@ -74,22 +74,37 @@ page-dashboard {
 
       .expandArrow {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 5px;
+        left: 5px;
         cursor: pointer;
         display: none;
       }
+
     }
     .previewContainer:hover {
       .expandArrow {
         display: block;
       }
     }
+    .emptyPreview {
+      font-size: 28px;
+      margin-top: 200px;
+      color: mapGet($basecolor, dark);
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      ion-icon {
+        font-size: 60px;
+        margin-bottom: 10px;
+      }
+    }
   }
 
   @include respond-to(small) {
     .previewContainer {
-      display: block!important;
+      display: flex!important;
+      justify-content: center;
     }
   }
 }

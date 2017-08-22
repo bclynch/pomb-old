@@ -1,0 +1,5 @@
+<div class="postContentWrapper" *ngIf="post">
+  <h1>{{post.title}}</h1>
+  <h3>{{post.subtitle}}</h3>
+  <div class="postSandbox" [froalaView]="post.content"></div>
+</div>

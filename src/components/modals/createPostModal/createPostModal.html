@@ -1,0 +1,41 @@
+<div class="modalContainer">
+  <div class="headerInfo">
+    <div class="headerTitle">Edit Post</div>
+    <div class="optionsWrapper">
+      <div 
+        *ngFor="let option of containerOptions; let i = index;" 
+        [style.font-weight]="i === activeContainerOption ? 'bold' : null"
+        (click)="activeContainerOption = i"
+      >{{option}}</div>
+    </div>
+  </div>
+  <div class="contentContainer" *ngIf="activeContainerOption === 0">
+    <div class="titleInputWrapper">
+      <input
+        placeholder="Enter a post title..."
+        type="text"
+        [(ngModel)]="postModel.postTitle"
+      />
+    </div>
+    <div class="textEditorWrapper">
+      <div [froalaEditor]="editorOptions" [(froalaModel)]="postModel.content"></div>
+    </div>
+    <div class="contentOtherContainer">
+      <div class="tagsContainer">TAGS</div>
+      <div class="postTypeContainer" (click)="presentPopover($event)">
+        <div class="typeTitle">{{postOptions[activePostOption].name}}</div>
+        <div>{{postOptions[activePostOption].secondaryDescription}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="optionsContainer" *ngIf="activeContainerOption === 1">
+
+  </div>
+  <div class="footerBtns">
+    <div 
+      *ngFor="let option of btnOptions; let i = index;" 
+      (click)="clickBtn(i)"
+      class="boldFont"
+    >{{option}}</div>
+  </div>
+</div>
