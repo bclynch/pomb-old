@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
 
@@ -11,7 +12,8 @@ export class Grid {
   @Input() posts = [];
 
   constructor(
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private sanitizer: DomSanitizer
   ) { }
 
 }

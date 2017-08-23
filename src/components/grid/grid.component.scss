@@ -18,6 +18,7 @@ grid {
         align-items: stretch;
         flex-grow: 1;
         flex-shrink: 1;
+        position: relative;
 
         &.largeCard {
           flex-basis: calc(100% - 2px);
@@ -31,6 +32,54 @@ grid {
         &.tinyCard {
           flex-basis: calc(30% - 2px);
         }
+      }
+      > gridcard:nth-child(1)::before {
+        background-color: var(--primary);
+        bottom: 30px;
+        content: "";
+        height: 3px;
+        left: 122px;
+        position: absolute;
+        width: 40%;
+        z-index: 4;
+      }
+      > gridcard:nth-child(1)::after {
+        background-color: var(--primary);
+        bottom: 0;
+        content: "";
+        height: 3px;
+        left: 65px;
+        position: absolute;
+        -webkit-transform: rotate(120deg);
+        transform: rotate(120deg);
+        -webkit-transform-origin: bottom right;
+        transform-origin: bottom right;
+        width: 38px;
+        z-index: 4;
+      }
+      > gridcard:nth-child(4)::before {
+        background-color: var(--secondary);
+        bottom: 30px;
+        content: "";
+        height: 3px;
+        position: absolute;
+        right: 122px;
+        width: 40%;
+        z-index: 4;
+      }
+      > gridcard:nth-child(4)::after {
+        background-color: var(--secondary);
+        bottom: 0;
+        content: "";
+        height: 3px;
+        position: absolute;
+        right: 65px;
+        -webkit-transform: rotate(-120deg);
+        transform: rotate(-120deg);
+        -webkit-transform-origin: bottom left;
+        transform-origin: bottom left;
+        width: 38px;
+        z-index: 4;
       }
     }
   }

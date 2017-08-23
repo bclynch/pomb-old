@@ -4,5 +4,6 @@
     [data]="post"
     [size]="gridConfig[i]"
     [ngClass]="gridConfig[i] > 5 ? 'largeCard' : gridConfig[i] === 5 ? 'mediumCard' : gridConfig[i] > 3 ? 'smallCard' : 'tinyCard'"
+    [attr.style]="sanitizer.bypassSecurityTrustStyle('--primary:' + settingsService.primaryColor +';--secondary:' + settingsService.secondaryColor)"
   ></GridCard>
 </div>
