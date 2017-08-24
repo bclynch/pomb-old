@@ -264,7 +264,7 @@ create type pomb.jwt_token as (
   account_id integer
 );
 
-alter database blynch set "jwt.claims.account_id" to '0';
+alter database bclynch set "jwt.claims.account_id" to '0';
 
 create function pomb.authenticate_account(
   email text,
@@ -314,7 +314,6 @@ grant execute on function pomb.register_account(text, text, text, text, text) to
 grant execute on function pomb.authenticate_account(text, text) to pomb_anonymous;
 grant execute on function pomb.current_account() to pomb_account;
 grant execute on function pomb.posts_by_tag(integer) to pomb_anonymous; 
-grant execute on function pomb.post_tag_by_name(TEXT) to pomb_anonymous;
 
 -- ///////////////// RLS Policies ////////////////////////////////
 

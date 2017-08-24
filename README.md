@@ -86,3 +86,22 @@ var postgraphql = require('postgraphql').postgraphql;
 var app = express();
 app.use(postgraphql('postgresql://<username>:<password>@<endpoint>:<port#>/<db_name>?sslmode=require&ssl=1', '<schema_name>', {graphiql: true}));
 ```
+
+## Image Sizing
+- Hero banner images should be png high res photos
+- Card img thumb max size is 240x240
+- Max width on mobile is about 150px
+
+https://support.squarespace.com/hc/en-us/articles/206542517-Formatting-your-images-for-display-on-the-web
+Squarespace does following:
+- 100 pixels
+- 300 pixels
+- 500 pixels
+- 750 pixels
+- 1000 pixels
+- 1500 pixels
+- 2500 pixels
+
+http://www.1dogwoof.com/10-tips-best-image-size-blog/
+
+https://ciphertrick.com/2016/10/24/file-upload-with-angular2-nodejs/
