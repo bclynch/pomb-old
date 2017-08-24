@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 
@@ -20,7 +20,6 @@ interface PostOption {
   templateUrl: 'createPostModal.html'
 })
 export class CreatePostModal {
-  @ViewChild('fileInput') inputEl: ElementRef;
 
   containerOptions: string[] = ['Content', 'Options'];
   activeContainerOption: number = 0;
@@ -146,72 +145,22 @@ export class CreatePostModal {
     });
   }
 
-  // fileChange(e) {
-  //   console.log(e);
-  //   let files = e.target.files;
-  //   if (files.length > 0) {
-  //     let formData: FormData = new FormData();
-  //     console.log(formData);
-  //     for (let file of files) {
-  //       console.log(file);
-  //         formData.append('files', file, file.name);
-  //     }
-  //     console.log(formData.getAll('files'));
-  //     // this.apiService.testImgs(formData.getAll('files')).subscribe((result) => {
-  //     //   console.log(result);
-  //     // });
-  //     this.apiService.derp(formData).subscribe((result) => {
-  //       console.log(result);
-  //     });
-  //   }
-  // }
-
-  // upload() {
-  //   let inputEl: HTMLInputElement = this.inputEl.nativeElement;
-  //   let fileCount: number = inputEl.files.length;
-  //   let formData = new FormData();
-  //   if (fileCount > 0) { // a file was selected
-  //     for (let i = 0; i < fileCount; i++) {
-  //         formData.append('file[]', inputEl.files.item(i));
-  //     }
-  //     const headers = new Headers();
-  //     headers.append('Content-Type', 'multipart/form-data');
-  //     headers.append('Accept', 'application/json');
-  //     const body = JSON.stringify({ headers: headers });
-  //     console.log(formData.getAll('file[]'));
-  //     this.apiService.testImgs(formData, body).subscribe((result) => {
-  //       console.log(result);
-  //     });
-  //   }
-  // }
-    // let fileList: FileList = e.target.files;
-    // if(fileList.length > 0) {
-    //   let file: File = fileList[0];
-    //   //get signed request node server
-    //   this.apiService.testImgs(file).subscribe((result) => {
-    //     console.log(result);
-    //   });
-    // }
-  // }
-
   upload() {
     const formData: any = new FormData();
     const files: Array<File> = this.filesToUpload;
 
-    // formData.append("uploads[]", files[0], files[0]['name']);
     for (let file of files) {
       console.log(file);
       formData.append('uploads[]', file, file.name);
     }
     
     this.http.post('http://localhost:8080/upload', formData)
-      .map(files => files.json())
-      .subscribe(files => console.log('files', files))
+      .map(resp => resp.json())
+      .subscribe(resp => console.log(resp))
   }
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
-    //this.product.photo = fileInput.target.files[0]['name'];
   }
 
 }

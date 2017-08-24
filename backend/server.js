@@ -5,8 +5,9 @@ app = express(),
 postgraphql = require('postgraphql').postgraphql,
 aws = require('aws-sdk'),
 S3_BUCKET =  'laze-app',//process.env.S3_BUCKET;
-Jimp = require("jimp");
-// multer  = require('multer');
+Jimp = require("jimp"),
+multer = require('multer'),
+upload = multer({ storage: multer.memoryStorage(), fileFilter: imageFilter });
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.set('port', process.env.PORT || 8080);
@@ -47,105 +48,53 @@ app.use(postgraphql('postgres://pomb_admin:abc123@localhost:5432', ['pomb','pomb
 //   });
 // });
 
-// const imageFilter = function (req, file, cb) {
-//   // accept image only
-//   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-//       return cb(new Error('Only image files are allowed!'), false);
-//   }
-//   cb(null, true);
-// };
-
-// const upload = multer({ fileFilter: imageFilter });
-
-// app.post('/img-test', upload.array('files', 12), function(req,res){
-//   console.log(req.files);
-//   //console.log(req);
-//   res.end("yes");
-// });
-
-// app.post('/photos', upload.array('photos', 12), async (req, res) => {
-//   try {
-//       console.log(req.body);
-//       console.log(req.files);
-//       console.log('good grief');
-
-//       res.send(req.files);
-//       res.send('fuck');
-//   } catch (err) {
-//       res.sendStatus(400);
-//   }
-// })
-
-// function convertImgs(files) {
-  
-//   let promises = [];
-
-  // _.forEach(files, (file)=>{
-  //   let promise = new Promise((resolve, reject)=>{
-  //   //Resolve image file type
-  //   let type = fileType(file.buffer);
-
-  //   //Create a jimp instance for this image
-  //   // new Jimp(file.buffer, (err, image)=>{
-
-  //   //   //Resize this image
-  //   //   image.resize(512, 512)
-  //   //     //lower the quality by 30%
-  //   //     .quality(70)
-  //   //     .getBuffer(type.mime, (err, buffer)=>{
-  //   //       //Transfer image file buffer to base64 string
-  //   //       let base64Image = buffer.toString('base64');
-  //   //       let imgSrcString = "data:" + type.mime + ';base64, ' + base64Image;
-  //   //       //Resolve base94 string
-  //   //       resolve(imgSrcString);
-  //   //     });
-  //   //   })
-  //   });
-
-  //   promises.push(promise);
-  // });
-
-  // console.log(files);
-
-  //Return promise array
-  //return Promise.all(promises);
-// }
-var multer = require('multer');
-// var storage = multer.diskStorage({
-//   // destino del fichero
-//   destination: function (req, file, cb) {
-//     cb(null, './uploads/')
-//   },
-//   // renombrar fichero
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname);
-//   }
-// });
-
-var storage = multer.memoryStorage();
-
-var upload = multer({ storage: storage });
+function imageFilter(req, file, cb) {
+  // accept image only
+  if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Only image files are allowed!'), false);
+  }
+  cb(null, true);
+};
 
 app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
   let promises = [];
 
   console.log('files', req.files);
-  req.files.forEach((file) => {
-    console.log(file);
+  req.files.forEach((file, i) => {
     let promise = new Promise((resolve, reject)=>{
-      Jimp.read(file.buffer).then(function (lenna) {
-        lenna.resize(1000, Jimp.AUTO)            // resize
-                .quality(100)                 // set JPEG quality 80 is like 1/5 the kb of 100
-                .write(`./uploads/${file.originalname}`, () => resolve()); // save
-      }).catch(function (err) {
-          console.error(err);
+
+      resizeImage(file, [{width: 2400, height: 1600}, {width: 1200, height: 800}, {width: 600, height: 400}, {width: 300, height: 200}], 80, 'jpg').then(() => {
+        console.log(`finished file ${i + 1}`);
+        resolve();
       });
     });
 
     promises.push(promise);
   });
-  res.send(req.files);
+  console.log(promises);
+  Promise.all(promises).then(() => {
+    console.log('promise all complete');
+    res.send(JSON.stringify({result: 'Processing complete'}));
+  });
 });
+
+function resizeImage(file, sizes, quality, type) {
+  return new Promise((resolve, reject)=>{
+    Jimp.read(file.buffer).then(function (img) {
+      console.log('ready to buffer')
+      sizes.forEach((size, i) => {
+        img.cover(size.width, size.height)  // resize to specific dimensions. Looks like the best way to do it. Crops a little on edges to maintain scale
+          .quality(quality)                 // set JPEG quality 80 is like 1/5 the kb of 100
+          .write(`./uploads/${file.originalname.split('.')[0]}-w${size.width}.${type}`); // save to uploads folder // eventually will just be uploading the buffer to s3
+          console.log(`finished size ${i + 1}`);
+      });
+      resolve();
+    }).catch(function (err) {
+        console.error(err);
+        reject();
+    });
+  });
+}
 
 // Initialize the app.
 app.listen(app.get('port'), function () {
