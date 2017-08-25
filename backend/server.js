@@ -4,7 +4,6 @@ cors = require('cors'),
 app = express(),
 postgraphql = require('postgraphql').postgraphql,
 aws = require('aws-sdk'),
-S3_BUCKET =  'laze-app',//process.env.S3_BUCKET;
 Jimp = require("jimp"),
 multer = require('multer'),
 upload = multer({ storage: multer.memoryStorage(), fileFilter: imageFilter });
@@ -17,54 +16,6 @@ app.use(express.static("www")); // Our Ionic app build is in the www folder (kep
 // app.use(postgraphql('postgresql://laze_anonymous:abc123@laze.c0up3bfsdxiy.us-east-1.rds.amazonaws.com:5432/laze?sslmode=require&ssl=1', ['laze','laze_private'], {graphiql: true, jwtSecret: new Buffer('some-secret', 'base64'), jwtPgTypeIdentifier: 'laze.jwt_token'})); // pgDefaultRole: 'bclynch'
 app.use(postgraphql('postgres://pomb_admin:abc123@localhost:5432', ['pomb','pomb_private'], {graphiql: true, jwtSecret: 'some-secret', jwtPgTypeIdentifier: 'pomb.jwt_token'}));
 
-/*
- * Respond to GET requests to /sign-s3.
- * Upon request, return JSON containing the temporarily-signed S3 request and
- * the anticipated URL of the image.
- */
-// app.get('/sign-s3', (req, res) => {
-//   const s3 = new aws.S3();
-//   const fileName = req.query['file-name'];
-//   const fileType = req.query['file-type'];
-//   const s3Params = {
-//     Bucket: S3_BUCKET,
-//     Key: fileName,
-//     Expires: 60,
-//     ContentType: fileType,
-//     ACL: 'public-read'
-//   };
-
-//   s3.getSignedUrl('putObject', s3Params, (err, data) => {
-//     if(err){
-//       console.log(err);
-//       return res.end();
-//     }
-//     const returnData = {
-//       signedRequest: data,
-//       url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
-//     };
-//     res.write(JSON.stringify(returnData));
-//     res.end();
-//   });
-// });
-
-aws.config.loadFromPath('./config/aws-config.json');
-const photoBucket = new aws.S3({params: {Bucket: 'laze-app'}});
-
-function uploadToS3(buffer, destFileName, callback) {
-  photoBucket
-    .upload({
-        ACL: 'public-read', 
-        Body: buffer, //fs.createReadStream(file.path)
-        Key: destFileName.toString(), //randomized key. I probably just want to do name + width + type like to disk ex
-        ContentType: 'application/octet-stream' // force download if it's accessed as a top location
-    })
-    // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html#httpUploadProgress-event
-    // .on('httpUploadProgress', function(evt) { console.log(evt); })
-    // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html#send-property
-    .send(callback);
-}
-
 function imageFilter(req, file, cb) {
   // accept image only
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -73,76 +24,124 @@ function imageFilter(req, file, cb) {
   cb(null, true);
 };
 
+aws.config.loadFromPath('./config/aws-config.json');
+const photoBucket = new aws.S3({params: {Bucket: 'laze-app'}});
+
 ///////////////////////////////////////////////////////
 ///////////////////Save To S3
 ///////////////////////////////////////////////////////
 
-// app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
-//   let promises = [];
+function uploadToS3(buffer, destFileName, callback) {
+  return new Promise((resolve, reject) => {
+    photoBucket
+      .upload({
+          ACL: 'public-read', 
+          Body: buffer,
+          Key: destFileName, // file name
+          ContentType: 'application/octet-stream' // force download if it's accessed as a top location
+      })
+      // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html#httpUploadProgress-event
+      // .on('httpUploadProgress', function(evt) { console.log(evt); })
+      // http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html#send-property
+      .send(callback);
+    });
+}
 
-//   console.log('files', req.files);
-//   req.files.forEach((file, i) => {
-//     let promise = new Promise((resolve, reject)=>{
+app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
+  let promises = [];
+  //If ever accept png need to change buffer MIME type to be dynamic
+  let fileType = 'jpg';
 
-//       resizeImage(file, [{width: 300, height: 200}], 80, 'jpg').then((buffer) => {
-//         console.log(`finished file ${i + 1}`);
-//         console.log('Processed img buffer: ', buffer);
+  S3LinksArr = [];
 
-//         //send off to S3
-//         var pid = '10000' + parseInt(Math.random() * 10000000);
-        
-//         uploadToS3(buffer, pid, function (err, data) {
-//           if (err) console.error(err);
-//           console.log('DATA LOCATION: ', data.Location); //URL where the image is. Need to save this to our db. Can use the width of the size we will send along to this point to identify how to save this to our table
-//           console.log('File uploaded to S3: ' + data.Location.replace(/</g, '&lt;') + ' src would be ' + data.Location.replace(/"/g, '&quot;'));
-//           resolve();
-//         });
-//       });
-//     });
+  console.log('files', req.files);
+  req.files.forEach((file, i) => {
+    let promise = new Promise((resolve, reject) => {
 
-//     promises.push(promise);
-//   });
-//   console.log(promises);
-//   Promise.all(promises).then(() => {
-//     console.log('promise all complete');
-//     res.send(JSON.stringify({result: 'Processing complete'}));
-//   });
-// });
+      resizeImagesWriteBuffer(file, [{width: 300, height: 200}, {width:2400, height: 1600}], 80, fileType).then((bufferArr) => {
+        console.log(`finished file ${i + 1}`);
+        console.log('Processed img buffer arr: ', bufferArr);
 
-// function resizeImage(file, sizes, quality, type) {
-//   return new Promise((resolve, reject)=>{
-//     Jimp.read(file.buffer).then(function (img) {
-//       console.log('ready to buffer')
-//       sizes.forEach((size, i) => {
-//         img.cover(size.width, size.height)  // resize to specific dimensions. Looks like the best way to do it. Crops a little on edges to maintain scale
-//           .quality(quality)                 // set JPEG quality 80 is like 1/5 the kb of 100
-//           .getBuffer(Jimp.AUTO, (err, buffer) => { // grabbing as buffer. 
-//             //callback to resolve
-//             console.log('Something from the buffer callback?', buffer);
-//             console.log(`finished size ${i + 1}`);
-//             resolve(buffer);
-//           });
-//       });
-//     }).catch(function (err) {
-//         console.error(err);
-//         reject();
-//     });
-//   });
-// }
+        let S3PromiseArr = [];
+
+        bufferArr.forEach((obj) => {
+          let S3Promise = new Promise((resolve, reject)=> { //promise for each size of the image
+            //send off to S3
+            const key = `${file.originalname.split('.')[0]}-w${obj.width}-${Date.now()}.${fileType}`;
+            
+            uploadToS3(obj.buffer, key, function (err, data) {
+              if (err) {
+                console.error(err)
+                reject(err);
+              };
+              S3LinksArr.push({size: obj.width, url: data.Location});
+              resolve();
+            });
+          });
+          S3PromiseArr.push(S3Promise);
+        });
+        Promise.all(S3PromiseArr).then(() => {
+          console.log('S3 upload promise all complete');
+          resolve(); //resolve for resize img promise
+        });
+      });
+    });
+
+    promises.push(promise);
+  });
+  console.log(promises);
+  Promise.all(promises).then(() => {
+    console.log('promise all complete');
+    res.send(JSON.stringify(S3LinksArr));
+  });
+});
+
+function resizeImagesWriteBuffer(file, sizes, quality, type) {
+  return new Promise((resolve, reject)=> { //promise for the overall resize img function
+    Jimp.read(file.buffer).then(function (img) {
+      console.log('ready to buffer')
+      let bufferPromiseArr = [];
+      let finishedBuffersArr = [];
+      sizes.forEach((size, i) => {
+
+        let promise = new Promise((resolve, reject)=> { //promise for each size of the image
+          img.clone()                      // Makes a copy because otherwise some of these methods mutate the original
+          .cover(size.width, size.height)  // resize to specific dimensions. Looks like the best way to do it. Crops a little on edges to maintain scale
+          .quality(quality)                 // set JPEG quality 80 is like 1/5 the kb of 100
+          .getBuffer(Jimp.MIME_JPEG, (err, buffer) => { // grabbing as buffer. 
+            console.log(`Buffer for img size ${size.width}`, buffer);
+            console.log(`finished size ${i + 1}`);
+            finishedBuffersArr.push({buffer, width: size.width});
+            resolve(); // resolve for ea size img
+          });
+        });
+        bufferPromiseArr.push(promise);
+
+      });
+      Promise.all(bufferPromiseArr).then(() => {
+        console.log('resize img promise all complete');
+        resolve(finishedBuffersArr); // resolve for resize img fn promise
+      });
+    }).catch(function (err) {
+        console.error(err);
+        reject();
+    });
+  });
+}
 
 
 ///////////////////////////////////////////////////////
 ///////////////////Save To uploads folder
 ///////////////////////////////////////////////////////
 
-app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
+app.post("/upload-local", upload.array("uploads[]", 12), function (req, res) {
   let promises = [];
 
   console.log('files', req.files);
   req.files.forEach((file, i) => {
     let promise = new Promise((resolve, reject)=>{
 
-      resizeImages(file, [{width: 2400, height: 1600}, {width: 1200, height: 800}, {width: 600, height: 400}, {width: 300, height: 200}], 80, 'jpg').then(() => {
+      resizeImagesWriteLocal(file, [{width: 2400, height: 1600}, {width: 1200, height: 800}, {width: 600, height: 400}, {width: 300, height: 200}], 80, 'jpg').then(() => {
         console.log(`finished file ${i + 1}`);
         resolve();
       });
@@ -157,7 +156,7 @@ app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
   });
 });
 
-function resizeImages(file, sizes, quality, type) {
+function resizeImagesWriteLocal(file, sizes, quality, type) {
   return new Promise((resolve, reject)=>{
     Jimp.read(file.buffer).then(function (img) {
       console.log('ready to buffer')

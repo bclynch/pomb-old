@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationExtras } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
 // Services
@@ -59,9 +59,12 @@ export class RouterService {
   }
 
   navigateToPage(path: string) {
-    let paramsObj: any = {};
+    let navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'preserve',
+      preserveFragment: true
+    };
 
-    this.router.navigate([path], {queryParams: paramsObj});
+    this.router.navigate([path], {queryParams: navigationExtras});
   }
 
 }
