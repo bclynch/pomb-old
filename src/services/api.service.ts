@@ -264,38 +264,6 @@ export class APIService {
     });
   }
 
-  testImgs(files) {
-    console.log(files);
-    return this.http.post(`http://localhost:8080/img-test`, files)
-      .map(
-        (response: Response) => {
-          const data = response.json();
-          return data;
-        }
-      )
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        }
-      );
-  }
-
-  derp(files) {
-    console.log(files);
-    return this.http.post(`http://localhost:8080/img-test`, {files})
-      .map(
-        (response: Response) => {
-          const data = response.json();
-          return data;
-        }
-      )
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        }
-      );
-  }
-
   // Graphql Queries
   getCurrentAccount(): any {
     return this.apollo.watchQuery<any>({
