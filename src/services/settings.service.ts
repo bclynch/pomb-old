@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 
 export class SettingsService {
 
-  primaryColor: string = '#93278F';
-  secondaryColor: string = '#00A99D';
+  primaryColor: string = '#e1ff00';
+  secondaryColor: string = '#04c960';
 
   constructor(
 

@@ -58,13 +58,10 @@ export class RouterService {
     this.router.navigate([`${this.baseURL}`], paramsObj);
   }
 
-  navigateToPage(path: string) {
-    let navigationExtras: NavigationExtras = {
-      queryParamsHandling: 'preserve',
-      preserveFragment: true
-    };
+  navigateToPage(path: string, query?: string) {
+    const queryParams = {queryParams: query ? {q: query} : null};
 
-    this.router.navigate([path], {queryParams: navigationExtras});
+    this.router.navigate([path], queryParams);
   }
 
 }

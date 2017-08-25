@@ -112,7 +112,11 @@ query allPostTags {
   allPostTags {
     nodes {
       id,
-      name
+      title,
+      subtitle,
+      leadphoto,
+      createdAt,
+      updatedAt,
     }
   }
 }
@@ -183,6 +187,21 @@ query allPostTags($tagName: String!) {
     }
   }
 }
+`;
+
+const searchPostsQuery = gql`
+  query searchPosts($query: String!) {
+    searchPosts(query: $query) {
+      nodes {
+        id,
+        title,
+        subtitle,
+        leadphoto,
+        createdAt,
+        updatedAt
+      }
+    }
+  }
 `;
 
 //////////////////////////
@@ -340,6 +359,15 @@ export class APIService {
       variables: {
         email,
         password
+      }
+    });
+  }
+
+  searchPosts(query: string) {
+    return this.apollo.watchQuery<any>({
+      query: searchPostsQuery,
+      variables: {
+        query
       }
     });
   }

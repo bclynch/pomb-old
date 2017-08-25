@@ -11,6 +11,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
+import { SearchResultsPage } from '../pages/searchResults/searchResults';
 
 const appRoutes: Routes = [
   { 
@@ -44,6 +45,7 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },
+  { path: 'search', component: SearchResultsPage },
   { path: '',   component: HomePage },
   { path: '**', component: PageNotFoundComponent }
 ];

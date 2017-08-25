@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PopoverController, ModalController } from 'ionic-angular';
 
 import { ProfilePopover } from '../popovers/profile/profilePopover.component';
@@ -24,6 +24,7 @@ interface Section {
 })
 export class NavBar {
   @Input() displayLogo: boolean = true;
+  @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
 
   socialOptions: Social[] = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/' },
@@ -75,5 +76,9 @@ export class NavBar {
   signinUser() {
     let modal = this.modalCtrl.create(RegistrationModal, {}, {cssClass: 'registrationModal'});
     modal.present(); 
+  }
+
+  openSearch() {
+    this.searchTrigger.emit();
   }
 }

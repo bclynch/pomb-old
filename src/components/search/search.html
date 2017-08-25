@@ -1,0 +1,25 @@
+<div class="searchContainer" [style.height]="isActive ? '46px' : 0">
+  <form 
+    class="searchWrapper" 
+    (submit)="submitQuery($event)"
+  >
+    <ion-icon 
+      class="searchIcon" 
+      name="search"
+    ></ion-icon>
+    <input
+      type="text"
+      placeholder="Search"
+      [(ngModel)]="value"
+      name="search"
+      #searchInput
+    />
+    <ion-icon 
+      *ngIf="searchActive" 
+      class="closeIcon" 
+      name="close"
+      (click)="onClose()"
+      #closeBtn
+    ></ion-icon>
+  </form>
+</div>

@@ -27,6 +27,7 @@ import { PostList } from '../components/postList/postList.component';
 import { Footer } from '../components/footer/footer.component';
 import { DashboardCard } from '../components/dashboardCard/dashboardCard.component';
 import { PostWrapper } from '../components/postWrapper/postWrapper.component';
+import { Search } from '../components/search/search';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -45,6 +46,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
+import { SearchResultsPage } from '../pages/searchResults/searchResults';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -66,6 +68,7 @@ import { AlertService } from '../services/alert.service';
     FavoritesPage,
     SettingsPage,
     DashboardPage,
+    SearchResultsPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -81,7 +84,8 @@ import { AlertService } from '../services/alert.service';
     DashboardCard,
     PostWrapper,
     CreatePostModal,
-    PostTypePopover
+    PostTypePopover,
+    Search
   ],
   imports: [
     BrowserModule,
@@ -106,6 +110,7 @@ import { AlertService } from '../services/alert.service';
     FavoritesPage,
     SettingsPage,
     DashboardPage,
+    SearchResultsPage,
     PageNotFoundComponent,
     ProfilePopover,
     RegistrationModal,

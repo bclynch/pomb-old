@@ -1,0 +1,39 @@
+search {
+  width: 100%;
+    
+  .searchContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    transition: .5s;
+    overflow: hidden;
+
+    .searchWrapper {
+      display: inline-flex;
+      justify-content: flex-start;
+      position: relative;
+      max-width: 1280px;
+      width: 100%;
+      background: mapGet($basecolor, white);
+      padding: 10px;
+
+      input {
+        width: 100%;
+        outline: none;
+        border: none;
+        font-size: 20px;
+      }
+      .searchIcon {
+        font-size: 24px;
+        margin-right: 15px;
+      }
+      .closeIcon {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 18px;;
+        cursor: pointer;
+      }
+    }
+  }
+}

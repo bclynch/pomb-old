@@ -1,6 +1,15 @@
-<div class="pageWrapperContainer" [style.background]="backgroundColor" [style.padding-bottom]="displayFooter ? '130px' : 0">
+<div 
+  class="pageWrapperContainer" 
+  [style.background]="backgroundColor" 
+  [style.padding-bottom]="displayFooter ? '130px' : 0"
+>
   <HeroBanner *ngIf="displayHeroBanner"></HeroBanner>
-  <NavBar *ngIf="displayNav" [displayLogo]="displayNavLogo"></NavBar>
+  <NavBar 
+    *ngIf="displayNav" 
+    [displayLogo]="displayNavLogo" 
+    (searchTrigger)="searchIsActive = !searchIsActive"
+  ></NavBar>
+  <Search [isActive]="searchIsActive"></Search>
   <ng-content></ng-content>
   <Footer *ngIf="displayFooter"></Footer>
 </div>
