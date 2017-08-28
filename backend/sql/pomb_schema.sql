@@ -357,7 +357,7 @@ grant select on pomb.search_index to PUBLIC;
 grant execute on function pomb.register_account(text, text, text, text, text) to pomb_anonymous;
 grant execute on function pomb.authenticate_account(text, text) to pomb_anonymous;
 grant execute on function pomb.current_account() to pomb_account;
-grant execute on function pomb.posts_by_tag(integer) to pomb_anonymous;
+grant execute on function pomb.posts_by_tag(integer) to PUBLIC;
 grant execute on function pomb.search_posts(text) to PUBLIC; 
 
 -- ///////////////// RLS Policies ////////////////////////////////

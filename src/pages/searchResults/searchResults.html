@@ -1,4 +1,9 @@
 <PageWrapper>
-  <PostList [data]="posts"></PostList>
+  <div class="boldFont headerTitle">{{posts.length}} Results for "{{query}}"</div>
+  <PostList [data]="posts" *ngIf="posts.length"></PostList>
+  <div class="noResultsContainer" *ngIf="!posts.length">
+    <ion-icon name="md-document"></ion-icon>
+    <div>No results mactching <span [style.font-style]="'italic'">{{query}}</span>. Try another term!</div>
+  </div>
 </PageWrapper>
 

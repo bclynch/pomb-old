@@ -38,9 +38,12 @@ page-dashboard {
         text-align: center;
 
         > div {
-          flex: 1;
+          flex: 2;
           line-height: 44px;
           cursor: pointer;
+        }
+        > div:nth-child(3), > div:nth-child(4) {
+          flex: 3;
         }
       }
       .postsList {
@@ -107,4 +110,10 @@ page-dashboard {
       justify-content: center;
     }
   }
+
+  @media screen and (max-width: 600px) {
+    .leftMenu {
+     width: 100%;
+    }
+  } 
 }

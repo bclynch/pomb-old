@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges, SimpleChange, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime.js';
@@ -16,6 +16,7 @@ interface Category {
   templateUrl: 'search.html'
 })
 export class Search {
+  @ViewChild('searchInput') searchInput;
   @Input() isActive: boolean;
 
   search = new FormControl();
@@ -25,8 +26,13 @@ export class Search {
     private apiService: APIService,
     private router: Router,
     private routerService: RouterService
-  ) { 
-   }
+  ) { }
+
+  //focus on search input when it becomes visible
+  ngOnChanges(changes: SimpleChanges) {
+    const change: SimpleChange = changes.isActive;
+    if(change.currentValue) this.searchInput.nativeElement.focus();
+  }
 
   onClose() {
     // this.searchActive = false;

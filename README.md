@@ -3,7 +3,7 @@
 ## Todos
 
 - Define required image sizes + integrate modded buffers with s3
-    - Uploads to S3 working with multiple files. Now need to just get multiple sizes per file worked into it.
+    - Uploads to S3 working with multiple files - check
     - Set up service for methods on front end that cover 'primary' images (with a bunch of sizes) and just normal post images with just one. Would like to have grids for some posts too, so maybe they would have a couple sizes.
     - Finish UI on front end to show image(s) after its uploaded
     - Will need another join table with links per image
@@ -13,8 +13,8 @@
     - Left menu has drafts, scheduled, and published posts. - check
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
+    - Validation for the user only seeing their posts
 - Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish
-- Implement search
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
 

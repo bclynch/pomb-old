@@ -1,9 +1,9 @@
 <div class="navBarContainer">
   <div class="mobileWrapper">
     <div class="boldFont mobileLogo" (click)="routerService.navigateToPage('/')">POMB</div>
-    <div class="right" (click)="presentPopover($event)">
-      <div><ion-icon name="md-person"></ion-icon></div>
-      <div><ion-icon name="ios-search"></ion-icon></div>
+    <div class="right">
+      <div (click)="presentPopover($event)"><ion-icon name="md-person"></ion-icon></div>
+      <div (click)="openSearch()"><ion-icon name="ios-search"></ion-icon></div>
     </div>
   </div>
   <div class="navBarWrapper">
