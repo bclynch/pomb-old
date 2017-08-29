@@ -40,7 +40,6 @@ import { CreatePostModal } from '../components/modals/createPostModal/createPost
 // Pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
-import { PostCreator } from '../pages/postCreator/postCreator';
 import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
@@ -62,7 +61,6 @@ import { AlertService } from '../services/alert.service';
     MyApp,
     HomePage,
     PostPage,
-    PostCreator,
     HubPage,
     ProfilePage,
     FavoritesPage,
@@ -104,7 +102,6 @@ import { AlertService } from '../services/alert.service';
     MyApp,
     HomePage,
     PostPage,
-    PostCreator,
     HubPage,
     ProfilePage,
     FavoritesPage,

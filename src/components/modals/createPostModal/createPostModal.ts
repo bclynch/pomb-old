@@ -26,14 +26,16 @@ export class CreatePostModal {
   btnOptions: string[] = ['Cancel', 'Delete', 'Save', 'Save & Publish'];
   postModel = {postTitle: '', postSubtitle: '', content: '', leadPhoto: '', leadPhotoTitle: ''};
   data: Post;
+  primaryLoading: boolean = false;
+  thumbnailImage: string;
 
   filesToUpload: Array<File> = [];
 
   //https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
   editorOptions: Object = {
-    placeholderText: 'Write something insightful...',
+    // placeholderText: 'Write something insightful...',
     heightMin: '300px',
-    heightMax: '475px',
+    heightMax: '525px',
     toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'insertImage', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
   }
 
@@ -146,21 +148,31 @@ export class CreatePostModal {
   }
 
   upload() {
-    const formData: any = new FormData();
+    const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
 
     for (let file of files) {
       console.log(file);
       formData.append('uploads[]', file, file.name);
     }
-    
-    this.http.post('http://localhost:8080/upload', formData)
-      .map(resp => resp.json())
-      .subscribe(resp => console.log(resp))
+
+    this.primaryLoading = true;
+    this.apiService.uploadPrimaryPhoto(formData).subscribe(
+      result => {
+        console.log(result);
+        if(result.length) {
+          this.thumbnailImage = result[0].url;
+          this.primaryLoading = false;
+          console.log(this.thumbnailImage);
+        }
+      }
+    )
   }
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
+
+    this.upload();
   }
 
 }

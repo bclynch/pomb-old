@@ -28,6 +28,92 @@ createpostmodal {
         }
       }
     }
+    .optionsContainer {
+      padding: 33px 33px 0;
+
+
+      .topContainer {
+        display: flex;
+        margin-bottom: 20px;
+
+        .left {
+          flex: 1;
+
+          label {
+            height: 200px;
+            width: 300px;
+            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: mapGet($basecolor, white);
+            color: mapGet($basecolor, dark);
+            cursor: pointer;
+            transition: color .8s;
+    
+            input {
+              width: 0.1px;
+              height: 0.1px;
+              opacity: 0;
+              overflow: hidden;
+              position: absolute;
+              z-index: -1;
+            }
+            > div {
+              text-align: center;
+
+              ion-icon {
+                font-size: 36px;
+              }
+            }
+            ion-spinner {
+              width: 36px;
+              height: 36px;
+
+              svg {
+                circle {
+                  stroke: mapGet($basecolor, dark);
+                }
+              }
+            }
+            .thumbnailImage {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          label:hover {
+            color: mapGet($basecolor, black);
+          }
+        }
+        .right {
+          flex: 1;
+          margin-left: 15px;
+        }
+      }
+      .subtitleContainer {
+        width: 100%;
+        margin-bottom: 30px;
+
+        textarea {
+          width: 100%;
+          border: none;
+        }
+      }
+      .postTypeContainer {
+        cursor: pointer;
+        float: right;
+        text-align: right;
+
+        .typeTitle {
+          font-size: 18px;
+        }
+      }
+      .segmentLabel {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
     .contentContainer {
       display: flex;
       flex-direction: column;
@@ -57,15 +143,7 @@ createpostmodal {
         .tagsContainer {
           flex: 7;
         }
-        .postTypeContainer {
-          flex: 3;
-          cursor: pointer;
-          text-align: right;
-
-          .typeTitle {
-            font-size: 18px;
-          }
-        }
+        
       }
     }
     .footerBtns {

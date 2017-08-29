@@ -145,7 +145,7 @@ comment on column pomb.post_comment.id is 'Primary id for the comment';
 comment on column pomb.post_comment.author is 'Primary id of author';
 comment on column pomb.post_comment.content is 'Body of the comment';
 comment on column pomb.post_comment.created_at is 'Time comment created at';
-comment on column pomb.post_comment.updated_at is 'Time comment updaed at';
+comment on column pomb.post_comment.updated_at is 'Time comment updated at';
 
 create table pomb.post_to_comment ( --one to many
   post_id            integer not null references pomb.post(id),
@@ -166,6 +166,67 @@ insert into pomb.post_to_comment (post_id, comment_id) values
 comment on table pomb.post_to_comment is 'Join table for comments on a post';
 comment on column pomb.post_to_comment.post_id is 'Id of the post';
 comment on column pomb.post_to_comment.comment_id is 'Id of the comment';
+
+create table pomb.post_lead_photo (
+  id                  serial primary key,
+  post_id             integer not null references pomb.post(id),
+  description         text,
+  created_at          bigint default (extract(epoch from now()) * 1000),
+  updated_at          timestamp default now()
+);
+
+insert into pomb.post_lead_photo (post_id, description) values
+  (1, 'Colombia commentary'),
+  (2, 'Biking Bizness'),
+  (3, 'Hiking is neat'),
+  (4, 'Camping is fun'),
+  (5, 'Food is dope'),
+  (6, 'Travel is lame'),
+  (7, 'Culture is exotic'),
+  (8, 'Culture is exotic'),
+  (9, 'Culture is exotic'),
+  (10, 'Culture is exotic'),
+  (11, 'Culture is exotic'),
+  (12, 'Culture is exotic'),
+  (13, 'Gear snob');
+
+comment on table pomb.post_lead_photo is 'Table with comments from users';
+comment on column pomb.post_lead_photo.id is 'Primary id for the photo';
+comment on column pomb.post_lead_photo.post_id is 'Primary id of post';
+comment on column pomb.post_lead_photo.description is 'Description of photo';
+comment on column pomb.post_lead_photo.created_at is 'Time comment created at';
+comment on column pomb.post_lead_photo.updated_at is 'Time comment updated at';
+
+create table pomb.lead_photo_link (
+  id                  serial primary key,
+  lead_photo_id       integer not null references pomb.post_lead_photo(id),
+  url                 text not null,
+  created_at          bigint default (extract(epoch from now()) * 1000),
+  updated_at          timestamp default now()
+);
+
+insert into pomb.lead_photo_link (lead_photo_id, url) values
+  (1, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (1, 'https://jzholloway.files.wordpress.com/2008/07/moon072608-5back.jpg'),
+  (2, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (3, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (4, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (5, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (6, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (7, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (8, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (9, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (10, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (11, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (12, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg'),
+  (13, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg');
+
+comment on table pomb.lead_photo_link is 'Table with lead photo links';
+comment on column pomb.lead_photo_link.id is 'Id of link';
+comment on column pomb.lead_photo_link.lead_photo_id is 'Id of the referenced photo';
+comment on column pomb.lead_photo_link.url is 'Url of link';
+comment on column pomb.lead_photo_link.created_at is 'Time comment created at';
+comment on column pomb.lead_photo_link.updated_at is 'Time comment updated at';
 
 -- *******************************************************************
 -- *********************** Function Queries **************************
@@ -351,6 +412,8 @@ grant select on table pomb.post_to_tag to PUBLIC;
 grant select on table pomb.post_comment to PUBLIC;
 grant select on table pomb.post_to_comment to PUBLIC;
 grant select on table pomb.account to PUBLIC;
+grant select on table pomb.post_lead_photo to PUBLIC;
+grant select on table pomb.lead_photo_link to PUBLIC;
 grant ALL on table pomb.account to pomb_account;
 grant select on pomb.search_index to PUBLIC;
 

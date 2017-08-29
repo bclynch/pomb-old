@@ -5,7 +5,6 @@ import { PageNotFoundComponent } from './not-found.component';
 //pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
-import { PostCreator } from '../pages/postCreator/postCreator';
 import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';

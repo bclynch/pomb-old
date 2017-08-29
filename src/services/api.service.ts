@@ -246,10 +246,9 @@ export class APIService {
     private alertService: AlertService
   ) {}
 
-  // S3
-  getSignedRequest(file: File) {
-    console.log(file);
-    return this.http.get(`http://localhost:8080/sign-s3?file-name=${file.name}&file-type=${file.type}`)
+  //S3 Uploads
+  uploadPrimaryPhoto(formData: FormData) {
+    return this.http.post('http://localhost:8080/upload-primary', formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -261,26 +260,6 @@ export class APIService {
           return Observable.throw('Something went wrong');
         }
       );
-  }
-
-  uploadS3(file: File, signedRequest: string) {
-    return new Promise<any>((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('PUT', signedRequest);
-      xhr.onreadystatechange = () => {
-        if(xhr.readyState === 4){
-          if(xhr.status === 200){
-            console.log('successfully uploaded');
-            resolve();
-          }
-          else{
-            this.alertService.alert('Error', 'Could not upload file.');
-            reject('failed');
-          }
-        }
-      };
-      xhr.send(file);
-    });
   }
 
   // Graphql Queries

@@ -20,24 +20,44 @@
     <div class="textEditorWrapper">
       <div [froalaEditor]="editorOptions" [(froalaModel)]="postModel.content"></div>
     </div>
-    <div class="contentOtherContainer">
-      <div class="tagsContainer">TAGS</div>
-      <div class="postTypeContainer" (click)="presentPopover($event)">
-        <div class="typeTitle">{{postOptions[activePostOption].name}}</div>
-        <div>{{postOptions[activePostOption].secondaryDescription}}</div>
-      </div>
-    </div>
   </div>
   <div class="optionsContainer" *ngIf="activeContainerOption === 1">
-      <!-- <input
-        type="file" 
-        (change)="fileChange($event)" 
-        placeholder="Upload file" 
-        accept="image/x-png,image/jpeg"
-        multiple
-      /> -->
-      <input type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." multiple/>
-      <button type="button" (click)="upload()">Upload</button>
+    <div class="topContainer">
+      <div class="left">
+          <div class="segmentLabel">Primary Photo</div>
+          <label for="file">
+            <input 
+              type="file" 
+              id="file"
+              (change)="fileChangeEvent($event)" 
+            />
+            <div *ngIf="!primaryLoading && !thumbnailImage">
+              <ion-icon name="md-cloud-upload"></ion-icon>
+              <div>Add an image</div>
+            </div>
+            <div *ngIf="primaryLoading">
+              <ion-spinner></ion-spinner>
+              <div>Processing image...</div>
+            </div>
+            <div 
+              class="thumbnailImage" 
+              [ngStyle]="{ 'background-image': 'url(' + thumbnailImage + ')'}" 
+              *ngIf="thumbnailImage"
+            ></div>
+          </label>
+        </div>
+        <div class="right">
+          <div class="segmentLabel">Tags</div>
+        </div>
+    </div>
+    <div class="subtitleContainer">
+      <div class="segmentLabel">Subtitle</div>
+      <textarea placeholder="Add something..." rows="4"></textarea>
+    </div>
+    <div class="postTypeContainer" (click)="presentPopover($event)">
+      <div class="typeTitle">{{postOptions[activePostOption].name}}</div>
+      <div>{{postOptions[activePostOption].secondaryDescription}}</div>
+    </div>
   </div>
   <div class="footerBtns">
     <div 

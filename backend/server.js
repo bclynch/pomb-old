@@ -47,7 +47,8 @@ function uploadToS3(buffer, destFileName, callback) {
     });
 }
 
-app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
+//endpoint uploads a bunch of different sizes since this will be primary photo for a post and used for banners, icons etc
+app.post("/upload-primary", upload.array("uploads[]", 12), function (req, res) {
   let promises = [];
   //If ever accept png need to change buffer MIME type to be dynamic
   let fileType = 'jpg';
