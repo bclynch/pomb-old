@@ -208,33 +208,44 @@ const searchPostsQuery = gql`
 /////////// mutations
 ////////////////////////
 const registerAccount = gql`
-mutation registerAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
-  registerAccount(input:{
-    username: $username
-    firstName: $firstName,
-    lastName: $lastName,
-    password: $password,
-    email: $email,
-  }) 
-  {
-    account {
-      id,
-      firstName,
-      lastName,
-      username
+  mutation registerAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
+    registerAccount(input:{
+      username: $username
+      firstName: $firstName,
+      lastName: $lastName,
+      password: $password,
+      email: $email,
+    }) 
+    {
+      account {
+        id,
+        firstName,
+        lastName,
+        username
+      }
     }
   }
-}
 `;
 const authAccount = gql`
-mutation authAccount($email: String!, $password: String!) {
-  authenticateAccount(input:{
-    email: $email,
-    password: $password
-  }) {
-    jwtToken
+  mutation authAccount($email: String!, $password: String!) {
+    authenticateAccount(input:{
+      email: $email,
+      password: $password
+    }) {
+      jwtToken
+    }
   }
-}
+`;
+const deletePostById = gql`
+  mutation deletePostById($id: Int!) {
+    deletePostById(input: {
+      id: $id
+    }) {
+      post {
+        title
+      }
+    }
+  }
 `;
 
 @Injectable()
@@ -319,6 +330,16 @@ export class APIService {
     });
   }
 
+  searchPosts(query: string) {
+    return this.apollo.watchQuery<any>({
+      query: searchPostsQuery,
+      variables: {
+        query
+      }
+    });
+  }
+
+  // Graphql mutations
   registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
     return this.apollo.mutate({
       mutation: registerAccount,
@@ -342,11 +363,11 @@ export class APIService {
     });
   }
 
-  searchPosts(query: string) {
-    return this.apollo.watchQuery<any>({
-      query: searchPostsQuery,
+  deletePostById(id: number) {
+    return this.apollo.mutate({
+      mutation: deletePostById,
       variables: {
-        query
+        id
       }
     });
   }

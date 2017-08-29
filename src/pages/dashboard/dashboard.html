@@ -39,6 +39,7 @@
           *ngFor="let post of posts; let i = index"
           (changeActive)="activePost = i"
           (editPost)="launchPostEditor(post)"
+          (deletePost)="deleteConfirm(post)"
         ></DashboardCard>
       </div>
     </div>

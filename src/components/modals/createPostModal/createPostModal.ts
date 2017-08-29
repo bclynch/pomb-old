@@ -122,8 +122,7 @@ export class CreatePostModal {
         {
           text: 'Confirm',
           handler: () => {
-            console.log('Delete post');
-            this.viewCtrl.dismiss();
+            this.viewCtrl.dismiss('delete');
           }
         }
       ]

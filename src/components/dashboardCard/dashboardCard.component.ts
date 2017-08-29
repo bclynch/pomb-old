@@ -11,12 +11,11 @@ export class DashboardCard {
   @Input() isActive: boolean;
   @Output() changeActive: EventEmitter<void> = new EventEmitter<void>();
   @Output() editPost: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletePost: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
 
-  ) { 
-
-  }
+  ) { }
 
   selectActive() {
     this.changeActive.emit();
@@ -24,5 +23,9 @@ export class DashboardCard {
 
   editItem() {
     this.editPost.emit();
+  }
+
+  deleteItem() {
+    this.deletePost.emit();
   }
 }

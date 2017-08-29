@@ -90,7 +90,7 @@ comment on column pomb.post_tag.name is 'Name of the post tag';
 comment on column pomb.post_tag.tag_description is 'Description of the post tag';
 
 create table pomb.post_to_tag ( --one to many
-  post_id            integer not null references pomb.post(id),
+  post_id            integer not null references pomb.post(id) on delete cascade,
   post_tag_id        integer not null references pomb.post_tag(id)
 );
 
@@ -148,7 +148,7 @@ comment on column pomb.post_comment.created_at is 'Time comment created at';
 comment on column pomb.post_comment.updated_at is 'Time comment updated at';
 
 create table pomb.post_to_comment ( --one to many
-  post_id            integer not null references pomb.post(id),
+  post_id            integer not null references pomb.post(id) on delete cascade,
   comment_id         integer not null references pomb.post_comment(id)
 );
 
@@ -169,37 +169,39 @@ comment on column pomb.post_to_comment.comment_id is 'Id of the comment';
 
 create table pomb.post_lead_photo (
   id                  serial primary key,
-  post_id             integer not null references pomb.post(id),
+  post_id             integer not null references pomb.post(id) on delete cascade,
+  title               text not null check (char_length(title) < 80),
   description         text,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
 
-insert into pomb.post_lead_photo (post_id, description) values
-  (1, 'Colombia commentary'),
-  (2, 'Biking Bizness'),
-  (3, 'Hiking is neat'),
-  (4, 'Camping is fun'),
-  (5, 'Food is dope'),
-  (6, 'Travel is lame'),
-  (7, 'Culture is exotic'),
-  (8, 'Culture is exotic'),
-  (9, 'Culture is exotic'),
-  (10, 'Culture is exotic'),
-  (11, 'Culture is exotic'),
-  (12, 'Culture is exotic'),
-  (13, 'Gear snob');
+insert into pomb.post_lead_photo (post_id, title, description) values
+  (1, 'Dat photo title', 'Colombia commentary'),
+  (2, 'Dat photo title', 'Biking Bizness'),
+  (3, 'Dat photo title', 'Hiking is neat'),
+  (4, 'Dat photo title', 'Camping is fun'),
+  (5, 'Dat photo title', 'Food is dope'),
+  (6, 'Dat photo title', 'Travel is lame'),
+  (7, 'Dat photo title', 'Culture is exotic'),
+  (8, 'Dat photo title', 'Culture is exotic'),
+  (9, 'Dat photo title', 'Culture is exotic'),
+  (10, 'Dat photo title', 'Culture is exotic'),
+  (11, 'Dat photo title', 'Culture is exotic'),
+  (12, 'Dat photo title', 'Culture is exotic'),
+  (13, 'Dat photo title', 'Gear snob');
 
 comment on table pomb.post_lead_photo is 'Table with comments from users';
 comment on column pomb.post_lead_photo.id is 'Primary id for the photo';
 comment on column pomb.post_lead_photo.post_id is 'Primary id of post';
+comment on column pomb.post_lead_photo.title is 'Title of photo';
 comment on column pomb.post_lead_photo.description is 'Description of photo';
 comment on column pomb.post_lead_photo.created_at is 'Time comment created at';
 comment on column pomb.post_lead_photo.updated_at is 'Time comment updated at';
 
 create table pomb.lead_photo_link (
   id                  serial primary key,
-  lead_photo_id       integer not null references pomb.post_lead_photo(id),
+  lead_photo_id       integer not null references pomb.post_lead_photo(id) on delete cascade,
   url                 text not null,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
@@ -407,6 +409,7 @@ grant usage on schema pomb to pomb_anonymous, pomb_account;
 grant usage on all sequences in schema pomb to pomb_account;
 
 grant select on table pomb.post to PUBLIC;
+grant delete on table pomb.post to pomb_account; -- ultimately needs to be policy in which only delete own posts!
 grant select on table pomb.post_tag to PUBLIC;
 grant select on table pomb.post_to_tag to PUBLIC;
 grant select on table pomb.post_comment to PUBLIC;
