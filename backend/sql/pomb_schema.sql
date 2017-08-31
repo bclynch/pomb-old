@@ -75,14 +75,14 @@ create table pomb.post_tag (
 );
 
 insert into pomb.post_tag (name, tag_description) values
-  ('Colombia', 'What was once a haven for drugs and violence, Colombia has become a premiere destination for those who seek adventure, beauty, and intrepid charm.'),
-  ('Biking', 'Featuring the latest in biking stories, information, and experiences POMBike has all the content you need to keep the rubber side down.'),
-  ('Trekking', 'Featuring inspiring stories, helpful tutorials, and a glimpse into nature the trekking hub has something for everyone.'),
-  ('Camping', 'Have no fear, the camping hub is here. Learn tips for around the site, checkout cool spots, and find how to make the most of your time in the outdoors.'),
-  ('Food', 'There are few things better than exploring the food on offer throughout the world and in your backyard. The food hub has you covered to find your next craving.'),
-  ('Travel', 'Whats life without a little globe trotting. The travel hub has articles to keep you informed and lusting about your next big trip.'),
-  ('Culture', 'The culture hub is a place to become informed and grow fascinated at what the world has to offer from language, to the arts, to what it means to be human.'),
-  ('Gear', 'Do not be caught anywhere without the proper equipment. Gear heads will appreciate this hub to find information and reviews on the latest in products for trekking, biking, and travel.');
+  ('colombia', 'What was once a haven for drugs and violence, Colombia has become a premiere destination for those who seek adventure, beauty, and intrepid charm.'),
+  ('buses', 'No easier way to see a place than with your fellow man then round and round'),
+  ('diving', 'Underneath the surf is a whole world to explore, find it.'),
+  ('camping', 'Have no fear, the camping hub is here. Learn tips for around the site, checkout cool spots, and find how to make the most of your time in the outdoors.'),
+  ('food', 'There are few things better than exploring the food on offer throughout the world and in your backyard. The food hub has you covered to find your next craving.'),
+  ('sports', 'Theres more than just NFL football out there, lets see what is in store.'),
+  ('drinks', 'From fire water, to fine wine, to whiskey from the barrel. Spirits a-plenty to sate any thirst.'),
+  ('nightlife', 'Thumping beats, starry sights, and friendly people make a night on the town an integral part of any journey.');
 
 comment on table pomb.post_tag is 'Table with the type of post tags available';
 comment on column pomb.post_tag.id is 'Primary id for the tag';
@@ -121,6 +121,48 @@ insert into pomb.post_to_tag (post_id, post_tag_id) values
 comment on table pomb.post_to_tag is 'Join table for tags on a post';
 comment on column pomb.post_to_tag.post_id is 'Id of the post';
 comment on column pomb.post_to_tag.post_tag_id is 'Id of the post tag';
+
+create table pomb.post_category (
+  id                    serial primary key,
+  name                  text not null,
+  category_description  text not null
+);
+
+insert into pomb.post_category (name, category_description) values
+  ('Trekking', 'Featuring inspiring stories, helpful tutorials, and a glimpse into nature the trekking hub has something for everyone.'),
+  ('Biking', 'Featuring the latest in biking stories, information, and experiences POMBike has all the content you need to keep the rubber side down.'),
+  ('Travel', 'Whats life without a little globe trotting. The travel hub has articles to keep you informed and lusting about your next big trip.'),
+  ('Culture', 'The culture hub is a place to become informed and grow fascinated at what the world has to offer from language, to the arts, to what it means to be human.'),
+  ('Gear', 'Do not be caught anywhere without the proper equipment. Gear heads will appreciate this hub to find information and reviews on the latest in products for trekking, biking, and travel.');
+
+comment on table pomb.post_category is 'Table with the type of post tags available';
+comment on column pomb.post_category.id is 'Primary id for the category';
+comment on column pomb.post_category.name is 'Name of the post category';
+comment on column pomb.post_category.category_description is 'Description of the post category';
+
+create table pomb.post_to_category ( --one to many
+  post_id            integer not null references pomb.post(id) on delete cascade,
+  post_category_id   integer not null references pomb.post_category(id)
+);
+
+insert into pomb.post_to_category (post_id, post_category_id) values
+  (1, 1),
+  (2, 2),
+  (3, 4),
+  (4, 3),
+  (5, 2),
+  (6, 4),
+  (7, 2),
+  (8, 1),
+  (9, 1),
+  (10, 5),
+  (11, 5),
+  (12, 3),
+  (13, 5);
+
+comment on table pomb.post_to_category is 'Join table for categories on a post';
+comment on column pomb.post_to_category.post_id is 'Id of the post';
+comment on column pomb.post_to_category.post_category_id is 'Id of the post category';
 
 create table pomb.post_comment (
   id                  serial primary key,
@@ -242,6 +284,15 @@ $$ language sql stable;
 
 COMMENT ON FUNCTION pomb.posts_by_tag(INTEGER) is 'Returns posts that include a given tag';
 
+CREATE FUNCTION pomb.posts_by_category(category_id INTEGER) returns setof pomb.post AS $$
+  SELECT pomb.post.* 
+  FROM pomb.post 
+  INNER JOIN pomb.post_to_category ON pomb.post.id = pomb.post_to_category.post_id 
+  WHERE pomb.post_to_category.post_category_id = category_id;
+$$ language sql stable;
+
+COMMENT ON FUNCTION pomb.posts_by_category(INTEGER) is 'Returns posts that include a given category';
+
 -- *******************************************************************
 -- ************************* Triggers ********************************
 -- *******************************************************************
@@ -282,11 +333,14 @@ SELECT pomb.post.*,
   setweight(to_tsvector('english', pomb.post.title), 'A') || 
   setweight(to_tsvector('english', pomb.post.subtitle), 'B') ||
   setweight(to_tsvector('english', pomb.post.content), 'C') ||
-  setweight(to_tsvector('english', pomb.post_tag.name), 'D') as document
+  setweight(to_tsvector('english', pomb.post_tag.name), 'D') ||
+  setweight(to_tsvector('english', pomb.post_category.name), 'D') as document
 FROM pomb.post
 JOIN pomb.post_to_tag ON pomb.post_to_tag.post_id = pomb.post.id
 JOIN pomb.post_tag ON pomb.post_tag.id = pomb.post_to_tag.post_tag_id
-GROUP BY pomb.post.id, pomb.post_tag.id; 
+JOIN pomb.post_to_category ON pomb.post_to_category.post_id = pomb.post.id
+JOIN pomb.post_category ON pomb.post_category.id = pomb.post_to_category.post_category_id
+GROUP BY pomb.post.id, pomb.post_tag.id, pomb.post_category.id; 
 
 CREATE INDEX idx_post_search ON pomb.search_index USING gin(document);
 
@@ -412,6 +466,8 @@ grant select on table pomb.post to PUBLIC;
 grant delete on table pomb.post to pomb_account; -- ultimately needs to be policy in which only delete own posts!
 grant select on table pomb.post_tag to PUBLIC;
 grant select on table pomb.post_to_tag to PUBLIC;
+grant select on table pomb.post_category to PUBLIC;
+grant select on table pomb.post_to_category to PUBLIC;
 grant select on table pomb.post_comment to PUBLIC;
 grant select on table pomb.post_to_comment to PUBLIC;
 grant select on table pomb.account to PUBLIC;
@@ -424,6 +480,7 @@ grant execute on function pomb.register_account(text, text, text, text, text) to
 grant execute on function pomb.authenticate_account(text, text) to pomb_anonymous;
 grant execute on function pomb.current_account() to pomb_account;
 grant execute on function pomb.posts_by_tag(integer) to PUBLIC;
+grant execute on function pomb.posts_by_category(integer) to PUBLIC;
 grant execute on function pomb.search_posts(text) to PUBLIC; 
 
 -- ///////////////// RLS Policies ////////////////////////////////

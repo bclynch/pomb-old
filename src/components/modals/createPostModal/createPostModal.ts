@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Http, Response } from '@angular/http';
 import { ViewController, NavParams, AlertController, PopoverController } from 'ionic-angular';
 
 import { APIService } from '../../../services/api.service';
-import { Http, Response } from '@angular/http';
+import { SettingsService } from '../../../services/settings.service';
 
 import { Post } from '../../../models/Post.model';
 
@@ -46,6 +47,9 @@ export class CreatePostModal {
     {name: 'Draft', description: 'Save this post for later editing', secondaryDescription: 'This post will not be visible'}
   ]
 
+  categoryOptions: string[] = Object.keys(this.settingsService.appCategories);
+  selectedCategoryOption: number = null;
+
   constructor(
     public viewCtrl: ViewController,
     private apiService: APIService,
@@ -53,6 +57,7 @@ export class CreatePostModal {
     private params: NavParams,
     private popoverCtrl: PopoverController,
     private http: Http,
+    private settingsService: SettingsService
   ) {
     this.data = params.get('post');
     if(this.data) {
@@ -173,5 +178,4 @@ export class CreatePostModal {
 
     this.upload();
   }
-
 }

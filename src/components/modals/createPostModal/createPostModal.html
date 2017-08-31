@@ -45,9 +45,25 @@
               *ngIf="thumbnailImage"
             ></div>
           </label>
+          <input 
+            type="text"
+            placeholder="Image title"
+            [(ngModel)]="postModel.leadPhotoTitle"
+          />
         </div>
         <div class="right">
-          <div class="segmentLabel">Tags</div>
+          <div class="tagsContainer">
+            <div class="segmentLabel">Tags</div>
+            
+          </div>
+          <div class="categoryContainer">
+            <div class="segmentLabel">Category</div>
+            <div class="categoriesOptionsWrapper">
+              <div class="optionWrapper" *ngFor="let category of categoryOptions; let i = index;">
+                <div (click)="selectedCategoryOption = i" [style.color]="i === selectedCategoryOption ? 'black' : null" [style.border]="i === selectedCategoryOption ? 'black solid 2px' : null">{{category}}</div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
     <div class="subtitleContainer">

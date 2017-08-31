@@ -24,13 +24,11 @@ export class RouterService {
     private route: ActivatedRoute,
   ) {
     this.route.queryParams.subscribe((params) => {
-        console.log('params: ', params);
         this.params = params;
     });
     this.router.events
       .filter((event) => event instanceof NavigationEnd)
       .subscribe((event) => {
-        console.log('NavigationEnd:', event);
         const eventData = <any>event;
         this.baseURL = eventData.url.split('?')[0];
         this.activeRoute = this.baseURL.split('/')[1];

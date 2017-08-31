@@ -11,6 +11,7 @@ import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
+import { ArchivePage } from '../pages/archive/archive';
 
 const appRoutes: Routes = [
   { 
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
   { path: 'trekking', component: HubPage},
   { path: 'biking', component: HubPage},
   { path: 'culture', component: HubPage},
-  { path: 'food', component: HubPage},
+  { path: 'travel', component: HubPage},
   { path: 'gear', component: HubPage},
   { 
     path: 'post-dashboard',
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
       }
     ]
   },
+  { path: 'archive', component: ArchivePage },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },

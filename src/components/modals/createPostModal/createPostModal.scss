@@ -89,6 +89,33 @@ createpostmodal {
         .right {
           flex: 1;
           margin-left: 15px;
+
+          .categoryContainer {
+
+            .categoriesOptionsWrapper {
+              display: flex;
+              flex-wrap: wrap;
+
+              > div {
+                width: 33%;
+
+                > div {
+                  background: mapGet($basecolor, dark);
+                  width: 80%;
+                  padding: 5px 0;
+                  margin-bottom: 5px;
+                  cursor: pointer;
+                  border-radius: 30px;
+                  text-align: center;
+                  color: mapGet($basecolor, white);
+                  font-weight: bold;
+                }
+                > div:hover {
+                  opacity: .7;
+                }
+              }
+            }
+          }
         }
       }
       .subtitleContainer {

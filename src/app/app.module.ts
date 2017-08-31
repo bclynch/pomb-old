@@ -46,6 +46,7 @@ import { FavoritesPage } from '../pages/favorites/favorites';
 import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
+import { ArchivePage } from '../pages/archive/archive';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -55,6 +56,7 @@ import { CacheService } from '../services/cache.service';
 import { SettingsService } from '../services/settings.service';
 import { RouterService } from '../services/router.service';
 import { AlertService } from '../services/alert.service';
+import { BroadcastService } from '../services/broadcast.service';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { AlertService } from '../services/alert.service';
     SettingsPage,
     DashboardPage,
     SearchResultsPage,
+    ArchivePage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -108,6 +111,7 @@ import { AlertService } from '../services/alert.service';
     SettingsPage,
     DashboardPage,
     SearchResultsPage,
+    ArchivePage,
     PageNotFoundComponent,
     ProfilePopover,
     RegistrationModal,
@@ -121,6 +125,7 @@ import { AlertService } from '../services/alert.service';
     SettingsService,
     RouterService,
     AlertService,
+    BroadcastService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

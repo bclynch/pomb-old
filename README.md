@@ -2,17 +2,12 @@
 
 ## Todos
 
-- Define required image sizes + integrate modded buffers with s3
-    - Uploads to S3 working with multiple files - check
-    - Set up service for methods on front end that cover 'primary' images (with a bunch of sizes) and just normal post images with just one. Would like to have grids for some posts too, so maybe they would have a couple sizes.
-    - Finish UI on front end to show image(s) after its uploaded - check
-    - Will need another join table with links per image - check
+- Set up service for methods on front end that cover 'primary' images (with a bunch of sizes) and just normal post images with just one. Would like to have grids for some posts too, so maybe they would have a couple sizes. - primary done, need other
 - Using squarespace as a template for building a nice post creation dashboard.
     - Modal for post creation/editing - In progress
-    - Dash preview to see posts as they'd look - check
-    - Left menu has drafts, scheduled, and published posts. - check
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
+    - Tags component to search auto-populate existing tags
     - Validation for the user only seeing their posts
     - Wire up model and get save/submit/delete working
 - Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish

@@ -108,15 +108,24 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
 `;
 
 const getAllPostTags = gql`
-query allPostTags {
-  allPostTags {
+  query allPostTags {
+    allPostTags {
+      nodes {
+        id,
+        name,
+        tagDescription
+      }
+    }
+  }
+`;
+
+const getAllPostCategories = gql`
+query allPostCategories {
+  allPostCategories {
     nodes {
       id,
-      title,
-      subtitle,
-      leadphoto,
-      createdAt,
-      updatedAt,
+      name,
+      categoryDescription
     }
   }
 }
@@ -174,6 +183,24 @@ const getPostsByTag = gql`
       }
     }
   }
+`;
+
+const getPostsByCategory = gql`
+query postsByCategory($categoryId: Int!) {
+  postsByCategory(categoryId: $categoryId) {
+    nodes {
+      id,
+      title,
+      accountByAuthor {
+        firstName,
+        lastName
+      }
+      subtitle,
+      leadphoto,
+      createdAt
+    }
+  }
+}
 `;
 
 const getTagByName = gql`
@@ -315,9 +342,24 @@ export class APIService {
     });
   }
 
+  getPostsByCategory(categoryId: number) {
+    return this.apollo.watchQuery<any>({
+      query: getPostsByCategory,
+      variables: {
+        categoryId
+      }
+    });
+  }
+
   getAllPostTags() {
     return this.apollo.watchQuery<any>({
       query: getAllPostTags
+    });
+  }
+
+  getAllPostCategories() {
+    return this.apollo.watchQuery<any>({
+      query: getAllPostCategories
     });
   }
   

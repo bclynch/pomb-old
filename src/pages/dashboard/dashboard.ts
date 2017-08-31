@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
 
 import { CreatePostModal } from '../../components/modals/createPostModal/createPostModal';
 
 import { APIService } from '../../services/api.service';
 import { RouterService } from '../../services/router.service';
+import { SettingsService } from '../../services/settings.service';
+import { BroadcastService } from '../../services/broadcast.service';
 
 import { Post } from '../../models/Post.model';
 
@@ -12,7 +14,7 @@ import { Post } from '../../models/Post.model';
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html'
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage {
 
   tabOptions: string[] = ['all', 'drafts', 'scheduled', 'published'];
   activeTab: number = 0;
@@ -27,10 +29,14 @@ export class DashboardPage implements OnInit {
     private routerService: RouterService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
-  ) {  }
+    private alertCtrl: AlertController,
+    private settingsService: SettingsService,
+    private broadcastService: BroadcastService
+  ) {  
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
 
-  ngOnInit() {
+  init() {
     //splitting this out to be able to refetch later
     this.postsData = this.apiService.getAllPosts();
     this.postsData.subscribe(

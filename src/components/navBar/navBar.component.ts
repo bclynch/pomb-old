@@ -7,6 +7,7 @@ import { RegistrationModal } from '../modals/registrationModal/registrationModal
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 import { UserService } from '../../services/user.service';
+import { BroadcastService } from '../../services/broadcast.service';
 
 interface Social {
   icon: string;
@@ -32,20 +33,24 @@ export class NavBar {
     { icon: 'logo-github', url: 'https://github.com/bclynch' },
   ];
 
-  sectionOptions: Section[] = [
-    {label: 'Trekking', value: 'trekking'}, 
-    {label: 'Biking', value: 'biking'}, 
-    {label: 'Culture', value: 'culture'}, 
-    {label: 'Food', value: 'food'},
-    {label: 'Gear', value: 'gear'},];
+  sectionOptions: Section[] = [];
 
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
     private popoverCtrl: PopoverController,
     private userService: UserService,
-    private modalCtrl: ModalController
-  ) { }
+    private modalCtrl: ModalController,
+    private broadcastService: BroadcastService
+  ) {
+    this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories()); 
+  }
+
+  snagCategories() {
+    Object.keys(this.settingsService.appCategories).forEach((category) => {
+      this.sectionOptions.push({ label: category, value: category.toLowerCase() });
+    });
+  }
 
   navigate(path: string) {
     this.routerService.navigateToPage(`/${path}`);

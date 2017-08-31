@@ -1,8 +1,8 @@
 <PageWrapper backgroundColor="black">
   <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
-  <div class="hubHeader">
-    <div>{{currentHub}}</div>
-    <div class="hubDescription">{{hubDescription}}</div>
+  <div class="archiveHeader">
+    <div>{{currentArchive.toUpperCase()}}</div>
+    <div class="archiveDescription">{{archiveDescription}}</div>
   </div>
   <PostList [data]="otherPosts"></PostList>
 </PageWrapper>
