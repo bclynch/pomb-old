@@ -1,0 +1,20 @@
+<div class="tagSearchContainer">
+  <form 
+    class="searchWrapper" 
+    (submit)="submitQuery($event)"
+    [formControl]="search"
+    ngDefaultControl
+  >
+    <ion-icon 
+      class="searchIcon" 
+      name="search"
+    ></ion-icon>
+    <input
+      type="text"
+      placeholder="Search"
+      [(ngModel)]="value"
+      name="searchInput"
+      #searchInput
+    />
+  </form>
+</div>

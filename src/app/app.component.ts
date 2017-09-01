@@ -23,26 +23,31 @@ export class MyApp {
     //grab site config
     this.settingsService.grabAppSettings().then(() => {
 
-      //app ready to init
-      let broadcastEvent: BroadcastEvent = { name: 'appIsReady', message: 'init' };
-      this.broadcastService.broadcast(broadcastEvent);
-
       this.apiService.getCurrentAccount().subscribe(({ data }) => { 
         //checking in to snag user data
         console.log('got user data', data); 
         if(data.currentAccount) {
           this.userService.signedIn = true;
           this.userService.user = data.currentAccount;
+          this.emitReady();
         } else {
           // if it doesnt exist dump the token
           this.localStorageService.set('pomb-user', '');
+          this.emitReady();
         }
       },(error) => {
         console.log('there was an error sending the query', error);
         this.localStorageService.set('pomb-user', '');
         alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
+        this.emitReady();
       });
     })
+  }
+
+  emitReady() {
+    //app ready to init
+    let broadcastEvent: BroadcastEvent = { name: 'appIsReady', message: 'init' };
+    this.broadcastService.broadcast(broadcastEvent);
   }
 }
 

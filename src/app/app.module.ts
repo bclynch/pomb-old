@@ -28,6 +28,7 @@ import { Footer } from '../components/footer/footer.component';
 import { DashboardCard } from '../components/dashboardCard/dashboardCard.component';
 import { PostWrapper } from '../components/postWrapper/postWrapper.component';
 import { Search } from '../components/search/search';
+import { TagSearch } from '../components/tagSearch/tagSearch.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -86,7 +87,8 @@ import { BroadcastService } from '../services/broadcast.service';
     PostWrapper,
     CreatePostModal,
     PostTypePopover,
-    Search
+    Search,
+    TagSearch
   ],
   imports: [
     BrowserModule,

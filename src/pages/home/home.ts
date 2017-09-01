@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { APIService } from '../../services/api.service';
+import { SettingsService } from '../../services/settings.service';
+import { BroadcastService } from '../../services/broadcast.service';
 
 import { Post } from '../../models/Post.model';
 
@@ -8,7 +10,7 @@ import { Post } from '../../models/Post.model';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
   posts: Post[] = [];
   gridPosts: Post[] = [];
@@ -17,10 +19,14 @@ export class HomePage implements OnInit {
   gridConfiguration: number[] = [ 6.5, 3.5, 3.5, 6.5, 3, 3, 3 ];
 
   constructor(
-    private apiService: APIService
-  ) {  }
+    private apiService: APIService,
+    private settingsService: SettingsService,
+    private broadcastService: BroadcastService
+  ) {  
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
 
-  ngOnInit() {
+  init() {
     this.apiService.getAllPosts().subscribe(({ data }) => {
       console.log('got data: ', data.allPosts.nodes);
       this.posts = data.allPosts.nodes;

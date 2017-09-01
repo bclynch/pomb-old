@@ -293,6 +293,14 @@ $$ language sql stable;
 
 COMMENT ON FUNCTION pomb.posts_by_category(INTEGER) is 'Returns posts that include a given category';
 
+create function pomb.search_tags(query text) returns setof pomb.post_tag as $$
+  select post_tag.*
+  from pomb.post_tag as post_tag
+  where post_tag.name ilike ('%' || query || '%')
+$$ language sql stable;
+
+comment on function pomb.search_tags(text) is 'Returns tags containing a given query term.';
+
 -- *******************************************************************
 -- ************************* Triggers ********************************
 -- *******************************************************************
@@ -481,6 +489,7 @@ grant execute on function pomb.authenticate_account(text, text) to pomb_anonymou
 grant execute on function pomb.current_account() to pomb_account;
 grant execute on function pomb.posts_by_tag(integer) to PUBLIC;
 grant execute on function pomb.posts_by_category(integer) to PUBLIC;
+grant execute on function pomb.search_tags(text) to PUBLIC;
 grant execute on function pomb.search_posts(text) to PUBLIC; 
 
 -- ///////////////// RLS Policies ////////////////////////////////

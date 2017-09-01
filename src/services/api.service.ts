@@ -231,6 +231,17 @@ const searchPostsQuery = gql`
   }
 `;
 
+const searchTags = gql`
+query searchTags($query: String!) {
+  searchTags(query: $query) {
+    nodes {
+      id,
+      name
+    }
+  }
+}
+`;
+
 //////////////////////////
 /////////// mutations
 ////////////////////////
@@ -375,6 +386,15 @@ export class APIService {
   searchPosts(query: string) {
     return this.apollo.watchQuery<any>({
       query: searchPostsQuery,
+      variables: {
+        query
+      }
+    });
+  }
+
+  searchTags(query: string) {
+    return this.apollo.watchQuery<any>({
+      query: searchTags,
       variables: {
         query
       }
