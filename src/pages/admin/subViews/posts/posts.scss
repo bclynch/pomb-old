@@ -1,0 +1,14 @@
+page-admin-posts {
+  height: 100%;
+  width: 100%;
+
+  .viewHeader {
+    background: mapGet($basecolor, black);
+    height: 80px;
+    color: mapGet($basecolor, white);
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    font-size: 24px;
+  }
+}

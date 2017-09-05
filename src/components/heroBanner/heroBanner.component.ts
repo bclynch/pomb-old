@@ -1,14 +1,17 @@
 import { Component, Input } from '@angular/core';
 
+import { SettingsService } from '../../services/settings.service';
+
 @Component({
   selector: 'HeroBanner',
   templateUrl: 'heroBanner.component.html'
 })
 export class HeroBanner {
 
-  tagline: string = 'Do The Dew';
   today: number = Date.now();
 
-  constructor() { }
+  constructor(
+    private settingsService: SettingsService
+  ) { }
 
 }

@@ -120,12 +120,25 @@ const getAllPostTags = gql`
 `;
 
 const getAllPostCategories = gql`
-query allPostCategories {
-  allPostCategories {
+  query allPostCategories {
+    allPostCategories {
+      nodes {
+        id,
+        name,
+        categoryDescription
+      }
+    }
+  }
+`;
+
+const getConfig = gql`
+query allConfigs {
+  allConfigs {
     nodes {
-      id,
-      name,
-      categoryDescription
+      primaryColor,
+      secondaryColor,
+      tagline,
+      heroBanner
     }
   }
 }
@@ -232,14 +245,14 @@ const searchPostsQuery = gql`
 `;
 
 const searchTags = gql`
-query searchTags($query: String!) {
-  searchTags(query: $query) {
-    nodes {
-      id,
-      name
+  query searchTags($query: String!) {
+    searchTags(query: $query) {
+      nodes {
+        id,
+        name
+      }
     }
   }
-}
 `;
 
 //////////////////////////
@@ -371,6 +384,12 @@ export class APIService {
   getAllPostCategories() {
     return this.apollo.watchQuery<any>({
       query: getAllPostCategories
+    });
+  }
+
+  getConfig() {
+    return this.apollo.watchQuery<any>({
+      query: getConfig
     });
   }
   

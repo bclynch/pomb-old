@@ -244,9 +244,7 @@ comment on column pomb.post_lead_photo.updated_at is 'Time comment updated at';
 create table pomb.lead_photo_link (
   id                  serial primary key,
   lead_photo_id       integer not null references pomb.post_lead_photo(id) on delete cascade,
-  url                 text not null,
-  created_at          bigint default (extract(epoch from now()) * 1000),
-  updated_at          timestamp default now()
+  url                 text not null
 );
 
 insert into pomb.lead_photo_link (lead_photo_id, url) values
@@ -269,8 +267,24 @@ comment on table pomb.lead_photo_link is 'Table with lead photo links';
 comment on column pomb.lead_photo_link.id is 'Id of link';
 comment on column pomb.lead_photo_link.lead_photo_id is 'Id of the referenced photo';
 comment on column pomb.lead_photo_link.url is 'Url of link';
-comment on column pomb.lead_photo_link.created_at is 'Time comment created at';
-comment on column pomb.lead_photo_link.updated_at is 'Time comment updated at';
+
+create table pomb.config (
+  primary_color       text not null check (char_length(primary_color) < 20),
+  secondary_color     text not null check (char_length(secondary_color) < 20),
+  tagline             text not null check (char_length(tagline) < 80),
+  hero_banner         text not null,
+  updated_at          timestamp default now()
+);
+
+insert into pomb.config (primary_color, secondary_color, tagline, hero_banner) values
+  ('#e1ff00', '#04c960', 'Be your best', 'http://www.pinnaclepellet.com/images/1200x300-deep-forest.jpg');
+
+comment on table pomb.config is 'Table with POMB config';
+comment on column pomb.config.primary_color is 'Primary color for site';
+comment on column pomb.config.secondary_color is 'Secondary color for site';
+comment on column pomb.config.tagline is 'Tagline of site';
+comment on column pomb.config.hero_banner is 'Hero banner url';
+comment on column pomb.config.updated_at is 'Last updated';
 
 -- *******************************************************************
 -- *********************** Function Queries **************************
@@ -323,6 +337,16 @@ create trigger account_updated_at before update
 
 create trigger comment_updated_at before update
   on pomb.post_comment
+  for each row
+  execute procedure pomb_private.set_updated_at();
+
+create trigger lead_photo_updated_at before update
+  on pomb.post_lead_photo
+  for each row
+  execute procedure pomb_private.set_updated_at();
+
+create trigger config_updated_at before update
+  on pomb.config
   for each row
   execute procedure pomb_private.set_updated_at();
 
@@ -481,6 +505,7 @@ grant select on table pomb.post_to_comment to PUBLIC;
 grant select on table pomb.account to PUBLIC;
 grant select on table pomb.post_lead_photo to PUBLIC;
 grant select on table pomb.lead_photo_link to PUBLIC;
+grant ALL on table pomb.config to PUBLIC; -- ultimately needs to only be admin account that can mod
 grant ALL on table pomb.account to pomb_account;
 grant select on pomb.search_index to PUBLIC;
 

@@ -1,6 +1,6 @@
-<div class="heroBannerContainer">
+<div class="heroBannerContainer" [ngStyle]="{ 'background-image': 'url(' + settingsService.heroBanner + ')'}">
   <div class="siteTitle">Pack On My Back</div> 
   <div class="subHeader boldFont">
-    <div>{{today | date:'fullDate'}} | {{tagline}}</div>
+    <div>{{today | date:'fullDate'}} | {{settingsService.tagline}}</div>
   </div>
 </div>

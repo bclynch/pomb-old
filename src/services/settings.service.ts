@@ -6,8 +6,10 @@ import { APIService } from './api.service';
 export class SettingsService {
 
   appInited: boolean = false;
-  primaryColor: string = '#e1ff00';
-  secondaryColor: string = '#04c960';
+  primaryColor: string;
+  secondaryColor: string;
+  tagline: string;
+  heroBanner: string;
 
   appCategories: any = {};
 
@@ -16,9 +18,9 @@ export class SettingsService {
   ) {   }
 
   grabAppSettings() {
-    //will be grabbing banner img, colors, categories here. Would be nice to make it one call to grab all this, I think Apollo/postgraph can do it (I had asked in gitter maybe?)
-    // in the mean time just categories
-    return new Promise<string>((resolve, reject) => {
+    let promises = [];
+
+    let promise1 = new Promise<string>((resolve, reject) => {
       this.apiService.getAllPostCategories().subscribe(
         data => {
           let categoriesData = <any>data;
@@ -26,11 +28,28 @@ export class SettingsService {
           categoriesData.data.allPostCategories.nodes.forEach((category) => {
             this.appCategories[category.name] = { description: category.categoryDescription, id: category.id };
           });
-          this.appInited = true;
           resolve();
         },
         err => reject(err)
       )
     });
+    promises.push(promise1);
+
+    let promise2 = new Promise<string>((resolve, reject) => {
+      this.apiService.getConfig().subscribe(
+        data => {
+          const appSettings = data.data.allConfigs.nodes[0];
+          this.primaryColor = appSettings.primaryColor;
+          this.secondaryColor = appSettings.secondaryColor;
+          this.tagline = appSettings.tagline;
+          this.heroBanner = appSettings.heroBanner;
+          resolve();
+        },
+        err => reject(err)
+      )
+    });
+    promises.push(promise2);
+
+    return Promise.all(promises);
   }
 }

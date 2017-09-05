@@ -1,0 +1,45 @@
+<div *ngIf="dataReady">
+  <ion-menu type="overlay" [content]="mycontent">
+    <ion-content>
+      <ion-icon 
+        name="close" 
+        class="closeMenuBtn" 
+        menuToggle
+      ></ion-icon>
+      <div class="listContainer">
+        <div 
+          *ngFor="let option of navListOptions" 
+          class="boldFont"
+          (click)="navigate(option.path)"  
+        >
+          <ion-icon [name]="option.icon"></ion-icon>
+          <div>{{option.label}}</div>
+        </div>
+      </div>
+      <div class="questionsContainer">
+        <div>Questions or Feedback?</div>
+        <div>
+          <ion-icon name="mail"></ion-icon>
+          <div>Email Support</div>
+        </div>
+        <div>
+          <ion-icon name="call"></ion-icon>
+          <div>1-800-123-4567</div>
+        </div>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <div #mycontent class="dashboardContent">
+    <ion-icon 
+      (click)="openMenu()"
+      class="menuToggleBtn" 
+      name="menu"
+      *ngIf="displayMenuToggle" 
+    ></ion-icon>
+    <page-admin-dashboard *ngIf="activeDashView === 'dashboard'"></page-admin-dashboard>
+    <page-admin-config *ngIf="activeDashView === 'config'"></page-admin-config>
+    <page-admin-users *ngIf="activeDashView === 'users'"></page-admin-users>
+    <page-admin-posts *ngIf="activeDashView === 'posts'"></page-admin-posts>
+  </div>
+</div>

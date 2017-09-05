@@ -22,6 +22,7 @@ export class MyApp {
   ) {
     //grab site config
     this.settingsService.grabAppSettings().then(() => {
+      this.settingsService.appInited = true;
 
       this.apiService.getCurrentAccount().subscribe(({ data }) => { 
         //checking in to snag user data

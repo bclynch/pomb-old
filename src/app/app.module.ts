@@ -48,6 +48,11 @@ import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
 import { ArchivePage } from '../pages/archive/archive';
+import { AdminPage } from '../pages/admin/admin';
+import { AdminDashboardPage } from '../pages/admin/subViews/dashboard/dashboard';
+import { AdminConfigPage } from '../pages/admin/subViews/config/config';
+import { AdminUsersPage } from '../pages/admin/subViews/users/users';
+import { AdminPostsPage } from '../pages/admin/subViews/posts/posts';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -71,6 +76,7 @@ import { BroadcastService } from '../services/broadcast.service';
     DashboardPage,
     SearchResultsPage,
     ArchivePage,
+    AdminPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -88,7 +94,11 @@ import { BroadcastService } from '../services/broadcast.service';
     CreatePostModal,
     PostTypePopover,
     Search,
-    TagSearch
+    TagSearch,
+    AdminDashboardPage,
+    AdminConfigPage,
+    AdminUsersPage,
+    AdminPostsPage
   ],
   imports: [
     BrowserModule,
@@ -114,6 +124,7 @@ import { BroadcastService } from '../services/broadcast.service';
     DashboardPage,
     SearchResultsPage,
     ArchivePage,
+    AdminPage,
     PageNotFoundComponent,
     ProfilePopover,
     RegistrationModal,

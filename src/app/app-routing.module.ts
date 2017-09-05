@@ -12,6 +12,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
 import { ArchivePage } from '../pages/archive/archive';
+import { AdminPage } from '../pages/admin/admin';
 
 const appRoutes: Routes = [
   { 
@@ -43,6 +44,35 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'archive', component: ArchivePage },
+  { path: 'admin',
+    children: [
+      {
+        path: '',
+        component: AdminPage
+      },
+      {
+        path: ':id',
+        children: [
+          {
+              path: 'dashboard',
+              component: AdminPage
+          },
+          {
+              path: 'config',
+              component: AdminPage
+          },
+          {
+              path: 'users',
+              component: AdminPage
+          },
+          {
+              path: 'posts',
+              component: AdminPage
+          }
+        ]
+      }
+    ]
+  },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },

@@ -15,6 +15,7 @@ interface urlData {
 export class RouterService {
 
   params;
+  fragment;
   baseURL: string = this.router.url.split('?')[0];
   activeRoute: string; //used by nav component
 
@@ -26,6 +27,9 @@ export class RouterService {
     this.route.queryParams.subscribe((params) => {
         this.params = params;
     });
+    this.route.fragment.subscribe((fragment) => {
+      this.fragment = fragment;
+    });
     this.router.events
       .filter((event) => event instanceof NavigationEnd)
       .subscribe((event) => {
@@ -33,6 +37,20 @@ export class RouterService {
         this.baseURL = eventData.url.split('?')[0];
         this.activeRoute = this.baseURL.split('/')[1];
       });
+  }
+
+  grabBaseRoute(url: string): string {
+    let baseUrl: string;
+    //means there is at least one param or no fragment
+    //therefore we need to split at the '?' to grab everything before the query params (which will always be before the fragments)
+    if(Object.keys(this.params)[0] || !this.fragment) {
+      baseUrl = url.split('?')[0];
+    } else {
+      //means none of either or fragment
+      //therefore we need to split at the '#' to grab all before fragment (or it'll just split nothing)
+      baseUrl = url.split('#')[0];
+    }
+    return baseUrl;
   }
 
   modifyQueryParams(fileTypes, tags) {
@@ -53,7 +71,17 @@ export class RouterService {
 
     let paramsObj = { queryParams : params };
 
-    this.router.navigate([`${this.baseURL}`], paramsObj);
+    let url = this.grabBaseRoute(this.router.url);
+    this.router.navigate([url], paramsObj);
+  }
+
+  modifyFragment(fragment: string) {
+    let navigationExtras: NavigationExtras = {
+      fragment: fragment
+    };
+
+    let url = this.grabBaseRoute(this.router.url);
+    this.router.navigate([url], navigationExtras);
   }
 
   navigateToPage(path: string, query?: string) {
