@@ -33,6 +33,7 @@ import { TagSearch } from '../components/tagSearch/tagSearch.component';
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
+import { GradientPopover } from '../components/popovers/gradient/gradientPopover.component';
 
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
@@ -98,7 +99,8 @@ import { BroadcastService } from '../services/broadcast.service';
     AdminDashboardPage,
     AdminConfigPage,
     AdminUsersPage,
-    AdminPostsPage
+    AdminPostsPage,
+    GradientPopover
   ],
   imports: [
     BrowserModule,
@@ -129,7 +131,8 @@ import { BroadcastService } from '../services/broadcast.service';
     ProfilePopover,
     RegistrationModal,
     CreatePostModal,
-    PostTypePopover
+    PostTypePopover,
+    GradientPopover
   ],
   providers: [
     APIService,

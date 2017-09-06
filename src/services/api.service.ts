@@ -248,8 +248,18 @@ const getPostsByTag = gql`
           lastName
         }
         subtitle,
-        leadphoto,
-        createdAt
+        createdAt,
+        postLeadPhotosByPostId {
+          nodes {
+            title,
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url,
+                size
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -266,8 +276,18 @@ query postsByCategory($categoryId: Int!) {
         lastName
       }
       subtitle,
-      leadphoto,
-      createdAt
+      createdAt,
+      postLeadPhotosByPostId {
+        nodes {
+          title,
+          leadPhotoLinksByLeadPhotoId {
+            nodes {
+              url,
+              size
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -293,7 +313,6 @@ const searchPostsQuery = gql`
         id,
         title,
         subtitle,
-        leadphoto,
         createdAt,
         updatedAt
       }

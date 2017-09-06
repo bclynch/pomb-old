@@ -1,0 +1,15 @@
+.gradientPopover {
+  ion-backdrop {
+    opacity: 0!important;
+  }
+  .popover-content {
+    max-height: 400px; 
+    
+    .popoverList {
+
+      > div {
+        height: 50px;
+      }
+    }
+  }
+}

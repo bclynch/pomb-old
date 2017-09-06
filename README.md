@@ -18,6 +18,7 @@
 ### Bugs
 
 - On load when the JWT has expired it will make the API calls fail. Reloading puts the role back to anonymous and works, but need to make it better experience. Maybe just reload the page if its that error?
+- Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
 
 ## Long Term Todos
 

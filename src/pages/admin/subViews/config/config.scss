@@ -11,4 +11,50 @@ page-admin-config {
     padding: 0 60px;
     font-size: 24px;
   }
+  .contentContainer {
+
+    .hexInputRow {
+      display: flex;
+      justify-content: space-between;
+      max-width: 400px;
+      margin: 0 auto;
+
+      > div {
+        margin: 10px 5px;
+
+        label {
+          display: block;
+        }
+        .hexInput {
+          border: none;
+          line-height: 28px;
+          border-bottom: solid 1px mapGet($basecolor, dark);
+        }
+      }
+    }
+    .exampleGradient {
+      width: 100%;
+      height: 200px;
+      max-width: 600px;
+      position: relative;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 36px;
+        cursor: pointer;
+        color: mapGet($basecolor, white);
+      }
+      > div {
+        color: mapGet($basecolor, white);
+        text-shadow: 1px 1px mapGet($basecolor, black);
+        font-weight: bold;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+      }
+    }
+  }
 }

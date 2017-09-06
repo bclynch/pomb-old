@@ -25,6 +25,7 @@ export class ProfilePopover {
     this.navOptions = [
       {label: 'Profile', value: 'profile', icon: 'md-person'},
       {label: 'Post Dashboard', value: 'postDashboard', icon: 'logo-buffer'},
+      {label: 'Admin', value: 'admin', icon: 'md-cube'},
       {label: 'Favorites', value: 'favorites', icon: 'md-star'},
       {label: 'Settings', value: 'settings', icon: 'md-cog'},
       {label: 'Logout', value: 'logout', icon: 'md-log-out'},

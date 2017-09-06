@@ -4,9 +4,7 @@
     [ngStyle]="{ 'background-image': 'url(' + data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url + ')'}"
     (click)="navigateToPost()"
   ></div>
-  <div 
-    class="contentContainer" 
-  >
+  <div class="contentContainer">
     <div class="contentTitle" (click)="navigateToPost()">{{data.title}}</div>
     <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span></div>
   </div>

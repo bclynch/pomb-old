@@ -2,4 +2,36 @@
   <div class="viewHeader">
     <div>Configuration</div>
   </div>
+  <div class="contentContainer">
+    <div class="hexInputRow">
+      <div>
+        <label for="primaryColor">Primary Color</label>
+        <input
+          type="text"
+          placeholder="Color"
+          [(ngModel)]="configModel.primaryColor"
+          id="primaryColor"
+          class="hexInput"
+        />
+      </div>
+      <div>
+        <label for="secondaryColor">Secondary Color</label>
+        <input
+          type="text"
+          placeholder="Color"
+          [(ngModel)]="configModel.secondaryColor"
+          id="secondaryColor"
+          class="hexInput"
+        />
+      </div>
+    </div>
+    <div class="exampleGradient" [style.background]="'linear-gradient(90deg, ' + configModel.primaryColor + ', ' + configModel.secondaryColor + ')'">
+      <ion-icon 
+        name="md-aperture" 
+        title="Samples"
+        (click)="presentGradientPopover($event)"
+      ></ion-icon>
+      <div>Gradient Preview</div>
+    </div>
+  </div>
 </div>

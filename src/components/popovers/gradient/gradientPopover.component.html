@@ -1,0 +1,10 @@
+<div class="popoverContainer">
+  <div class="popoverList">
+    <div 
+      class="popoverItem"
+      *ngFor="let gradient of gradients; let i = index" 
+      (click)="selectOption(i)"
+      [style.background]="'linear-gradient(90deg, ' + gradient.primaryColor + ', ' + gradient.secondaryColor + ')'" 
+    ></div>
+  </div>
+</div>
