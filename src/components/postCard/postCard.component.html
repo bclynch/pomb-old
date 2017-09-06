@@ -2,7 +2,7 @@
   <div class="imgWrapper" (click)="navigateToPost()">
     <div  
       class="cardImg" 
-      [ngStyle]="{ 'background-image': 'url(' + data.leadphoto + ')'}"
+      [ngStyle]="{ 'background-image': 'url(' + data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url + ')'}"
     ></div>
   </div>
   <div class="cardWrapper">

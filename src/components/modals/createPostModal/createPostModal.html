@@ -31,7 +31,7 @@
               id="file"
               (change)="fileChangeEvent($event)" 
             />
-            <div *ngIf="!primaryLoading && !thumbnailImage">
+            <div *ngIf="!primaryLoading && !postModel.leadPhoto">
               <ion-icon name="md-cloud-upload"></ion-icon>
               <div>Add an image</div>
             </div>
@@ -41,9 +41,14 @@
             </div>
             <div 
               class="thumbnailImage" 
-              [ngStyle]="{ 'background-image': 'url(' + thumbnailImage + ')'}" 
-              *ngIf="thumbnailImage"
-            ></div>
+              [ngStyle]="{ 'background-image': 'url(' + postModel.leadPhoto + ')'}" 
+              *ngIf="postModel.leadPhoto"
+            >
+              <div class="hoverOverlay">
+                <ion-icon name="md-cloud-upload"></ion-icon>
+                <div>Add an image</div>
+              </div>
+            </div>
           </label>
           <input 
             type="text"
@@ -54,13 +59,26 @@
         <div class="right">
           <div class="tagsContainer">
             <div class="segmentLabel">Tags</div>
-            <TagSearch></TagSearch>
+            <TagSearch (selectTag)="addTag($event)"></TagSearch>
+            <div class="postOptionsWrapper">
+              <div class="optionWrapper" *ngFor="let tag of tagOptions; let i = index;">
+                <div class="option">
+                  {{tag.name}} 
+                  <ion-icon name="close" (click)="removeTag(i)"></ion-icon>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="categoryContainer">
             <div class="segmentLabel">Category</div>
-            <div class="categoriesOptionsWrapper">
+            <div class="postOptionsWrapper">
               <div class="optionWrapper" *ngFor="let category of categoryOptions; let i = index;">
-                <div (click)="selectedCategoryOption = i" [style.color]="i === selectedCategoryOption ? 'black' : null" [style.border]="i === selectedCategoryOption ? 'black solid 2px' : null">{{category}}</div>
+                <div 
+                  (click)="selectedCategoryOption = i" 
+                  [style.color]="i === selectedCategoryOption ? 'black' : null" 
+                  [style.border]="i === selectedCategoryOption ? 'black solid 2px' : null"
+                  class="option"
+                >{{category}}</div>
               </div>
             </div>
           </div>
@@ -68,7 +86,7 @@
     </div>
     <div class="subtitleContainer">
       <div class="segmentLabel">Subtitle</div>
-      <textarea placeholder="Add something..." rows="4"></textarea>
+      <textarea placeholder="Add something..." rows="4">{{postModel.postSubtitle}}</textarea>
     </div>
     <div class="postTypeContainer" (click)="presentPopover($event)">
       <div class="typeTitle">{{postOptions[activePostOption].name}}</div>

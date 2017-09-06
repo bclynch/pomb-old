@@ -1,3 +1,5 @@
+import { Tag } from './Tag.model';
+
 export class Post {
   createdAt: string;
   updatedAt: string;
@@ -10,4 +12,18 @@ export class Post {
   isDraft: boolean;
   isScheduled: boolean;
   isPublished: boolean;
+  postToTagsByPostId: {
+    nodes: { postTagByPostTagId: Tag }[]
+  };
+  postToCategoriesByPostId: {
+    nodes: { postCategoryByPostCategoryId: Tag }[]
+  };
+  postLeadPhotosByPostId: {
+    nodes: {
+      title: string,
+      leadPhotoLinksByLeadPhotoId: {
+        nodes: { url: string, size: number }[]
+      }
+    }[]
+  }
 }

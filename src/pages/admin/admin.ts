@@ -10,9 +10,9 @@ import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 
 interface ListOption {
-    label: string,
-    icon: string,
-    path: string
+  label: string,
+  icon: string,
+  path: string
 }
 
 @Component({
@@ -28,7 +28,7 @@ export class AdminPage {
     {label: 'Posts', icon: 'md-filing', path: 'posts'},
     {label: 'Log Out', icon: 'log-out', path: null}
   ];
-  activeDashView: string = 'dashboard';
+  activeDashView: string;
   storeId: number;
   displayMenuToggle: boolean = true;
   dataReady: boolean = false;
@@ -42,7 +42,7 @@ export class AdminPage {
     private settingsService: SettingsService,
     private routerService: RouterService
   ) { 
-    this.activeDashView = this.routerService.fragment;
+    this.activeDashView = this.routerService.fragment || 'dashboard';
     this.dataReady = true;
     this.settingsService.appInited ? console.log('fuck off') : this.broadcastService.on('appIsReady', () => console.log('fuck off')); 
   }

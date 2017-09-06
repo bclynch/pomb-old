@@ -7,6 +7,7 @@ import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
 
 import { Post } from '../../../models/Post.model';
+import { Tag } from '../../../models/Tag.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
 
@@ -28,7 +29,6 @@ export class CreatePostModal {
   postModel = {postTitle: '', postSubtitle: '', content: '', leadPhoto: '', leadPhotoTitle: ''};
   data: Post;
   primaryLoading: boolean = false;
-  thumbnailImage: string;
 
   filesToUpload: Array<File> = [];
 
@@ -50,6 +50,8 @@ export class CreatePostModal {
   categoryOptions: string[] = Object.keys(this.settingsService.appCategories);
   selectedCategoryOption: number = null;
 
+  tagOptions: Tag[] = [];
+
   constructor(
     public viewCtrl: ViewController,
     private apiService: APIService,
@@ -64,7 +66,11 @@ export class CreatePostModal {
       this.postModel.postTitle = this.data.title;
       this.postModel.postSubtitle = this.data.subtitle;
       this.postModel.content = this.data.content;
-      this.postModel.leadPhoto = this.data.leadphoto;
+      this.postModel.leadPhoto = this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url;
+      this.data.postToTagsByPostId.nodes.forEach((tag) => {
+        this.tagOptions.push(tag.postTagByPostTagId);
+      });
+      this.selectedCategoryOption = this.data.postToCategoriesByPostId.nodes[0].postCategoryByPostCategoryId.id;
 
       this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
     }
@@ -165,9 +171,9 @@ export class CreatePostModal {
       result => {
         console.log(result);
         if(result.length) {
-          this.thumbnailImage = result[0].url;
+          this.postModel.leadPhoto = result[0].url;
           this.primaryLoading = false;
-          console.log(this.thumbnailImage);
+          console.log(this.postModel.leadPhoto);
         }
       }
     )
@@ -177,5 +183,17 @@ export class CreatePostModal {
     this.filesToUpload = <Array<File>>fileInput.target.files;
 
     this.upload();
+  }
+
+  addTag(data: Tag) {
+    let exists: boolean = false;
+    this.tagOptions.forEach((tag) => {
+      if(tag.name === data.name) exists = true;
+    });
+    if(!exists) this.tagOptions.push(data);
+  }
+
+  removeTag(i: number) {
+    this.tagOptions.splice(i, 1);
   }
 }

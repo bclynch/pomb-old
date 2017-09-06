@@ -13,6 +13,7 @@
 - Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
+- Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
 
 ### Bugs
 

@@ -29,7 +29,6 @@ const getAllPosts = gql`
         title,
         subtitle,
         content,
-        leadphoto,
         createdAt,
         updatedAt,
         isDraft,
@@ -42,7 +41,8 @@ const getAllPosts = gql`
         postToTagsByPostId {
           nodes {
             postTagByPostTagId {
-              name
+              name,
+              id
             }
           }
         },
@@ -54,6 +54,25 @@ const getAllPosts = gql`
               },
               content,
               createdAt
+            }
+          }
+        },
+        postToCategoriesByPostId {
+          nodes {
+            postCategoryByPostCategoryId {
+              name,
+              id
+            }
+          }
+        },
+        postLeadPhotosByPostId {
+          nodes {
+            title,
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url,
+                size
+              }
             }
           }
         }
@@ -74,7 +93,6 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       title,
       subtitle,
       content,
-      leadphoto,
       createdAt,
       updatedAt,
       isDraft,
@@ -87,7 +105,8 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       postToTagsByPostId {
         nodes {
           postTagByPostTagId {
-            name
+            name,
+            id
           }
         }
       },
@@ -99,6 +118,25 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
             },
             content,
             createdAt
+          }
+        }
+      },
+      postToCategoriesByPostId {
+        nodes {
+          postCategoryByPostCategoryId {
+            name,
+            id
+          }
+        }
+      },
+      postLeadPhotosByPostId {
+        nodes {
+          title,
+          leadPhotoLinksByLeadPhotoId {
+            nodes {
+              url,
+              size
+            }
           }
         }
       }
@@ -144,14 +182,13 @@ query allConfigs {
 }
 `;
 
-const getPostById = gql`
+const getPostById = gql` 
   query postById($id: Int!) {
     postById(id: $id) {
       id,
       title,
       subtitle,
       content,
-      leadphoto,
       createdAt,
       updatedAt,
       accountByAuthor {
@@ -161,7 +198,8 @@ const getPostById = gql`
       postToTagsByPostId {
         nodes {
           postTagByPostTagId {
-            name
+            name,
+            id
           }
         }
       },
@@ -173,6 +211,25 @@ const getPostById = gql`
             },
             content,
             createdAt
+          }
+        }
+      },
+      postToCategoriesByPostId {
+        nodes {
+          postCategoryByPostCategoryId {
+            name,
+            id
+          }
+        }
+      },
+      postLeadPhotosByPostId {
+        nodes {
+          title,
+          leadPhotoLinksByLeadPhotoId {
+            nodes {
+              url,
+              size
+            }
           }
         }
       }

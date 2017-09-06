@@ -5,16 +5,22 @@
     [formControl]="search"
     ngDefaultControl
   >
-    <ion-icon 
-      class="searchIcon" 
-      name="search"
-    ></ion-icon>
-    <input
-      type="text"
-      placeholder="Search"
-      [(ngModel)]="value"
-      name="searchInput"
-      #searchInput
-    />
+    <div class="inputWrapper">
+      <ion-icon 
+        class="searchIcon" 
+        name="search"
+      ></ion-icon>
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="value"
+        name="searchInput"
+        autocomplete="off"
+        #searchInput
+      />
+    </div>
+    <div class="resultsPane" *ngIf="searchResults">
+      <div *ngFor="let result of searchResults;" (click)="onSelectTag(result.id, result.name)">{{result.name}}</div>
+    </div>
   </form>
 </div>
