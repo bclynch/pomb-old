@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
-import { ViewController, NavParams, AlertController, PopoverController } from 'ionic-angular';
+import { ViewController, NavParams, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import moment from 'moment';
 
 import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
@@ -10,11 +11,17 @@ import { Post } from '../../../models/Post.model';
 import { Tag } from '../../../models/Tag.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
+import { DatePickerModal } from '../../modals/datepickerModal/datepickerModal';
 
 interface PostOption {
   name: string;
   description: string;
   secondaryDescription: string;
+}
+
+interface RelativeTime {
+  label: string;
+  value: number;
 }
 
 @Component({
@@ -25,8 +32,8 @@ export class CreatePostModal {
 
   containerOptions: string[] = ['Content', 'Options'];
   activeContainerOption: number = 0;
-  btnOptions: string[] = ['Cancel', 'Delete', 'Save', 'Save & Publish'];
-  postModel = {postTitle: '', postSubtitle: '', content: '', leadPhoto: '', leadPhotoTitle: ''};
+  btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
+  postModel = { postTitle: '', postSubtitle: '', content: '', leadPhoto: '', leadPhotoTitle: '' };
   data: Post;
   primaryLoading: boolean = false;
 
@@ -42,10 +49,13 @@ export class CreatePostModal {
 
   activePostOption: number = 2;
   postOptions: PostOption[] = [
-    {name: 'Published', description: 'Publish this post now', secondaryDescription: 'Published on ...'},
-    {name: 'Scheduled', description: 'Publish this post in the future', secondaryDescription: 'Publish in ...'},
-    {name: 'Draft', description: 'Save this post for later editing', secondaryDescription: 'This post will not be visible'}
-  ]
+    { name: 'Published', description: 'Publish this post now', secondaryDescription: 'Publish ' },
+    { name: 'Scheduled', description: 'Publish this post in the future', secondaryDescription: 'Schedule for ' },
+    { name: 'Draft', description: 'Save this post for later editing', secondaryDescription: 'This post will not be visible' }
+  ];
+
+  scheduledModel: RelativeTime = { label: 'now', value: Date.now() };
+  publishModel: RelativeTime = { label: 'now', value: Date.now() };
 
   categoryOptions: string[] = Object.keys(this.settingsService.appCategories);
   selectedCategoryOption: number = null;
@@ -59,10 +69,11 @@ export class CreatePostModal {
     private params: NavParams,
     private popoverCtrl: PopoverController,
     private http: Http,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private modalController: ModalController
   ) {
     this.data = params.get('post');
-    if(this.data) {
+    if (this.data) {
       this.postModel.postTitle = this.data.title;
       this.postModel.postSubtitle = this.data.subtitle;
       this.postModel.content = this.data.content;
@@ -71,13 +82,21 @@ export class CreatePostModal {
         this.tagOptions.push(tag.postTagByPostTagId);
       });
       this.selectedCategoryOption = this.data.postToCategoriesByPostId.nodes[0].postCategoryByPostCategoryId.id;
+      if(this.data.scheduledDate) {
+        this.scheduledModel.value = +this.data.scheduledDate;
+        this.scheduledModel.label = moment(+this.data.scheduledDate).fromNow();
+      }
+      if(this.data.publishedDate) {
+        this.publishModel.value = +this.data.publishedDate;
+        this.publishModel.label = moment(+this.data.publishedDate).fromNow();
+      }
 
       this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
     }
   }
 
   clickBtn(index) {
-    switch(index) {
+    switch (index) {
       case 0:
         this.cancelConfirm();
         break;
@@ -86,9 +105,6 @@ export class CreatePostModal {
         break;
       case 2:
         this.savePost();
-        break;
-      case 3:
-        this.savePost(true);
         break;
     }
   }
@@ -141,20 +157,55 @@ export class CreatePostModal {
     alert.present();
   }
 
-  savePost(publish?: boolean) {
+  savePost() {
     console.log('Save work api call');
-    if(publish) console.log('publish too');
-    this.viewCtrl.dismiss();
+    this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    .subscribe(
+      result => {
+        console.log(result);
+        const createPostData = <any>result;
+
+        this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg', this.selectedCategoryOption).subscribe(
+          processPostData => {
+            console.log(processPostData);
+          }
+        )
+      }
+    )
+    this.viewCtrl.dismiss('refresh');
   }
 
-  presentPopover(e) { 
-    let popover = this.popoverCtrl.create(PostTypePopover, {options: this.postOptions}, { cssClass: 'postTypePopover' });
+  presentPopover(e) {
+    let popover = this.popoverCtrl.create(PostTypePopover, { options: this.postOptions }, { cssClass: 'postTypePopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) this.activePostOption = data;
+      if (data !== null) this.activePostOption = data;
     });
+  }
+
+  presentDatepickerModal(e: Event) {
+    e.stopPropagation();
+
+    if (this.postOptions[this.activePostOption].name !== 'Draft') {
+      let modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, {});
+      modal.present({
+        ev: e
+      });
+      modal.onDidDismiss((data: any) => {
+        console.log(Date.parse(data));
+        if(data) {
+          if(this.postOptions[this.activePostOption].name === 'Scheduled') {
+            this.scheduledModel.label = moment(data).fromNow();
+            this.scheduledModel.value = Date.parse(data);
+          } else {
+            this.publishModel.label = moment(data).fromNow();
+            this.publishModel.value = Date.parse(data);
+          }
+        }
+      });
+    }
   }
 
   upload() {
@@ -170,7 +221,7 @@ export class CreatePostModal {
     this.apiService.uploadPrimaryPhoto(formData).subscribe(
       result => {
         console.log(result);
-        if(result.length) {
+        if (result.length) {
           this.postModel.leadPhoto = result[0].url;
           this.primaryLoading = false;
           console.log(this.postModel.leadPhoto);
@@ -188,9 +239,9 @@ export class CreatePostModal {
   addTag(data: Tag) {
     let exists: boolean = false;
     this.tagOptions.forEach((tag) => {
-      if(tag.name === data.name) exists = true;
+      if (tag.name === data.name) exists = true;
     });
-    if(!exists) this.tagOptions.push(data);
+    if (!exists) this.tagOptions.push(data);
   }
 
   removeTag(i: number) {

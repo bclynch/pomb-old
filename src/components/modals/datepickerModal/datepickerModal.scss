@@ -1,0 +1,110 @@
+datepickermodal {
+  .layout-row{
+      display: flex;
+      flex-direction: row;
+    }
+
+    .layout-col{
+      display:flex;
+      flex-direction:column;
+    }
+    .horizontal-center{
+      align-items:center;
+    }
+
+    .text-center{
+      text-align: center;
+    }
+
+    .padding-5{
+      padding:5px;
+    }
+    .padding-10{
+      padding:10px;
+    }
+    .arrow{
+      margin-left:10px;
+      margin-right:10px;
+      cursor: pointer;
+    }
+
+    .day-item-header{
+      div{
+        padding:10px;
+        flex:1; 
+        font-weight:bold;
+      }
+    }
+    .day-item{
+      flex:1;
+      line-height:36px;
+      min-height:36px;
+      cursor: pointer;
+    }
+    .selected{
+      background: mapGet($basecolor, dark);
+      color: mapGet($basecolor, white);
+    }
+    .disabled{
+      color:#cfcfcf;
+    }
+
+    .dayofweek{
+      font-size:1.5em;
+    }
+    .day{
+      font-size:3em;
+    }
+    .month{
+      font-size:1.5em;
+    }
+    .year{
+      font-size:1.5em;
+    }
+    .month-year{
+      font-size:1.3em;
+      padding:10px;
+    }
+    .top-banner{
+      background: mapGet($basecolor, dark);
+      color: mapGet($basecolor, white);
+      width:100%;
+      padding:10px;
+      min-height:200px;
+    }
+
+    .calendar-item-container{
+      width:100%;
+      padding:5px;
+      min-height:262px;
+    }
+    .timeContainer {
+      font-size: 2.5em;
+      margin-top: 5px;
+      margin-left: 25px;
+
+      input {
+        border: none;
+        background: mapGet($basecolor, dark);
+      }
+    }
+    .btnRow {
+      padding: 0 25px 25px 0;
+      width:100%;
+      display: flex;
+      justify-content:flex-end;
+
+      .btn {
+        margin-right: 10px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .btn:first-child {
+        color: mapGet($basecolor, dark);
+      }
+      .btn:hover {
+        opacity: .7;
+      }
+    }
+}
+

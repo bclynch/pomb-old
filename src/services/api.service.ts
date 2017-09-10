@@ -34,6 +34,8 @@ const getAllPosts = gql`
         isDraft,
         isScheduled,
         isPublished,
+        scheduledDate,
+        publishedDate,
         accountByAuthor {
           firstName,
           lastName
@@ -98,6 +100,8 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       isDraft,
       isScheduled,
       isPublished,
+      scheduledDate,
+      publishedDate,
       accountByAuthor {
         firstName,
         lastName
@@ -191,6 +195,8 @@ const getPostById = gql`
       content,
       createdAt,
       updatedAt,
+      scheduledDate,
+      publishedDate,
       accountByAuthor {
         firstName,
         lastName
@@ -374,6 +380,60 @@ const deletePostById = gql`
     }
   }
 `;
+const createPost = gql`
+  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
+    createPost(input: {
+      post: {
+        author: $author,
+        title: $title,
+        subtitle: $subtitle,
+        content: $content,
+        isDraft: $isDraft,
+        isScheduled: $isScheduled,
+        isPublished: $isPublished,
+        scheduledDate: $scheduledDate,
+        publishedDate: $publishedDate
+      }
+    }) {
+      post {
+        id
+      }
+    }
+  }
+`;
+const processPost = gql`
+  mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!, $categoryId: Int!) {
+    createPostLeadPhoto(input: {
+      postLeadPhoto: {
+        postId: $postId,
+        title: $photoTitle
+      }
+    }) {
+      clientMutationId
+    },
+    createLeadPhotoLink(input:{
+      leadPhotoLink: {
+        leadPhotoId: $postId,
+        size: $size,
+        url: $photoURL
+      }
+    }) {
+      leadPhotoLink {
+        id
+      }
+    },
+    createPostToCategory(input:{
+      postToCategory:{
+        postId: $postId,
+        postCategoryId: $categoryId
+      }
+    }) {
+      postToCategory {
+        postId
+      }
+    }
+  }
+`;
 
 @Injectable()
 export class APIService {
@@ -525,6 +585,36 @@ export class APIService {
       mutation: deletePostById,
       variables: {
         id
+      }
+    });
+  }
+
+  createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+    return this.apollo.mutate({
+      mutation: createPost,
+      variables: {
+        author,
+        title,
+        subtitle,
+        content,
+        isDraft,
+        isScheduled,
+        isPublished,
+        scheduledDate: scheduledDate ? scheduledDate : null,
+        publishedDate: publishedDate ? publishedDate : null
+      }
+    });
+  }
+
+  processPost(postId: number, photoTitle: string, size: number, photoURL: string, categoryId: number) {
+    return this.apollo.mutate({
+      mutation: processPost,
+      variables: {
+        postId,
+        photoTitle,
+        size,
+        photoURL,
+        categoryId
       }
     });
   }

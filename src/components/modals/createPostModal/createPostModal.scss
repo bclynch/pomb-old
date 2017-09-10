@@ -105,17 +105,31 @@ createpostmodal {
           label:hover {
             color: mapGet($basecolor, black);
           }
+          .imgTitleInput {
+            border: none;
+            width: 300px;
+            margin-top: 15px;
+            line-height: 32px;
+          }
         }
         .right {
           flex: 1;
           margin-left: 15px;
 
           .categoryContainer {
+            margin-top: 30px;
+
             .option:hover {
               opacity: .7;
             }
           }
           .tagsContainer {
+
+            tagsearch {
+              .tagSearchContainer {
+                margin-bottom: 10px;
+              }
+            }
 
             .option {
               display: flex;
@@ -154,7 +168,7 @@ createpostmodal {
       }
       .subtitleContainer {
         width: 100%;
-        margin-bottom: 30px;
+        margin-top: 50px;
 
         textarea {
           width: 100%;
@@ -165,9 +179,16 @@ createpostmodal {
         cursor: pointer;
         float: right;
         text-align: right;
+        margin-top: 250px; 
 
         .typeTitle {
           font-size: 18px;
+        }
+        .secondaryRow {
+
+          .pickerCue {
+            text-decoration: underline;
+          }
         }
       }
       .segmentLabel {

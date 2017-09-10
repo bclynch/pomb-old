@@ -89,6 +89,7 @@ export class DashboardPage {
     let modal = this.modalCtrl.create(CreatePostModal, {post}, {cssClass: 'createPostModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       if(data === 'delete') this.deletePost(post);
+      if(data === 'refresh') this.postsData.refetch();
     });
     modal.present(); 
   }

@@ -12,6 +12,8 @@ export class Post {
   isDraft: boolean;
   isScheduled: boolean;
   isPublished: boolean;
+  scheduledDate: number;
+  publishedDate: number;
   postToTagsByPostId: {
     nodes: { postTagByPostTagId: Tag }[]
   };

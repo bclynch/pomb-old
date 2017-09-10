@@ -24,65 +24,66 @@
   <div class="optionsContainer" *ngIf="activeContainerOption === 1">
     <div class="topContainer">
       <div class="left">
-          <div class="segmentLabel">Primary Photo</div>
-          <label for="file">
-            <input 
-              type="file" 
-              id="file"
-              (change)="fileChangeEvent($event)" 
-            />
-            <div *ngIf="!primaryLoading && !postModel.leadPhoto">
+        <div class="segmentLabel">Primary Photo</div>
+        <label for="file">
+          <input 
+            type="file" 
+            id="file"
+            (change)="fileChangeEvent($event)" 
+          />
+          <div *ngIf="!primaryLoading && !postModel.leadPhoto">
+            <ion-icon name="md-cloud-upload"></ion-icon>
+            <div>Add an image</div>
+          </div>
+          <div *ngIf="primaryLoading">
+            <ion-spinner></ion-spinner>
+            <div>Processing image...</div>
+          </div>
+          <div 
+            class="thumbnailImage" 
+            [ngStyle]="{ 'background-image': 'url(' + postModel.leadPhoto + ')'}" 
+            *ngIf="postModel.leadPhoto"
+          >
+            <div class="hoverOverlay">
               <ion-icon name="md-cloud-upload"></ion-icon>
               <div>Add an image</div>
             </div>
-            <div *ngIf="primaryLoading">
-              <ion-spinner></ion-spinner>
-              <div>Processing image...</div>
-            </div>
-            <div 
-              class="thumbnailImage" 
-              [ngStyle]="{ 'background-image': 'url(' + postModel.leadPhoto + ')'}" 
-              *ngIf="postModel.leadPhoto"
-            >
-              <div class="hoverOverlay">
-                <ion-icon name="md-cloud-upload"></ion-icon>
-                <div>Add an image</div>
-              </div>
-            </div>
-          </label>
-          <input 
-            type="text"
-            placeholder="Image title"
-            [(ngModel)]="postModel.leadPhotoTitle"
-          />
-        </div>
-        <div class="right">
-          <div class="tagsContainer">
-            <div class="segmentLabel">Tags</div>
-            <TagSearch (selectTag)="addTag($event)"></TagSearch>
-            <div class="postOptionsWrapper">
-              <div class="optionWrapper" *ngFor="let tag of tagOptions; let i = index;">
-                <div class="option">
-                  {{tag.name}} 
-                  <ion-icon name="close" (click)="removeTag(i)"></ion-icon>
-                </div>
-              </div>
-            </div>
           </div>
-          <div class="categoryContainer">
-            <div class="segmentLabel">Category</div>
-            <div class="postOptionsWrapper">
-              <div class="optionWrapper" *ngFor="let category of categoryOptions; let i = index;">
-                <div 
-                  (click)="selectedCategoryOption = i" 
-                  [style.color]="i === selectedCategoryOption ? 'black' : null" 
-                  [style.border]="i === selectedCategoryOption ? 'black solid 2px' : null"
-                  class="option"
-                >{{category}}</div>
+        </label>
+        <input 
+          type="text"
+          placeholder="Image title"
+          [(ngModel)]="postModel.leadPhotoTitle"
+          class="imgTitleInput"
+        />
+      </div>
+      <div class="right">
+        <div class="tagsContainer">
+          <div class="segmentLabel">Tags</div>
+          <TagSearch (selectTag)="addTag($event)"></TagSearch>
+          <div class="postOptionsWrapper">
+            <div class="optionWrapper" *ngFor="let tag of tagOptions; let i = index;">
+              <div class="option">
+                {{tag.name}} 
+                <ion-icon name="close" (click)="removeTag(i)"></ion-icon>
               </div>
             </div>
           </div>
         </div>
+        <div class="categoryContainer">
+          <div class="segmentLabel">Category</div>
+          <div class="postOptionsWrapper">
+            <div class="optionWrapper" *ngFor="let category of categoryOptions; let i = index;">
+              <div 
+                (click)="selectedCategoryOption = i" 
+                [style.color]="i === selectedCategoryOption ? 'black' : null" 
+                [style.border]="i === selectedCategoryOption ? 'black solid 2px' : null"
+                class="option"
+              >{{category}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="subtitleContainer">
       <div class="segmentLabel">Subtitle</div>
@@ -90,7 +91,11 @@
     </div>
     <div class="postTypeContainer" (click)="presentPopover($event)">
       <div class="typeTitle">{{postOptions[activePostOption].name}}</div>
-      <div>{{postOptions[activePostOption].secondaryDescription}}</div>
+      <div class="secondaryRow">
+        <span>{{postOptions[activePostOption].secondaryDescription}}</span>
+        <span class="pickerCue" *ngIf="postOptions[activePostOption].name === 'Scheduled'" (click)="presentDatepickerModal($event)">{{scheduledModel.label}}</span>
+        <span class="pickerCue" *ngIf="postOptions[activePostOption].name === 'Published'" (click)="presentDatepickerModal($event)">{{publishModel.label}}</span>
+      </div>
     </div>
   </div>
   <div class="footerBtns">

@@ -38,6 +38,7 @@ import { GradientPopover } from '../components/popovers/gradient/gradientPopover
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
 import { CreatePostModal } from '../components/modals/createPostModal/createPostModal';
+import { DatePickerModal } from '../components/modals/datepickerModal/datepickerModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -100,7 +101,8 @@ import { BroadcastService } from '../services/broadcast.service';
     AdminConfigPage,
     AdminUsersPage,
     AdminPostsPage,
-    GradientPopover
+    GradientPopover,
+    DatePickerModal
   ],
   imports: [
     BrowserModule,
@@ -132,7 +134,8 @@ import { BroadcastService } from '../services/broadcast.service';
     RegistrationModal,
     CreatePostModal,
     PostTypePopover,
-    GradientPopover
+    GradientPopover,
+    DatePickerModal
   ],
   providers: [
     APIService,
