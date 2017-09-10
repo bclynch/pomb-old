@@ -15,9 +15,18 @@ page-admin {
                 font-size: 24px;
                 cursor: pointer;
             }
+            .logo {
+                padding: 20px 50px 0;
+        
+                > div {
+                  cursor: pointer;
+                  font-size: 32px;
+                  font-weight: bold;
+                }
+              }
             .listContainer {
                 // background: $color4;
-                margin-top: 80px;
+                margin-top: 50px;
                 
                 > div {
                     padding: 15px 20px;

@@ -56,5 +56,31 @@ page-admin-config {
         right: 5px;
       }
     }
+    .taglineInputWrapper {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+
+      input {
+        border: none;
+        line-height: 32px;
+      }
+    }
+    .saveBtn {
+      color: mapGet($basecolor, black);
+      background: mapGet($basecolor, white);
+      border: solid 2px mapGet($basecolor, black);
+      padding: 15px;
+      width: 30%;
+      max-width: 200px;
+      text-align: center;
+      margin: 30px auto;
+      cursor: pointer;
+      transition: background .5s;
+    }
+    .saveBtn:hover {
+      background: mapGet($basecolor, black);
+      color: mapGet($basecolor, white);
+    }
   }
 }

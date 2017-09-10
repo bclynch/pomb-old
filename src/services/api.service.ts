@@ -434,6 +434,21 @@ const processPost = gql`
     }
   }
 `;
+const updateConfig = gql`
+  mutation updateConfig($primaryColor: String!, $secondaryColor: String!, $tagline: String!, $heroBanner: String!) {
+    updateConfigById(input:{
+      id: 1,
+      configPatch: {
+        primaryColor: $primaryColor,
+        secondaryColor: $secondaryColor,
+        tagline: $tagline,
+        heroBanner: $heroBanner
+      }
+    }) {
+      clientMutationId
+    }
+  }
+`;
 
 @Injectable()
 export class APIService {
@@ -615,6 +630,18 @@ export class APIService {
         size,
         photoURL,
         categoryId
+      }
+    });
+  }
+
+  updateConfig(primaryColor: string, secondaryColor: string, tagline: string, heroBanner: string) {
+    return this.apollo.mutate({
+      mutation: updateConfig,
+      variables: {
+        primaryColor,
+        secondaryColor,
+        tagline,
+        heroBanner
       }
     });
   }

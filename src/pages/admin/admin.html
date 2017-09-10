@@ -6,6 +6,9 @@
         class="closeMenuBtn" 
         menuToggle
       ></ion-icon>
+      <div class="logo">
+        <div (click)="routerService.navigateToPage('')" title="Home">POMB</div>
+      </div>
       <div class="listContainer">
         <div 
           *ngFor="let option of navListOptions" 

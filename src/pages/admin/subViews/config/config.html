@@ -33,5 +33,15 @@
       ></ion-icon>
       <div>Gradient Preview</div>
     </div>
+    <div class="taglineInputWrapper">
+      <label for="taglineInput">Tagline: </label>
+      <input
+        type="text"
+        [(ngModel)]="configModel.tagline"
+        placeholder="Tagline"
+        id="taglineInput"
+      />
+    </div>
+    <div class="saveBtn boldFont" (click)="saveConfig()">Save</div>
   </div>
 </div>

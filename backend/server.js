@@ -97,6 +97,56 @@ app.post("/upload-primary", upload.array("uploads[]", 12), function (req, res) {
   });
 });
 
+//endpoint to upload banner img
+app.post("/upload-hero-banner", upload.array("uploads[]", 1), function (req, res) {
+  let promises = [];
+  //If ever accept png need to change buffer MIME type to be dynamic
+  let fileType = 'jpg';
+
+  S3LinksArr = [];
+
+  console.log('files', req.files);
+  req.files.forEach((file, i) => {
+    let promise = new Promise((resolve, reject) => {
+
+      resizeImagesWriteBuffer(file, [{width: 300, height: 200}, {width:2400, height: 1600}], 80, fileType).then((bufferArr) => {
+        console.log(`finished file ${i + 1}`);
+        console.log('Processed img buffer arr: ', bufferArr);
+
+        let S3PromiseArr = [];
+
+        bufferArr.forEach((obj) => {
+          let S3Promise = new Promise((resolve, reject)=> { //promise for each size of the image
+            //send off to S3
+            const key = `${file.originalname.split('.')[0]}-w${obj.width}-${Date.now()}.${fileType}`;
+            
+            uploadToS3(obj.buffer, key, function (err, data) {
+              if (err) {
+                console.error(err)
+                reject(err);
+              };
+              S3LinksArr.push({size: obj.width, url: data.Location});
+              resolve();
+            });
+          });
+          S3PromiseArr.push(S3Promise);
+        });
+        Promise.all(S3PromiseArr).then(() => {
+          console.log('S3 upload promise all complete');
+          resolve(); //resolve for resize img promise
+        });
+      });
+    });
+
+    promises.push(promise);
+  });
+  console.log(promises);
+  Promise.all(promises).then(() => {
+    console.log('promise all complete');
+    res.send(JSON.stringify(S3LinksArr));
+  });
+});
+
 function resizeImagesWriteBuffer(file, sizes, quality, type) {
   return new Promise((resolve, reject)=> { //promise for the overall resize img function
     Jimp.read(file.buffer).then(function (img) {

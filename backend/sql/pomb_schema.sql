@@ -273,6 +273,7 @@ comment on column pomb.lead_photo_link.size is 'Size of photo';
 comment on column pomb.lead_photo_link.url is 'Url of link';
 
 create table pomb.config (
+  id                  serial primary key,
   primary_color       text not null check (char_length(primary_color) < 20),
   secondary_color     text not null check (char_length(secondary_color) < 20),
   tagline             text not null check (char_length(tagline) < 80),
@@ -284,6 +285,7 @@ insert into pomb.config (primary_color, secondary_color, tagline, hero_banner) v
   ('#e1ff00', '#04c960', 'Be your best', 'http://www.pinnaclepellet.com/images/1200x300-deep-forest.jpg');
 
 comment on table pomb.config is 'Table with POMB config';
+comment on column pomb.config.id is 'Id for config';
 comment on column pomb.config.primary_color is 'Primary color for site';
 comment on column pomb.config.secondary_color is 'Secondary color for site';
 comment on column pomb.config.tagline is 'Tagline of site';
