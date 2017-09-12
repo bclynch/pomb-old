@@ -92,6 +92,7 @@ comment on column pomb.post_tag.name is 'Name of the post tag';
 comment on column pomb.post_tag.tag_description is 'Description of the post tag';
 
 create table pomb.post_to_tag ( --one to many
+  id                 serial primary key,
   post_id            integer not null references pomb.post(id) on delete cascade,
   post_tag_id        integer not null references pomb.post_tag(id)
 );
@@ -121,6 +122,7 @@ insert into pomb.post_to_tag (post_id, post_tag_id) values
   (13, 8);
 
 comment on table pomb.post_to_tag is 'Join table for tags on a post';
+comment on column pomb.post_to_tag.id is 'Id of the row';
 comment on column pomb.post_to_tag.post_id is 'Id of the post';
 comment on column pomb.post_to_tag.post_tag_id is 'Id of the post tag';
 
@@ -500,11 +502,14 @@ comment on function pomb.current_account() is 'Gets the account that was identif
 grant usage on schema pomb to pomb_anonymous, pomb_account;
 grant usage on all sequences in schema pomb to pomb_account;
 
-grant select on table pomb.post to PUBLIC;
 grant ALL on table pomb.post to pomb_account; --ultimately needs to be policy in which only own user!
 grant ALL on table pomb.post_to_category to pomb_account; --ultimately needs to be policy in which only own user!
 grant ALL on table pomb.post_lead_photo to pomb_account; --ultimately needs to be policy in which only own user!
 grant ALL on table pomb.lead_photo_link to pomb_account; --ultimately needs to be policy in which only own user!
+grant ALL on table pomb.post_tag to pomb_account;
+grant ALL on table pomb.post_to_tag to pomb_account; --ultimately needs to be policy in which only own user!
+
+grant select on table pomb.post to PUBLIC;
 grant select on table pomb.post_tag to PUBLIC;
 grant select on table pomb.post_to_tag to PUBLIC;
 grant select on table pomb.post_category to PUBLIC;

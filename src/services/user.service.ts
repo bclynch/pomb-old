@@ -83,6 +83,14 @@ export class UserService {
       }, () => {
         console.log('err');
       });
+    }, err => {
+      switch(err.message) {
+        case 'GraphQL error: duplicate key value violates unique constraint "account_username_key"':
+          this.alertService.alert('Invalid Registration', 'That username already exists, please select a new one!');
+          break;
+        default:
+        this.alertService.alert('Invalid Registration', 'Something is fucked in your credentials. Try again');
+      }
     });
   }
 }

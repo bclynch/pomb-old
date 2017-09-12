@@ -401,6 +401,42 @@ const createPost = gql`
     }
   }
 `;
+const createPostTag = gql`
+  mutation createPostTag($name: String!, $tagDescription: String) {
+    createPostTag(input:{
+      postTag:{
+        name: $name,
+        tagDescription: $tagDescription
+      }
+    }) {
+      postTag {
+        id,
+        name
+      }
+    }
+  }
+`;
+const createPostToTag = gql`
+mutation createPostToTag($postId: Int!, $postTagId: Int!) {
+  createPostToTag(input: {
+    postToTag:{
+      postId: $postId,
+      postTagId: $postTagId
+    }
+  }) {
+    clientMutationId
+  }
+}
+`;
+const deletePostToTagById = gql`
+  mutation deletePostToTagById($id: Int!) {
+    deletePostToTagById(input:{
+      id: $id
+    }) {
+      clientMutationId
+    }
+  }
+`;
 const processPost = gql`
   mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!, $categoryId: Int!) {
     createPostLeadPhoto(input: {
@@ -446,6 +482,28 @@ const updateConfig = gql`
       }
     }) {
       clientMutationId
+    }
+  }
+`;
+
+const updatePostById = gql`
+  mutation updatePostById($title: String, $subtitle: String, $content: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+    updatePostById(input:{
+      id: 1,
+      postPatch:{
+        title: $title,
+        subtitle: $subtitle,
+        content: $content,
+        isDraft: $isDraft,
+        isScheduled: $isScheduled,
+        isPublished: $isPublished,
+        scheduledDate: $scheduledDate,
+        publishedDate: $publishedDate
+      }
+    }) {
+      post {
+        id
+      }
     }
   }
 `;
@@ -621,6 +679,35 @@ export class APIService {
     });
   }
 
+  createPostTag(name: string, tagDescription?: string) {
+    return this.apollo.mutate({
+      mutation: createPostTag,
+      variables: {
+        name,
+        tagDescription
+      }
+    });
+  }
+
+  createPostToTag(postId: number, postTagId: number) {
+    return this.apollo.mutate({
+      mutation: createPostToTag,
+      variables: {
+        postId,
+        postTagId
+      }
+    });
+  }
+
+  deletePostToTagById(id: number) {
+    return this.apollo.mutate({
+      mutation: deletePostToTagById,
+      variables: {
+        id
+      }
+    });
+  }
+
   processPost(postId: number, photoTitle: string, size: number, photoURL: string, categoryId: number) {
     return this.apollo.mutate({
       mutation: processPost,
@@ -642,6 +729,22 @@ export class APIService {
         secondaryColor,
         tagline,
         heroBanner
+      }
+    });
+  }
+
+  updatePostById(title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+    return this.apollo.mutate({
+      mutation: updatePostById,
+      variables: {
+        title,
+        subtitle,
+        content,
+        isDraft,
+        isScheduled,
+        isPublished,
+        scheduledDate: scheduledDate ? scheduledDate : null,
+        publishedDate: publishedDate ? publishedDate : null
       }
     });
   }

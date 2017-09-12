@@ -158,20 +158,27 @@ export class CreatePostModal {
   }
 
   savePost() {
-    console.log('Save work api call');
-    this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
-    .subscribe(
-      result => {
-        console.log(result);
-        const createPostData = <any>result;
+    //if has a post we know its a put otherwise a post
+    if(this.data) {
+      //need to check if we need to add any tags via post to tag
+    } else {
+      this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+      .subscribe(
+        result => {
+          console.log(result);
+          const createPostData = <any>result;
+  
+          this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg', this.selectedCategoryOption).subscribe(
+            processPostData => {
+              console.log(processPostData);
 
-        this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg', this.selectedCategoryOption).subscribe(
-          processPostData => {
-            console.log(processPostData);
-          }
-        )
-      }
-    )
+              //additionally since its a new post we will need to add all the tags for tagToPost
+              //Can use same dynamically created gql like from laze products per order
+            }
+          )
+        }
+      )
+    }
     this.viewCtrl.dismiss('refresh');
   }
 
@@ -245,6 +252,9 @@ export class CreatePostModal {
   }
 
   removeTag(i: number) {
-    this.tagOptions.splice(i, 1);
+    //This is making the db change right off the bat. Probably only want it done on a save scenario... Fine for now
+    this.apiService.deletePostToTagById(this.tagOptions[i].id).subscribe(
+      result => this.tagOptions.splice(i, 1)
+    );
   }
 }

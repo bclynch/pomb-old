@@ -41,7 +41,14 @@ export class TagSearch {
     if(this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
       this.selectTag.emit(this.searchResults[0]);
     } else {
-      this.selectTag.emit({id: null, name: this.value.toLowerCase()});
+      //add to db
+      this.apiService.createPostTag(this.value.toLowerCase()).subscribe(
+        data => {
+          const tagData = <any>data;
+          tagData.data.createPostTag.postTag
+          this.selectTag.emit({id: tagData.data.createPostTag.postTag.id, name: tagData.data.createPostTag.postTag.name});
+        }
+      )
     }
     this.value = '';
     this.searchResults = [];

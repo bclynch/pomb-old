@@ -42,7 +42,11 @@ export class MyApp {
         alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
         this.emitReady();
       });
-    })
+    }, error => {
+      // JWT expired so get rid of it in local storage 
+      this.localStorageService.set('pomb-user', '');
+      window.location.reload();
+    });
   }
 
   emitReady() {
