@@ -73,6 +73,7 @@ export class CreatePostModal {
     private modalController: ModalController
   ) {
     this.data = params.get('post');
+    console.log(this.data);
     if (this.data) {
       this.postModel.postTitle = this.data.title;
       this.postModel.postSubtitle = this.data.subtitle;
@@ -160,7 +161,40 @@ export class CreatePostModal {
   savePost() {
     //if has a post we know its a put otherwise a post
     if(this.data) {
-      //need to check if we need to add any tags via post to tag
+      //this.data is the original data passed in and shouldn't be mutated
+      //We can use this as a ref to know if we need to pass in new edits/changes
+      this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+      .subscribe(
+        result => {
+          //check if photo title has changed. If so update postLeadPhoto
+
+          //check if leadPhotoLink url has changed. If so update leadPhotoLink
+
+          //check if postCategoryId has changed. If so update postToCategory
+
+          //check if tags have changed. If so update post tags and or post to tags as required
+          //posttotag would only be a delete
+          
+          const existingTags = this.data.postToTagsByPostId.nodes.map((value) => {return value.postTagByPostTagId});
+          console.log(existingTags);
+          console.log(this.tagOptions);
+
+          //checking for dif between arrays
+          const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x) < 0 );
+          console.log(diffExisting); // remove post to tag
+          //run a for each and delete
+
+          // this.apiService.deletePostToTagById(somenumber).subscribe(
+          //   result => console.log(result)
+          // );
+
+          const diffNew = this.tagOptions.filter(x => existingTags.indexOf(x) < 0 );
+          console.log(diffNew); // create tag + post to tag
+          //send these off to create tags mutation
+
+          this.viewCtrl.dismiss('refresh');
+        }
+      )
     } else {
       this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
@@ -168,18 +202,72 @@ export class CreatePostModal {
           console.log(result);
           const createPostData = <any>result;
   
+          //lumping a few different calls for categories and lead photo together to save on API calls
           this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg', this.selectedCategoryOption).subscribe(
             processPostData => {
               console.log(processPostData);
 
-              //additionally since its a new post we will need to add all the tags for tagToPost
-              //Can use same dynamically created gql like from laze products per order
+              this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
+                result => {
+                  this.viewCtrl.dismiss('refresh');
+                }, err => {
+                  console.log(err);
+                  alert('something is fucked');
+                  this.viewCtrl.dismiss('refresh');
+                }
+              );
             }
           )
         }
       )
-    }
-    this.viewCtrl.dismiss('refresh');
+    }    
+  }
+
+  createTagsMutation(postId: number, tagsArr: Tag[]) {
+    return new Promise((resolve, reject) => {
+      let finalTags: Tag[] = [];
+      //first need to create any totally new tags and add to db
+      let promiseArr = [];
+      this.tagOptions.forEach((tag, i) => {
+        if(!tag.id) {
+          let promise = new Promise((resolve, reject) => {
+            this.apiService.createPostTag(tag.name).subscribe(
+              data => {
+                const tagData = <any>data;
+                finalTags.push(tagData.data.createPostTag.postTag);
+                resolve();
+              }
+            )
+          });
+          promiseArr.push(promise);
+        } else {
+          finalTags.push(tag);
+        }
+      });
+
+      Promise.all(promiseArr).then(() => {
+        console.log('promise all complete');
+        
+        //then bulk add tag to post
+        let query = `mutation {`;
+        finalTags.forEach((tag, i) => {
+          query += `a${i}: createPostToTag(input: {
+            postToTag:{
+              postId: ${postId},
+              postTagId: ${tag.id}
+            }
+          }) {
+            clientMutationId
+          }`;
+        });
+        query += `}`;
+        
+        this.apiService.createPostToTag(query).subscribe(
+          result => resolve(result),
+          err => console.log(err)
+        )
+      });
+    });
   }
 
   presentPopover(e) {
@@ -252,9 +340,6 @@ export class CreatePostModal {
   }
 
   removeTag(i: number) {
-    //This is making the db change right off the bat. Probably only want it done on a save scenario... Fine for now
-    this.apiService.deletePostToTagById(this.tagOptions[i].id).subscribe(
-      result => this.tagOptions.splice(i, 1)
-    );
+    this.tagOptions.splice(i, 1);
   }
 }

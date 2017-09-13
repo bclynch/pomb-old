@@ -487,9 +487,9 @@ const updateConfig = gql`
 `;
 
 const updatePostById = gql`
-  mutation updatePostById($title: String, $subtitle: String, $content: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
     updatePostById(input:{
-      id: 1,
+      id: $postId,
       postPatch:{
         title: $title,
         subtitle: $subtitle,
@@ -689,13 +689,9 @@ export class APIService {
     });
   }
 
-  createPostToTag(postId: number, postTagId: number) {
+  createPostToTag(mutation: string) {
     return this.apollo.mutate({
-      mutation: createPostToTag,
-      variables: {
-        postId,
-        postTagId
-      }
+      mutation: gql`${mutation}`
     });
   }
 
@@ -733,10 +729,11 @@ export class APIService {
     });
   }
 
-  updatePostById(title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  updatePostById(postId: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: updatePostById,
       variables: {
+        postId,
         title,
         subtitle,
         content,

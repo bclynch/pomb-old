@@ -19,7 +19,7 @@ export class TagSearch {
     private apiService: APIService
   ) { 
     this.search.valueChanges
-      .debounceTime(400)
+      .debounceTime(250)
       .subscribe(query => { 
         if(query) {
           console.log(query);
@@ -37,21 +37,17 @@ export class TagSearch {
   }
 
   submitQuery() {
-    //if it equals the name of the search result we will use this to not add to db again because it already exists
-    if(this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
-      this.selectTag.emit(this.searchResults[0]);
-    } else {
-      //add to db
-      this.apiService.createPostTag(this.value.toLowerCase()).subscribe(
-        data => {
-          const tagData = <any>data;
-          tagData.data.createPostTag.postTag
-          this.selectTag.emit({id: tagData.data.createPostTag.postTag.id, name: tagData.data.createPostTag.postTag.name});
-        }
-      )
-    }
-    this.value = '';
-    this.searchResults = [];
+    //debouncing a second so search results have a sec to catch up
+    setTimeout(() => {
+      //if it equals the name of the search result we will use this to not add to db again because it already exists
+      if(this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
+        this.selectTag.emit(this.searchResults[0]);
+      } else {
+        this.selectTag.emit({ id: null, name: this.value.toLowerCase() });
+      }
+      this.value = '';
+      this.searchResults = [];
+    }, 400);
   }
 
   onSelectTag(id: number, name: string) {
