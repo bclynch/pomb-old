@@ -27,6 +27,22 @@
     - https://aws.amazon.com/blogs/aws/amazon-lightsail-the-power-of-aws-the-simplicity-of-a-vps/
     - https://www.digitalocean.com/pricing/
 
+## Feature Ideas
+
+It would be fun to work on a few of these things:
+
+**Excursion Explorer:** 
+App interface similar to lonely planet that shows information about various countries. Done this before. Look to those examples.
+
+**Pack Diary:**
+A centralized hub that a user can use to keep track of their trip. Look at something like polar steps or whatever for ideas. Probably like a day by day where am I + where'd I go. Could connect with the users blog posts as well. Interactive map would be perfect for this with points along the way that exhibit pictures, posts, etc. Can have a check in feature for users to snag their GPS coordinates to update progress. Maybe another hub to make trips public to inspire others.
+
+**User Profile:**
+Could create a front page of sorts for each user that has their own grid or look via user admin panel. Something to share with friends + commemorate trip. Perhaps have a way to show off multiple trips/filter by trip etc.
+
+**Monetization:**
+Most features available for free, but some premium like photo caps, private vs public posts, certain features. A couple bucks a year to stay premium. Maybe monthly? Seems like folks would only keep it as long as they're traveling. Maybe one off payments to post for a trip with limits to posts, pictures, etc but once it's there it's always there. Hard to say. 
+
 ## Project Setup
 
 - `$ ionic start <name> blank`

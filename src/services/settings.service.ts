@@ -11,7 +11,13 @@ export class SettingsService {
   tagline: string;
   heroBanner: string;
 
-  appCategories: any = {};
+  appCategories: any = {
+    'Trekking': { description: '' },
+    'Biking': { description: '' },
+    'Culture': { description: '' },
+    'Travel': { description: '' },
+    'Gear': { description: '' },
+  };
 
   constructor(
     private apiService: APIService
@@ -20,20 +26,20 @@ export class SettingsService {
   grabAppSettings() {
     let promises = [];
 
-    let promise1 = new Promise<string>((resolve, reject) => {
-      this.apiService.getAllPostCategories().subscribe(
-        data => {
-          let categoriesData = <any>data;
-          //format data
-          categoriesData.data.allPostCategories.nodes.forEach((category) => {
-            this.appCategories[category.name] = { description: category.categoryDescription, id: category.id };
-          });
-          resolve();
-        },
-        err => reject(err)
-      )
-    });
-    promises.push(promise1);
+    // let promise1 = new Promise<string>((resolve, reject) => {
+    //   this.apiService.getAllPostCategories().subscribe(
+    //     data => {
+    //       let categoriesData = <any>data;
+    //       //format data
+    //       categoriesData.data.allPostCategories.nodes.forEach((category) => {
+    //         this.appCategories[category.name] = { description: category.categoryDescription, id: category.id };
+    //       });
+    //       resolve();
+    //     },
+    //     err => reject(err)
+    //   )
+    // });
+    // promises.push(promise1);
 
     let promise2 = new Promise<string>((resolve, reject) => {
       this.apiService.getConfig().subscribe(

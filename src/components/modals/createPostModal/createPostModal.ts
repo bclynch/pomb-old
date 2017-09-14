@@ -7,7 +7,7 @@ import moment from 'moment';
 import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
 
-import { Post } from '../../../models/Post.model';
+import { Post, PostCategory } from '../../../models/Post.model';
 import { Tag } from '../../../models/Tag.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
@@ -24,6 +24,15 @@ interface RelativeTime {
   value: number;
 }
 
+interface PostModel { 
+  postTitle: string; 
+  postSubtitle: string; 
+  content: string; 
+  category: PostCategory; 
+  leadPhoto: string; 
+  leadPhotoTitle: string; 
+}
+
 @Component({
   selector: 'CreatePostModal',
   templateUrl: 'createPostModal.html'
@@ -33,7 +42,7 @@ export class CreatePostModal {
   containerOptions: string[] = ['Content', 'Options'];
   activeContainerOption: number = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
-  postModel = { postTitle: '', postSubtitle: '', content: '', leadPhoto: '', leadPhotoTitle: '' };
+  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhoto: '', leadPhotoTitle: '' };
   data: Post;
   primaryLoading: boolean = false;
 
@@ -58,7 +67,6 @@ export class CreatePostModal {
   publishModel: RelativeTime = { label: 'now', value: Date.now() };
 
   categoryOptions: string[] = Object.keys(this.settingsService.appCategories);
-  selectedCategoryOption: number = null;
 
   tagOptions: Tag[] = [];
 
@@ -78,11 +86,12 @@ export class CreatePostModal {
       this.postModel.postTitle = this.data.title;
       this.postModel.postSubtitle = this.data.subtitle;
       this.postModel.content = this.data.content;
+      this.postModel.category = this.data.category;
       this.postModel.leadPhoto = this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url;
+      this.postModel.leadPhotoTitle = this.data.postLeadPhotosByPostId.nodes[0].title;
       this.data.postToTagsByPostId.nodes.forEach((tag) => {
         this.tagOptions.push(tag.postTagByPostTagId);
       });
-      this.selectedCategoryOption = this.data.postToCategoriesByPostId.nodes[0].postCategoryByPostCategoryId.id;
       if(this.data.scheduledDate) {
         this.scheduledModel.value = +this.data.scheduledDate;
         this.scheduledModel.label = moment(+this.data.scheduledDate).fromNow();
@@ -108,6 +117,14 @@ export class CreatePostModal {
         this.savePost();
         break;
     }
+  }
+
+  selectCategory(category: string) {
+    this.postModel.category = PostCategory[category];
+  }
+
+  categoryActive(category: string) {
+    return category === PostCategory[this.postModel.category];
   }
 
   cancelConfirm() {
@@ -160,67 +177,57 @@ export class CreatePostModal {
 
   savePost() {
     //if has a post we know its a put otherwise a post
-    if(this.data) {
-      //this.data is the original data passed in and shouldn't be mutated
-      //We can use this as a ref to know if we need to pass in new edits/changes
-      this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
-      .subscribe(
-        result => {
-          //check if photo title has changed. If so update postLeadPhoto
+    this.data ? this.updatePost() : this.createPost();   
+  }
 
-          //check if leadPhotoLink url has changed. If so update leadPhotoLink
+  updatePost() {
+    //this.data is the original data passed in and shouldn't be mutated
+    //We can use this as a ref to know if we need to pass in new edits/changes
+    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    .subscribe(
+      result => {
+        let updatePromises = [];
+        //check if photo title has changed. If so update postLeadPhoto
+        updatePromises.push(this.comparePhoto());
 
-          //check if postCategoryId has changed. If so update postToCategory
+        //check if leadPhotoLink url has changed. If so update leadPhotoLink
 
-          //check if tags have changed. If so update post tags and or post to tags as required
-          //posttotag would only be a delete
-          
-          const existingTags = this.data.postToTagsByPostId.nodes.map((value) => {return value.postTagByPostTagId});
-          console.log(existingTags);
-          console.log(this.tagOptions);
+        //check if tags have changed. If so update post tags and or post to tags as required          
+        updatePromises.push(this.compareTags(this.data.postToTagsByPostId.nodes));
 
-          //checking for dif between arrays
-          const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x) < 0 );
-          console.log(diffExisting); // remove post to tag
-          //run a for each and delete
-
-          // this.apiService.deletePostToTagById(somenumber).subscribe(
-          //   result => console.log(result)
-          // );
-
-          const diffNew = this.tagOptions.filter(x => existingTags.indexOf(x) < 0 );
-          console.log(diffNew); // create tag + post to tag
-          //send these off to create tags mutation
-
+        //when all the above have resolved dismiss the modal
+        Promise.all(updatePromises).then(() => {
           this.viewCtrl.dismiss('refresh');
-        }
-      )
-    } else {
-      this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
-      .subscribe(
-        result => {
-          console.log(result);
-          const createPostData = <any>result;
-  
-          //lumping a few different calls for categories and lead photo together to save on API calls
-          this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg', this.selectedCategoryOption).subscribe(
-            processPostData => {
-              console.log(processPostData);
+        });
+      }
+    )
+  }
 
-              this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
-                result => {
-                  this.viewCtrl.dismiss('refresh');
-                }, err => {
-                  console.log(err);
-                  alert('something is fucked');
-                  this.viewCtrl.dismiss('refresh');
-                }
-              );
-            }
-          )
-        }
-      )
-    }    
+  createPost() {
+    this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    .subscribe(
+      result => {
+        console.log(result);
+        const createPostData = <any>result;
+
+        //lumping a few different calls for categories and lead photo together to save on API calls
+        this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg').subscribe(
+          processPostData => {
+            console.log(processPostData);
+
+            this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
+              result => {
+                this.viewCtrl.dismiss('refresh');
+              }, err => {
+                console.log(err);
+                alert('something is fucked');
+                this.viewCtrl.dismiss('refresh');
+              }
+            );
+          }
+        )
+      }
+    )
   }
 
   createTagsMutation(postId: number, tagsArr: Tag[]) {
@@ -228,45 +235,102 @@ export class CreatePostModal {
       let finalTags: Tag[] = [];
       //first need to create any totally new tags and add to db
       let promiseArr = [];
-      this.tagOptions.forEach((tag, i) => {
-        if(!tag.id) {
-          let promise = new Promise((resolve, reject) => {
-            this.apiService.createPostTag(tag.name).subscribe(
-              data => {
-                const tagData = <any>data;
-                finalTags.push(tagData.data.createPostTag.postTag);
-                resolve();
-              }
-            )
-          });
-          promiseArr.push(promise);
-        } else {
-          finalTags.push(tag);
-        }
-      });
-
-      Promise.all(promiseArr).then(() => {
-        console.log('promise all complete');
-        
-        //then bulk add tag to post
-        let query = `mutation {`;
-        finalTags.forEach((tag, i) => {
-          query += `a${i}: createPostToTag(input: {
-            postToTag:{
-              postId: ${postId},
-              postTagId: ${tag.id}
-            }
-          }) {
-            clientMutationId
-          }`;
+      if(tagsArr.length) {
+        tagsArr.forEach((tag, i) => {
+          if(!tag.id) {
+            let promise = new Promise((resolve, reject) => {
+              this.apiService.createPostTag(tag.name).subscribe(
+                data => {
+                  const tagData = <any>data;
+                  finalTags.push(tagData.data.createPostTag.postTag);
+                  resolve();
+                }
+              )
+            });
+            promiseArr.push(promise);
+          } else {
+            finalTags.push(tag);
+          }
         });
-        query += `}`;
-        
-        this.apiService.createPostToTag(query).subscribe(
-          result => resolve(result),
-          err => console.log(err)
+  
+        Promise.all(promiseArr).then(() => {
+          console.log('promise all complete');
+          
+          //then bulk add tag to post
+          let query = `mutation {`;
+          finalTags.forEach((tag, i) => {
+            query += `a${i}: createPostToTag(input: {
+              postToTag:{
+                postId: ${postId},
+                postTagId: ${tag.id}
+              }
+            }) {
+              clientMutationId
+            }`;
+          });
+          query += `}`;
+          
+          this.apiService.createPostToTag(query).subscribe(
+            result => resolve(result),
+            err => console.log(err)
+          )
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
+  compareTags(existingTags: { id: number, postTagByPostTagId: Tag }[]): Promise<{}> {
+    return new Promise((resolve, reject) => {
+      //checking for dif between arrays
+      const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x.postTagByPostTagId) < 0 );
+      console.log(diffExisting); // remove post to tag
+      const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => { return value.postTagByPostTagId });
+      const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x) < 0 );
+      console.log(diffNew); // create tag + post to tag
+
+      //if no changes resolve
+      if(!diffExisting.length && !diffNew.length) resolve();
+
+      //If no diff existing
+      //send these off to create tags mutation
+      if(!diffExisting.length) {
+        this.createTagsMutation(this.data.id, diffNew).then(
+          result => resolve()
         )
+      }
+
+      //Has diff existing so run a for each and delete
+      diffExisting.forEach((tag, i) => {
+        const tagData = <any>tag;
+        this.apiService.deletePostToTagById(tagData.id).subscribe(
+          result => {
+            console.log(result);
+
+            //if the last tag deleted then cont
+            if(i === diffExisting.length - 1) {
+              //send these off to create tags mutation
+              this.createTagsMutation(this.data.id, diffNew).then(
+                result => resolve()
+              )
+            }
+          }
+        );
       });
+    });
+  }
+
+  comparePhoto(): Promise<{}> {
+    return new Promise((resolve, reject) => {
+      if(this.data.postLeadPhotosByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) {
+        //api call to update then resolve
+        this.apiService.updateLeadPhotoInfo(this.data.postLeadPhotosByPostId.nodes[0].id, this.postModel.leadPhotoTitle).subscribe(
+          result => resolve()
+        )
+      } else {
+        resolve();
+      }
     });
   }
 

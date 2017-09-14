@@ -75,9 +75,9 @@
           <div class="postOptionsWrapper">
             <div class="optionWrapper" *ngFor="let category of categoryOptions; let i = index;">
               <div 
-                (click)="selectedCategoryOption = i + 1" 
-                [style.color]="i === selectedCategoryOption - 1 ? 'black' : null" 
-                [style.border]="i === selectedCategoryOption - 1 ? 'black solid 2px' : null"
+                (click)="selectCategory(category)" 
+                [style.color]="categoryActive(category) ? 'black' : null" 
+                [style.border]="categoryActive(category) ? 'black solid 2px' : null"
                 class="option"
               >{{category}}</div>
             </div>

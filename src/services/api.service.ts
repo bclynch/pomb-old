@@ -7,6 +7,8 @@ import gql from 'graphql-tag';
 
 import { AlertService } from './alert.service';
 
+import { PostCategory } from '../models/Post.model';
+
 //////////////////////////
 /////////// queries
 ////////////////////////
@@ -29,6 +31,7 @@ const getAllPosts = gql`
         title,
         subtitle,
         content,
+        category,
         createdAt,
         updatedAt,
         isDraft,
@@ -42,6 +45,7 @@ const getAllPosts = gql`
         },
         postToTagsByPostId {
           nodes {
+            id,
             postTagByPostTagId {
               name,
               id
@@ -59,16 +63,9 @@ const getAllPosts = gql`
             }
           }
         },
-        postToCategoriesByPostId {
-          nodes {
-            postCategoryByPostCategoryId {
-              name,
-              id
-            }
-          }
-        },
         postLeadPhotosByPostId {
           nodes {
+            id,
             title,
             leadPhotoLinksByLeadPhotoId {
               nodes {
@@ -95,6 +92,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       title,
       subtitle,
       content,
+      category,
       createdAt,
       updatedAt,
       isDraft,
@@ -108,6 +106,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       },
       postToTagsByPostId {
         nodes {
+          id,
           postTagByPostTagId {
             name,
             id
@@ -125,16 +124,9 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
           }
         }
       },
-      postToCategoriesByPostId {
-        nodes {
-          postCategoryByPostCategoryId {
-            name,
-            id
-          }
-        }
-      },
       postLeadPhotosByPostId {
         nodes {
+          id,
           title,
           leadPhotoLinksByLeadPhotoId {
             nodes {
@@ -161,18 +153,6 @@ const getAllPostTags = gql`
   }
 `;
 
-const getAllPostCategories = gql`
-  query allPostCategories {
-    allPostCategories {
-      nodes {
-        id,
-        name,
-        categoryDescription
-      }
-    }
-  }
-`;
-
 const getConfig = gql`
 query allConfigs {
   allConfigs {
@@ -193,6 +173,7 @@ const getPostById = gql`
       title,
       subtitle,
       content,
+      category,
       createdAt,
       updatedAt,
       scheduledDate,
@@ -203,6 +184,7 @@ const getPostById = gql`
       },
       postToTagsByPostId {
         nodes {
+          id,
           postTagByPostTagId {
             name,
             id
@@ -220,16 +202,9 @@ const getPostById = gql`
           }
         }
       },
-      postToCategoriesByPostId {
-        nodes {
-          postCategoryByPostCategoryId {
-            name,
-            id
-          }
-        }
-      },
       postLeadPhotosByPostId {
         nodes {
+          id,
           title,
           leadPhotoLinksByLeadPhotoId {
             nodes {
@@ -257,6 +232,7 @@ const getPostsByTag = gql`
         createdAt,
         postLeadPhotosByPostId {
           nodes {
+            id,
             title,
             leadPhotoLinksByLeadPhotoId {
               nodes {
@@ -272,31 +248,34 @@ const getPostsByTag = gql`
 `;
 
 const getPostsByCategory = gql`
-query postsByCategory($categoryId: Int!) {
-  postsByCategory(categoryId: $categoryId) {
-    nodes {
-      id,
-      title,
-      accountByAuthor {
-        firstName,
-        lastName
-      }
-      subtitle,
-      createdAt,
-      postLeadPhotosByPostId {
-        nodes {
-          title,
-          leadPhotoLinksByLeadPhotoId {
-            nodes {
-              url,
-              size
+  query allPosts($category: PostCategory) {
+    allPosts(condition:{
+      category: $category
+    }) {
+      nodes {
+        id,
+        title,
+        accountByAuthor {
+          firstName,
+          lastName
+        }
+        subtitle,
+        createdAt,
+        postLeadPhotosByPostId {
+          nodes {
+            id,
+            title,
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url,
+                size
+              }
             }
           }
         }
       }
     }
   }
-}
 `;
 
 const getTagByName = gql`
@@ -381,13 +360,14 @@ const deletePostById = gql`
   }
 `;
 const createPost = gql`
-  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $category: PostCategory!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
     createPost(input: {
       post: {
         author: $author,
         title: $title,
         subtitle: $subtitle,
         content: $content,
+        category: $category,
         isDraft: $isDraft,
         isScheduled: $isScheduled,
         isPublished: $isPublished,
@@ -438,7 +418,7 @@ const deletePostToTagById = gql`
   }
 `;
 const processPost = gql`
-  mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!, $categoryId: Int!) {
+  mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!) {
     createPostLeadPhoto(input: {
       postLeadPhoto: {
         postId: $postId,
@@ -456,16 +436,6 @@ const processPost = gql`
     }) {
       leadPhotoLink {
         id
-      }
-    },
-    createPostToCategory(input:{
-      postToCategory:{
-        postId: $postId,
-        postCategoryId: $categoryId
-      }
-    }) {
-      postToCategory {
-        postId
       }
     }
   }
@@ -487,7 +457,7 @@ const updateConfig = gql`
 `;
 
 const updatePostById = gql`
-  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $category: PostCategory!, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
     updatePostById(input:{
       id: $postId,
       postPatch:{
@@ -495,6 +465,7 @@ const updatePostById = gql`
         subtitle: $subtitle,
         content: $content,
         isDraft: $isDraft,
+        category: $category,
         isScheduled: $isScheduled,
         isPublished: $isPublished,
         scheduledDate: $scheduledDate,
@@ -504,6 +475,19 @@ const updatePostById = gql`
       post {
         id
       }
+    }
+  }
+`;
+
+const updateLeadPhotoInfo = gql`
+  mutation updatePostLeadPhotoById($id: Int!, $title: String) {
+    updatePostLeadPhotoById(input:{
+      id: $id,
+      postLeadPhotoPatch:{
+        title: $title
+      }
+    }) {
+      clientMutationId
     }
   }
 `;
@@ -575,11 +559,11 @@ export class APIService {
     });
   }
 
-  getPostsByCategory(categoryId: number) {
+  getPostsByCategory(category: PostCategory) {
     return this.apollo.watchQuery<any>({
       query: getPostsByCategory,
       variables: {
-        categoryId
+        category
       }
     });
   }
@@ -587,12 +571,6 @@ export class APIService {
   getAllPostTags() {
     return this.apollo.watchQuery<any>({
       query: getAllPostTags
-    });
-  }
-
-  getAllPostCategories() {
-    return this.apollo.watchQuery<any>({
-      query: getAllPostCategories
     });
   }
 
@@ -662,7 +640,7 @@ export class APIService {
     });
   }
 
-  createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  createPost(author: number, title: string, subtitle: string, content: string, category: PostCategory, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: createPost,
       variables: {
@@ -670,6 +648,7 @@ export class APIService {
         title,
         subtitle,
         content,
+        category,
         isDraft,
         isScheduled,
         isPublished,
@@ -704,15 +683,14 @@ export class APIService {
     });
   }
 
-  processPost(postId: number, photoTitle: string, size: number, photoURL: string, categoryId: number) {
+  processPost(postId: number, photoTitle: string, size: number, photoURL: string) {
     return this.apollo.mutate({
       mutation: processPost,
       variables: {
         postId,
         photoTitle,
         size,
-        photoURL,
-        categoryId
+        photoURL
       }
     });
   }
@@ -729,7 +707,7 @@ export class APIService {
     });
   }
 
-  updatePostById(postId: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  updatePostById(postId: number, title: string, subtitle: string, content: string, category: PostCategory, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: updatePostById,
       variables: {
@@ -737,11 +715,22 @@ export class APIService {
         title,
         subtitle,
         content,
+        category,
         isDraft,
         isScheduled,
         isPublished,
         scheduledDate: scheduledDate ? scheduledDate : null,
         publishedDate: publishedDate ? publishedDate : null
+      }
+    });
+  }
+
+  updateLeadPhotoInfo(id: number, title: string) {
+    return this.apollo.mutate({
+      mutation: updateLeadPhotoInfo,
+      variables: {
+        id,
+        title
       }
     });
   }
