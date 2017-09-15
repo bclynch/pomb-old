@@ -138,6 +138,7 @@ Verge:
 
 Hero Banner: 1200 x 300
 grid cards (all) 1200 x 800 - Would be one of the primary src sizes
+Seems like 620 size would cover the grid cards? Maybe need to taker into account hi res?
 Card thumb (browser) 280 x 158 (Mobile) 85 x 57 - Primary src sizes
 
 Pics that wont be used anywhere besides in article all seem to have one size for browser/mobile: 

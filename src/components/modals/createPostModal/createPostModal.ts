@@ -11,7 +11,10 @@ import { Post, PostCategory } from '../../../models/Post.model';
 import { Tag } from '../../../models/Tag.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
+import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
 import { DatePickerModal } from '../../modals/datepickerModal/datepickerModal';
+
+declare let $: any;
 
 interface PostOption {
   name: string;
@@ -24,13 +27,13 @@ interface RelativeTime {
   value: number;
 }
 
-interface PostModel { 
-  postTitle: string; 
-  postSubtitle: string; 
-  content: string; 
-  category: PostCategory; 
-  leadPhoto: string; 
-  leadPhotoTitle: string; 
+interface PostModel {
+  postTitle: string;
+  postSubtitle: string;
+  content: string;
+  category: PostCategory;
+  leadPhoto: string;
+  leadPhotoTitle: string;
 }
 
 @Component({
@@ -49,12 +52,7 @@ export class CreatePostModal {
   filesToUpload: Array<File> = [];
 
   //https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
-  editorOptions: Object = {
-    // placeholderText: 'Write something insightful...',
-    heightMin: '300px',
-    heightMax: '525px',
-    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'insertImage', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
-  }
+  editorOptions: Object;
 
   activePostOption: number = 2;
   postOptions: PostOption[] = [
@@ -92,16 +90,38 @@ export class CreatePostModal {
       this.data.postToTagsByPostId.nodes.forEach((tag) => {
         this.tagOptions.push(tag.postTagByPostTagId);
       });
-      if(this.data.scheduledDate) {
+      if (this.data.scheduledDate) {
         this.scheduledModel.value = +this.data.scheduledDate;
         this.scheduledModel.label = moment(+this.data.scheduledDate).fromNow();
       }
-      if(this.data.publishedDate) {
+      if (this.data.publishedDate) {
         this.publishModel.value = +this.data.publishedDate;
         this.publishModel.label = moment(+this.data.publishedDate).fromNow();
       }
 
       this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
+    }
+
+    //creating custom image uploader
+    $.FroalaEditor.DefineIcon('myImageUploader', { NAME: 'image' });
+    const self = this;
+    $.FroalaEditor.RegisterCommand('myImageUploader', {
+      title: 'Upload Image',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+      callback: function () {
+        self.presentImageUploaderPopover('post').then((data) => {
+          if(data) this.html.insert(`<img src="${data.arr[0].url}" width="${data.size === 'large' ? '100%' : '50%'}" />`); 
+        });
+      }
+    });
+
+    this.editorOptions = {
+      // placeholderText: 'Write something insightful...',
+      heightMin: '300px',
+      heightMax: '525px',
+      toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
     }
   }
 
@@ -177,14 +197,14 @@ export class CreatePostModal {
 
   savePost() {
     //if has a post we know its a put otherwise a post
-    this.data ? this.updatePost() : this.createPost();   
+    this.data ? this.updatePost() : this.createPost();
   }
 
   updatePost() {
     //this.data is the original data passed in and shouldn't be mutated
     //We can use this as a ref to know if we need to pass in new edits/changes
     this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
-    .subscribe(
+      .subscribe(
       result => {
         let updatePromises = [];
         //check if photo title has changed. If so update postLeadPhoto
@@ -200,12 +220,12 @@ export class CreatePostModal {
           this.viewCtrl.dismiss('refresh');
         });
       }
-    )
+      )
   }
 
   createPost() {
     this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
-    .subscribe(
+      .subscribe(
       result => {
         console.log(result);
         const createPostData = <any>result;
@@ -227,7 +247,7 @@ export class CreatePostModal {
           }
         )
       }
-    )
+      )
   }
 
   createTagsMutation(postId: number, tagsArr: Tag[]) {
@@ -235,9 +255,9 @@ export class CreatePostModal {
       let finalTags: Tag[] = [];
       //first need to create any totally new tags and add to db
       let promiseArr = [];
-      if(tagsArr.length) {
+      if (tagsArr.length) {
         tagsArr.forEach((tag, i) => {
-          if(!tag.id) {
+          if (!tag.id) {
             let promise = new Promise((resolve, reject) => {
               this.apiService.createPostTag(tag.name).subscribe(
                 data => {
@@ -252,10 +272,10 @@ export class CreatePostModal {
             finalTags.push(tag);
           }
         });
-  
+
         Promise.all(promiseArr).then(() => {
           console.log('promise all complete');
-          
+
           //then bulk add tag to post
           let query = `mutation {`;
           finalTags.forEach((tag, i) => {
@@ -269,7 +289,7 @@ export class CreatePostModal {
             }`;
           });
           query += `}`;
-          
+
           this.apiService.createPostToTag(query).subscribe(
             result => resolve(result),
             err => console.log(err)
@@ -284,18 +304,18 @@ export class CreatePostModal {
   compareTags(existingTags: { id: number, postTagByPostTagId: Tag }[]): Promise<{}> {
     return new Promise((resolve, reject) => {
       //checking for dif between arrays
-      const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x.postTagByPostTagId) < 0 );
+      const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x.postTagByPostTagId) < 0);
       console.log(diffExisting); // remove post to tag
       const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => { return value.postTagByPostTagId });
-      const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x) < 0 );
+      const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x) < 0);
       console.log(diffNew); // create tag + post to tag
 
       //if no changes resolve
-      if(!diffExisting.length && !diffNew.length) resolve();
+      if (!diffExisting.length && !diffNew.length) resolve();
 
       //If no diff existing
       //send these off to create tags mutation
-      if(!diffExisting.length) {
+      if (!diffExisting.length) {
         this.createTagsMutation(this.data.id, diffNew).then(
           result => resolve()
         )
@@ -309,7 +329,7 @@ export class CreatePostModal {
             console.log(result);
 
             //if the last tag deleted then cont
-            if(i === diffExisting.length - 1) {
+            if (i === diffExisting.length - 1) {
               //send these off to create tags mutation
               this.createTagsMutation(this.data.id, diffNew).then(
                 result => resolve()
@@ -323,7 +343,7 @@ export class CreatePostModal {
 
   comparePhoto(): Promise<{}> {
     return new Promise((resolve, reject) => {
-      if(this.data.postLeadPhotosByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) {
+      if (this.data.postLeadPhotosByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) {
         //api call to update then resolve
         this.apiService.updateLeadPhotoInfo(this.data.postLeadPhotosByPostId.nodes[0].id, this.postModel.leadPhotoTitle).subscribe(
           result => resolve()
@@ -344,6 +364,17 @@ export class CreatePostModal {
     });
   }
 
+  presentImageUploaderPopover(type: string): Promise<{ arr: { url: string, width: number }[], size: string }> {
+    return new Promise((resolve, reject) => {
+      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover' });
+      popover.present();
+      popover.onDidDismiss((data) => {
+        //return arr of images (in this case one)
+        resolve(data);
+      });
+    });
+  }
+
   presentDatepickerModal(e: Event) {
     e.stopPropagation();
 
@@ -354,8 +385,8 @@ export class CreatePostModal {
       });
       modal.onDidDismiss((data: any) => {
         console.log(Date.parse(data));
-        if(data) {
-          if(this.postOptions[this.activePostOption].name === 'Scheduled') {
+        if (data) {
+          if (this.postOptions[this.activePostOption].name === 'Scheduled') {
             this.scheduledModel.label = moment(data).fromNow();
             this.scheduledModel.value = Date.parse(data);
           } else {

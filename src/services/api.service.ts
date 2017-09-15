@@ -517,6 +517,51 @@ export class APIService {
       );
   }
 
+  uploadPostPhoto(formData: FormData, size: string) {
+    return this.http.post(`http://localhost:8080/upload-post-photo/${size}`, formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  uploadBannerPhoto(formData: FormData) {
+    return this.http.post('http://localhost:8080/upload-hero-banner', formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  uploadGalleryPhotos(formData: FormData) {
+    return this.http.post('http://localhost:8080/upload-gallery', formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
   // Graphql Queries
   getCurrentAccount(): any {
     return this.apollo.watchQuery<any>({

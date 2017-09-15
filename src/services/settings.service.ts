@@ -45,6 +45,7 @@ export class SettingsService {
       this.apiService.getConfig().subscribe(
         data => {
           const appSettings = data.data.allConfigs.nodes[0];
+          console.log(appSettings);
           this.primaryColor = appSettings.primaryColor;
           this.secondaryColor = appSettings.secondaryColor;
           this.tagline = appSettings.tagline;

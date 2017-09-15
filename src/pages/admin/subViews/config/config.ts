@@ -6,6 +6,7 @@ import { BroadcastService } from '../../../../services/broadcast.service';
 import { APIService } from '../../../../services/api.service';
 
 import { GradientPopover } from '../../../../components/popovers/gradient/gradientPopover.component';
+import { ImageUploaderPopover } from '../../../../components/popovers/imageUploader/imageUploaderPopover.component';
 
 @Component({
   selector: 'page-admin-config',
@@ -42,6 +43,14 @@ export class AdminConfigPage {
         this.configModel.primaryColor = data.primaryColor;
         this.configModel.secondaryColor = data.secondaryColor;
       }
+    });
+  }
+
+  presentImageUploaderPopover() {
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover' });
+    popover.present();
+    popover.onDidDismiss((data) => {
+      if(data) this.configModel.heroBanner = data.url;
     });
   }
 

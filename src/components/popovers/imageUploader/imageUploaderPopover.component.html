@@ -1,0 +1,41 @@
+<div class="popoverContainer">
+  <h2 class="segmentLabel">{{capitalizedType}} Upload</h2>
+  <div *ngIf="type === 'post'">
+    <h4>Directions:</h4>
+    <ol>
+      <li>Select a size (small is 1/2 post width, large is full width)</li>
+      <li>Select a photo to upload from the prompt</li>
+    </ol>
+    <div class="sizeRow">
+      <div (click)="postSize = 'small'" [ngClass]="postSize === 'small' ? 'selected' : null">Small</div>
+      <div (click)="postSize = 'large'" [ngClass]="postSize === 'large' ? 'selected' : null">Large</div>
+    </div>
+  </div>
+  <label for="file">
+    <input 
+      type="file" 
+      id="file"
+      (change)="fileChangeEvent($event)"
+      [multiple]="allowMultiple"
+      [disabled]="type==='post' && !postSize" 
+    />
+    <div *ngIf="!primaryLoading && !urlArr.length">
+      <ion-icon name="md-cloud-upload"></ion-icon>
+      <div>Add an image</div>
+    </div>
+    <div *ngIf="primaryLoading">
+      <ion-spinner></ion-spinner>
+      <div>Processing image...</div>
+    </div>
+    <div 
+      class="thumbnailImage" 
+      [ngStyle]="{ 'background-image': 'url(' + urlArr[0].url + ')'}" 
+      *ngIf="urlArr.length"
+    >
+      <div class="hoverOverlay">
+        <ion-icon name="md-cloud-upload"></ion-icon>
+        <div>Add an image</div>
+      </div>
+    </div>
+  </label>
+</div>

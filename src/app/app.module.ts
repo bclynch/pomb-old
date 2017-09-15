@@ -34,6 +34,7 @@ import { TagSearch } from '../components/tagSearch/tagSearch.component';
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
 import { GradientPopover } from '../components/popovers/gradient/gradientPopover.component';
+import { ImageUploaderPopover } from '../components/popovers/imageUploader/imageUploaderPopover.component';
 
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
@@ -102,7 +103,8 @@ import { BroadcastService } from '../services/broadcast.service';
     AdminUsersPage,
     AdminPostsPage,
     GradientPopover,
-    DatePickerModal
+    DatePickerModal,
+    ImageUploaderPopover
   ],
   imports: [
     BrowserModule,
@@ -135,7 +137,8 @@ import { BroadcastService } from '../services/broadcast.service';
     CreatePostModal,
     PostTypePopover,
     GradientPopover,
-    DatePickerModal
+    DatePickerModal,
+    ImageUploaderPopover
   ],
   providers: [
     APIService,
