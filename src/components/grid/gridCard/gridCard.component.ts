@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-import { SettingsService } from '../../services/settings.service';
-import { RouterService } from '../../services/router.service';
+import { SettingsService } from '../../../services/settings.service';
+import { RouterService } from '../../../services/router.service';
 
-import { Post } from '../../models/Post.model';
+import { Post } from '../../../models/Post.model';
 
 @Component({
   selector: 'GridCard',

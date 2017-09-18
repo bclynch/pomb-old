@@ -17,7 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Components
 import { PageNotFoundComponent } from './not-found.component';
 import { Grid } from '../components/grid/grid.component';
-import { GridCard } from '../components/gridCard/gridCard.component';
+import { GridCard } from '../components/grid/gridCard/gridCard.component';
 import { HeroBanner } from '../components/heroBanner/heroBanner.component';
 import { NavBar } from '../components/navBar/navBar.component';
 import { CompactHero } from '../components/compactHero/compactHero.component';
@@ -29,12 +29,16 @@ import { DashboardCard } from '../components/dashboardCard/dashboardCard.compone
 import { PostWrapper } from '../components/postWrapper/postWrapper.component';
 import { Search } from '../components/search/search';
 import { TagSearch } from '../components/tagSearch/tagSearch.component';
+import { Gallery } from '../components/gallery/gallery.component';
+import { GalleryCard } from '../components/gallery/galleryCard/galleryCard.component';
+import { ExpandedModal } from '../components/gallery/expandedModal/expandedModal.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
 import { GradientPopover } from '../components/popovers/gradient/gradientPopover.component';
 import { ImageUploaderPopover } from '../components/popovers/imageUploader/imageUploaderPopover.component';
+import { GalleryImgActionPopover } from '../components/popovers/galleryImgAction/galleryImgActionPopover.component';
 
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
@@ -104,7 +108,11 @@ import { BroadcastService } from '../services/broadcast.service';
     AdminPostsPage,
     GradientPopover,
     DatePickerModal,
-    ImageUploaderPopover
+    ImageUploaderPopover,
+    GalleryImgActionPopover,
+    Gallery,
+    GalleryCard,
+    ExpandedModal
   ],
   imports: [
     BrowserModule,
@@ -138,7 +146,9 @@ import { BroadcastService } from '../services/broadcast.service';
     PostTypePopover,
     GradientPopover,
     DatePickerModal,
-    ImageUploaderPopover
+    ImageUploaderPopover,
+    GalleryImgActionPopover,
+    ExpandedModal
   ],
   providers: [
     APIService,

@@ -1,4 +1,5 @@
 import { Tag } from './Tag.model';
+import { GalleryPhoto } from './GalleryPhoto.model';
 
 export class Post {
   createdAt: string;
@@ -26,6 +27,9 @@ export class Post {
         nodes: { url: string, size: number }[]
       }
     }[]
+  };
+  postToGalleryPhotosByPostId: {
+    nodes: GalleryPhoto[]
   }
 }
 

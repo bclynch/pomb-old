@@ -102,6 +102,14 @@
       </div>
     </div>
   </div>
+  <div class="galleryContainer" *ngIf="activeContainerOption === 2">
+    <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
+      <div class="imgWrapper">
+        <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.galleryPhotoUrl + ')'}"></div>
+        <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event)"></ion-icon> 
+      </div>
+    </div>
+  </div>
   <div class="footerBtns">
     <div 
       *ngFor="let option of btnOptions; let i = index;" 

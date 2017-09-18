@@ -12,6 +12,7 @@ interface Gradient {
 })
 export class GradientPopover {
 
+  //be wary darker colors combos dont work as well with black background
   gradients: Gradient[] = [
     { primaryColor: '#FC5C7D', secondaryColor: '#6A82FB'},
     { primaryColor: '#D3CCE3', secondaryColor: '#E9E4F0'},
@@ -30,8 +31,8 @@ export class GradientPopover {
     { primaryColor: '#FF5F6D', secondaryColor: '#FFC371'},
     { primaryColor: '#EECDA3', secondaryColor: '#EF629F'},
     { primaryColor: '#5A3F37', secondaryColor: '#2C7744'},
-    { primaryColor: '#6A9113', secondaryColor: '#141517'},
-    { primaryColor: '#00bf8f', secondaryColor: '#001510'},
+    { primaryColor: '#141517', secondaryColor: '#6A9113'},
+    { primaryColor: '#001510', secondaryColor: '#00bf8f'},
     { primaryColor: '#5D4157', secondaryColor: '#A8CABA'},
   ];
 

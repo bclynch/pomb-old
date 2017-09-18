@@ -1,0 +1,26 @@
+gallerycard {
+
+  .galleryCardContainer {
+    cursor: pointer;
+
+    .imgWrapper {
+      width: 100%;
+      position: relative;
+      > div {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      &:before {
+        content: "";
+        display: block;
+        padding-top: 66.66%; //assumed 3 x 2 photos so this is equal to 2 / 3
+      }
+    }
+  }
+}

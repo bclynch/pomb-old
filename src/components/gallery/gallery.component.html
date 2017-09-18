@@ -1,0 +1,5 @@
+<div class="galleryContainer">
+  <div class="cardWrapper" *ngFor="let galleryPhoto of data; let i = index;" [style.padding]="gutterWidth">
+    <GalleryCard [cardData]="galleryPhoto" (click)="expandCarousel(i)"></GalleryCard>
+  </div>
+</div>

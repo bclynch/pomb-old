@@ -74,6 +74,13 @@ const getAllPosts = gql`
               }
             }
           }
+        },
+        postToGalleryPhotosByPostId {
+          nodes {
+            id,
+            galleryPhotoUrl,
+            description
+          }
         }
       }
     }
@@ -134,6 +141,13 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
               size
             }
           }
+        }
+      },
+      postToGalleryPhotosByPostId {
+        nodes {
+          id,
+          galleryPhotoUrl,
+          description
         }
       }
     }
@@ -212,6 +226,13 @@ const getPostById = gql`
               size
             }
           }
+        }
+      },
+      postToGalleryPhotosByPostId {
+        nodes {
+          id,
+          galleryPhotoUrl,
+          description
         }
       }
     }

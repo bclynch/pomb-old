@@ -1,0 +1,17 @@
+<div class="modalContainer" (window:keydown)="onKey($event)">
+  <div 
+    class="closeModal" 
+    name="close"
+    (click)="onCloseModal()"
+  >
+    <ion-icon name="close"></ion-icon>
+  </div>
+  <img [src]="photos[currentIndex].galleryPhotoUrl" />
+  <div class="forwardBtn" (click)="pan('forward')">
+    <ion-icon name="ios-arrow-forward"></ion-icon>
+  </div>
+  <div class="backBtn" (click)="pan('back')">
+    <ion-icon name="ios-arrow-back"></ion-icon>
+  </div>
+  <div class="imgOverlay" *ngIf="photos[currentIndex].description">{{photos[currentIndex].description}}</div>
+</div>

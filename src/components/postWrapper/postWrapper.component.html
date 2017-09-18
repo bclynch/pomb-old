@@ -2,4 +2,5 @@
   <h1>{{post.title}}</h1>
   <h3>{{post.subtitle}}</h3>
   <div class="postSandbox" [froalaView]="post.content"></div>
+  <Gallery [data]="post.postToGalleryPhotosByPostId.nodes" gutterWidth="2px"></Gallery>
 </div>

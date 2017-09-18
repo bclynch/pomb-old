@@ -151,12 +151,14 @@ Sizes in src set of primary post picture (for thumbs and banners I think) all 3 
 
 - 2420 x 1613
 - 2120 x 1413
-- 1820x1213
+- 1820 x 1213
 - 1520 x 1013
 - 1220 x 813
 - 920 x 613
 - 620 x 413
 - 320 x 213
+- 280 x 158 (Browser thumb)
+- 85 x 57 (Mobile thumb)
 
 For future might be fun to add a watermark too to my images
 https://github.com/oliver-moran/jimp/issues/175

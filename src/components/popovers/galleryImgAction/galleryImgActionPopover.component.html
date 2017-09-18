@@ -1,0 +1,9 @@
+<div class="popoverContainer">
+  <!-- Would like reorder capability (need to be done on server too) -->
+  <label for="photoDescription">Description:</label>
+  <textarea rows="3" placeholder="Add a note..." id="photoDescription"></textarea>
+  <div class="btnRow">
+    <div (click)="dismissPopover('delete')">Delete</div>
+    <div (click)="dismissPopover('save')">Save</div>
+  </div>
+</div>

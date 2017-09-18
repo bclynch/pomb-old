@@ -1,0 +1,13 @@
+gallery {
+
+  .galleryContainer {
+    @include flexbox();
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+
+    .cardWrapper {
+      width: 33.33%;
+    }
+  }
+}

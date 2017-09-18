@@ -243,6 +243,42 @@ comment on column pomb.lead_photo_link.lead_photo_id is 'Id of the referenced ph
 comment on column pomb.lead_photo_link.size is 'Size of photo';
 comment on column pomb.lead_photo_link.url is 'Url of link';
 
+create table pomb.post_to_gallery_photo ( --one to many
+  id                 serial primary key,
+  post_id            integer not null references pomb.post(id) on delete cascade,
+  gallery_photo_url  text not null,
+  description        text
+);
+
+insert into pomb.post_to_gallery_photo (post_id, gallery_photo_url, description) values
+  (1, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (1, 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Lower_Yellowstone_Fall-1200px.jpg', 'A beautiful vista accented by your mom'),
+  (1, 'http://www.ningalooreefdive.com/wp-content/uploads/2014/01/coralbay-3579-1200px-wm-1.png', 'A beautiful vista accented by your mom'),
+  (1, 'http://richard-western.co.uk/wp-content/uploads/2015/06/4.-PG9015-30-1200px.jpg', 'A beautiful vista accented by your mom'),
+  (1, 'http://www.ningalooreefdive.com/wp-content/uploads/2014/10/coralbay-4077-1200px-wm.png', 'A beautiful vista accented by your mom'),
+  (1, 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Sign_of_Brno_University_of_Technology_at_building_in_Brno%2C_Kr%C3%A1lovo_Pole.jpg/1200px-Sign_of_Brno_University_of_Technology_at_building_in_Brno%2C_Kr%C3%A1lovo_Pole.jpg', 'A beautiful vista accented by your mom'),
+  (3, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (3, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (3, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (5, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (8, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (8, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (8, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (8, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (10, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom');
+
+comment on table pomb.post_to_gallery_photo is 'Join table for gallery photos on a post';
+comment on column pomb.post_to_gallery_photo.id is 'Id of the row';
+comment on column pomb.post_to_gallery_photo.post_id is 'Id of the post';
+comment on column pomb.post_to_gallery_photo.gallery_photo_url is 'Url of photo';
+comment on column pomb.post_to_gallery_photo.description is 'Description of photo';
+
 create table pomb.config (
   id                  serial primary key,
   primary_color       text not null check (char_length(primary_color) < 20),
@@ -467,10 +503,12 @@ grant ALL on table pomb.post_lead_photo to pomb_account; --ultimately needs to b
 grant ALL on table pomb.lead_photo_link to pomb_account; --ultimately needs to be policy in which only own user!
 grant ALL on table pomb.post_tag to pomb_account;
 grant ALL on table pomb.post_to_tag to pomb_account; --ultimately needs to be policy in which only own user!
+grant ALL on table pomb.post_to_gallery_photo to pomb_account; --ultimately needs to be policy in which only own user!
 
 grant select on table pomb.post to PUBLIC;
 grant select on table pomb.post_tag to PUBLIC;
 grant select on table pomb.post_to_tag to PUBLIC;
+grant select on table pomb.post_to_gallery_photo to PUBLIC;
 grant select on table pomb.post_comment to PUBLIC;
 grant select on table pomb.post_to_comment to PUBLIC;
 grant select on table pomb.account to PUBLIC;

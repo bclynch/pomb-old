@@ -9,9 +9,11 @@ import { SettingsService } from '../../../services/settings.service';
 
 import { Post, PostCategory } from '../../../models/Post.model';
 import { Tag } from '../../../models/Tag.model';
+import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
 import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
+import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/galleryImgActionPopover.component';
 import { DatePickerModal } from '../../modals/datepickerModal/datepickerModal';
 
 declare let $: any;
@@ -42,7 +44,7 @@ interface PostModel {
 })
 export class CreatePostModal {
 
-  containerOptions: string[] = ['Content', 'Options'];
+  containerOptions: string[] = ['Content', 'Options', 'Gallery'];
   activeContainerOption: number = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
   postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhoto: '', leadPhotoTitle: '' };
@@ -68,6 +70,8 @@ export class CreatePostModal {
 
   tagOptions: Tag[] = [];
 
+  galleryPhotos: GalleryPhoto[] = [];
+
   constructor(
     public viewCtrl: ViewController,
     private apiService: APIService,
@@ -89,6 +93,9 @@ export class CreatePostModal {
       this.postModel.leadPhotoTitle = this.data.postLeadPhotosByPostId.nodes[0].title;
       this.data.postToTagsByPostId.nodes.forEach((tag) => {
         this.tagOptions.push(tag.postTagByPostTagId);
+      });
+      this.data.postToGalleryPhotosByPostId.nodes.forEach((photo) => {
+        this.galleryPhotos.push(photo);
       });
       if (this.data.scheduledDate) {
         this.scheduledModel.value = +this.data.scheduledDate;
@@ -372,6 +379,24 @@ export class CreatePostModal {
         //return arr of images (in this case one)
         resolve(data);
       });
+    });
+  }
+
+  presentGalleryPopover(e) {
+    let popover = this.popoverCtrl.create(GalleryImgActionPopover, {  }, { cssClass: 'galleryImgActionPopover' });
+    popover.present({
+      ev: e
+    });
+    popover.onDidDismiss((data) => {
+      if(data) {
+        if(data.action === 'delete') {
+          //delete photo
+          console.log('delete photo');
+        } else {
+          //update photo
+          console.log('update photo');
+        }
+      }
     });
   }
 

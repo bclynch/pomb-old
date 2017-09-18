@@ -1,0 +1,62 @@
+.expandedModal {
+
+  .modal-wrapper {
+    left: calc(50% - (600px \ 2));
+    top: calc(50% - (400px \ 2));
+    width: 1200px;
+    height: 800px;
+
+    expandedmodal {
+      .modalContainer {
+        background: mapGet($basecolor, white);
+        height: 100%;
+        width: 100%;
+        position: relative;
+    
+        .closeModal {
+          cursor: pointer;
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: mapGet($basecolor, black);
+          border: solid 1px mapGet($basecolor, white);
+    
+          ion-icon {
+            color: mapGet($basecolor, white);
+            padding: 5px;
+            font-size: 1.3em;
+          }
+        }
+        .forwardBtn, .backBtn {
+          position: absolute; 
+          top: calc(50% - (50px / 2));
+          cursor: pointer;
+          background: rgba(0,0,0,.4);
+          padding: 0 5px;
+
+          ion-icon {
+            color: mapGet($basecolor, white);
+            font-size: 50px;
+          }
+        }
+        .forwardBtn {
+          right: 15px;
+        }
+        .backBtn {
+          left: 15px;
+        }
+        .imgOverlay {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          font-size: 5vh;
+          color: mapGet($basecolor, white);
+          background: rgba(0,0,0,.65);
+          padding: 15px 20px;
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,38 @@
+.galleryImgActionPopover {
+  ion-backdrop {
+    opacity: 0!important;
+  }
+  .popover-content {
+    @extend %popoverContent;
+    // width: 225px !important;
+
+    GalleryImgActionPopover {
+
+      .popoverContainer {
+        // @extend %popoverList;
+        padding: 5px;
+
+        label {
+          display: block;
+        }
+        textarea {
+          width: 100%;
+        }
+        .btnRow {
+          display: flex;
+          justify-content: space-around;
+
+          > div {
+            width: 40%;
+            cursor: pointer;
+            padding: 10px 0;
+            text-align: center;
+          }
+          > div:hover {
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
+}
