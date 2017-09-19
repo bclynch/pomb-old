@@ -6,31 +6,36 @@
       <div (click)="openSearch()"><ion-icon name="ios-search"></ion-icon></div>
     </div>
   </div>
-  <div class="navBarWrapper">
-    <div *ngIf="displayLogo" class="logoWrapper">
-      <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
+  <div class="navBarWrapper" [ngClass]="isExpanded ? 'expanded': null">
+    <div class="barWrapper">
+      <div *ngIf="displayLogo" class="logoWrapper">
+        <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
+      </div>
+      <div class="sectionsWrapper">
+        <div 
+          *ngFor="let option of sectionOptions; let i = index;" 
+          class="boldFont"
+          (click)="navigate(option.value)"
+          (mouseover)="sectionHover($event, i)" 
+          (mouseout)="sectionHover($event, i)"
+        >{{option.label}}</div>
+      </div>
+      <div class="socialWrapper">
+        <a 
+          *ngFor="let option of socialOptions;" 
+          [href]="option.url" 
+          target="_blank"
+        >
+          <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
+        </a>
+      </div>
+      <div class="profileWrapper" (click)="presentPopover($event)">
+        <div><ion-icon name="md-person"></ion-icon></div>
+      </div>
+      <div class="searchWrapper" (click)="openSearch()">
+        <div><ion-icon name="ios-search"></ion-icon></div>
+      </div>
     </div>
-    <div class="sectionsWrapper">
-      <div 
-        *ngFor="let option of sectionOptions;" 
-        class="boldFont"
-        (click)="navigate(option.value)"
-      >{{option.label}}</div>
-    </div>
-    <div class="socialWrapper">
-      <a 
-        *ngFor="let option of socialOptions;" 
-        [href]="option.url" 
-        target="_blank"
-      >
-        <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
-      </a>
-    </div>
-    <div class="profileWrapper" (click)="presentPopover($event)">
-      <div><ion-icon name="md-person"></ion-icon></div>
-    </div>
-    <div class="searchWrapper" (click)="openSearch()">
-      <div><ion-icon name="ios-search"></ion-icon></div>
-    </div>
+    <div class="sectionInfoPane" (mouseout)="paneLeave($event)">{{activeSection?.label}}</div>
   </div>
 </div>

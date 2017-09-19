@@ -3,7 +3,6 @@ navBar {
 
   .navBarContainer {
     background: mapGet($basecolor, black);
-    // height: 45px;
     color: mapGet($basecolor, white);
     border-bottom: solid 1px mapGet($basecolor, border);
 
@@ -35,48 +34,67 @@ navBar {
     .navBarWrapper {
       max-width: 1100px;
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 5px 0;
+      height: 33px;
+      transition: .5s;
+      // display: flex;
+      // flex-direction: column;
 
-      ion-icon:hover {
-        opacity: .7;
+      &.expanded {
+        height: 200px;
       }
-      .sectionsWrapper {
-        color: mapGet($basecolor, white);
+      .barWrapper {
         display: flex;
-        justify-content: space-around;
-        flex: 1;
-        
-        > div {
-          cursor: pointer;
-        }
-        > div:hover {
+        align-items: center;
+        justify-content: space-between;
+        height: 33px;
+
+        ion-icon:hover {
           opacity: .7;
         }
-      }
-      .socialWrapper {
-        padding: 0 18px;
-        display: none;
-
-        a {
-          margin-right: 16px;
-          text-decoration: none;
+        .sectionsWrapper {
+          color: mapGet($basecolor, white);
+          display: flex;
+          justify-content: space-around;
+          height: inherit;
+          width: 60%;
+          
+          > div {
+            cursor: pointer;
+            height: inherit;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          > div:hover {
+            opacity: .7;
+          }
+        }
+        .socialWrapper {
+          padding: 0 18px;
+          display: none;
+  
+          a {
+            margin-right: 16px;
+            text-decoration: none;
+          }
+        }
+        .logoWrapper {
+          display: none;
+        }
+        .profileWrapper {
+          width: 48px;
+          display: none;
+          justify-content: center;
+        }
+        .searchWrapper {
+          width: 48px;
+          display: none;
+          justify-content: center;
         }
       }
-      .logoWrapper {
-        display: none;
-      }
-      .profileWrapper {
-        width: 48px;
-        display: none;
-        justify-content: center;
-      }
-      .searchWrapper {
-        width: 48px;
-        display: none;
-        justify-content: center;
+      .sectionInfoPane {
+        height: 167px;
       }
     }
   }

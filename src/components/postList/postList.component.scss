@@ -4,9 +4,11 @@ postlist {
   justify-content: center;
 
   .postListContainer {
-    width: 100%;
+    background: url('../../assets/images/topo.png') top center repeat-y;
     max-width: 1280px;
-    background: mapGet($basecolor, white);
+    background-size: 1280px;
+    background-color: mapGet($basecolor, background);
+    width: 100%;
     display: flex;
     justify-content: center;
 

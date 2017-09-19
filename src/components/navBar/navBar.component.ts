@@ -34,6 +34,8 @@ export class NavBar {
   ];
 
   sectionOptions: Section[] = [];
+  isExpanded: boolean = false;
+  activeSection: Section;
 
   constructor(
     private settingsService: SettingsService,
@@ -85,5 +87,29 @@ export class NavBar {
 
   openSearch() {
     this.searchTrigger.emit();
+  }
+
+  sectionHover(e, i: number) {
+    console.log(e);
+    if(e.type === 'mouseover') {
+      this.isExpanded = true;
+      this.activeSection = this.sectionOptions[i];
+      return;
+    }
+    if(e.type === 'mouseout') {
+      if(!e.relatedTarget) {
+        this.isExpanded = false;
+        this.activeSection = null;
+        return;
+      }
+      if(e.relatedTarget.classList.contains('sectionInfoPane') || e.relatedTarget.classList.contains('boldFont')) return;
+      this.isExpanded = false;
+      this.activeSection = null;
+    }
+    console.log(this.isExpanded);
+  }
+  paneLeave() {
+    this.isExpanded = false;
+    this.activeSection = null;
   }
 }

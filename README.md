@@ -13,6 +13,7 @@
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
 - Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
+- Would like to mod the categories a bit. Similar to bikepacking.com in that you can have broader features for topics. Probably backpacking, biking, travel, join, etc. Gear would be a subset for ea category.
 
 ### Bugs
 
