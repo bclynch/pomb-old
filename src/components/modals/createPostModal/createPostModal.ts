@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
-import { ViewController, NavParams, AlertController, PopoverController, ModalController } from 'ionic-angular';
+import { ViewController, NavParams, AlertController, PopoverController, ModalController, ToastController } from 'ionic-angular';
 import moment from 'moment';
 
 import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
+import { AlertService } from '../../../services/alert.service';
 
 import { Post, PostCategory } from '../../../models/Post.model';
 import { Tag } from '../../../models/Tag.model';
@@ -49,9 +50,6 @@ export class CreatePostModal {
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
   postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhoto: '', leadPhotoTitle: '' };
   data: Post;
-  primaryLoading: boolean = false;
-
-  filesToUpload: Array<File> = [];
 
   //https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
   editorOptions: Object;
@@ -80,7 +78,9 @@ export class CreatePostModal {
     private popoverCtrl: PopoverController,
     private http: Http,
     private settingsService: SettingsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertService: AlertService,
+    private toastCtrl: ToastController,
   ) {
     this.data = params.get('post');
     console.log(this.data);
@@ -382,7 +382,7 @@ export class CreatePostModal {
     });
   }
 
-  presentGalleryPopover(e) {
+  presentGalleryPopover(e, index: number) {
     let popover = this.popoverCtrl.create(GalleryImgActionPopover, {  }, { cssClass: 'galleryImgActionPopover' });
     popover.present({
       ev: e
@@ -390,12 +390,65 @@ export class CreatePostModal {
     popover.onDidDismiss((data) => {
       if(data) {
         if(data.action === 'delete') {
-          //delete photo
-          console.log('delete photo');
+          this.alertService.confirm(
+            'Delete Gallery Image', 
+            'Are you sure you want to delete permanently delete this image?', 
+            { label: 'Delete', handler: () =>  {
+              this.apiService.deletePostToGalleryPhotoById(this.galleryPhotos[index].id).subscribe(
+                result => {
+                  this.galleryPhotos.splice(index, 1);
+                  
+                  let toast = this.toastCtrl.create({
+                    message: `Gallery image deleted`,
+                    duration: 3000,
+                    position: 'top'
+                  }); 
+              
+                  toast.present();
+                }
+              );
+            }}
+          );
         } else {
           //update photo
           console.log('update photo');
         }
+      }
+    });
+  }
+
+  presentGalleryUploaderPopover() {
+    if(this.galleryPhotos.length === 12) {
+      this.alertService.alert('Gallery Full', 'Only 12 images per gallery maximum. Please delete a few to add more.')
+    } else {
+      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length }, { cssClass: 'imageUploaderPopover' });
+      popover.present();
+      popover.onDidDismiss((data) => {
+        if(data) {
+          if(data === 'maxErr') {
+            this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 12 or less');
+          } else {
+            data.forEach((img) => {
+              this.galleryPhotos.push({
+                id: null,
+                galleryPhotoUrl: img.url,
+                description: null
+              })
+            });
+          }
+        }
+      });
+    }
+  }
+
+  presentPrimaryUploaderPopover() {
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'primary' }, { cssClass: 'imageUploaderPopover' });
+    popover.present();
+    popover.onDidDismiss((data) => {
+      if(data) {
+        //need to do something with the 7+ urls/imgs so they can be saved to user later
+        //get back an arr of objects with a 'size' prop and a 'url' prop
+        this.postModel.leadPhoto = data[0].url;
       }
     });
   }
@@ -421,34 +474,6 @@ export class CreatePostModal {
         }
       });
     }
-  }
-
-  upload() {
-    const formData: FormData = new FormData();
-    const files: Array<File> = this.filesToUpload;
-
-    for (let file of files) {
-      console.log(file);
-      formData.append('uploads[]', file, file.name);
-    }
-
-    this.primaryLoading = true;
-    this.apiService.uploadPrimaryPhoto(formData).subscribe(
-      result => {
-        console.log(result);
-        if (result.length) {
-          this.postModel.leadPhoto = result[0].url;
-          this.primaryLoading = false;
-          console.log(this.postModel.leadPhoto);
-        }
-      }
-    )
-  }
-
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
-
-    this.upload();
   }
 
   addTag(data: Tag) {

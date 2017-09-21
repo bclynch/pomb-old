@@ -6,10 +6,8 @@
 
     .popoverContainer {
       padding: 0 10px;
+      text-align: center;
 
-      h2 {
-        text-align: center;
-      }
       ol {
         padding-left: 15px;
       }
@@ -99,5 +97,11 @@
         color: mapGet($basecolor, black);
       }
     }
+  }
+  .popoverClose {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
   }
 }

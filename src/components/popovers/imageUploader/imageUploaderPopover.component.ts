@@ -26,12 +26,8 @@ export class ImageUploaderPopover {
     this.type = params.get('type');
     this.capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
- 
-  // selectOption(option: string) {
-  //   this.viewCtrl.dismiss(option);
-  // }
 
-  uploadPrimaryPhoto() {
+  processFormData(): FormData {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
 
@@ -41,28 +37,24 @@ export class ImageUploaderPopover {
     }
 
     this.primaryLoading = true;
+    return formData;
+  }
+
+  uploadPrimaryPhoto() {
+    const formData = this.processFormData();
+
     this.apiService.uploadPrimaryPhoto(formData).subscribe(
       result => {
         console.log(result);
-        if (result.length) {
-          this.urlArr.push(result[0].url);
-          this.primaryLoading = false;
-          // this.viewCtrl.dismiss(this.urlArr);
-        }
+        this.primaryLoading = false;
+        this.viewCtrl.dismiss(result);
       }
-    )
+    );
   }
 
   uploadPostPhoto() {
-    const formData: FormData = new FormData();
-    const files: Array<File> = this.filesToUpload;
+    const formData = this.processFormData();
 
-    for (let file of files) {
-      console.log(file);
-      formData.append('uploads[]', file, file.name);
-    }
-
-    this.primaryLoading = true;
     this.apiService.uploadPostPhoto(formData, this.postSize).subscribe(
       result => {
         console.log(result);
@@ -70,30 +62,38 @@ export class ImageUploaderPopover {
         this.primaryLoading = false;
         this.viewCtrl.dismiss({ arr: this.urlArr, size: this.postSize });
       }
-    )
+    );
   }
 
   uploadGalleryPhotos() {
+    const formData = this.processFormData();
 
+    console.log(this.filesToUpload.length);
+    console.log(this.params.get('existingPhotos'));
+
+    if(this.filesToUpload.length + this.params.get('existingPhotos') > 12) {
+      this.viewCtrl.dismiss('maxErr');
+    } else {
+      this.apiService.uploadGalleryPhotos(formData).subscribe(
+        result => {
+          console.log(result);
+          this.primaryLoading = false;
+          this.viewCtrl.dismiss(result);
+        }
+      );
+    }
   }
 
   uploadBannerPhoto() {
-    const formData: FormData = new FormData();
-    const files: Array<File> = this.filesToUpload;
+    const formData = this.processFormData();
 
-    for (let file of files) {
-      console.log(file);
-      formData.append('uploads[]', file, file.name);
-    }
-
-    this.primaryLoading = true;
     this.apiService.uploadBannerPhoto(formData).subscribe(
       result => {
         console.log(result);
         this.primaryLoading = false;
         this.viewCtrl.dismiss(result);
       }
-    )
+    );
   }
 
   fileChangeEvent(fileInput: any) {

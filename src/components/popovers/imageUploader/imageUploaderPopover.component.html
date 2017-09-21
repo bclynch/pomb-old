@@ -11,13 +11,15 @@
       <div (click)="postSize = 'large'" [ngClass]="postSize === 'large' ? 'selected' : null">Large</div>
     </div>
   </div>
+  <div *ngIf="type === 'gallery'">(max 12 images per gallery)</div>
   <label for="file">
     <input 
       type="file" 
       id="file"
       (change)="fileChangeEvent($event)"
       [multiple]="allowMultiple"
-      [disabled]="type==='post' && !postSize" 
+      [disabled]="type==='post' && !postSize"
+      accept="image/*" 
     />
     <div *ngIf="!primaryLoading && !urlArr.length">
       <ion-icon name="md-cloud-upload"></ion-icon>
@@ -38,4 +40,5 @@
       </div>
     </div>
   </label>
+  <ion-icon name="md-close" class="popoverClose" (click)="viewCtrl.dismiss()"></ion-icon>
 </div>

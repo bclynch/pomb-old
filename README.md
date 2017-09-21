@@ -2,17 +2,18 @@
 
 ## Todos
 
-- Set up service for methods on front end that cover 'primary' images (with a bunch of sizes) and just normal post images with just one. Would like to have grids for some posts too, so maybe they would have a couple sizes. - primary done, need other
-- Using squarespace as a template for building a nice post creation dashboard.
-    - Mostly there on saving new posts, but need to look at adding multiple photos at a time (akin to how its done on laze with multiple products per order and a dynamic gql string) as well as get tags in there + category fixed (looks like zero index in arr but 1 index on the db?)
-    - Probably need to keep two sets of data when editing a post. Need to know what changes were made so that we aren't making api calls in real time, but only when the user saves it to the db so as not to overwrite things unecessarily. For example when deleting a tag, as it happens vs on save?
+- Create/edit post dash
+    - Finish logic with primary post photo. Just need to stash the seven+ urls + sizes and what not and get it wired up with the table.
+    - For gallery need to add logic for checking whether its new on save (doesn't have an id) and then saving them all.
+    - Would like some kind of alert that intercepts page if user tries to leave if changes need to be saved.
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
     - Validation for the user only seeing their posts
-- Create profile page with user info, maybe favorited posts or some shit. Option for valid accounts to create posts if they wish
+- Gallery needs work with its modal on a couple things
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
 - Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
+    - Google analytics would be nice as well
 - Would like to mod the categories a bit. Similar to bikepacking.com in that you can have broader features for topics. Probably backpacking, biking, travel, join, etc. Gear would be a subset for ea category.
 
 ### Bugs

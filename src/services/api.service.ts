@@ -438,6 +438,15 @@ const deletePostToTagById = gql`
     }
   }
 `;
+const deletePostToGalleryPhotoById = gql`
+  mutation deletePostToGalleryPhotoById($id: Int!) {
+    deletePostToGalleryPhotoById(input:{
+      id: $id
+    }) {
+      clientMutationId
+    }
+  }
+`;
 const processPost = gql`
   mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!) {
     createPostLeadPhoto(input: {
@@ -743,6 +752,15 @@ export class APIService {
   deletePostToTagById(id: number) {
     return this.apollo.mutate({
       mutation: deletePostToTagById,
+      variables: {
+        id
+      }
+    });
+  }
+
+  deletePostToGalleryPhotoById(id: number) {
+    return this.apollo.mutate({
+      mutation: deletePostToGalleryPhotoById,
       variables: {
         id
       }

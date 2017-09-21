@@ -25,20 +25,7 @@
     <div class="topContainer">
       <div class="left">
         <div class="segmentLabel">Primary Photo</div>
-        <label for="file">
-          <input 
-            type="file" 
-            id="file"
-            (change)="fileChangeEvent($event)" 
-          />
-          <div *ngIf="!primaryLoading && !postModel.leadPhoto">
-            <ion-icon name="md-cloud-upload"></ion-icon>
-            <div>Add an image</div>
-          </div>
-          <div *ngIf="primaryLoading">
-            <ion-spinner></ion-spinner>
-            <div>Processing image...</div>
-          </div>
+        <div class="uploadWrapper" (click)="presentPrimaryUploaderPopover()">
           <div 
             class="thumbnailImage" 
             [ngStyle]="{ 'background-image': 'url(' + postModel.leadPhoto + ')'}" 
@@ -49,7 +36,11 @@
               <div>Add an image</div>
             </div>
           </div>
-        </label>
+          <div *ngIf="!postModel.leadPhoto" class="emptyImgContainer">
+            <ion-icon name="md-cloud-upload"></ion-icon>
+            <div>Add an image</div>
+          </div>
+        </div>
         <input 
           type="text"
           placeholder="Image title"
@@ -103,10 +94,20 @@
     </div>
   </div>
   <div class="galleryContainer" *ngIf="activeContainerOption === 2">
-    <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
-      <div class="imgWrapper">
-        <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.galleryPhotoUrl + ')'}"></div>
-        <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event)"></ion-icon> 
+    <div class="addGalleryContainer">
+      <div class="galleryLoadWrapper">
+        <div (click)="presentGalleryUploaderPopover()">
+          <ion-icon name="md-cloud-upload"></ion-icon>
+          <div>Add images</div>
+        </div>
+      </div>
+    </div>
+    <div class="gridWrapper">
+      <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
+        <div class="imgWrapper">
+          <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.galleryPhotoUrl + ')'}"></div>
+          <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event, i)"></ion-icon> 
+        </div>
       </div>
     </div>
   </div>
