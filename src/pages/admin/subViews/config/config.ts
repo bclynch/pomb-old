@@ -47,7 +47,7 @@ export class AdminConfigPage {
   }
 
   presentImageUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover' });
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if(data) this.configModel.heroBanner = data.url;

@@ -7,7 +7,17 @@ gallery {
     align-content: flex-start;
 
     .cardWrapper {
-      width: 33.33%;
+      width: 100%;
+    }
+  }
+  @include respond-to(tiny) {
+    .cardWrapper {
+      width: 50%!important;
+    }
+  }
+  @include respond-to(small) {
+    .cardWrapper {
+      width: 33.33%!important;
     }
   }
 }

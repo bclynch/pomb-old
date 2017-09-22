@@ -59,7 +59,7 @@ app.post("/upload-primary", upload.array("uploads[]", 1), function (req, res) {
   req.files.forEach((file, i) => {
     let promise = new Promise((resolve, reject) => {
 
-      resizeImagesWriteBuffer(file, [{width: 300, height: 200}, {width:2400, height: 1600}], 80, fileType).then((bufferArr) => {
+      resizeImagesWriteBuffer(file, [{width: 320, height: 213}, {width:1220, height: 813}], 80, fileType).then((bufferArr) => {
         console.log(`finished file ${i + 1}`);
         console.log('Processed img buffer arr: ', bufferArr);
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
 import { APIService } from '../../../services/api.service';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'ImageUploaderPopover',
@@ -12,7 +13,7 @@ export class ImageUploaderPopover {
   allowMultiple: boolean;
   type: string;
   capitalizedType: string;
-  primaryLoading: boolean = false;
+  isProcessing: boolean = false;
   filesToUpload: Array<File> = [];
   urlArr: string[] = [];
   postSize: 'small' | 'large';
@@ -20,7 +21,8 @@ export class ImageUploaderPopover {
   constructor(
     public viewCtrl: ViewController,
     private params: NavParams,
-    private apiService: APIService
+    private apiService: APIService,
+    private alertService: AlertService
   ) {
     this.allowMultiple = params.get('type') === 'gallery';
     this.type = params.get('type');
@@ -36,7 +38,7 @@ export class ImageUploaderPopover {
       formData.append('uploads[]', file, file.name);
     }
 
-    this.primaryLoading = true;
+    this.isProcessing = true;
     return formData;
   }
 
@@ -46,7 +48,7 @@ export class ImageUploaderPopover {
     this.apiService.uploadPrimaryPhoto(formData).subscribe(
       result => {
         console.log(result);
-        this.primaryLoading = false;
+        this.isProcessing = false;
         this.viewCtrl.dismiss(result);
       }
     );
@@ -59,7 +61,7 @@ export class ImageUploaderPopover {
       result => {
         console.log(result);
         this.urlArr.push(result);
-        this.primaryLoading = false;
+        this.isProcessing = false;
         this.viewCtrl.dismiss({ arr: this.urlArr, size: this.postSize });
       }
     );
@@ -77,7 +79,7 @@ export class ImageUploaderPopover {
       this.apiService.uploadGalleryPhotos(formData).subscribe(
         result => {
           console.log(result);
-          this.primaryLoading = false;
+          this.isProcessing = false;
           this.viewCtrl.dismiss(result);
         }
       );
@@ -90,7 +92,7 @@ export class ImageUploaderPopover {
     this.apiService.uploadBannerPhoto(formData).subscribe(
       result => {
         console.log(result);
-        this.primaryLoading = false;
+        this.isProcessing = false;
         this.viewCtrl.dismiss(result);
       }
     );
@@ -112,6 +114,14 @@ export class ImageUploaderPopover {
       case 'gallery':
         this.uploadGalleryPhotos();
         break;
+    }
+  }
+
+  closePopover() {
+    if(this.isProcessing) {
+      this.alertService.confirm('Processing', 'Are you sure you want to disrupt the image upload processing?', { label: 'Close', handler: () => this.viewCtrl.dismiss()});
+    } else {
+      this.viewCtrl.dismiss();
     }
   }
 }

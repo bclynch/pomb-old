@@ -21,11 +21,11 @@
       [disabled]="type==='post' && !postSize"
       accept="image/*" 
     />
-    <div *ngIf="!primaryLoading && !urlArr.length">
+    <div *ngIf="!isProcessing && !urlArr.length">
       <ion-icon name="md-cloud-upload"></ion-icon>
       <div>Add an image</div>
     </div>
-    <div *ngIf="primaryLoading">
+    <div *ngIf="isProcessing">
       <ion-spinner></ion-spinner>
       <div>Processing image...</div>
     </div>
@@ -40,5 +40,5 @@
       </div>
     </div>
   </label>
-  <ion-icon name="md-close" class="popoverClose" (click)="viewCtrl.dismiss()"></ion-icon>
+  <ion-icon name="md-close" class="popoverClose" (click)="closePopover()"></ion-icon>
 </div>

@@ -35,8 +35,12 @@ interface PostModel {
   postSubtitle: string;
   content: string;
   category: PostCategory;
-  leadPhoto: string;
   leadPhotoTitle: string;
+}
+
+interface LeadPhoto {
+  size: number;
+  url: string;
 }
 
 @Component({
@@ -48,7 +52,7 @@ export class CreatePostModal {
   containerOptions: string[] = ['Content', 'Options', 'Gallery'];
   activeContainerOption: number = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
-  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhoto: '', leadPhotoTitle: '' };
+  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhotoTitle: '' };
   data: Post;
 
   //https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
@@ -69,6 +73,8 @@ export class CreatePostModal {
   tagOptions: Tag[] = [];
 
   galleryPhotos: GalleryPhoto[] = [];
+  leadPhotoLinks: LeadPhoto[];
+  displayedLeadPhoto: LeadPhoto;
 
   constructor(
     public viewCtrl: ViewController,
@@ -89,7 +95,8 @@ export class CreatePostModal {
       this.postModel.postSubtitle = this.data.subtitle;
       this.postModel.content = this.data.content;
       this.postModel.category = this.data.category;
-      this.postModel.leadPhoto = this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url;
+      this.leadPhotoLinks = this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes;
+      this.displayedLeadPhoto = this.selectSmallLeadPhoto(this.leadPhotoLinks);
       this.postModel.leadPhotoTitle = this.data.postLeadPhotosByPostId.nodes[0].title;
       this.data.postToTagsByPostId.nodes.forEach((tag) => {
         this.tagOptions.push(tag.postTagByPostTagId);
@@ -130,6 +137,14 @@ export class CreatePostModal {
       heightMax: '525px',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
     }
+  }
+
+  selectSmallLeadPhoto(arr: LeadPhoto[]): LeadPhoto {
+    let smallPhoto: LeadPhoto;
+    arr.forEach((photo) => {
+      if(photo.size === 320) smallPhoto = photo;
+    });
+    return smallPhoto;
   }
 
   clickBtn(index) {
@@ -217,7 +232,8 @@ export class CreatePostModal {
         //check if photo title has changed. If so update postLeadPhoto
         updatePromises.push(this.comparePhoto());
 
-        //check if leadPhotoLink url has changed. If so update leadPhotoLink
+        //check if leadPhotoLink url has changed. If so update leadPhotoLinks
+        updatePromises.push(this.comparePhotoLinks());
 
         //check if tags have changed. If so update post tags and or post to tags as required          
         updatePromises.push(this.compareTags(this.data.postToTagsByPostId.nodes));
@@ -233,28 +249,70 @@ export class CreatePostModal {
   createPost() {
     this.apiService.createPost(1, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
-      result => {
-        console.log(result);
-        const createPostData = <any>result;
+        result => {
+          console.log(result);
+          const createPostData = <any>result;
 
-        //lumping a few different calls for categories and lead photo together to save on API calls
-        this.apiService.processPost(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle, 123, 'http://images.singletracks.com/blog/wp-content/uploads/2016/06/Scale-Action-Image-2017-BIKE-SCOTT-Sports_9-1200x800.jpg').subscribe(
-          processPostData => {
-            console.log(processPostData);
+          //lumping a few different calls for categories and lead photo together to save on API calls
+          this.apiService.createPostLeadPhoto(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle).subscribe(
+            postLeadPhoto => {
+              console.log(postLeadPhoto);
+              const postLeadPhotoData = <any>postLeadPhoto;
 
-            this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
-              result => {
-                this.viewCtrl.dismiss('refresh');
-              }, err => {
-                console.log(err);
-                alert('something is fucked');
-                this.viewCtrl.dismiss('refresh');
-              }
-            );
-          }
-        )
-      }
+              console.log(postLeadPhotoData.data.createPostLeadPhoto.postLeadPhoto.id);
+              this.createLeadPhotoLinks(postLeadPhotoData.data.createPostLeadPhoto.postLeadPhoto.id).then(
+                () => {
+
+                  this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
+                    result => {
+                      this.viewCtrl.dismiss('refresh');
+                    }, err => {
+                      console.log(err);
+                      alert('something is fucked');
+                      this.viewCtrl.dismiss('refresh');
+                    }
+                  );
+                }, err => {
+                  console.log(err);
+                  alert('something is fucked');
+                  this.viewCtrl.dismiss('refresh');
+                }
+              )
+            }, err => {
+              console.log(err);
+              alert('something is fucked');
+              this.viewCtrl.dismiss('refresh');
+            }
+          );
+        }
       )
+  }
+
+  createLeadPhotoLinks(leadPhotoId: number) {
+    return new Promise((resolve, reject) => {
+      //then bulk add links to post
+      let query = `mutation {`;
+      console.log(this.leadPhotoLinks);
+      this.leadPhotoLinks.forEach((photo, i) => {
+        query += `a${i}: createLeadPhotoLink(input: {
+          leadPhotoLink:{
+            leadPhotoId: ${leadPhotoId},
+            size: ${photo.size},
+            url: "${photo.url}"
+          }
+        }) {
+          clientMutationId
+        }`;
+      });
+      query += `}`;
+
+      console.log(query);
+
+      this.apiService.genericCall(query).subscribe(
+        result => resolve(result),
+        err => console.log(err)
+      );
+    });
   }
 
   createTagsMutation(postId: number, tagsArr: Tag[]) {
@@ -297,10 +355,10 @@ export class CreatePostModal {
           });
           query += `}`;
 
-          this.apiService.createPostToTag(query).subscribe(
+          this.apiService.genericCall(query).subscribe(
             result => resolve(result),
             err => console.log(err)
-          )
+          );
         });
       } else {
         resolve();
@@ -361,6 +419,43 @@ export class CreatePostModal {
     });
   }
 
+  comparePhotoLinks(): Promise<{}> {
+    return new Promise((resolve, reject) => {
+      if (this.selectSmallLeadPhoto(this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes).url !== this.selectSmallLeadPhoto(this.leadPhotoLinks).url) {
+        //snag ids of original links + size for ref
+        let idRefs: {} = {}
+        this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.forEach((link) => {
+          idRefs[`w${link.size}`] = link.id;
+        });
+
+        console.log(idRefs);
+
+        //then bulk links to post
+        let query = `mutation {`;
+        this.leadPhotoLinks.forEach((link, i) => {
+          query += `a${i}: updateLeadPhotoLinkById(input: {
+            id: ${idRefs[`w${link.size}`]},
+            leadPhotoLinkPatch:{
+              url: "${link.url}"
+            }
+          }) {
+            clientMutationId
+          }`;
+        });
+        query += `}`;
+
+        console.log(query);
+
+        this.apiService.genericCall(query).subscribe(
+          result => resolve(result),
+          err => console.log(err)
+        );
+      } else {
+        resolve();
+      }
+    });
+  }
+
   presentPopover(e) {
     let popover = this.popoverCtrl.create(PostTypePopover, { options: this.postOptions }, { cssClass: 'postTypePopover' });
     popover.present({
@@ -373,7 +468,7 @@ export class CreatePostModal {
 
   presentImageUploaderPopover(type: string): Promise<{ arr: { url: string, width: number }[], size: string }> {
     return new Promise((resolve, reject) => {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover' });
+      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
         //return arr of images (in this case one)
@@ -421,7 +516,7 @@ export class CreatePostModal {
     if(this.galleryPhotos.length === 12) {
       this.alertService.alert('Gallery Full', 'Only 12 images per gallery maximum. Please delete a few to add more.')
     } else {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length }, { cssClass: 'imageUploaderPopover' });
+      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
         if(data) {
@@ -442,13 +537,12 @@ export class CreatePostModal {
   }
 
   presentPrimaryUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'primary' }, { cssClass: 'imageUploaderPopover' });
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'primary' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if(data) {
-        //need to do something with the 7+ urls/imgs so they can be saved to user later
-        //get back an arr of objects with a 'size' prop and a 'url' prop
-        this.postModel.leadPhoto = data[0].url;
+        this.leadPhotoLinks = data;
+        this.displayedLeadPhoto = this.selectSmallLeadPhoto(this.leadPhotoLinks);
       }
     });
   }

@@ -24,7 +24,7 @@ export class Post {
       id: number,
       title: string,
       leadPhotoLinksByLeadPhotoId: {
-        nodes: { url: string, size: number }[]
+        nodes: { id: number, url: string, size: number }[]
       }
     }[]
   };

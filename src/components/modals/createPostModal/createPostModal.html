@@ -28,15 +28,15 @@
         <div class="uploadWrapper" (click)="presentPrimaryUploaderPopover()">
           <div 
             class="thumbnailImage" 
-            [ngStyle]="{ 'background-image': 'url(' + postModel.leadPhoto + ')'}" 
-            *ngIf="postModel.leadPhoto"
+            [ngStyle]="{ 'background-image': 'url(' + displayedLeadPhoto.url + ')'}" 
+            *ngIf="displayedLeadPhoto"
           >
             <div class="hoverOverlay">
               <ion-icon name="md-cloud-upload"></ion-icon>
               <div>Add an image</div>
             </div>
           </div>
-          <div *ngIf="!postModel.leadPhoto" class="emptyImgContainer">
+          <div *ngIf="!displayedLeadPhoto" class="emptyImgContainer">
             <ion-icon name="md-cloud-upload"></ion-icon>
             <div>Add an image</div>
           </div>

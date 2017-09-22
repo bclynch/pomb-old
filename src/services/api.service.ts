@@ -69,6 +69,7 @@ const getAllPosts = gql`
             title,
             leadPhotoLinksByLeadPhotoId {
               nodes {
+                id,
                 url,
                 size
               }
@@ -137,6 +138,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
           title,
           leadPhotoLinksByLeadPhotoId {
             nodes {
+              id,
               url,
               size
             }
@@ -222,6 +224,7 @@ const getPostById = gql`
           title,
           leadPhotoLinksByLeadPhotoId {
             nodes {
+              id,
               url,
               size
             }
@@ -257,6 +260,7 @@ const getPostsByTag = gql`
             title,
             leadPhotoLinksByLeadPhotoId {
               nodes {
+                id,
                 url,
                 size
               }
@@ -288,6 +292,7 @@ const getPostsByCategory = gql`
             title,
             leadPhotoLinksByLeadPhotoId {
               nodes {
+                id,
                 url,
                 size
               }
@@ -417,18 +422,6 @@ const createPostTag = gql`
     }
   }
 `;
-const createPostToTag = gql`
-mutation createPostToTag($postId: Int!, $postTagId: Int!) {
-  createPostToTag(input: {
-    postToTag:{
-      postId: $postId,
-      postTagId: $postTagId
-    }
-  }) {
-    clientMutationId
-  }
-}
-`;
 const deletePostToTagById = gql`
   mutation deletePostToTagById($id: Int!) {
     deletePostToTagById(input:{
@@ -447,24 +440,15 @@ const deletePostToGalleryPhotoById = gql`
     }
   }
 `;
-const processPost = gql`
-  mutation processPost($postId: Int!, $photoTitle: String!, $size: Int!, $photoURL: String!) {
+const createPostLeadPhoto = gql`
+  mutation createPostLeadPhoto($postId: Int!, $photoTitle: String!) {
     createPostLeadPhoto(input: {
       postLeadPhoto: {
         postId: $postId,
         title: $photoTitle
       }
     }) {
-      clientMutationId
-    },
-    createLeadPhotoLink(input:{
-      leadPhotoLink: {
-        leadPhotoId: $postId,
-        size: $size,
-        url: $photoURL
-      }
-    }) {
-      leadPhotoLink {
+      postLeadPhoto {
         id
       }
     }
@@ -743,7 +727,7 @@ export class APIService {
     });
   }
 
-  createPostToTag(mutation: string) {
+  genericCall(mutation: string) {
     return this.apollo.mutate({
       mutation: gql`${mutation}`
     });
@@ -767,14 +751,12 @@ export class APIService {
     });
   }
 
-  processPost(postId: number, photoTitle: string, size: number, photoURL: string) {
+  createPostLeadPhoto(postId: number, photoTitle: string) {
     return this.apollo.mutate({
-      mutation: processPost,
+      mutation: createPostLeadPhoto,
       variables: {
         postId,
-        photoTitle,
-        size,
-        photoURL
+        photoTitle
       }
     });
   }
