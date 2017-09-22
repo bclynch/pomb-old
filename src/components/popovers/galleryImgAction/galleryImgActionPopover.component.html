@@ -1,7 +1,13 @@
 <div class="popoverContainer">
   <!-- Would like reorder capability (need to be done on server too) -->
+  <h3>Edit Gallery Image</h3>
   <label for="photoDescription">Description:</label>
-  <textarea rows="3" placeholder="Add a note..." id="photoDescription"></textarea>
+  <textarea 
+    rows="3" 
+    placeholder="Image information..." 
+    id="photoDescription" 
+    [(ngModel)]="popoverModel.description"
+  ></textarea>
   <div class="btnRow">
     <div class="deleteBtn boldFont" (click)="dismissPopover('delete')">Delete</div> 
     <div class="boldFont" (click)="dismissPopover('save')">Save</div>

@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="previewContainer" [style.margin]="isExpanded ? 0 : '22px'">
-      <div *ngIf="activePost >= 0">
+      <div *ngIf="activePost >= 0 && activePost !== null">
           <ion-icon 
           name="md-arrow-up" 
           title="Expand Preview" 

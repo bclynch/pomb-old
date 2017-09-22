@@ -42,7 +42,7 @@ create table pomb.post (
   title               text not null check (char_length(title) < 200),
   subtitle            text not null check (char_length(title) < 300),
   content             text not null,
-  category            pomb.post_category not null,
+  category            pomb.post_category,
   is_draft            boolean not null,
   is_scheduled        boolean not null,
   scheduled_date       bigint,

@@ -386,7 +386,7 @@ const deletePostById = gql`
   }
 `;
 const createPost = gql`
-  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $category: PostCategory!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $category: PostCategory, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
     createPost(input: {
       post: {
         author: $author,
@@ -471,7 +471,7 @@ const updateConfig = gql`
 `;
 
 const updatePostById = gql`
-  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $category: PostCategory!, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $category: PostCategory, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
     updatePostById(input:{
       id: $postId,
       postPatch:{

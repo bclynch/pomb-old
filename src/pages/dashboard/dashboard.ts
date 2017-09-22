@@ -53,14 +53,12 @@ export class DashboardPage {
       case 0:
         this.apiService.getAllPosts().subscribe(
           ({data}) => {
-            console.log(data);
             this.posts = data.allPosts.nodes;
           });
         break;
       case 1:
         this.apiService.getPostsByStatus(true, false, false).subscribe(
           ({data}) => {
-            console.log(data);
             this.posts = data.allPosts.nodes;
           }
         )
@@ -68,7 +66,6 @@ export class DashboardPage {
       case 2:
         this.apiService.getPostsByStatus(false, true, false).subscribe(
           ({data}) => {
-            console.log(data);
             this.posts = data.allPosts.nodes;
           }
         )
@@ -76,7 +73,6 @@ export class DashboardPage {
       case 3:
         this.apiService.getPostsByStatus(false, false, true).subscribe(
           ({data}) => {
-            console.log(data);
             this.posts = data.allPosts.nodes;
           }
         )

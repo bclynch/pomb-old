@@ -9,14 +9,17 @@
     GalleryImgActionPopover {
 
       .popoverContainer {
-        // @extend %popoverList;
         padding: 5px;
+        background: mapGet($basecolor, light);
 
         label {
           display: block;
+          font-size: 16px;
         }
         textarea {
           width: 100%;
+          background: mapGet($basecolor, white);
+          border: none;
         }
         .btnRow {
           display: flex;

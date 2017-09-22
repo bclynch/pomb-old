@@ -3,11 +3,9 @@
 ## Todos
 
 - Create/edit post dash
-    - For gallery need to add logic for checking whether its new on save (doesn't have an id) and then saving them all + for create post
     - Would like some kind of alert that intercepts page if user tries to leave if changes need to be saved.
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
-    - Validation the required fields are filled out
     - Validation for the user only seeing their posts
 - Gallery needs work with its modal on a couple things. Mobile doesn't really work + sizing responsiveness
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)

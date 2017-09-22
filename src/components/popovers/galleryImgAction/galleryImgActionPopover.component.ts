@@ -1,25 +1,22 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
+import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
+
 @Component({
   selector: 'GalleryImgActionPopover',
   templateUrl: 'galleryImgActionPopover.component.html'
 })
 export class GalleryImgActionPopover {
 
-  // options;
-  popoverModel;
+  popoverModel: GalleryPhoto;
 
   constructor(
     public viewCtrl: ViewController,
     private params: NavParams
   ) {
-    // this.options = params.get('options');
+    this.popoverModel = { ...params.get('model') };
   }
- 
-  // selectOption(option: string) {
-  //   this.viewCtrl.dismiss(option);
-  // }
 
   dismissPopover(action: string) {
     const data = { action, data: this.popoverModel };

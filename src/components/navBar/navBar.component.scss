@@ -4,7 +4,6 @@ navBar {
   .navBarContainer {
     background: mapGet($basecolor, black);
     color: mapGet($basecolor, white);
-    border-bottom: solid 1px mapGet($basecolor, border);
 
     ion-icon {
       width: 16px;
@@ -95,6 +94,7 @@ navBar {
       }
       .sectionInfoPane {
         height: 167px;
+        background: mapGet($basecolor, dark);
       }
     }
   }
