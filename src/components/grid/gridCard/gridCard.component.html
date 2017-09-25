@@ -6,6 +6,9 @@
   ></div>
   <div class="contentContainer">
     <div class="contentTitle" (click)="navigateToPost()">{{data.title}}</div>
-    <div class="boldFont authorContainer">By <span [style.color]="settingsService.secondaryColor">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span></div>
+    <div class="boldFont authorContainer">By 
+      <span [style.color]="settingsService.secondaryColor" *ngIf="data.accountByAuthor.firstName">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span>
+      <span [style.color]="settingsService.secondaryColor" *ngIf="!data.accountByAuthor.firstName">{{data.accountByAuthor.username}}</span>
+    </div>
   </div>
 </div>

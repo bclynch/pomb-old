@@ -1,7 +1,10 @@
 postwrapper {
+  width: 100%;
+
   .postContentWrapper {
     max-width: 900px;
     width: 100%;
+    margin: 0 auto;
 
     .postSandbox {
       img {

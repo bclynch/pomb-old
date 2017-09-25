@@ -70,6 +70,7 @@ import { SettingsService } from '../services/settings.service';
 import { RouterService } from '../services/router.service';
 import { AlertService } from '../services/alert.service';
 import { BroadcastService } from '../services/broadcast.service';
+import { RoleGuardService } from '../services/roleGuard.service';
 
 @NgModule({
   declarations: [
@@ -158,6 +159,7 @@ import { BroadcastService } from '../services/broadcast.service';
     RouterService,
     AlertService,
     BroadcastService,
+    RoleGuardService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

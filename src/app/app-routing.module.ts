@@ -2,6 +2,8 @@ import { NgModule }              from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
 import { PageNotFoundComponent } from './not-found.component';
 
+import { RoleGuardService as RoleGuard } from '../services/roleGuard.service';
+
 //pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
@@ -36,6 +38,10 @@ const appRoutes: Routes = [
   { path: 'gear', component: HubPage},
   { 
     path: 'post-dashboard',
+    canActivate: [RoleGuard], 
+    data: { 
+      expectedRole: 'pomb_account'
+    },
     children: [
       {
         path: ':username',
@@ -45,6 +51,10 @@ const appRoutes: Routes = [
   },
   { path: 'archive', component: ArchivePage },
   { path: 'admin',
+  // canActivate: [RoleGuard], 
+  // data: { 
+  //   expectedRole: 'pomb_admin'
+  // },
     children: [
       {
         path: '',

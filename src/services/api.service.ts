@@ -23,9 +23,14 @@ const currentAccountQuery = gql`
   }
 `;
 
-const getAllPosts = gql`
+const getAllPublishedPosts = gql`
   query allPosts {
-    allPosts {
+    allPosts(
+      orderBy: PRIMARY_KEY_DESC
+      condition:{
+        isPublished: true
+      }
+    ) {
       nodes {
         id,
         title,
@@ -41,7 +46,8 @@ const getAllPosts = gql`
         publishedDate,
         accountByAuthor {
           firstName,
-          lastName
+          lastName,
+          username
         },
         postToTagsByPostId {
           nodes {
@@ -88,13 +94,85 @@ const getAllPosts = gql`
   }
 `;
 
+const getAllPostsByUser = gql`
+query allPosts($author: Int!) {
+  allPosts(
+    orderBy: PRIMARY_KEY_DESC,
+    condition: {
+      author: $author
+    }
+  ) {
+    nodes {
+      id,
+      title,
+      subtitle,
+      content,
+      category,
+      createdAt,
+      updatedAt,
+      isDraft,
+      isScheduled,
+      isPublished,
+      scheduledDate,
+      publishedDate,
+      accountByAuthor {
+        firstName,
+        lastName
+      },
+      postToTagsByPostId {
+        nodes {
+          id,
+          postTagByPostTagId {
+            name,
+            id
+          }
+        }
+      },
+      postToCommentsByPostId {
+        nodes {
+          postCommentByCommentId {
+            accountByAuthor {
+            firstName 
+            },
+            content,
+            createdAt
+          }
+        }
+      },
+      postLeadPhotosByPostId {
+        nodes {
+          id,
+          title,
+          leadPhotoLinksByLeadPhotoId {
+            nodes {
+              id,
+              url,
+              size
+            }
+          }
+        }
+      },
+      postToGalleryPhotosByPostId {
+        nodes {
+          id,
+          galleryPhotoUrl,
+          description
+        }
+      }
+    }
+  }
+}
+`;
+
 const getPostsByStatus = gql`
-query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!) {
+query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $author: Int!) {
   allPosts(condition: {
     isDraft: $isDraft,
     isScheduled: $isScheduled,
-    isPublished: $isPublished
-  }) {
+    isPublished: $isPublished,
+    author: $author
+  },
+  orderBy: PRIMARY_KEY_DESC) {
     nodes {
       id,
       title,
@@ -276,7 +354,8 @@ const getPostsByCategory = gql`
   query allPosts($category: PostCategory) {
     allPosts(condition:{
       category: $category
-    }) {
+    },
+    orderBy: PRIMARY_KEY_DESC) {
       nodes {
         id,
         title,
@@ -583,19 +662,29 @@ export class APIService {
     });
   }
 
-  getAllPosts() {
+  getAllPublishedPosts() {
     return this.apollo.watchQuery<any>({
-      query: getAllPosts
+      query: getAllPublishedPosts
     });
   }
 
-  getPostsByStatus(isDraft: boolean, isScheduled: boolean, isPublished: boolean) {
+  getAllPostsByUser(author: number) {
+    return this.apollo.watchQuery<any>({
+      query: getAllPostsByUser,
+      variables: {
+        author
+      }
+    });
+  }
+
+  getPostsByStatus(isDraft: boolean, isScheduled: boolean, isPublished: boolean, author: number) {
     return this.apollo.watchQuery<any>({
       query: getPostsByStatus,
       variables: {
         isDraft,
         isScheduled,
-        isPublished
+        isPublished, 
+        author
       }
     });
   }
