@@ -14,6 +14,8 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { MyApp } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { WindowScrollDirective } from '../directives/scroll.directive';
+
 // Components
 import { PageNotFoundComponent } from './not-found.component';
 import { Grid } from '../components/grid/grid.component';
@@ -79,6 +81,7 @@ import { AlertService } from '../services/alert.service';
 import { BroadcastService } from '../services/broadcast.service';
 import { RoleGuardService } from '../services/roleGuard.service';
 import { ExploreService } from '../services/explore.service';
+import { UtilService } from '../services/util.service';
 
 @NgModule({
   declarations: [
@@ -128,7 +131,8 @@ import { ExploreService } from '../services/explore.service';
     ExploreCountryPage,
     ExploreCityPage,
     FadeCarousel,
-    ExploreModal
+    ExploreModal,
+    WindowScrollDirective
   ],
   imports: [
     BrowserModule,
@@ -181,6 +185,7 @@ import { ExploreService } from '../services/explore.service';
     BroadcastService,
     RoleGuardService,
     ExploreService,
+    UtilService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

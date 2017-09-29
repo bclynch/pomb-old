@@ -9,6 +9,7 @@ import { RouterService } from '../../services/router.service';
 import { UserService } from '../../services/user.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { ExploreService } from '../../services/explore.service';
+import { UtilService } from '../../services/util.service';
 
 interface Social {
   icon: string;
@@ -47,7 +48,8 @@ export class NavBar {
     private userService: UserService,
     private modalCtrl: ModalController,
     private broadcastService: BroadcastService,
-    private exploreService: ExploreService
+    private exploreService: ExploreService,
+    private utilService: UtilService
   ) {
     this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories()); 
   }
@@ -95,28 +97,13 @@ export class NavBar {
     this.searchTrigger.emit();
   }
 
-  sectionHover(e, i: number) {
-    console.log(e);
-    if(e.type === 'mouseover') {
+  navHover(e, i: number) {
+    if(e.type === 'mouseenter') {
       this.isExpanded = true;
       this.activeSection = this.sectionOptions[i];
-      return;
-    }
-    if(e.type === 'mouseout') {
-      if(!e.relatedTarget) {
-        this.isExpanded = false;
-        this.activeSection = null;
-        return;
-      }
-      
-      const targetClasses = e.relatedTarget.classList;
-      if(targetClasses.contains('sectionInfoPane') || targetClasses.contains('paneSectionHeader')) return; 
+    } else {
       this.isExpanded = false;
       this.activeSection = null;
     }
-  }
-  paneLeave(event) {
-    this.isExpanded = false;
-    this.activeSection = null;
   }
 }

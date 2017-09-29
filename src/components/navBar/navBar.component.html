@@ -1,4 +1,9 @@
-<div class="navBarContainer">
+<div 
+  class="navBarContainer" 
+  [ngClass]="utilService.scrollDirection === 'down' ? 'hidden' : null" 
+  [style.height]="isExpanded ? '60vh' : '40px'"
+  (mouseleave)="navHover($event)"
+>
   <div class="mobileWrapper">
     <div class="boldFont mobileLogo" (click)="routerService.navigateToPage('/')">POMB</div>
     <div class="right">
@@ -6,7 +11,7 @@
       <div (click)="openSearch()"><ion-icon name="ios-search"></ion-icon></div>
     </div>
   </div>
-  <div class="navBarWrapper" [ngClass]="isExpanded ? 'expanded': null">
+  <div class="navBarWrapper">
     <div class="barWrapper">
       <div *ngIf="displayLogo" class="logoWrapper">
         <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
@@ -14,10 +19,9 @@
       <div class="sectionsWrapper">
         <div 
           *ngFor="let option of sectionOptions; let i = index;" 
-          class="boldFont"
+          class="boldFont sectionOption"
           (click)="navigate(option.value)"
-          (mouseover)="sectionHover($event, i)" 
-          (mouseout)="sectionHover($event, i)"
+          (mouseenter)="navHover($event, i)"
         >{{option.label}}</div>
       </div>
       <div class="socialWrapper">
@@ -36,20 +40,20 @@
         <div><ion-icon name="ios-search"></ion-icon></div>
       </div>
     </div>
-    <!-- <div class="sectionInfoPane" (mouseout)="paneLeave($event)">
-
-      <div *ngIf="activeSection?.label === 'Explore'" class="paneContainer">
-        <div class="paneSection">
-          <div class="paneSectionHeader">World Map</div>
-        </div>
-        <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
-          <div class="paneSectionHeader">{{region.region}}</div>
-          <div class="paneOptionWrapper">
-            <div class="paneOption" *ngFor="let subregion of region.subregions" [style.color]="settingsService.secondaryColor">{{subregion}}</div>
-          </div>
+  </div>
+  <div class="sectionInfoPane">
+      
+    <div *ngIf="activeSection?.label === 'Explore'" class="paneContainer">
+      <div class="paneSection">
+        <div class="paneSectionHeader">World Map</div>
+      </div>
+      <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
+        <div class="paneSectionHeader">{{region.region}}</div>
+        <div class="paneOptionWrapper">
+          <div class="paneOption boldFont" *ngFor="let subregion of region.subregions" [style.color]="settingsService.secondaryColor">{{subregion}}</div>
         </div>
       </div>
-
-    </div> -->
+    </div>
+    
   </div>
 </div>
