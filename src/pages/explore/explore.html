@@ -1,5 +1,11 @@
 <PageWrapper>
-  <FadeCarousel [data]="carouselImages" [style.width]="'100vw'" title="Explore"></FadeCarousel>
+  <FadeCarousel 
+    [data]="carouselImages" 
+    [style.width]="'100vw'" 
+    title="Explore"
+    btnLabel="Regions & Countries"
+    (btnClick)="presentModal()"
+  ></FadeCarousel>
   <GeoChart [countries]="countryCodes" *ngIf="inited"></GeoChart>
 </PageWrapper>
 

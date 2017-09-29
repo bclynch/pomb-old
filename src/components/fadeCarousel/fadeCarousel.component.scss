@@ -19,17 +19,29 @@ fadecarousel {
       align-items: center;
       justify-content: center;
       color: mapGet($basecolor, white);
-      text-shadow: 2px 2px mapGet($basecolor, black);
 
       .slideTitle {
         font-size: 80px;
         line-height: 72px;
         font-weight: 600;
         margin-bottom: 15px;
+        text-shadow: 2px 2px mapGet($basecolor, black);
       }
       .slideTagline {
         font-size: 30px;
         font-style: italic;
+        text-shadow: 2px 2px mapGet($basecolor, black);
+      }
+      .modalLauncherBtn {
+        margin-top: 30px;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        ion-icon {
+          margin-left: 10px;
+        }
       }
     }
   }

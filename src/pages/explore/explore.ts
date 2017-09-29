@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ModalController } from 'ionic-angular';
 
 import { APIService } from '../../services/api.service';
 import { SettingsService } from '../../services/settings.service';
 import { ExploreService } from '../../services/explore.service';
 import { BroadcastService } from '../../services/broadcast.service';
+
+import { ExploreModal } from '../../components/modals/exploreModal/exploreModal';
 
 @Component({
   selector: 'page-explore',
@@ -23,12 +25,23 @@ export class ExplorePage {
     { imgURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Oslo_Lufthavn_flyfoto.jpg/1200px-Oslo_Lufthavn_flyfoto.jpg', tagline: 'your way about the world' }
   ];
 
+  modalData = [
+    {
+      label: 'Popular Regions',
+      items: ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania']
+    },
+    {
+      label: 'Popular Countries',
+      items: ['China', 'France', 'Spain', 'Brazil', 'Canada', 'South Africa', 'Japan', 'Russia', 'Mexico', 'India']
+    }
+  ];
+
   constructor(
     private apiService: APIService,
-    private router: Router,
     private settingsService: SettingsService,
     private exploreService: ExploreService,
-    private broadcastService: BroadcastService
+    private broadcastService: BroadcastService,
+    private modalController: ModalController
   ) {  
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
   }
@@ -38,4 +51,8 @@ export class ExplorePage {
     this.inited = true;
   }
 
+  presentModal() {
+    let modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
+    modal.present();
+  }
 }

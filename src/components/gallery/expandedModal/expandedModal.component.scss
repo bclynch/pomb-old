@@ -1,10 +1,8 @@
 .expandedModal {
 
   .modal-wrapper {
-    left: calc(50% - (600px \ 2));
-    top: calc(50% - (400px \ 2));
-    width: 1200px;
-    height: 800px;
+    width: 100vw;
+    height: 100vh;
 
     expandedmodal {
       .modalContainer {
@@ -12,6 +10,8 @@
         height: 100%;
         width: 100%;
         position: relative;
+        display: flex;
+        align-items: center;
     
         .closeModal {
           cursor: pointer;
@@ -20,6 +20,7 @@
           right: 20px;
           background: mapGet($basecolor, black);
           border: solid 1px mapGet($basecolor, white);
+          z-index: 10;
     
           ion-icon {
             color: mapGet($basecolor, white);
@@ -27,36 +28,63 @@
             font-size: 1.3em;
           }
         }
-        .forwardBtn, .backBtn {
-          position: absolute; 
-          top: calc(50% - (50px / 2));
-          cursor: pointer;
-          background: rgba(0,0,0,.4);
-          padding: 0 5px;
+        .imgWrapper {
+          position: relative;
 
-          ion-icon {
+          .forwardBtn, .backBtn {
+            position: absolute; 
+            top: calc(50% - (50px / 2));
+            cursor: pointer;
+            background: rgba(0,0,0,.4);
+            padding: 0 5px;
+  
+            ion-icon {
+              color: mapGet($basecolor, white);
+              font-size: 50px;
+            }
+          }
+          .forwardBtn {
+            right: 15px;
+          }
+          .backBtn {
+            left: 15px;
+          }
+          .imgOverlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             color: mapGet($basecolor, white);
-            font-size: 50px;
+            background: rgba(0,0,0,.65);
+            font-size: 4vh;
+            padding: 15px 10px;
+            min-height: 75px;
           }
         }
-        .forwardBtn {
-          right: 15px;
-        }
-        .backBtn {
-          left: 15px;
-        }
-        .imgOverlay {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          font-size: 5vh;
-          color: mapGet($basecolor, white);
-          background: rgba(0,0,0,.65);
-          padding: 25px 20px;
-          min-height: 150px;
-        }
       }
+    }
+  }
+
+  @include respond-to(small) {
+    .modal-wrapper {
+      left: calc(50% - (370px \ 2));
+      top: calc(50% - (250px \ 2));
+      width: 750px;
+      height: 500px;
+
+      .imgOverlay {
+        font-size: 5vh!important;
+        padding: 25px 20px!important;
+        min-height: 150px!important;
+      }
+    }
+  }
+  @include respond-to(medium) {
+    .modal-wrapper {
+      left: calc(50% - (500px \ 2));
+      top: calc(50% - (333px \ 2));
+      width: 1000px;
+      height: 666px;
     }
   }
 }

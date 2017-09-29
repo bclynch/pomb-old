@@ -1,0 +1,13 @@
+<div class="modalContainer">
+  <div 
+    class="closeModal" 
+    name="close"
+    (click)="onCloseModal()"
+    [style.color]="settingsService.secondaryColor"
+  >
+    <ion-icon name="close"></ion-icon>
+  </div>
+  <div *ngFor="let segment of modalData">
+    <div>{{segment.label}}</div>
+  </div>
+</div>

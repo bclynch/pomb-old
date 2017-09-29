@@ -1,0 +1,37 @@
+.exploreModal {
+
+  .modal-wrapper {
+    width: 100vw;
+    height: 40vh;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  exploremodal {
+    .modalContainer {
+      background: mapGet($basecolor, white);
+      height: 100%;
+      width: 100%;
+      position: relative;
+      padding: 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      .closeModal {
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+  
+        ion-icon {
+          padding: 5px;
+          font-size: 1.3em;
+        }
+      }
+    }
+  }
+}
+

@@ -7,5 +7,14 @@
   >
     <div class="slideTitle">{{title}}</div>
     <div class="slideTagline">{{slide.tagline}}</div>
+    <div 
+      class="modalLauncherBtn boldFont" 
+      *ngIf="btnLabel" 
+      [style.background]="settingsService.secondaryColor"
+      (click)="onBtnClick()"
+    >
+      {{btnLabel}}
+      <ion-icon name="ios-arrow-down"></ion-icon>
+    </div>
   </div>
 </div>

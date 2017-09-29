@@ -46,6 +46,7 @@ import { GalleryImgActionPopover } from '../components/popovers/galleryImgAction
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
 import { CreatePostModal } from '../components/modals/createPostModal/createPostModal';
 import { DatePickerModal } from '../components/modals/datepickerModal/datepickerModal';
+import { ExploreModal } from '../components/modals/exploreModal/exploreModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -126,7 +127,8 @@ import { ExploreService } from '../services/explore.service';
     ExploreRegionPage,
     ExploreCountryPage,
     ExploreCityPage,
-    FadeCarousel
+    FadeCarousel,
+    ExploreModal
   ],
   imports: [
     BrowserModule,
@@ -166,7 +168,8 @@ import { ExploreService } from '../services/explore.service';
     ExplorePage,
     ExploreRegionPage,
     ExploreCountryPage,
-    ExploreCityPage
+    ExploreCityPage,
+    ExploreModal
   ],
   providers: [
     APIService,
