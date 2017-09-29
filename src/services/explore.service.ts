@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { APIService } from './api.service';
+import { UtilService } from './util.service';
 
 @Injectable()
 export class ExploreService {
@@ -78,7 +79,8 @@ export class ExploreService {
   countryCodeObj = {};
 
   constructor(
-    private apiService: APIService
+    private apiService: APIService,
+    private utilService: UtilService
   ) {}
 
   init() {
@@ -101,14 +103,9 @@ export class ExploreService {
 
   getGoogleCodeByName(name: string) {
     let countryCode: string;
-    //format correctly
-    const region = name.split('-').map(function(elem){
-      return elem.charAt(0).toUpperCase() + elem.slice(1);
-    }).join(' ');
-    console.log(region);
 
     Object.keys(this.googleRegionCodes).forEach((code) => {
-      if(this.googleRegionCodes[code] === region) countryCode = code;
+      if(this.googleRegionCodes[code] === name) countryCode = code;
     });
     return countryCode;
   }
@@ -155,8 +152,9 @@ export class ExploreService {
         //need to identify its parent region
         //looping through and seeing if prop exists
         Object.keys(this.regions).forEach((region) => {
-          if(this.regions[region][subregion.split('-').join('_')]) {
-            countryCodeArr = countryCodeArr.concat(this.formatSubregion(this.regions[region][subregion.split('-').join('_')]));
+          const formatted = this.regions[region][subregion.split('-').join('_')];
+          if(formatted) {
+            countryCodeArr = countryCodeArr.concat(this.formatSubregion(formatted));
           }
         });
       } else {

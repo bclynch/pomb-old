@@ -1,4 +1,18 @@
 <PageWrapper>
-    <GeoChart [countries]="countryCodes" *ngIf="inited" [region]="region"></GeoChart>
+  <FadeCarousel 
+    [data]="carouselImages" 
+    [style.width]="'100vw'" 
+    [title]="region.name"
+    btnLabel="Countries"
+    (btnClick)="presentModal()"
+  ></FadeCarousel>
+  <GeoChart 
+    [countries]="countryCodes" 
+    *ngIf="inited" 
+    [region]="region.code"
+    backgroundColor="black"
+    [defaultColor]="settingsService.secondaryColor"
+    datalessColor="black" 
+  ></GeoChart>
 </PageWrapper>
 

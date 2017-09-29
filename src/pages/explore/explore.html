@@ -6,6 +6,12 @@
     btnLabel="Regions & Countries"
     (btnClick)="presentModal()"
   ></FadeCarousel>
-  <GeoChart [countries]="countryCodes" *ngIf="inited"></GeoChart>
+  <GeoChart 
+    [countries]="countryCodes" 
+    *ngIf="inited"
+    backgroundColor="black"
+    [defaultColor]="settingsService.secondaryColor"
+    datalessColor="black" 
+  ></GeoChart>
 </PageWrapper>
 

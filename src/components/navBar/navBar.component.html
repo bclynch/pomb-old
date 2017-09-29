@@ -48,12 +48,18 @@
         <div class="paneSectionHeader">World Map</div>
       </div>
       <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
-        <div class="paneSectionHeader">{{region.region}}</div>
+        <div class="paneSectionHeader" (click)="navigateToRegion(region.region)">{{region.region}}</div>
         <div class="paneOptionWrapper">
-          <div class="paneOption boldFont" *ngFor="let subregion of region.subregions" [style.color]="settingsService.secondaryColor">{{subregion}}</div>
+          <div 
+            class="paneOption boldFont" 
+            *ngFor="let subregion of region.subregions" 
+            [style.color]="settingsService.secondaryColor"
+            (click)="navigateToRegion(subregion)"
+          >{{subregion}}</div>
         </div>
       </div>
     </div>
     
   </div>
 </div>
+<Search [isActive]="searchActive && !isExpanded"></Search>

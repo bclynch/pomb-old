@@ -11,8 +11,6 @@ export class PageWrapper {
   @Input() displayFooter: boolean = true;
   @Input() displayNav: boolean = true;
 
-  searchIsActive: boolean = false;
-
   constructor(
 
   ) { }

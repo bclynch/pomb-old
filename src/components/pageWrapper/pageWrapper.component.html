@@ -10,7 +10,6 @@
     [displayLogo]="displayNavLogo" 
     (searchTrigger)="searchIsActive = !searchIsActive"
   ></NavBar>
-  <Search [isActive]="searchIsActive"></Search>
   <ng-content></ng-content>
   <Footer *ngIf="displayFooter"></Footer>
 </div>

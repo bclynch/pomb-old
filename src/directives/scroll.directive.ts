@@ -47,8 +47,8 @@ export class WindowScrollDirective {
     scroll = (e): void => {
       let scrollDirection: 'up' | 'down' = e.target.scrollTop > this.priorScrollValue ? 'down' : 'up';
       
-      //if new direction is different from old run change detection
-      if(this.scrollDirection !== scrollDirection) {
+      //if new direction is different from old run change detection && if past 40px (height of nav bar)
+      if(this.scrollDirection !== scrollDirection && e.target.scrollTop > 40) {
         this.scrollDirection = scrollDirection;
         this.ngZone.run(() => {
           this.utilService.scrollDirection = scrollDirection;

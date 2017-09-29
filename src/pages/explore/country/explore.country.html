@@ -1,4 +1,10 @@
 <PageWrapper>
-  Explore Country
+  <FadeCarousel 
+    [data]="carouselImages" 
+    [style.width]="'100vw'" 
+    [title]="country"
+    btnLabel="Cities"
+    (btnClick)="presentModal()"
+  ></FadeCarousel>
 </PageWrapper>
 

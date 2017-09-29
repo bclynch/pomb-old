@@ -3,10 +3,14 @@ search {
     
   .searchContainer {
     display: flex;
+    height: 46px;
     justify-content: center;
     width: 100%;
-    transition: .5s;
+    transition: .3s;
     overflow: hidden;
+    position: fixed;
+    top: 40px;
+    z-index: 9999;
 
     .searchWrapper {
       display: inline-flex;
@@ -31,7 +35,7 @@ search {
         position: absolute;
         right: 20px;
         top: 20px;
-        font-size: 18px;;
+        font-size: 18px;
         cursor: pointer;
       }
     }

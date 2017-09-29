@@ -7,7 +7,6 @@
     - Search for within posts (titles, subtitles, content, tags)
     - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
     - Validation for the user only seeing their posts
-- Gallery needs work with its modal on a couple things. Mobile doesn't really work + sizing responsiveness
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
@@ -18,6 +17,7 @@
 ### Bugs + Issues
 
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
+- Mobile navbar jacked up
 
 ## Long Term Todos
 

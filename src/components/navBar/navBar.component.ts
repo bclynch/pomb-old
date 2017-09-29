@@ -27,7 +27,7 @@ interface Section {
 })
 export class NavBar {
   @Input() displayLogo: boolean = true;
-  @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
+  // @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
 
   socialOptions: Social[] = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/' },
@@ -38,6 +38,8 @@ export class NavBar {
   sectionOptions: Section[] = [];
   isExpanded: boolean = false;
   activeSection: Section;
+
+  searchActive: boolean = false;
 
   regions;
 
@@ -94,7 +96,8 @@ export class NavBar {
   }
 
   openSearch() {
-    this.searchTrigger.emit();
+    this.searchActive = !this.searchActive;
+    this.isExpanded = false;
   }
 
   navHover(e, i: number) {
@@ -105,5 +108,9 @@ export class NavBar {
       this.isExpanded = false;
       this.activeSection = null;
     }
+  }
+
+  navigateToRegion(region: string) {
+    this.routerService.navigateToPage(`/explore/region/${region.split(' ').join('-').toLowerCase()}`);
   }
 }
