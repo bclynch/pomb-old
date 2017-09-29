@@ -5,11 +5,20 @@ heroBanner {
   .heroBannerContainer {
     background-size: cover;
     background-position: center;
-    padding: 64px 16px;
+    height: 300px;
     text-align: center;
     color: mapGet($basecolor, white);
-    text-shadow: 2px 2px mapGet($basecolor, black);
     border-bottom: solid 1px mapGet($basecolor, border);
+
+    .overlay {
+      background: rgba(0,0,0,.2);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
     .siteTitle {
       font-size: 84px;
@@ -17,6 +26,7 @@ heroBanner {
     }
     .subHeader {
       font-size: 20px;
+      text-shadow: 2px 2px mapGet($basecolor, black);
     }
   }
 }

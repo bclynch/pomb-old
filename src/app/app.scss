@@ -26,3 +26,9 @@ ion-app {
   letter-spacing: .5px;
   text-transform: uppercase;
 }
+
+.gradientText {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}

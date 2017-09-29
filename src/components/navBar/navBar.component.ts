@@ -14,6 +14,7 @@ import { UtilService } from '../../services/util.service';
 interface Social {
   icon: string;
   url: string;
+  label: string;
 }
 
 interface Section {
@@ -30,9 +31,9 @@ export class NavBar {
   // @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
 
   socialOptions: Social[] = [
-    { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/' },
-    { icon: 'logo-facebook', url: 'https://www.facebook.com/brendan.lynch.90' },
-    { icon: 'logo-github', url: 'https://github.com/bclynch' },
+    { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/', label: 'instagram' },
+    { icon: 'logo-facebook', url: 'https://www.facebook.com/brendan.lynch.90', label: 'facebook' },
+    { icon: 'logo-github', url: 'https://github.com/bclynch', label: 'github' },
   ];
 
   sectionOptions: Section[] = [];
@@ -62,6 +63,7 @@ export class NavBar {
     });
     //add extra option
     this.sectionOptions.push({ label: 'Explore', value: 'explore' });
+    this.sectionOptions.push({ label: 'Community', value: 'community' });
   }
 
   navigate(path: string) {

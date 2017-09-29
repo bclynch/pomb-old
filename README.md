@@ -53,7 +53,9 @@ Most features available for free, but some premium like photo caps, private vs p
 
 ## Project Setup
 
-- `$ ionic start <name> blank`
+```bash
+$ ionic start <name> blank
+```
 
 Running The App
 

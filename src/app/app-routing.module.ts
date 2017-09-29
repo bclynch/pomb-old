@@ -19,6 +19,7 @@ import { ExplorePage } from '../pages/explore/explore';
 import { ExploreRegionPage } from '../pages/explore/region/explore.region';
 import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
+import { CommunityPage } from '../pages/community/community';
 
 const appRoutes: Routes = [
   { 
@@ -129,6 +130,7 @@ const appRoutes: Routes = [
       }
     ]
   },
+  { path: 'community', component: CommunityPage },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },

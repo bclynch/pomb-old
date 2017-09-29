@@ -1,5 +1,8 @@
 page-dashboard {
 
+  .pageWrapperContainer {
+    margin-top: 0;
+  }
   .dashboardContainer {
     display: flex;
     background: mapGet($basecolor, light);

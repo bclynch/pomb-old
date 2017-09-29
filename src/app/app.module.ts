@@ -69,6 +69,7 @@ import { ExplorePage } from '../pages/explore/explore';
 import { ExploreRegionPage } from '../pages/explore/region/explore.region';
 import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
+import { CommunityPage } from '../pages/community/community';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -132,7 +133,8 @@ import { UtilService } from '../services/util.service';
     ExploreCityPage,
     FadeCarousel,
     ExploreModal,
-    WindowScrollDirective
+    WindowScrollDirective,
+    CommunityPage
   ],
   imports: [
     BrowserModule,
@@ -173,7 +175,8 @@ import { UtilService } from '../services/util.service';
     ExploreRegionPage,
     ExploreCountryPage,
     ExploreCityPage,
-    ExploreModal
+    ExploreModal,
+    CommunityPage
   ],
   providers: [
     APIService,

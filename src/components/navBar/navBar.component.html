@@ -14,7 +14,11 @@
   <div class="navBarWrapper">
     <div class="barWrapper">
       <div *ngIf="displayLogo" class="logoWrapper">
-        <div class="boldFont" (click)="routerService.navigateToPage('/')">POMB</div>
+        <div 
+          class="boldFont gradientText" 
+          [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" 
+          (click)="routerService.navigateToPage('/')"
+        >POMB</div>
       </div>
       <div class="sectionsWrapper">
         <div 
@@ -23,15 +27,6 @@
           (click)="navigate(option.value)"
           (mouseenter)="navHover($event, i)"
         >{{option.label}}</div>
-      </div>
-      <div class="socialWrapper">
-        <a 
-          *ngFor="let option of socialOptions;" 
-          [href]="option.url" 
-          target="_blank"
-        >
-          <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
-        </a>
       </div>
       <div class="profileWrapper" (click)="presentPopover($event)">
         <div><ion-icon name="md-person"></ion-icon></div>
@@ -45,10 +40,10 @@
       
     <div *ngIf="activeSection?.label === 'Explore'" class="paneContainer">
       <div class="paneSection">
-        <div class="paneSectionHeader">World Map</div>
+        <div class="paneSectionHeader hover">World Map</div>
       </div>
       <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
-        <div class="paneSectionHeader" (click)="navigateToRegion(region.region)">{{region.region}}</div>
+        <div class="paneSectionHeader hover" (click)="navigateToRegion(region.region)">{{region.region}}</div>
         <div class="paneOptionWrapper">
           <div 
             class="paneOption boldFont" 
@@ -59,6 +54,30 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="activeSection?.label === 'Community'" class="paneContainer">
+        <div class="paneSection">
+          <div class="paneSectionHeader">Sign Up</div>
+        </div>
+        <div class="paneSection">
+            <div class="paneSectionHeader">Subscribe</div>
+          </div>
+        <div class="paneSection">
+          <div class="paneSectionHeader">@packonmyback</div>
+          <div class="paneOptionWrapper socialOptions">
+            <a 
+              *ngFor="let option of socialOptions;" 
+              [href]="option.url" 
+              target="_blank"
+              class="paneOption boldFont" 
+              [style.color]="settingsService.secondaryColor"
+            >
+              <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
+              <span>{{option.label}}</span>
+            </a>
+          </div>
+        </div>
+      </div>
     
   </div>
 </div>

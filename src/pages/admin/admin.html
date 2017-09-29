@@ -7,7 +7,12 @@
         menuToggle
       ></ion-icon>
       <div class="logo">
-        <div (click)="routerService.navigateToPage('')" title="Home">POMB</div>
+        <div 
+          (click)="routerService.navigateToPage('')" 
+          class="gradientText"
+          title="Home"
+          [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'"
+        >POMB</div>
       </div>
       <div class="listContainer">
         <div 

@@ -53,6 +53,7 @@ navBar {
         align-items: center;
         justify-content: space-between;
         height: $navbarHeight;
+        padding: 0 10px;
 
         ion-icon:hover {
           opacity: .7;
@@ -76,22 +77,8 @@ navBar {
             opacity: .7;
           }
         }
-        .socialWrapper {
-          padding: 0 18px;
-          display: none;
-  
-          a {
-            margin-right: 16px;
-            text-decoration: none;
-          }
-        }
         .logoWrapper {
           display: none;
-        }
-        .profileWrapper {
-          width: 48px;
-          display: none;
-          justify-content: center;
         }
         .searchWrapper {
           width: 48px;
@@ -124,16 +111,33 @@ navBar {
             color: mapGet($basecolor, white);
             font-size: 22px;
             cursor: pointer;
-          }
-          .paneSectionHeader:hover {
-            opacity: .7;
+
+            &.hover:hover {
+              opacity: .7;
+            }
           }
           .paneOptionWrapper {
             text-align: center;
 
+            &.socialOptions {
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+
+              a {
+                text-decoration: none;
+                display: block;
+                display: flex;
+                align-items: center;
+
+                ion-icon {
+                  margin-right: 10px;
+                }
+              }
+            }
             .paneOption {
               cursor: pointer;
-              padding: 10px 0;
+              padding: 15px 0;
               font-size: 16px;
             }
             .paneOption:hover {
