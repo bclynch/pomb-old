@@ -32,6 +32,8 @@ import { TagSearch } from '../components/tagSearch/tagSearch.component';
 import { Gallery } from '../components/gallery/gallery.component';
 import { GalleryCard } from '../components/gallery/galleryCard/galleryCard.component';
 import { ExpandedModal } from '../components/gallery/expandedModal/expandedModal.component';
+import { GoogleChartComponent } from '../components/charts/geoChart.component';
+import { FadeCarousel } from '../components/fadeCarousel/fadeCarousel.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -60,6 +62,10 @@ import { AdminDashboardPage } from '../pages/admin/subViews/dashboard/dashboard'
 import { AdminConfigPage } from '../pages/admin/subViews/config/config';
 import { AdminUsersPage } from '../pages/admin/subViews/users/users';
 import { AdminPostsPage } from '../pages/admin/subViews/posts/posts';
+import { ExplorePage } from '../pages/explore/explore';
+import { ExploreRegionPage } from '../pages/explore/region/explore.region';
+import { ExploreCountryPage } from '../pages/explore/country/explore.country';
+import { ExploreCityPage } from '../pages/explore/city/explore.city';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -71,6 +77,7 @@ import { RouterService } from '../services/router.service';
 import { AlertService } from '../services/alert.service';
 import { BroadcastService } from '../services/broadcast.service';
 import { RoleGuardService } from '../services/roleGuard.service';
+import { ExploreService } from '../services/explore.service';
 
 @NgModule({
   declarations: [
@@ -113,7 +120,13 @@ import { RoleGuardService } from '../services/roleGuard.service';
     GalleryImgActionPopover,
     Gallery,
     GalleryCard,
-    ExpandedModal
+    ExpandedModal,
+    GoogleChartComponent,
+    ExplorePage,
+    ExploreRegionPage,
+    ExploreCountryPage,
+    ExploreCityPage,
+    FadeCarousel
   ],
   imports: [
     BrowserModule,
@@ -149,7 +162,11 @@ import { RoleGuardService } from '../services/roleGuard.service';
     DatePickerModal,
     ImageUploaderPopover,
     GalleryImgActionPopover,
-    ExpandedModal
+    ExpandedModal,
+    ExplorePage,
+    ExploreRegionPage,
+    ExploreCountryPage,
+    ExploreCityPage
   ],
   providers: [
     APIService,
@@ -160,6 +177,7 @@ import { RoleGuardService } from '../services/roleGuard.service';
     AlertService,
     BroadcastService,
     RoleGuardService,
+    ExploreService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

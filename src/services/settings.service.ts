@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { APIService } from './api.service';
+import { ExploreService } from './explore.service';
 
 @Injectable()
 
@@ -20,26 +21,15 @@ export class SettingsService {
   };
 
   constructor(
-    private apiService: APIService
+    private apiService: APIService,
+    private exploreService: ExploreService
   ) {   }
 
-  grabAppSettings() {
+  appInit() {
     let promises = [];
 
-    // let promise1 = new Promise<string>((resolve, reject) => {
-    //   this.apiService.getAllPostCategories().subscribe(
-    //     data => {
-    //       let categoriesData = <any>data;
-    //       //format data
-    //       categoriesData.data.allPostCategories.nodes.forEach((category) => {
-    //         this.appCategories[category.name] = { description: category.categoryDescription, id: category.id };
-    //       });
-    //       resolve();
-    //     },
-    //     err => reject(err)
-    //   )
-    // });
-    // promises.push(promise1);
+    //countries data
+    promises.push(this.exploreService.init());
 
     let promise2 = new Promise<string>((resolve, reject) => {
       this.apiService.getConfig().subscribe(

@@ -8,6 +8,7 @@ import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 import { UserService } from '../../services/user.service';
 import { BroadcastService } from '../../services/broadcast.service';
+import { ExploreService } from '../../services/explore.service';
 
 interface Social {
   icon: string;
@@ -37,13 +38,16 @@ export class NavBar {
   isExpanded: boolean = false;
   activeSection: Section;
 
+  regions;
+
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
     private popoverCtrl: PopoverController,
     private userService: UserService,
     private modalCtrl: ModalController,
-    private broadcastService: BroadcastService
+    private broadcastService: BroadcastService,
+    private exploreService: ExploreService
   ) {
     this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories()); 
   }
@@ -52,6 +56,8 @@ export class NavBar {
     Object.keys(this.settingsService.appCategories).forEach((category) => {
       this.sectionOptions.push({ label: category, value: category.toLowerCase() });
     });
+    //add extra option
+    this.sectionOptions.push({ label: 'Explore', value: 'explore' });
   }
 
   navigate(path: string) {
@@ -102,13 +108,14 @@ export class NavBar {
         this.activeSection = null;
         return;
       }
-      if(e.relatedTarget.classList.contains('sectionInfoPane') || e.relatedTarget.classList.contains('boldFont')) return;
+      
+      const targetClasses = e.relatedTarget.classList;
+      if(targetClasses.contains('sectionInfoPane') || targetClasses.contains('paneSectionHeader')) return; 
       this.isExpanded = false;
       this.activeSection = null;
     }
-    console.log(this.isExpanded);
   }
-  paneLeave() {
+  paneLeave(event) {
     this.isExpanded = false;
     this.activeSection = null;
   }

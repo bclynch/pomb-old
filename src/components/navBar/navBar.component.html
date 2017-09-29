@@ -36,6 +36,20 @@
         <div><ion-icon name="ios-search"></ion-icon></div>
       </div>
     </div>
-    <div class="sectionInfoPane" (mouseout)="paneLeave($event)">{{activeSection?.label}}</div>
+    <!-- <div class="sectionInfoPane" (mouseout)="paneLeave($event)">
+
+      <div *ngIf="activeSection?.label === 'Explore'" class="paneContainer">
+        <div class="paneSection">
+          <div class="paneSectionHeader">World Map</div>
+        </div>
+        <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
+          <div class="paneSectionHeader">{{region.region}}</div>
+          <div class="paneOptionWrapper">
+            <div class="paneOption" *ngFor="let subregion of region.subregions" [style.color]="settingsService.secondaryColor">{{subregion}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div> -->
   </div>
 </div>

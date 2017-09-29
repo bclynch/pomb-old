@@ -95,6 +95,24 @@ navBar {
       .sectionInfoPane {
         height: 167px;
         background: mapGet($basecolor, dark);
+
+        .paneContainer {
+          display: flex;
+          justify-content: space-around;
+
+          .paneSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .paneSectionHeader {
+              font-weight: 500;
+              letter-spacing: .5px;
+              text-transform: uppercase;
+              color: mapGet($basecolor, white);
+            }
+          }
+        }
       }
     }
   }

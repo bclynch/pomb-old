@@ -594,6 +594,22 @@ export class APIService {
     private alertService: AlertService
   ) {}
 
+  //get all countries
+  getAllCountries() {
+    return this.http.get('https://restcountries.eu/rest/v2/')
+    .map(
+      (response: Response) => {
+        const responseData = <any>response;
+        return JSON.parse(responseData._body);
+      }
+    )
+    .catch(
+      (error: Response) => {
+        return Observable.throw('Something went wrong');
+      }
+    );
+  }
+
   //S3 Uploads
   uploadPrimaryPhoto(formData: FormData) {
     return this.http.post('http://localhost:8080/upload-primary', formData)

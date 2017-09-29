@@ -31,6 +31,14 @@
 
 It would be fun to work on a few of these things:
 
+**Interactive Map:**
+https://developers.google.com/chart/interactive/docs/gallery/geochart
+- Create base map that will create the geochart component
+- Swap in own API key
+- Extend base a ala https://stackoverflow.com/questions/37542408/angular2-google-charts-how-to-integrate-google-charts-in-angular2 for both a selector on the excursion explorer page AND one thats more personal showing places a user has been. Perhaps if one were to click on it it would take them to a hub of posts/tags they have about it? Dunno.
+- Popover could be nice maybe.
+- For exlorer would be nice to have a hub for each continent. Nice banner a la LP. Also have a map render for the continent so users can click from there
+
 **Excursion Explorer:** 
 App interface similar to lonely planet that shows information about various countries. Done this before. Look to those examples.
 

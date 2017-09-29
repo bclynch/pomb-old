@@ -21,7 +21,7 @@ export class MyApp {
     private broadcastService: BroadcastService
   ) {
     //grab site config
-    this.settingsService.grabAppSettings().then(() => {
+    this.settingsService.appInit().then(() => {
       this.settingsService.appInited = true;
 
       this.apiService.getCurrentAccount().subscribe(({ data }) => { 

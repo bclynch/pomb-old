@@ -1,0 +1,11 @@
+<div class="carouselContainer">
+  <div
+    class="slide" 
+    *ngFor="let slide of data; let i = index;" 
+    [ngStyle]="{ 'background-image': 'url(' + slide.imgURL + ')'}" 
+    [style.opacity]="displayedIndex === i ? 1 : 0"
+  >
+    <div class="slideTitle">{{title}}</div>
+    <div class="slideTagline">{{slide.tagline}}</div>
+  </div>
+</div>

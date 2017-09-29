@@ -15,6 +15,10 @@ import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
 import { ArchivePage } from '../pages/archive/archive';
 import { AdminPage } from '../pages/admin/admin';
+import { ExplorePage } from '../pages/explore/explore';
+import { ExploreRegionPage } from '../pages/explore/region/explore.region';
+import { ExploreCountryPage } from '../pages/explore/country/explore.country';
+import { ExploreCityPage } from '../pages/explore/city/explore.city';
 
 const appRoutes: Routes = [
   { 
@@ -36,6 +40,48 @@ const appRoutes: Routes = [
   { path: 'culture', component: HubPage},
   { path: 'travel', component: HubPage},
   { path: 'gear', component: HubPage},
+  { path: 'explore',
+    children: [
+      {
+        path: 'region',
+        children: [
+          {
+            path: ':region',
+            component: ExploreRegionPage
+          },
+          {
+            path: '',
+            component: ExplorePage
+          }
+        ]
+      },
+      {
+        path: 'country',
+        children: [
+          {
+            path: ':country',
+            children: [
+              {
+                path: ':city',
+                component: ExploreCityPage
+              },
+              {
+                path: '',
+                component: ExploreCountryPage
+              }
+            ]
+          },
+          {
+            path: '',
+            component: ExplorePage
+          }
+        ]
+      },
+      {
+        path: '',
+        component: ExplorePage
+      }
+  ]},
   { 
     path: 'post-dashboard',
     canActivate: [RoleGuard], 

@@ -1,0 +1,5 @@
+<PageWrapper>
+  <FadeCarousel [data]="carouselImages" [style.width]="'100vw'" title="Explore"></FadeCarousel>
+  <GeoChart [countries]="countryCodes" *ngIf="inited"></GeoChart>
+</PageWrapper>
+
