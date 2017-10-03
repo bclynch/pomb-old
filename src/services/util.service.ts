@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class UtilService {
 
   scrollDirection: 'up' | 'down' = 'up';
+  displayExploreNav = false;
 
   constructor(
 

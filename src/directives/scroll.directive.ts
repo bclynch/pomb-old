@@ -1,6 +1,8 @@
 import { Directive, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UtilService } from '../services/util.service'
+import { ExploreService } from '../services/explore.service'
 
 @Directive({ selector: '[scrollDirective]' })
 export class WindowScrollDirective {
@@ -11,8 +13,12 @@ export class WindowScrollDirective {
 
     constructor(
       private ngZone: NgZone,
-      private utilService: UtilService
-    ) {}
+      private utilService: UtilService,
+      private router: Router,
+      private exploreService: ExploreService
+    ) {
+      this.exploreService.displayExploreNav = this.priorScrollValue > 345;
+    }
 
     ngOnInit() {    
       //check support for passive event listener
@@ -56,5 +62,18 @@ export class WindowScrollDirective {
       }
 
       this.priorScrollValue = e.target.scrollTop;
+
+      //if explore page run change detection when crossing 360 threshold sweetspot for our fixed side menu
+      if(this.router.url.split('/')[1] === 'explore') {
+        if(e.target.scrollTop > 345 && this.exploreService.displayExploreNav === false) {
+          this.ngZone.run(() => {
+            this.exploreService.displayExploreNav = true;
+          });
+        } else if(e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
+          this.ngZone.run(() => {
+            this.exploreService.displayExploreNav = false;
+          });
+        }
+      }
     };  
   }

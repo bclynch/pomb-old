@@ -2,6 +2,7 @@
 
 ## Todos
 
+- Move most of the current profile dropdown to the join tab with the dynamic signup/signed in section. Can have admin login just be in a url /admin
 - Create/edit post dash
     - Would like some kind of alert that intercepts page if user tries to leave if changes need to be saved.
     - Search for within posts (titles, subtitles, content, tags)
@@ -50,6 +51,9 @@ Could create a front page of sorts for each user that has their own grid or look
 
 **Monetization:**
 Most features available for free, but some premium like photo caps, private vs public posts, certain features. A couple bucks a year to stay premium. Maybe monthly? Seems like folks would only keep it as long as they're traveling. Maybe one off payments to post for a trip with limits to posts, pictures, etc but once it's there it's always there. Hard to say. 
+- https://www.partner.viator.com/partner/home.jspa
+- https://www.travelpayouts.com/
+- http://developer.ean.com/
 
 ## Project Setup
 

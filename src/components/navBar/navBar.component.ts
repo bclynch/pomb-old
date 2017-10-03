@@ -58,12 +58,9 @@ export class NavBar {
   }
 
   snagCategories() {
-    Object.keys(this.settingsService.appCategories).forEach((category) => {
+    Object.keys(this.settingsService.siteSections).forEach((category) => {
       this.sectionOptions.push({ label: category, value: category.toLowerCase() });
     });
-    //add extra option
-    this.sectionOptions.push({ label: 'Explore', value: 'explore' });
-    this.sectionOptions.push({ label: 'Community', value: 'community' });
   }
 
   navigate(path: string) {

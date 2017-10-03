@@ -289,7 +289,7 @@ create table pomb.config (
 );
 
 insert into pomb.config (primary_color, secondary_color, tagline, hero_banner) values
-  ('#e1ff00', '#04c960', 'Be your best', 'http://www.pinnaclepellet.com/images/1200x300-deep-forest.jpg');
+  ('#e1ff00', '#04c960', 'For wherever the road takes you', 'http://www.pinnaclepellet.com/images/1200x300-deep-forest.jpg');
 
 comment on table pomb.config is 'Table with POMB config';
 comment on column pomb.config.id is 'Id for config';

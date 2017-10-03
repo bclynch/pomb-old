@@ -12,13 +12,14 @@ export class SettingsService {
   tagline: string;
   heroBanner: string;
 
-  appCategories: any = {
-    'Trekking': { description: '' },
-    'Biking': { description: '' },
-    'Culture': { description: '' },
+  siteSections: any = {
     'Travel': { description: '' },
-    'Gear': { description: '' },
+    'Adventure': { description: '' },
+    'Explore': { description: '' },
+    'Community': { description: '' },
+    'Join': { description: '' },
   };
+  categoryOptions: string[] = ['Trekking', 'Biking', 'Travel', 'Culture', 'Gear'];
 
   constructor(
     private apiService: APIService,

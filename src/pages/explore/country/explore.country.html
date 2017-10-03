@@ -6,5 +6,42 @@
     btnLabel="Cities"
     (btnClick)="presentModal()"
   ></FadeCarousel>
+  <div class="contentWrapper">
+    <div class="subnavWrapper">
+      <ExploreSubnav 
+        [options]="subnavOptions" 
+        [country]="country" 
+        (optionSelect)="scrollTo($event)" 
+      ></ExploreSubnav>
+    </div>
+    <div class="sectionsWrapper">
+      WIRE UP FLICKR FOR THE CAROUSEL
+      <div class="section glance" id="at-a-glance">
+        <div class="glanceHeader">Explore {{country}}</div>
+        <div class="glanceSubsection">{{glanceSubsection}}</div>
+        <div 
+          class="toggleBtn" 
+          (click)="glanceExpanded = !glanceExpanded" 
+          *ngIf="!glanceExpanded"
+        >More <ion-icon name="ios-arrow-down"></ion-icon></div>
+        <div *ngIf="glanceExpanded">
+          <div class="glanceContent" *ngFor="let section of glanceContent">
+            <h2>{{section.title}}</h2>
+            <div class="content">{{section.content}}</div>
+          </div>
+        </div>
+        <div 
+          class="toggleBtn" 
+          (click)="glanceExpanded = !glanceExpanded" 
+          *ngIf="glanceExpanded"
+        >Less <ion-icon name="ios-arrow-up"></ion-icon></div>
+        <div class="glanceHeader facts">You Should Know</div>
+      </div>
+      <div class="section" id="essential-information">Essential Info (Links to seprate routes for climate, govt info, currency info)</div>
+      <div class="section" id="map">Map (Probably map with pins on the various cities based on pop)</div>
+      <div class="section" id="posts">Posts</div>
+      <div class="section" id="activities">Activities</div>
+    </div>
+  </div>
 </PageWrapper>
 

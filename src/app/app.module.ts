@@ -36,6 +36,7 @@ import { GalleryCard } from '../components/gallery/galleryCard/galleryCard.compo
 import { ExpandedModal } from '../components/gallery/expandedModal/expandedModal.component';
 import { GoogleChartComponent } from '../components/charts/geoChart.component';
 import { FadeCarousel } from '../components/fadeCarousel/fadeCarousel.component';
+import { ExploreSubnav } from '../components/exploreSubnav/exploreSubnav.component';
 
 // Popovers
 import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
@@ -134,7 +135,8 @@ import { UtilService } from '../services/util.service';
     FadeCarousel,
     ExploreModal,
     WindowScrollDirective,
-    CommunityPage
+    CommunityPage,
+    ExploreSubnav
   ],
   imports: [
     BrowserModule,

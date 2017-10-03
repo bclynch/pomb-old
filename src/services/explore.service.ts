@@ -77,6 +77,7 @@ export class ExploreService {
   regionsArr: { region: string; subregions: string[]; }[] = [];
   countryNameObj = {};
   countryCodeObj = {};
+  displayExploreNav: boolean;
 
   constructor(
     private apiService: APIService,
@@ -126,6 +127,7 @@ export class ExploreService {
 
           this.countryCodeObj = codeObj;
           this.countryNameObj = nameObj;
+          console.log('All countries by name: ', this.countryNameObj);
           resolve();
         }
       )

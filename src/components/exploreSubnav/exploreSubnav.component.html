@@ -1,0 +1,9 @@
+<div class="exploreSubnavContainer" [style.position]="exploreService.displayExploreNav ? 'fixed' : 'static'" >
+  <div class="header">{{country}} Index</div>
+  <div 
+    class="subnavOptions boldFont" 
+    *ngFor="let option of options" 
+    [style.color]="settingsService.secondaryColor"
+    (click)="navigateSubOption(option)"
+  >{{option}}</div>
+</div>

@@ -31,16 +31,16 @@ export class HubPage {
   }
 
   init() {
-    const category = this.settingsService.appCategories[this.currentHub];
-    console.log(category);
-    this.hubDescription = category.description;
-    this.apiService.getPostsByCategory(PostCategory[this.currentHub]).subscribe(({ data }) => {
-      console.log('got category posts: ', data.allPosts.nodes);
-      this.posts = data.allPosts.nodes;
-      this.gridPosts = this.posts.slice(0,this.gridConfiguration.length);
-      this.otherPosts = this.posts.slice(this.gridConfiguration.length);
-    },(error) => {
-      console.log('there was an error sending the query', error);
-    });
+    // const category = this.settingsService.siteSections[this.currentHub];
+    // console.log(category);
+    // this.hubDescription = category.description;
+    // this.apiService.getPostsByCategory(PostCategory[this.currentHub]).subscribe(({ data }) => {
+    //   console.log('got category posts: ', data.allPosts.nodes);
+    //   this.posts = data.allPosts.nodes;
+    //   this.gridPosts = this.posts.slice(0,this.gridConfiguration.length);
+    //   this.otherPosts = this.posts.slice(this.gridConfiguration.length);
+    // },(error) => {
+    //   console.log('there was an error sending the query', error);
+    // });
   }
 }

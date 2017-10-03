@@ -77,7 +77,7 @@ export class RouterService {
 
   modifyFragment(fragment: string) {
     let navigationExtras: NavigationExtras = {
-      fragment: fragment
+      fragment
     };
 
     let url = this.grabBaseRoute(this.router.url);

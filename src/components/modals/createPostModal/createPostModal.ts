@@ -69,7 +69,7 @@ export class CreatePostModal {
   scheduledModel: RelativeTime = { label: 'now', value: Date.now() };
   publishModel: RelativeTime = { label: 'now', value: Date.now() };
 
-  categoryOptions: string[] = Object.keys(this.settingsService.appCategories);
+  categoryOptions: string[] = this.settingsService.categoryOptions;
 
   tagOptions: Tag[] = [];
 
