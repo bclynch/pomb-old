@@ -3,10 +3,8 @@
     <div class="leftMenu" [style.width]="isExpanded ? '0' : '320px'" [style.min-width]="isExpanded ? '0' : '320px'">
       <div class="logo">
         <span 
-          (click)="routerService.navigateToPage('')" 
-          class="gradientText"
+          (click)="routerService.navigateToPage('')"
           title="Home"
-          [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'"
         >POMB</span>
       </div>
       <div class="menuRowWrapper">

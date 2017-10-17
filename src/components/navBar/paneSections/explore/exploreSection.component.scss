@@ -1,0 +1,17 @@
+explorenavsection {
+
+  .paneContainer {
+
+    .paneSection {
+
+      .paneSectionHeader {
+
+        cursor: pointer;
+
+        &.hover:hover {
+          opacity: .7;
+        }
+      }
+    }
+  }
+}

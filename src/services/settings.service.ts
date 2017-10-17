@@ -14,10 +14,10 @@ export class SettingsService {
 
   siteSections: any = {
     'Travel': { description: '' },
-    'Adventure': { description: '' },
+    'Outdoors': { description: '' },
     'Explore': { description: '' },
     'Community': { description: '' },
-    'Join': { description: '' },
+    'Profile': { description: '' },
   };
   categoryOptions: string[] = ['Trekking', 'Biking', 'Travel', 'Culture', 'Gear'];
 

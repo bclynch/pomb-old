@@ -1,0 +1,13 @@
+profilenavsection {
+
+  .paneContainer {
+    width: 100%;
+    padding: 25px;
+
+    > div {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}

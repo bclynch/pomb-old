@@ -13,7 +13,7 @@
   </div>
   <div class="navBarWrapper">
     <div class="barWrapper">
-      <div *ngIf="displayLogo" class="logoWrapper">
+      <div class="logoWrapper">
         <div 
           class="boldFont gradientText" 
           [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" 
@@ -28,57 +28,17 @@
           (mouseenter)="navHover($event, i)"
         >{{option.label}}</div>
       </div>
-      <div class="profileWrapper" (click)="presentPopover($event)">
-        <div><ion-icon name="md-person"></ion-icon></div>
-      </div>
       <div class="searchWrapper" (click)="openSearch()">
         <div><ion-icon name="ios-search"></ion-icon></div>
       </div>
     </div>
   </div>
   <div class="sectionInfoPane">
-      
-    <div *ngIf="activeSection?.label === 'Explore'" class="paneContainer">
-      <div class="paneSection">
-        <div class="paneSectionHeader hover">World Map</div>
-      </div>
-      <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
-        <div class="paneSectionHeader hover" (click)="navigateToRegion(region.region)">{{region.region}}</div>
-        <div class="paneOptionWrapper">
-          <div 
-            class="paneOption boldFont" 
-            *ngFor="let subregion of region.subregions" 
-            [style.color]="settingsService.secondaryColor"
-            (click)="navigateToRegion(subregion)"
-          >{{subregion}}</div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="activeSection?.label === 'Join'" class="paneContainer">
-        <div class="paneSection">
-          <div class="paneSectionHeader">Sign Up</div>
-        </div>
-        <div class="paneSection">
-            <div class="paneSectionHeader">Subscribe</div>
-          </div>
-        <div class="paneSection">
-          <div class="paneSectionHeader">@packonmyback</div>
-          <div class="paneOptionWrapper socialOptions">
-            <a 
-              *ngFor="let option of socialOptions;" 
-              [href]="option.url" 
-              target="_blank"
-              class="paneOption boldFont" 
-              [style.color]="settingsService.secondaryColor"
-            >
-              <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
-              <span>{{option.label}}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    
+    <TravelNavSection *ngIf="activeSection?.label === 'Travel'"></TravelNavSection>
+    <OutdoorsNavSection *ngIf="activeSection?.label === 'Outdoors'"></OutdoorsNavSection>
+    <ExploreNavSection *ngIf="activeSection?.label === 'Explore'"></ExploreNavSection>
+    <CommunityNavSection *ngIf="activeSection?.label === 'Community'" [socialOptions]="socialOptions"></CommunityNavSection>
+    <ProfileNavSection *ngIf="activeSection?.label === 'Profile'"></ProfileNavSection>    
   </div>
 </div>
 <Search [isActive]="searchActive && !isExpanded"></Search>

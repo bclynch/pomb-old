@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PopoverController, ModalController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 
-import { ProfilePopover } from '../popovers/profile/profilePopover.component';
 import { RegistrationModal } from '../modals/registrationModal/registrationModal';
 
 import { SettingsService } from '../../services/settings.service';
@@ -27,7 +26,6 @@ interface Section {
   templateUrl: 'navBar.component.html'
 })
 export class NavBar {
-  @Input() displayLogo: boolean = true;
   // @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
 
   socialOptions: Social[] = [
@@ -47,7 +45,6 @@ export class NavBar {
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
-    private popoverCtrl: PopoverController,
     private userService: UserService,
     private modalCtrl: ModalController,
     private broadcastService: BroadcastService,
@@ -65,28 +62,6 @@ export class NavBar {
 
   navigate(path: string) {
     this.routerService.navigateToPage(`/${path}`);
-  }
-
-  presentPopover(e) { 
-    let popover = this.popoverCtrl.create(ProfilePopover, {}, { cssClass: 'profilePopover' });
-    popover.present({
-      ev: e
-    });
-    popover.onDidDismiss((data) => {
-      switch(data) {
-        case 'login':
-          this.signinUser()
-          break;
-        case 'logout':
-          this.userService.logoutUser();
-          break;
-        case 'postDashboard':
-        this.routerService.navigateToPage(`/post-dashboard/${this.userService.user.username}`);
-          break;
-        default:
-          if(data) this.navigate(data);
-      }
-    });
   }
 
   signinUser() {
@@ -107,9 +82,5 @@ export class NavBar {
       this.isExpanded = false;
       this.activeSection = null;
     }
-  }
-
-  navigateToRegion(region: string) {
-    this.routerService.navigateToPage(`/explore/region/${region.split(' ').join('-').toLowerCase()}`);
   }
 }

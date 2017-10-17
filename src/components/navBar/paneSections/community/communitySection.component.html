@@ -1,0 +1,23 @@
+<div class="paneContainer">
+  <div class="paneSection">
+    <div class="paneSectionHeader">Members Hub</div>
+  </div>
+  <div class="paneSection">
+      <div class="paneSectionHeader">Stay Up To Date</div>
+    </div>
+  <div class="paneSection">
+    <div class="paneSectionHeader">@packonmyback</div>
+    <div class="paneOptionWrapper socialOptions">
+      <a 
+        *ngFor="let option of socialOptions;" 
+        [href]="option.url" 
+        target="_blank"
+        class="paneOption boldFont" 
+        [style.color]="settingsService.secondaryColor"
+      >
+        <ion-icon [name]="option.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
+        <span>{{option.label}}</span>
+      </a>
+    </div>
+  </div>
+</div>

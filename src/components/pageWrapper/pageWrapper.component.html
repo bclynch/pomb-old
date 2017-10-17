@@ -6,8 +6,7 @@
 >
   <HeroBanner *ngIf="displayHeroBanner"></HeroBanner>
   <NavBar 
-    *ngIf="displayNav" 
-    [displayLogo]="displayNavLogo" 
+    *ngIf="displayNav"
     (searchTrigger)="searchIsActive = !searchIsActive"
   ></NavBar>
   <ng-content></ng-content>

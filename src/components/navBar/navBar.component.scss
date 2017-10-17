@@ -110,11 +110,6 @@ navBar {
             text-transform: uppercase;
             color: mapGet($basecolor, white);
             font-size: 22px;
-            cursor: pointer;
-
-            &.hover:hover {
-              opacity: .7;
-            }
           }
           .paneOptionWrapper {
             text-align: center;
@@ -156,7 +151,7 @@ navBar {
       .mobileWrapper {
         display: none;
       }
-      .socialWrapper, .profileWrapper, .searchWrapper {
+      .socialWrapper, .searchWrapper {
         display: flex!important;
       }
       .logoWrapper {

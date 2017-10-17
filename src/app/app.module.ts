@@ -37,9 +37,13 @@ import { ExpandedModal } from '../components/gallery/expandedModal/expandedModal
 import { GoogleChartComponent } from '../components/charts/geoChart.component';
 import { FadeCarousel } from '../components/fadeCarousel/fadeCarousel.component';
 import { ExploreSubnav } from '../components/exploreSubnav/exploreSubnav.component';
+import { ProfileNavSection } from '../components/navBar/paneSections/profile/profileSection.component';
+import { TravelNavSection } from '../components/navBar/paneSections/travel/travelSection.component';
+import { OutdoorsNavSection } from '../components/navBar/paneSections/outdoors/outdoorsSection.component';
+import { ExploreNavSection } from '../components/navBar/paneSections/explore/exploreSection.component';
+import { CommunityNavSection } from '../components/navBar/paneSections/community/communitySection.component';
 
 // Popovers
-import { ProfilePopover } from '../components/popovers/profile/profilePopover.component';
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
 import { GradientPopover } from '../components/popovers/gradient/gradientPopover.component';
 import { ImageUploaderPopover } from '../components/popovers/imageUploader/imageUploaderPopover.component';
@@ -107,7 +111,6 @@ import { UtilService } from '../services/util.service';
     PageWrapper,
     PostCard,
     PostList,
-    ProfilePopover,
     RegistrationModal,
     Footer,
     DashboardCard,
@@ -136,7 +139,12 @@ import { UtilService } from '../services/util.service';
     ExploreModal,
     WindowScrollDirective,
     CommunityPage,
-    ExploreSubnav
+    ExploreSubnav,
+    ProfileNavSection,
+    TravelNavSection,
+    OutdoorsNavSection,
+    ExploreNavSection,
+    CommunityNavSection
   ],
   imports: [
     BrowserModule,
@@ -164,7 +172,6 @@ import { UtilService } from '../services/util.service';
     ArchivePage,
     AdminPage,
     PageNotFoundComponent,
-    ProfilePopover,
     RegistrationModal,
     CreatePostModal,
     PostTypePopover,

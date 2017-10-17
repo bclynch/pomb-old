@@ -1,0 +1,39 @@
+<div class="paneContainer">
+  <div *ngIf="!userService.signedIn">
+    <div class="paneSection">
+      <div class="paneSectionHeader">Sign Up</div>
+      <div class="paneSectionContent">
+        Looks like you aren't signed into an account yet. Login or signup to become a POMB member and start chronicling your journey.
+      </div>
+      <div class="paneSectionBtn" (click)="signinUser()">Get Started</div>
+    </div>
+    <div class="paneSection">
+      <div class="paneSectionHeader">Benefits</div>
+      <div class="paneSectionContent">
+        With a POMB account you will have the capability at your fingertips to archive your trip through stylish blog posts, an informative map of where you've been and where you're going, and share the moments you care about with loved ones. Signup is quick and unlocks all these features and more.
+      </div>
+    </div>
+  </div>
+  <div *ngIf="userService.signedIn">
+      <div class="paneSection">
+        <div class="paneSectionHeader">Profile</div>
+        <div (click)="navigate('admin')">Admin</div>
+        <div (click)="navigate('favorites')">Favorites</div>
+        <div (click)="logout()">Logout</div>
+      </div>
+      <div class="paneSection">
+        <div class="paneSectionHeader">Blog Dashboard</div>
+        <div class="paneSectionContent">
+          With the POMB blog engine you can keep those you care about informed of your latest adventures and whereabouts. With our abundant style options, ability to schedule posts, and gallery features keep your memories readily available look back on inspire others.
+        </div>
+        <div class="paneSectionBtn" (click)="navigate('blog')">Head To Dash</div>
+      </div>
+      <div class="paneSection">
+        <div class="paneSectionHeader">Settings</div>
+        <div class="paneSectionContent">
+          
+        </div>
+        <div class="paneSectionBtn" (click)="navigate('settings')">Go To Settings</div>
+      </div>
+    </div>
+</div>

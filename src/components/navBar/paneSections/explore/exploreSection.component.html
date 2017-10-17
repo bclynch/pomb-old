@@ -1,0 +1,16 @@
+<div class="paneContainer">
+  <div class="paneSection">
+    <div class="paneSectionHeader hover">World Map</div>
+  </div>
+  <div class="paneSection" *ngFor="let region of exploreService.regionsArr">
+    <div class="paneSectionHeader hover" (click)="navigateToRegion(region.region)">{{region.region}}</div>
+    <div class="paneOptionWrapper">
+      <div 
+        class="paneOption boldFont" 
+        *ngFor="let subregion of region.subregions" 
+        [style.color]="settingsService.secondaryColor"
+        (click)="navigateToRegion(subregion)"
+      >{{subregion}}</div>
+    </div>
+  </div>
+</div>
