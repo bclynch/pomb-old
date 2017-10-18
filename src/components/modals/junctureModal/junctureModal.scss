@@ -1,0 +1,48 @@
+juncturemodal {
+  .modalContainer {
+    background: mapGet($basecolor, white);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .closeModal {
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: mapGet($basecolor, black);
+      border: solid 1px mapGet($basecolor, white);
+
+      ion-icon {
+        color: mapGet($basecolor, white);
+        padding: 5px;
+        font-size: 1.3em;
+      }
+    }
+    .timeContainer {
+
+      .radioContainer {
+        display: flex;
+
+        input {
+          opacity: 0;
+        }
+        input[type="radio"]:checked+label {
+          color: mapGet($basecolor, black);
+          font-size: 1.1em;
+        }
+        label {
+          transition: .3s;
+          color: mapGet($basecolor, border);
+        }
+      }
+    }
+  }
+}
+

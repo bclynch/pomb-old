@@ -1,0 +1,38 @@
+profileherobanner {
+  width: 100%;
+
+  .heroBannerContainer {
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    text-align: center;
+    color: mapGet($basecolor, white);
+    border-bottom: solid 1px mapGet($basecolor, border);
+
+    .overlay {
+      background: rgba(0,0,0,.2);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+
+      .profilePhotoContainer {
+        height: 125px;
+        width: 125px;
+        background: mapGet($basecolor, black);
+        border: 3px solid mapGet($basecolor, white);
+        border-radius: 5px;
+      }
+      .name {
+        font-weight: bold;
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      .location {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

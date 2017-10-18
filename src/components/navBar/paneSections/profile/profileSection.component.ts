@@ -6,6 +6,7 @@ import { RegistrationModal } from '../../../modals/registrationModal/registratio
 import { SettingsService } from '../../../../services/settings.service';
 import { RouterService } from '../../../../services/router.service';
 import { UserService } from '../../../../services/user.service';
+import { JunctureService } from '../../../../services/juncture.service';
 
 @Component({
   selector: 'ProfileNavSection',
@@ -13,17 +14,30 @@ import { UserService } from '../../../../services/user.service';
 })
 export class ProfileNavSection {
 
+  quickLinks = [
+    {label: 'Juncture Check In', value: 'checkIn'},
+    {label: 'Blog Dashboard', value: 'blog'},
+    {label: 'Feed', value: 'feed'}
+  ];
+
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private junctureService: JunctureService
   ) {}
 
   navigate(path: string) {
     switch(path) {
       case 'blog':
-        this.routerService.navigateToPage(`/post-dashboard/${this.userService.user.username}`);
+        this.routerService.navigateToPage(`/${this.userService.user.username}/post-dashboard`);
+        break;
+      case 'userAdmin':
+        this.routerService.navigateToPage(`/${this.userService.user.username}/admin`);
+        break;
+      case 'checkIn':
+        this.junctureService.createJuncture();
         break;
       default:
       this.routerService.navigateToPage(`/${path}`);

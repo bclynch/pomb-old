@@ -1,0 +1,18 @@
+<div 
+  class="tripCardContainer"
+  [ngStyle]="trip.bannerPhoto ? { 'background-image': 'url(' + trip.bannerPhoto + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
+  (click)="navigateToTrip()"  
+>
+  <div class="overlay">
+    <div class="contentContainer">
+      <div class="tripTitle">{{trip.name}}</div>
+      <div class="infoRow">
+        <div>{{trip.startDate | date:'MMMy'}}</div>
+        <span *ngIf="trip.endDate">-</span>
+        <div *ngIf="trip.endDate">{{trip.endDate | date:'MMMy'}}</div>
+        <div>{{daysTraveling()}}</div>
+        <div class="tripStatus" [ngClass]="trip.endDate ? 'complete' : 'active'">{{trip.endDate ? 'Complete' : 'Active'}}</div>
+      </div>
+    </div>
+  </div>
+</div>

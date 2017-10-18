@@ -1,0 +1,29 @@
+<PageWrapper *ngIf="loaded">
+  <agm-map 
+    style="height: 40vh;" 
+    [latitude]="userLocation.lat" 
+    [longitude]="userLocation.lon"
+    [zoom]="currentZoom"
+    (centerChange)="moveTarget($event)"
+    #AgmMap
+    (zoomChange)="onZoomChange($event)" 
+  >
+    <!-- <agm-marker 
+      *ngFor= "let marker of filteredContacts"
+      [latitude]= "marker.lat" 
+      [longitude]= "marker.lon" 
+      [iconUrl]= "{
+        url: createImgPath(marker.leverancier_one),
+        anchor: {x: 18, y: 18},
+        size: {width: 36, height: 36},
+        scaledSize: {width: 36, height: 36}
+      }"
+      (markerClick)="AgmMap.lastOpen?.close(); AgmMap.lastOpen = infoWindow;"
+    >
+      <agm-info-window [disableAutoPan]="true" #infoWindow>
+        <map-popover [data]="marker" [config]="config"></map-popover>
+      </agm-info-window>
+    </agm-marker> -->
+  </agm-map>
+</PageWrapper>
+

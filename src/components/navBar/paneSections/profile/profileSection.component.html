@@ -17,16 +17,22 @@
   <div *ngIf="userService.signedIn">
       <div class="paneSection">
         <div class="paneSectionHeader">Profile</div>
+        <div>Welcome Back {{userService.user.firstName || userService.user.username}}</div>
+        <div (click)="navigate('userAdmin')">User Admin</div>
         <div (click)="navigate('admin')">Admin</div>
-        <div (click)="navigate('favorites')">Favorites</div>
         <div (click)="logout()">Logout</div>
       </div>
       <div class="paneSection">
-        <div class="paneSectionHeader">Blog Dashboard</div>
-        <div class="paneSectionContent">
-          With the POMB blog engine you can keep those you care about informed of your latest adventures and whereabouts. With our abundant style options, ability to schedule posts, and gallery features keep your memories readily available look back on inspire others.
+        <div class="paneSectionHeader">Quick Links</div>
+        <div class="paneOptionWrapper">
+          <div 
+            *ngFor="let option of quickLinks;" 
+            class="paneOption boldFont" 
+            [style.color]="settingsService.secondaryColor"
+          >
+            <span (click)="navigate(option.value)">{{option.label}}</span>
+          </div>
         </div>
-        <div class="paneSectionBtn" (click)="navigate('blog')">Head To Dash</div>
       </div>
       <div class="paneSection">
         <div class="paneSectionHeader">Settings</div>

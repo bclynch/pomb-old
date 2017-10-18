@@ -1,0 +1,60 @@
+tripcard {
+  width: 100%;
+
+  .tripCardContainer {
+    background: mapGet($basecolor, black);
+    height: 250px;
+    color: mapGet($basecolor, white);
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    .overlay {
+      background: rgba(0,0,0,.2);
+      width: 100%;
+      height: 100%;
+      padding: 24px;
+
+      .contentContainer {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+  
+        > div {
+          flex: 1;
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-end;
+        }
+        .tripTitle {
+          font-size: 32px;
+        }
+        .infoRow {
+          justify-content: flex-start;
+
+          > div {
+            margin: 0 10px;
+            font-size: 18px;
+          }
+          span {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include respond-to(tiny) {
+  tripcard {
+
+  }
+}

@@ -260,6 +260,51 @@ query allConfigs {
 }
 `;
 
+const getAccountByUsername = gql`
+  query accountByUsername($username: String!) {
+    accountByUsername(username: $username) {
+      id,
+      firstName,
+      lastName,
+      profilePhoto,
+      heroPhoto,
+      postsByAuthor(condition: {
+        isPublished: true
+      }) {
+        nodes {
+          id,
+          title,
+          accountByAuthor {
+            firstName,
+            lastName,
+            username
+          },
+          postLeadPhotosByPostId {
+            nodes {
+              leadPhotoLinksByLeadPhotoId {
+                nodes {
+                  url
+                }
+              }
+            }
+          }
+        }
+      },
+      userToTripsByUserId {
+        nodes {
+          tripByTripId {
+            id,
+            name,
+            bannerPhoto,
+            startDate,
+            endDate
+          }
+        }
+      }
+    }
+  }
+`;
+
 const getPostById = gql` 
   query postById($id: Int!) {
     postById(id: $id) {
@@ -741,6 +786,15 @@ export class APIService {
   getConfig() {
     return this.apollo.watchQuery<any>({
       query: getConfig
+    });
+  }
+
+  getAccountByUsername(username: string) {
+    return this.apollo.watchQuery<any>({
+      query: getAccountByUsername,
+      variables: {
+        username
+      }
     });
   }
   

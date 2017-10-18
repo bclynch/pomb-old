@@ -7,9 +7,11 @@ alter default privileges revoke execute on functions from public;
 
 create table pomb.account (
   id                  serial primary key,
-  username            text unique not null check (char_length(first_name) < 80),
+  username            text unique not null check (char_length(username) < 80),
   first_name          text check (char_length(first_name) < 80),
   last_name           text check (char_length(last_name) < 100),
+  profile_photo       text,
+  hero_photo          text,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
@@ -22,6 +24,8 @@ comment on column pomb.account.id is 'Primary id for account';
 comment on column pomb.account.username is 'username of account';
 comment on column pomb.account.first_name is 'First name of account';
 comment on column pomb.account.last_name is 'Last name of account';
+comment on column pomb.account.profile_photo is 'Profile photo of account';
+comment on column pomb.account.hero_photo is 'Hero photo of account';
 comment on column pomb.account.created_at is 'When account created';
 comment on column pomb.account.updated_at is 'When account last updated';
 
@@ -45,9 +49,9 @@ create table pomb.post (
   category            pomb.post_category,
   is_draft            boolean not null,
   is_scheduled        boolean not null,
-  scheduled_date       bigint,
+  scheduled_date      bigint,
   is_published        boolean not null,
-  published_date       bigint,
+  published_date      bigint,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
@@ -105,7 +109,7 @@ comment on column pomb.post_tag.tag_description is 'Description of the post tag'
 create table pomb.post_to_tag ( --one to many
   id                 serial primary key,
   post_id            integer not null references pomb.post(id) on delete cascade,
-  post_tag_id        integer not null references pomb.post_tag(id)
+  post_tag_id        integer not null references pomb.post_tag(id) on delete cascade
 );
 
 insert into pomb.post_to_tag (post_id, post_tag_id) values
@@ -299,6 +303,126 @@ comment on column pomb.config.tagline is 'Tagline of site';
 comment on column pomb.config.hero_banner is 'Hero banner url';
 comment on column pomb.config.updated_at is 'Last updated';
 
+create table pomb.trip (
+  id                  serial primary key,
+  name                text not null check (char_length(name) < 256),
+  start_date          bigint,
+  end_date            bigint,
+  banner_photo        text,
+  created_at          bigint default (extract(epoch from now()) * 1000),
+  updated_at          timestamp default now()
+);
+
+insert into pomb.trip (name, start_date, end_date, banner_photo) values
+  ('Cool Trip', 1508274574542, 1508284574542, 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg'),
+  ('Neat Trip', 1408274574542, 1448274574542, null);
+
+comment on table pomb.trip is 'Table with POMB trips';
+comment on column pomb.trip.id is 'Primary id for trip';
+comment on column pomb.trip.name is 'Name of trip';
+comment on column pomb.trip.start_date is 'Start date of trip';
+comment on column pomb.trip.end_date is 'End date of trip';
+comment on column pomb.trip.banner_photo is 'Banner photo of trip';
+comment on column pomb.trip.created_at is 'When trip created';
+comment on column pomb.trip.updated_at is 'When trip last updated';
+
+create table pomb.juncture (
+  id                  serial primary key,
+  name                text check (char_length(name) < 256),
+  arrival_date        bigint,
+  description         text check (char_length(name) < 1200),
+  lat                 decimal,
+  lon                 decimal,
+  created_at          bigint default (extract(epoch from now()) * 1000),
+  updated_at          timestamp default now()
+);
+
+insert into pomb.juncture (name, arrival_date, description, lat, lon) values
+  ('Day 1', 1508274574542, 'Did some sweet stuff', 36.9741, 122.0308),
+  ('Day 2', 1508274674542, 'You da man my brother', 37.7749, 122.4194),
+  ('Day 3', 1508274774542, 'Thats freaking awesome!', 37.9735, 122.5311),
+  ('So it begins', 1408274584542, 'And we are who we are this is the trip of a lifetime because your life ends here', 4.7110, 74.0721);
+
+comment on table pomb.juncture is 'Table with POMB junctures';
+comment on column pomb.juncture.id is 'Primary id for juncture';
+comment on column pomb.juncture.name is 'Name of juncture';
+comment on column pomb.juncture.arrival_date is 'Date of juncture';
+comment on column pomb.juncture.description is 'Description of the juncture';
+comment on column pomb.juncture.lat is 'Latitude of the juncture';
+comment on column pomb.juncture.lon is 'Longitude of the juncture';
+comment on column pomb.juncture.created_at is 'When juncture created';
+comment on column pomb.juncture.updated_at is 'When juncture last updated';
+
+create table pomb.juncture_to_photo ( --one to many
+  id                 serial primary key,
+  juncture_id        integer not null references pomb.juncture(id) on delete cascade,
+  photo_url          text not null,
+  description        text
+);
+
+insert into pomb.juncture_to_photo (juncture_id, photo_url, description) values
+  (1, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (1, 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Lower_Yellowstone_Fall-1200px.jpg', 'A beautiful vista accented by your mom'),
+  (1, 'http://www.ningalooreefdive.com/wp-content/uploads/2014/01/coralbay-3579-1200px-wm-1.png', 'A beautiful vista accented by your mom'),
+  (2, 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Sign_of_Brno_University_of_Technology_at_building_in_Brno%2C_Kr%C3%A1lovo_Pole.jpg/1200px-Sign_of_Brno_University_of_Technology_at_building_in_Brno%2C_Kr%C3%A1lovo_Pole.jpg', 'A beautiful vista accented by your mom'),
+  (3, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
+  (3, 'http://www.ningalooreefdive.com/wp-content/uploads/2014/01/coralbay-3579-1200px-wm-1.png', 'A beautiful vista accented by your mom'),
+  (4, 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Lower_Yellowstone_Fall-1200px.jpg', 'A beautiful vista accented by your mom');
+
+comment on table pomb.juncture_to_photo is 'Join table for photos on a juncture';
+comment on column pomb.juncture_to_photo.id is 'Id of the row';
+comment on column pomb.juncture_to_photo.juncture_id is 'Id of the juncture';
+comment on column pomb.juncture_to_photo.photo_url is 'Url of photo';
+comment on column pomb.juncture_to_photo.description is 'Description of photo';
+
+create table pomb.juncture_to_post (
+  id                 serial primary key,
+  juncture_id        integer not null references pomb.juncture(id) on delete cascade,
+  post_id            integer not null references pomb.post(id) on delete cascade
+);
+
+insert into pomb.juncture_to_post (juncture_id, post_id) values
+  (1, 1),
+  (1, 4),
+  (2, 2);
+
+comment on table pomb.juncture_to_post is 'Join table for posts related to a juncture';
+comment on column pomb.juncture_to_post.id is 'Id of the row';
+comment on column pomb.juncture_to_post.juncture_id is 'Id of the juncture';
+comment on column pomb.juncture_to_post.post_id is 'Id of the post';
+
+create table pomb.trip_to_juncture (
+  id                 serial primary key,
+  trip_id            integer not null references pomb.trip(id) on delete cascade,
+  juncture_id        integer not null references pomb.juncture(id) on delete cascade
+);
+
+insert into pomb.trip_to_juncture (trip_id, juncture_id) values
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (2, 4);
+
+comment on table pomb.trip_to_juncture is 'Join table for juncture related to a trip';
+comment on column pomb.trip_to_juncture.id is 'Id of the row';
+comment on column pomb.trip_to_juncture.trip_id is 'Id of the trip';
+comment on column pomb.trip_to_juncture.juncture_id is 'Id of the juncture';
+
+create table pomb.user_to_trip (
+  id                 serial primary key,
+  user_id            integer not null references pomb.account(id) on delete cascade,
+  trip_id            integer not null references pomb.trip(id) on delete cascade
+);
+
+insert into pomb.user_to_trip (user_id, trip_id) values
+  (1, 1),
+  (1, 2);
+
+comment on table pomb.user_to_trip is 'Join table for trip related to a user';
+comment on column pomb.user_to_trip.id is 'Id of the row';
+comment on column pomb.user_to_trip.user_id is 'Id of the user';
+comment on column pomb.user_to_trip.trip_id is 'Id of the trip';
+
 -- *******************************************************************
 -- *********************** Function Queries **************************
 -- *******************************************************************
@@ -351,6 +475,16 @@ create trigger lead_photo_updated_at before update
 
 create trigger config_updated_at before update
   on pomb.config
+  for each row
+  execute procedure pomb_private.set_updated_at();
+
+create trigger trip_updated_at before update
+  on pomb.trip
+  for each row
+  execute procedure pomb_private.set_updated_at();
+
+create trigger juncture_updated_at before update
+  on pomb.juncture
   for each row
   execute procedure pomb_private.set_updated_at();
 
@@ -449,11 +583,11 @@ GRANT ALL privileges ON ALL TABLES IN SCHEMA pomb to pomb_admin;
 GRANT ALL privileges ON ALL TABLES IN SCHEMA pomb_private to pomb_admin;
 
 create role pomb_anonymous login password 'abc123' NOINHERIT;
-grant pomb_anonymous to pomb_admin; --Now, the pomb_admin role can control and become the pomb_anonymous role. If we did not use that grant, we could not change into the pomb_anonymous role in PostGraphQL.
+GRANT pomb_anonymous to pomb_admin; --Now, the pomb_admin role can control and become the pomb_anonymous role. If we did not use that GRANT, we could not change into the pomb_anonymous role in PostGraphQL.
 
 create role pomb_account;
-grant pomb_account to pomb_admin; --The pomb_admin role will have all of the permissions of the roles granted to it. So it can do everything pomb_anonymous can do and everything pomb_usercan do.
-grant pomb_account to pomb_anonymous; 
+GRANT pomb_account to pomb_admin; --The pomb_admin role will have all of the permissions of the roles GRANTed to it. So it can do everything pomb_anonymous can do and everything pomb_usercan do.
+GRANT pomb_account to pomb_anonymous; 
 
 create type pomb.jwt_token as (
   role text,
@@ -495,35 +629,48 @@ comment on function pomb.current_account() is 'Gets the account that was identif
 -- ************************* Security *********************************
 -- *******************************************************************
 
-grant usage on schema pomb to pomb_anonymous, pomb_account;
-grant usage on all sequences in schema pomb to pomb_account;
+GRANT usage on schema pomb to pomb_anonymous, pomb_account;
+GRANT usage on all sequences in schema pomb to pomb_account;
 
-grant ALL on table pomb.post to pomb_account; --ultimately needs to be policy in which only own user!
-grant ALL on table pomb.post_lead_photo to pomb_account; --ultimately needs to be policy in which only own user!
-grant ALL on table pomb.lead_photo_link to pomb_account; --ultimately needs to be policy in which only own user!
-grant ALL on table pomb.post_tag to pomb_account;
-grant ALL on table pomb.post_to_tag to pomb_account; --ultimately needs to be policy in which only own user!
-grant ALL on table pomb.post_to_gallery_photo to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL on table pomb.post to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL on table pomb.post_lead_photo to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL on table pomb.lead_photo_link to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL on table pomb.post_tag to pomb_account;
+GRANT ALL on table pomb.post_to_tag to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL on table pomb.post_to_gallery_photo to pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.trip TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.juncture TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.juncture_to_photo TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.juncture_to_post TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.trip_to_juncture TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.user_to_trip TO pomb_account; --ultimately needs to be policy in which only own user!
 
-grant select on table pomb.post to PUBLIC;
-grant select on table pomb.post_tag to PUBLIC;
-grant select on table pomb.post_to_tag to PUBLIC;
-grant select on table pomb.post_to_gallery_photo to PUBLIC;
-grant select on table pomb.post_comment to PUBLIC;
-grant select on table pomb.post_to_comment to PUBLIC;
-grant select on table pomb.account to PUBLIC;
-grant select on table pomb.post_lead_photo to PUBLIC;
-grant select on table pomb.lead_photo_link to PUBLIC;
-grant ALL on table pomb.config to PUBLIC; -- ultimately needs to only be admin account that can mod
-grant ALL on table pomb.account to pomb_account;
-grant select on pomb.search_index to PUBLIC;
+GRANT select on table pomb.post to PUBLIC;
+GRANT select on table pomb.post_tag to PUBLIC;
+GRANT select on table pomb.post_to_tag to PUBLIC;
+GRANT select on table pomb.post_to_gallery_photo to PUBLIC;
+GRANT select on table pomb.post_comment to PUBLIC;
+GRANT select on table pomb.post_to_comment to PUBLIC;
+GRANT select on table pomb.account to PUBLIC;
+GRANT select on table pomb.post_lead_photo to PUBLIC;
+GRANT select on table pomb.lead_photo_link to PUBLIC;
+GRANT SELECT ON TABLE pomb.trip TO PUBLIC;
+GRANT SELECT ON TABLE pomb.juncture TO PUBLIC;
+GRANT SELECT ON TABLE pomb.juncture_to_photo TO PUBLIC;
+GRANT SELECT ON TABLE pomb.juncture_to_post TO PUBLIC;
+GRANT SELECT ON TABLE pomb.trip_to_juncture TO PUBLIC;
+GRANT SELECT ON TABLE pomb.user_to_trip TO PUBLIC;
 
-grant execute on function pomb.register_account(text, text, text, text, text) to pomb_anonymous;
-grant execute on function pomb.authenticate_account(text, text) to pomb_anonymous;
-grant execute on function pomb.current_account() to PUBLIC;
-grant execute on function pomb.posts_by_tag(integer) to PUBLIC;
-grant execute on function pomb.search_tags(text) to PUBLIC;
-grant execute on function pomb.search_posts(text) to PUBLIC; 
+GRANT ALL on table pomb.config to PUBLIC; -- ultimately needs to only be admin account that can mod
+GRANT ALL on table pomb.account to pomb_account;
+GRANT select on pomb.search_index to PUBLIC;
+
+GRANT execute on function pomb.register_account(text, text, text, text, text) to pomb_anonymous;
+GRANT execute on function pomb.authenticate_account(text, text) to pomb_anonymous;
+GRANT execute on function pomb.current_account() to PUBLIC;
+GRANT execute on function pomb.posts_by_tag(integer) to PUBLIC;
+GRANT execute on function pomb.search_tags(text) to PUBLIC;
+GRANT execute on function pomb.search_posts(text) to PUBLIC; 
 
 -- ///////////////// RLS Policies ////////////////////////////////
 

@@ -20,6 +20,8 @@ import { ExploreRegionPage } from '../pages/explore/region/explore.region';
 import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
+import { UserAdminPage } from '../pages/userAdmin/admin';
+import { TripPage } from '../pages/trip/trip';
 
 const appRoutes: Routes = [
   { 
@@ -83,19 +85,6 @@ const appRoutes: Routes = [
         component: ExplorePage
       }
   ]},
-  { 
-    path: 'post-dashboard',
-    canActivate: [RoleGuard], 
-    data: { 
-      expectedRole: 'pomb_account'
-    },
-    children: [
-      {
-        path: ':username',
-        component: DashboardPage
-      }
-    ]
-  },
   { path: 'archive', component: ArchivePage },
   { path: 'admin',
   // canActivate: [RoleGuard], 
@@ -125,6 +114,40 @@ const appRoutes: Routes = [
           {
               path: 'posts',
               component: AdminPage
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: ':username',
+    children: [
+      {
+        path: '',
+        component: ProfilePage
+      },
+      {
+        path: 'admin',
+        canActivate: [RoleGuard], 
+        data: { 
+          expectedRole: 'pomb_account'
+        },
+        component: UserAdminPage
+      },
+      { 
+        path: 'post-dashboard',
+        canActivate: [RoleGuard], 
+        data: { 
+          expectedRole: 'pomb_account'
+        },
+        component: DashboardPage
+      },
+      {
+        path: 'trip',
+        children: [
+          {
+            path: ':id',
+            component: TripPage
           }
         ]
       }

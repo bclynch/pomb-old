@@ -42,6 +42,8 @@ import { TravelNavSection } from '../components/navBar/paneSections/travel/trave
 import { OutdoorsNavSection } from '../components/navBar/paneSections/outdoors/outdoorsSection.component';
 import { ExploreNavSection } from '../components/navBar/paneSections/explore/exploreSection.component';
 import { CommunityNavSection } from '../components/navBar/paneSections/community/communitySection.component';
+import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
+import { TripCard } from '../components/tripCard/tripCard.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -54,6 +56,7 @@ import { RegistrationModal } from '../components/modals/registrationModal/regist
 import { CreatePostModal } from '../components/modals/createPostModal/createPostModal';
 import { DatePickerModal } from '../components/modals/datepickerModal/datepickerModal';
 import { ExploreModal } from '../components/modals/exploreModal/exploreModal';
+import { JunctureModal } from '../components/modals/junctureModal/junctureModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -70,11 +73,17 @@ import { AdminDashboardPage } from '../pages/admin/subViews/dashboard/dashboard'
 import { AdminConfigPage } from '../pages/admin/subViews/config/config';
 import { AdminUsersPage } from '../pages/admin/subViews/users/users';
 import { AdminPostsPage } from '../pages/admin/subViews/posts/posts';
+import { UserAdminPage } from '../pages/userAdmin/admin';
+import { UserAdminDashboardPage } from '../pages/userAdmin/subViews/dashboard/dashboard';
+import { UserAdminConfigPage } from '../pages/userAdmin/subViews/config/config';
+import { UserAdminTripsPage } from '../pages/userAdmin/subViews/trips/trips';
+import { UserAdminPostsPage } from '../pages/userAdmin/subViews/posts/posts';
 import { ExplorePage } from '../pages/explore/explore';
 import { ExploreRegionPage } from '../pages/explore/region/explore.region';
 import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
+import { TripPage } from '../pages/trip/trip';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -88,6 +97,7 @@ import { BroadcastService } from '../services/broadcast.service';
 import { RoleGuardService } from '../services/roleGuard.service';
 import { ExploreService } from '../services/explore.service';
 import { UtilService } from '../services/util.service';
+import { JunctureService } from '../services/juncture.service';
 
 @NgModule({
   declarations: [
@@ -102,6 +112,7 @@ import { UtilService } from '../services/util.service';
     SearchResultsPage,
     ArchivePage,
     AdminPage,
+    UserAdminPage,
     PageNotFoundComponent,
     Grid,
     GridCard,
@@ -123,6 +134,10 @@ import { UtilService } from '../services/util.service';
     AdminConfigPage,
     AdminUsersPage,
     AdminPostsPage,
+    UserAdminDashboardPage,
+    UserAdminConfigPage,
+    UserAdminTripsPage,
+    UserAdminPostsPage,
     GradientPopover,
     DatePickerModal,
     ImageUploaderPopover,
@@ -144,7 +159,11 @@ import { UtilService } from '../services/util.service';
     TravelNavSection,
     OutdoorsNavSection,
     ExploreNavSection,
-    CommunityNavSection
+    CommunityNavSection,
+    ProfileHeroBanner,
+    TripCard,
+    TripPage,
+    JunctureModal
   ],
   imports: [
     BrowserModule,
@@ -171,6 +190,7 @@ import { UtilService } from '../services/util.service';
     SearchResultsPage,
     ArchivePage,
     AdminPage,
+    UserAdminPage,
     PageNotFoundComponent,
     RegistrationModal,
     CreatePostModal,
@@ -185,7 +205,9 @@ import { UtilService } from '../services/util.service';
     ExploreCountryPage,
     ExploreCityPage,
     ExploreModal,
-    CommunityPage
+    CommunityPage,
+    TripPage,
+    JunctureModal
   ],
   providers: [
     APIService,
@@ -198,6 +220,7 @@ import { UtilService } from '../services/util.service';
     RoleGuardService,
     ExploreService,
     UtilService,
+    JunctureService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
