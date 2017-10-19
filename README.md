@@ -2,12 +2,25 @@
 
 ## Todos
 
-- Move most of the current profile dropdown to the join tab with the dynamic signup/signed in section. Can have admin login just be in a url /admin
-- Create/edit post dash
-    - Would like some kind of alert that intercepts page if user tries to leave if changes need to be saved.
-    - Search for within posts (titles, subtitles, content, tags)
-    - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
-    - Validation for the user only seeing their posts
+#### Trip report page
+
+- Work on the pane UI. Browser UI is row flex while mobile UI is column flex.
+- Would like it swipeable for mobile. Probably need hammer js like with the web client carousel. Probably need to set something up so at least one or two are visible off screen at a time for animating purposes.
+- Would like the map to pan around a bit to center on the visible juncture.
+- Maybe a vertical progress bar like polar steps horizontal one
+- Would like three junctures up top with current one the middle and prior + next.
+- Pane scrolls vertically within the container on browser, but probably scrolls limitless on mobile.
+- Would like to be able to click a marker (probably end up as a juncture photo or default) for a preview window + quick stats. Can click somehwere in there to open it up fully in the pane.
+
+#### Create/edit post dash
+
+- Would like some kind of alert that intercepts page if user tries to leave if changes need to be saved.
+- Search for within posts (titles, subtitles, content, tags)
+- Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
+- Validation for the user only seeing their posts
+
+#### Other
+
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)

@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
+import { APIService } from '../../services/api.service';
+import { UtilService } from '../../services/util.service';
+
+interface Marker {
+  lat: number;
+  lon: number;
+}
 
 @Component({
   selector: 'page-trip',
@@ -10,28 +18,53 @@ import { BroadcastService } from '../../services/broadcast.service';
 })
 export class TripPage {
 
-  loaded: boolean = false;
-  userLocation = { lat: null, lon: null }
-
+  tripId: number;
+  junctureMarkers: Marker[] = [];
+  inited: boolean = false;
+  latlngBounds;
+  mapStyle;
 
   constructor(
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
+    private apiService: APIService,
+    private router: Router,
+    private mapsAPILoader: MapsAPILoader,
+    private utilService: UtilService
   ) {  
+    this.tripId = +this.router.url.split('/').slice(-1);
+    console.log(this.tripId);
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
-    //browser location
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((location) => {
-        console.log(location.coords);
-        this.userLocation.lat = location.coords.latitude;
-        this.userLocation.lon = location.coords.longitude;
-        this.loaded = true;
-      });
-    }
   }
 
   init() {
-    
+    this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
+      const tripData = data.tripById;
+      console.log('got trip data: ', tripData);
+      //create markers arr
+      tripData.tripToJuncturesByTripId.nodes.forEach((marker) => {
+        let newMarker: any = {};
+        newMarker['lat'] = marker.junctureByJunctureId.lat;
+        newMarker['lon'] = marker.junctureByJunctureId.lon;
+        this.junctureMarkers.push(newMarker);
+      });
+
+      //fitting the map to the markers
+      this.mapsAPILoader.load().then(() => {
+        this.latlngBounds = new window['google'].maps.LatLngBounds();
+        this.junctureMarkers.forEach((location) => {
+            this.latlngBounds.extend(new window['google'].maps.LatLng(location.lat, location.lon))
+        });
+
+        //grab map style
+        this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
+          this.mapStyle = data;
+          this.inited = true;
+        });
+      });
+    },(error) => {
+      console.log('there was an error sending the query', error);
+    });
   }
 
 }

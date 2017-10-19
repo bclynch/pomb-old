@@ -39,4 +39,16 @@ export class JunctureModal {
   submit() {
     console.log(this.formModel);
   }
+
+  location() {
+    //browser location
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((location) => {
+        console.log(location.coords);
+        // this.userLocation.lat = location.coords.latitude;
+        // this.userLocation.lon = location.coords.longitude;
+        // this.loaded = true;
+      });
+    }
+  }
 }

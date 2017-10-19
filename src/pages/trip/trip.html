@@ -1,29 +1,33 @@
-<PageWrapper *ngIf="loaded">
-  <agm-map 
-    style="height: 40vh;" 
-    [latitude]="userLocation.lat" 
-    [longitude]="userLocation.lon"
-    [zoom]="currentZoom"
-    (centerChange)="moveTarget($event)"
-    #AgmMap
-    (zoomChange)="onZoomChange($event)" 
-  >
-    <!-- <agm-marker 
-      *ngFor= "let marker of filteredContacts"
-      [latitude]= "marker.lat" 
-      [longitude]= "marker.lon" 
-      [iconUrl]= "{
-        url: createImgPath(marker.leverancier_one),
-        anchor: {x: 18, y: 18},
-        size: {width: 36, height: 36},
-        scaledSize: {width: 36, height: 36}
-      }"
-      (markerClick)="AgmMap.lastOpen?.close(); AgmMap.lastOpen = infoWindow;"
+<PageWrapper>
+  <div *ngIf="inited" class="initedLayer">
+    <agm-map 
+      [zoomControl]="false"
+      [disableDefaultUI]="true"
+      [streetViewControl]="false"
+      [fitBounds]="latlngBounds"
+      [styles]=mapStyle
     >
-      <agm-info-window [disableAutoPan]="true" #infoWindow>
-        <map-popover [data]="marker" [config]="config"></map-popover>
-      </agm-info-window>
-    </agm-marker> -->
-  </agm-map>
+      <agm-marker 
+        *ngFor= "let marker of junctureMarkers;"
+        [latitude]= "marker.lat" 
+        [longitude]= "marker.lon" 
+        (markerClick)="AgmMap.lastOpen?.close(); AgmMap.lastOpen = infoWindow;"
+      >
+        <!-- <agm-info-window [disableAutoPan]="true" #infoWindow>
+          <map-popover [data]="marker" [config]="config"></map-popover>
+        </agm-info-window> -->
+      </agm-marker>
+      <agm-polyline
+        [editable]="false"
+        strokeColor="#934000"
+        strokeWeight="3"
+      >
+        <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.lat" [longitude]="point.lon"></agm-polyline-point>
+      </agm-polyline>
+    </agm-map>
+    <div class="juncturePane">
+
+    </div>
+  </div>
 </PageWrapper>
 

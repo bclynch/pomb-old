@@ -338,10 +338,10 @@ create table pomb.juncture (
 );
 
 insert into pomb.juncture (name, arrival_date, description, lat, lon) values
-  ('Day 1', 1508274574542, 'Did some sweet stuff', 36.9741, 122.0308),
-  ('Day 2', 1508274674542, 'You da man my brother', 37.7749, 122.4194),
-  ('Day 3', 1508274774542, 'Thats freaking awesome!', 37.9735, 122.5311),
-  ('So it begins', 1408274584542, 'And we are who we are this is the trip of a lifetime because your life ends here', 4.7110, 74.0721);
+  ('Day 1', 1508274574542, 'Did some sweet stuff', 36.9741, -122.0308),
+  ('Day 2', 1508274674542, 'You da man my brother', 37.7749, -122.4194),
+  ('Day 3', 1508274774542, 'Thats freaking awesome!', 37.9735, -122.5311),
+  ('So it begins', 1408274584542, 'And we are who we are this is the trip of a lifetime because your life ends here', 4.7110, -74.0721);
 
 comment on table pomb.juncture is 'Table with POMB junctures';
 comment on column pomb.juncture.id is 'Primary id for juncture';

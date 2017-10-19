@@ -305,6 +305,27 @@ const getAccountByUsername = gql`
   }
 `;
 
+const getTripById = gql`
+  query tripById($id: Int!) {
+    tripById(id: $id) {
+      id,
+      name,
+      startDate,
+      endDate,
+      bannerPhoto,
+      tripToJuncturesByTripId {
+        nodes {
+          junctureByJunctureId {
+            name,
+            lat,
+            lon
+          }
+        }
+      }
+    }
+  }
+`;
+
 const getPostById = gql` 
   query postById($id: Int!) {
     postById(id: $id) {
@@ -746,6 +767,15 @@ export class APIService {
         isScheduled,
         isPublished, 
         author
+      }
+    });
+  }
+
+  getTripById(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getTripById,
+      variables: {
+          id
       }
     });
   }

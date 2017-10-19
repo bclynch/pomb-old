@@ -61,7 +61,7 @@ export class NavBar {
   }
 
   navigate(path: string) {
-    this.routerService.navigateToPage(`/${path}`);
+    path === 'profile' ? this.routerService.navigateToPage(`/${this.userService.user.username}`) : this.routerService.navigateToPage(`/${path}`);
   }
 
   signinUser() {
