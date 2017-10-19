@@ -26,7 +26,27 @@
       </agm-polyline>
     </agm-map>
     <div class="juncturePane">
-
+      <div class="paneHeader">
+        <BackpackIcon color="purple" title="Add To Pack"></BackpackIcon>
+        <div *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">{{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}</div>
+        <div *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">{{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}</div>
+      </div>
+      <div 
+        class="paneBanner"
+        [ngStyle]="tripData.bannerPhoto ? { 'background-image': 'url(' + tripData.bannerPhoto + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
+      ></div>
+      <div class="paneJunctureTracker">
+        <div class="trackerWrapper">
+          <div class="junctureContainer" *ngFor="let juncture of tripData.tripToJuncturesByTripId.nodes">
+            <div>{{juncture.junctureByJunctureId.name}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="paneContent">
+        <div class="junctureDescription"></div>
+        <div class="junctureGallery"></div>
+        <div class="juncturePosts"></div>
+      </div>
     </div>
   </div>
 </PageWrapper>

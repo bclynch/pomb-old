@@ -12,7 +12,37 @@ page-trip {
     .juncturePane {
       min-height: calc(60vh - 40px); //40px is size of nav
       width: 100%;
-      background: orange;
+
+      .paneHeader {
+        height: 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+
+        BackpackIcon {
+          height: 32px;
+          width: 32px;
+          cursor: pointer;
+        }
+        div {
+          cursor: pointer;
+        }
+      }
+      .paneBanner {
+        display: none;
+      }
+      .paneJunctureTracker {
+        display: flex;
+        justify-content: space-between;
+
+        .trackerWrapper {
+
+        }
+        .junctureContainer {
+          display: inline-block;
+        }
+      }
     }
   }
 
@@ -21,14 +51,19 @@ page-trip {
       flex-direction: row;
   
       agm-map {
-        flex: 1;
         height: calc(100vh - 40px); //40px is size of nav
       }
       .juncturePane {
         width: 40%;
         min-width: 500px;
-        background: orange;
         height: calc(100vh - 40px); //40px is size of nav
+
+        .paneBanner {
+          display: block;
+          height: 360px;
+          background-position: center;
+          background-size: cover;
+        }
       }
     }
   }

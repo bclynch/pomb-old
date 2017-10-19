@@ -10,6 +10,7 @@
 - Maybe a vertical progress bar like polar steps horizontal one
 - Would like three junctures up top with current one the middle and prior + next.
 - Pane scrolls vertically within the container on browser, but probably scrolls limitless on mobile.
+- Pane will include description of juncture, gallery of photos, linked blog posts
 - Would like to be able to click a marker (probably end up as a juncture photo or default) for a preview window + quick stats. Can click somehwere in there to open it up fully in the pane.
 
 #### Create/edit post dash

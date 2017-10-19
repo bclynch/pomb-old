@@ -321,6 +321,15 @@ const getTripById = gql`
             lon
           }
         }
+      },
+      userToTripsByTripId {
+        nodes {
+          accountByUserId {
+            username,
+            firstName, 
+            lastName
+          }
+        }
       }
     }
   }

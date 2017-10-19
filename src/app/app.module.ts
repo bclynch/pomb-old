@@ -44,6 +44,7 @@ import { ExploreNavSection } from '../components/navBar/paneSections/explore/exp
 import { CommunityNavSection } from '../components/navBar/paneSections/community/communitySection.component';
 import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
 import { TripCard } from '../components/tripCard/tripCard.component';
+import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -163,7 +164,8 @@ import { JunctureService } from '../services/juncture.service';
     ProfileHeroBanner,
     TripCard,
     TripPage,
-    JunctureModal
+    JunctureModal,
+    BackpackIcon
   ],
   imports: [
     BrowserModule,

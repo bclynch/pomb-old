@@ -19,10 +19,12 @@ interface Marker {
 export class TripPage {
 
   tripId: number;
+  tripData;
   junctureMarkers: Marker[] = [];
   inited: boolean = false;
   latlngBounds;
   mapStyle;
+  defaultPhoto: string = '../../assets/images/trip-default.jpg';
 
   constructor(
     private settingsService: SettingsService,
@@ -30,7 +32,7 @@ export class TripPage {
     private apiService: APIService,
     private router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private utilService: UtilService
+    private utilService: UtilService 
   ) {  
     this.tripId = +this.router.url.split('/').slice(-1);
     console.log(this.tripId);
@@ -39,10 +41,10 @@ export class TripPage {
 
   init() {
     this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
-      const tripData = data.tripById;
-      console.log('got trip data: ', tripData);
+      this.tripData = data.tripById;
+      console.log('got trip data: ', this.tripData);
       //create markers arr
-      tripData.tripToJuncturesByTripId.nodes.forEach((marker) => {
+      this.tripData.tripToJuncturesByTripId.nodes.forEach((marker) => {
         let newMarker: any = {};
         newMarker['lat'] = marker.junctureByJunctureId.lat;
         newMarker['lon'] = marker.junctureByJunctureId.lon;
@@ -66,5 +68,4 @@ export class TripPage {
       console.log('there was an error sending the query', error);
     });
   }
-
 }
