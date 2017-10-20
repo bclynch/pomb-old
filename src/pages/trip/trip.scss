@@ -12,6 +12,7 @@ page-trip {
     .juncturePane {
       min-height: calc(60vh - 40px); //40px is size of nav
       width: 100%;
+      overflow: hidden;
 
       .paneHeader {
         height: 45px;
@@ -35,12 +36,35 @@ page-trip {
       .paneJunctureTracker {
         display: flex;
         justify-content: space-between;
+        width: 100%;
+        position: relative;
 
         .trackerWrapper {
+          position: absolute;
+          display: flex;
+          transition: .5s;
 
+          > div {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            cursor: pointer;
+          }
         }
-        .junctureContainer {
-          display: inline-block;
+      }
+      .paneContent {
+        position: relative;
+
+        .contentWrapper {
+          position: absolute;
+          display: flex;
+          transition: .5s;
+
+          > div {
+            flex: 1;
+          }
         }
       }
     }

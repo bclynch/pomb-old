@@ -318,7 +318,8 @@ const getTripById = gql`
           junctureByJunctureId {
             name,
             lat,
-            lon
+            lon,
+            id
           }
         }
       },
@@ -329,6 +330,40 @@ const getTripById = gql`
             firstName, 
             lastName
           }
+        }
+      }
+    }
+  }
+`;
+
+const getJunctureById = gql`
+  query junctureById($id: Int!) {
+    junctureById(id: $id) {
+      id,
+      name,
+      arrivalDate,
+      description,
+      junctureToPostsByJunctureId {
+        nodes {
+          postByPostId {
+            id,
+            title,
+            postLeadPhotosByPostId {
+              nodes {
+                leadPhotoLinksByLeadPhotoId {
+                  nodes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      junctureToPhotosByJunctureId {
+        nodes {
+          photoUrl,
+          description
         }
       }
     }
@@ -783,6 +818,15 @@ export class APIService {
   getTripById(id: number) {
     return this.apollo.watchQuery<any>({
       query: getTripById,
+      variables: {
+          id
+      }
+    });
+  }
+
+  getJunctureById(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getJunctureById,
       variables: {
           id
       }

@@ -25,6 +25,8 @@ export class TripPage {
   latlngBounds;
   mapStyle;
   defaultPhoto: string = '../../assets/images/trip-default.jpg';
+  junctureIndex: number = 0;
+  junctureContentArr: any = [];
 
   constructor(
     private settingsService: SettingsService,
@@ -43,6 +45,15 @@ export class TripPage {
     this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
+      
+      //fill up arr with a bunch of empty values so our styling works properly
+      for(let i = 0; i < this.tripData.tripToJuncturesByTripId.nodes.length; i++) {
+        this.junctureContentArr.push(null);
+      }
+      //populate first bit of our content for the pane
+      this.modJunctureContentArr(0, this.tripData.tripToJuncturesByTripId.nodes[0].junctureByJunctureId.id);
+      this.modJunctureContentArr(1, this.tripData.tripToJuncturesByTripId.nodes[1].junctureByJunctureId.id);
+
       //create markers arr
       this.tripData.tripToJuncturesByTripId.nodes.forEach((marker) => {
         let newMarker: any = {};
@@ -66,6 +77,24 @@ export class TripPage {
       });
     },(error) => {
       console.log('there was an error sending the query', error);
+    });
+  }
+
+  changeIndex(i: number) {
+    if(this.junctureIndex - i === 1) {
+      this.junctureIndex = this.junctureIndex - 1;
+    } else if(i - this.junctureIndex === 1) {
+      this.junctureIndex = this.junctureIndex + 1;
+      if(this.junctureIndex > 0 && this.junctureIndex < this.junctureMarkers.length - 1) this.modJunctureContentArr(this.junctureIndex + 1, this.tripData.tripToJuncturesByTripId.nodes[this.junctureIndex + 1].junctureByJunctureId.id);
+    }
+  }
+
+  //Adding content one at a time so as not to make a big ass call every time that would take forever. One ahead so its always ready
+  modJunctureContentArr(index: number, id: number) {
+    this.apiService.getJunctureById(id).subscribe(({ data }) => {
+      if(!this.junctureContentArr[index]) {
+        this.junctureContentArr.splice(index, 1, data.junctureById);
+      };
     });
   }
 }

@@ -341,6 +341,12 @@ insert into pomb.juncture (name, arrival_date, description, lat, lon) values
   ('Day 1', 1508274574542, 'Did some sweet stuff', 36.9741, -122.0308),
   ('Day 2', 1508274674542, 'You da man my brother', 37.7749, -122.4194),
   ('Day 3', 1508274774542, 'Thats freaking awesome!', 37.9735, -122.5311),
+  ('Day 4', 1508274574542, 'Did some sweet stuff', 38.4741, -119.0308),
+  ('Day 5', 1508274674542, 'You da man my brother', 38.7749, -118.4194),
+  ('Day 6', 1508274774542, 'Thats freaking awesome!', 39.9735, -110.5311),
+  ('Day 7', 1508274574542, 'Did some sweet stuff', 40.9741, -108.0308),
+  ('Day 8', 1508274674542, 'You da man my brother', 41.7749, -108.4194),
+  ('Day 9', 1508274774542, 'Thats freaking awesome!', 39.9735, -114.5311),
   ('So it begins', 1408274584542, 'And we are who we are this is the trip of a lifetime because your life ends here', 4.7110, -74.0721);
 
 comment on table pomb.juncture is 'Table with POMB junctures';
@@ -401,7 +407,13 @@ insert into pomb.trip_to_juncture (trip_id, juncture_id) values
   (1, 1),
   (1, 2),
   (1, 3),
-  (2, 4);
+  (1, 4),
+  (1, 5),
+  (1, 6),
+  (1, 7),
+  (1, 8),
+  (1, 9),
+  (2, 10);
 
 comment on table pomb.trip_to_juncture is 'Join table for juncture related to a trip';
 comment on column pomb.trip_to_juncture.id is 'Id of the row';
