@@ -1,8 +1,9 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { getClient } from './client';
+import { MyHammerConfig } from './touchConfig';
 
 // 3rd Party Libraries
 import { ApolloModule } from 'apollo-angular';
@@ -223,6 +224,7 @@ import { JunctureService } from '../services/juncture.service';
     ExploreService,
     UtilService,
     JunctureService,
+    {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

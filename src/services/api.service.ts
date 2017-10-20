@@ -85,7 +85,7 @@ const getAllPublishedPosts = gql`
         postToGalleryPhotosByPostId {
           nodes {
             id,
-            galleryPhotoUrl,
+            photoUrl,
             description
           }
         }
@@ -155,7 +155,7 @@ query allPosts($author: Int!) {
       postToGalleryPhotosByPostId {
         nodes {
           id,
-          galleryPhotoUrl,
+          photoUrl,
           description
         }
       }
@@ -226,7 +226,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       postToGalleryPhotosByPostId {
         nodes {
           id,
-          galleryPhotoUrl,
+          photoUrl,
           description
         }
       }
@@ -319,7 +319,12 @@ const getTripById = gql`
             name,
             lat,
             lon,
-            id
+            id,
+            junctureToPhotosByJunctureId {
+              nodes {
+                photoUrl
+              }
+            }
           }
         }
       },
@@ -343,11 +348,19 @@ const getJunctureById = gql`
       name,
       arrivalDate,
       description,
+      city, 
+      country,
       junctureToPostsByJunctureId {
         nodes {
           postByPostId {
             id,
             title,
+            accountByAuthor {
+              firstName,
+              lastName,
+              username
+            },
+            createdAt
             postLeadPhotosByPostId {
               nodes {
                 leadPhotoLinksByLeadPhotoId {
@@ -362,6 +375,7 @@ const getJunctureById = gql`
       },
       junctureToPhotosByJunctureId {
         nodes {
+          id,
           photoUrl,
           description
         }
@@ -422,7 +436,7 @@ const getPostById = gql`
       postToGalleryPhotosByPostId {
         nodes {
           id,
-          galleryPhotoUrl,
+          photoUrl,
           description
         }
       }

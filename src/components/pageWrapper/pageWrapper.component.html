@@ -8,6 +8,7 @@
   <NavBar 
     *ngIf="displayNav"
     (searchTrigger)="searchIsActive = !searchIsActive"
+    [collapsibleNav]="collapsibleNav"
   ></NavBar>
   <ng-content></ng-content>
   <Footer *ngIf="displayFooter"></Footer>

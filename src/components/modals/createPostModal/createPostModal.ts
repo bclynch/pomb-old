@@ -354,7 +354,7 @@ export class CreatePostModal {
         query += `a${i}: createPostToGalleryPhoto(input:{
           postToGalleryPhoto:{
             postId: ${postId},
-            galleryPhotoUrl: "${photo.galleryPhotoUrl}",
+            photoUrl: "${photo.photoUrl}",
             description: "${photo.description}"
           }
         }) {
@@ -642,7 +642,7 @@ export class CreatePostModal {
             data.forEach((img) => {
               this.galleryPhotos.push({
                 id: null,
-                galleryPhotoUrl: img.url,
+                photoUrl: img.url,
                 description: ''
               })
             });

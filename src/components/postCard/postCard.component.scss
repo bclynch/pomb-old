@@ -29,8 +29,12 @@ postcard {
       }
       .bottomWrapper {
 
-        .pipeDivider {
-          display: none;
+        .authorWrapper {
+          cursor: pointer;
+
+          .pipeDivider {
+            display: none;
+          }
         }
       }
     }

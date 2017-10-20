@@ -105,7 +105,7 @@
     <div class="gridWrapper">
       <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
         <div class="imgWrapper">
-          <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.galleryPhotoUrl + ')'}"></div>
+          <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.photoUrl + ')'}"></div>
           <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event, i)"></ion-icon> 
         </div>
       </div>

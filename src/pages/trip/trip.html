@@ -1,16 +1,34 @@
-<PageWrapper>
+<PageWrapper [collapsibleNav]="false">
   <div *ngIf="inited" class="initedLayer">
     <agm-map 
       [zoomControl]="false"
+      [latitude]="coords.lat" 
+      [longitude]="coords.lon"
       [disableDefaultUI]="true"
       [streetViewControl]="false"
       [fitBounds]="latlngBounds"
       [styles]=mapStyle
+      [zoom]="zoomLevel"
+      (zoomChange)="onZoomChange($event)" 
+      #AgmMap
     >
       <agm-marker 
-        *ngFor= "let marker of junctureMarkers;"
+        *ngFor= "let marker of junctureMarkers; let i = index;"
         [latitude]= "marker.lat" 
         [longitude]= "marker.lon" 
+        [label]="{
+          color: 'orange',
+          fontFamily: '',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          text: (i + 1).toString()
+        }"
+        [iconUrl]= "{
+          url: 'http://lessonpix.com/drawings/224/100x100/Red+Circle.png',
+          anchor: {x: 18, y: 18},
+          size: {width: 36, height: 36},
+          scaledSize: {width: 36, height: 36}
+        }"
         (markerClick)="AgmMap.lastOpen?.close(); AgmMap.lastOpen = infoWindow;"
       >
         <!-- <agm-info-window [disableAutoPan]="true" #infoWindow>
@@ -27,40 +45,61 @@
     </agm-map>
     <div class="juncturePane">
       <div class="paneHeader">
-        <BackpackIcon color="purple" title="Add To Pack"></BackpackIcon>
-        <div *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">{{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}</div>
-        <div *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">{{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}</div>
+        <BackpackIcon color="white" title="Add To Pack"></BackpackIcon>
+        <div 
+          *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName" 
+          (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)"
+        >{{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}</div>
+        <div 
+          *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName" 
+          (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)"
+        >{{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}</div>
       </div>
       <div 
         class="paneBanner"
         [ngStyle]="tripData.bannerPhoto ? { 'background-image': 'url(' + tripData.bannerPhoto + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
-      ></div>
-      <div class="paneJunctureTracker">
-        <!-- width is 100 (% of parent to be) * number of junctures + 2 (to account for static first and last) / 3 (number junctures in view) -->
-        <div 
-          class="trackerWrapper" 
-          [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length + 2) / 3 + '%'"
-          [style.left]="junctureIndex * (100 / 3) * -1 + '%'"
-        >
-          <div><ion-icon name="md-home"></ion-icon></div>
-          <div class="junctureContainer" *ngFor="let juncture of tripData.tripToJuncturesByTripId.nodes; let i = index;" (click)="changeIndex(i)">
-            <div>{{juncture.junctureByJunctureId.name}}</div>
-          </div>
-          <div><ion-icon name="md-flag"></ion-icon></div>
+      >
+        <div class="overlay">
+          <div class="bannerTitle">{{tripData.name}}</div>
+          <div class="timeframe">{{tripData.startDate | date: 'MMM y'}} - {{tripData.endDate | date: 'MMM y' || Now}}</div>
         </div>
       </div>
-      <div class="paneContent" #paneContent>
-        <div 
-          class="contentWrapper" 
-          [style.left]="junctureIndex * -100 + '%'"
-          [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length) + '%'"
-        >
-          <div class="divContentContainer" *ngFor="let juncture of junctureContentArr"> 
-            <div class="junctureDescription">{{juncture?.description}}</div>
-            <div class="junctureGallery"></div>
-            <div class="juncturePosts"></div>
+      <div (panstart)="panStart($event)" (panend)="panEnd($event)" >
+        <div class="paneJunctureTracker">
+            <!-- width is 100 (% of parent to be) * number of junctures + 2 (to account for static first and last) / 3 (number junctures in view) -->
+            <div 
+              class="trackerWrapper" 
+              [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length + 2) / 3 + '%'"
+              [style.left]="junctureIndex * (100 / 3) * -1 + '%'"
+            >
+              <div><ion-icon name="md-home"></ion-icon></div>
+              <div class="junctureContainer" *ngFor="let juncture of tripData.tripToJuncturesByTripId.nodes; let i = index;" (click)="changeIndex(i)">
+                <div>{{juncture.junctureByJunctureId.name}}</div>
+              </div>
+              <div class="endBlock"><ion-icon name="md-flag"></ion-icon></div>
+            </div>
           </div>
-        </div>
+          <div class="paneContent" #paneContent>
+            <div 
+              class="contentWrapper" 
+              [style.left]="junctureIndex * -100 + '%'"
+              [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length) + '%'"
+            >
+              <div class="junctureContentContainer" *ngFor="let juncture of junctureContentArr; let i = index;"> 
+                <div class="junctureCity">{{juncture?.city}}</div>
+                <div class="junctureCountry">{{juncture?.country}}</div>
+                <div class="junctureTimeRow">
+                  <div class="junctureNumber">Juncture #{{i + 1}}</div>
+                  <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
+                </div>
+                <div class="junctureDescription">{{juncture?.description}}</div>
+                <Gallery [isSquare]="true" perRow="2" [data]="juncture?.junctureToPhotosByJunctureId.nodes" gutterWidth="2px"></Gallery>
+                <div class="juncturePosts">
+                  <PostCard [data]="post" *ngFor="let post of juncture?.junctureToPostsByJunctureId"></PostCard>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>

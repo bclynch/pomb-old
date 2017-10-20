@@ -1,5 +1,8 @@
 begin;
 
+drop schema if exists pomb, pomb_private cascade;
+drop role if exists pomb_admin, pomb_anonymous, pomb_account;
+
 create schema pomb;
 create schema pomb_private;
 
@@ -250,11 +253,11 @@ comment on column pomb.lead_photo_link.url is 'Url of link';
 create table pomb.post_to_gallery_photo ( --one to many
   id                 serial primary key,
   post_id            integer not null references pomb.post(id) on delete cascade,
-  gallery_photo_url  text not null,
+  photo_url  text not null,
   description        text
 );
 
-insert into pomb.post_to_gallery_photo (post_id, gallery_photo_url, description) values
+insert into pomb.post_to_gallery_photo (post_id, photo_url, description) values
   (1, 'https://d15shllkswkct0.cloudfront.net/wp-content/blogs.dir/1/files/2015/03/1200px-Hommik_Viru_rabas.jpg', 'A beautiful vista accented by your mom'),
   (1, 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Lower_Yellowstone_Fall-1200px.jpg', 'A beautiful vista accented by your mom'),
   (1, 'http://www.ningalooreefdive.com/wp-content/uploads/2014/01/coralbay-3579-1200px-wm-1.png', 'A beautiful vista accented by your mom'),
@@ -280,7 +283,7 @@ insert into pomb.post_to_gallery_photo (post_id, gallery_photo_url, description)
 comment on table pomb.post_to_gallery_photo is 'Join table for gallery photos on a post';
 comment on column pomb.post_to_gallery_photo.id is 'Id of the row';
 comment on column pomb.post_to_gallery_photo.post_id is 'Id of the post';
-comment on column pomb.post_to_gallery_photo.gallery_photo_url is 'Url of photo';
+comment on column pomb.post_to_gallery_photo.photo_url is 'Url of photo';
 comment on column pomb.post_to_gallery_photo.description is 'Description of photo';
 
 create table pomb.config (
@@ -314,7 +317,7 @@ create table pomb.trip (
 );
 
 insert into pomb.trip (name, start_date, end_date, banner_photo) values
-  ('Cool Trip', 1508274574542, 1508284574542, 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg'),
+  ('Cool Trip', 1508274574542, 1548282774542, 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg'),
   ('Neat Trip', 1408274574542, 1448274574542, null);
 
 comment on table pomb.trip is 'Table with POMB trips';
@@ -331,23 +334,25 @@ create table pomb.juncture (
   name                text check (char_length(name) < 256),
   arrival_date        bigint,
   description         text check (char_length(name) < 1200),
-  lat                 decimal,
-  lon                 decimal,
+  lat                 decimal not null,
+  lon                 decimal not null,
+  city                text not null,
+  country             text not null,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
 
-insert into pomb.juncture (name, arrival_date, description, lat, lon) values
-  ('Day 1', 1508274574542, 'Did some sweet stuff', 36.9741, -122.0308),
-  ('Day 2', 1508274674542, 'You da man my brother', 37.7749, -122.4194),
-  ('Day 3', 1508274774542, 'Thats freaking awesome!', 37.9735, -122.5311),
-  ('Day 4', 1508274574542, 'Did some sweet stuff', 38.4741, -119.0308),
-  ('Day 5', 1508274674542, 'You da man my brother', 38.7749, -118.4194),
-  ('Day 6', 1508274774542, 'Thats freaking awesome!', 39.9735, -110.5311),
-  ('Day 7', 1508274574542, 'Did some sweet stuff', 40.9741, -108.0308),
-  ('Day 8', 1508274674542, 'You da man my brother', 41.7749, -108.4194),
-  ('Day 9', 1508274774542, 'Thats freaking awesome!', 39.9735, -114.5311),
-  ('So it begins', 1408274584542, 'And we are who we are this is the trip of a lifetime because your life ends here', 4.7110, -74.0721);
+insert into pomb.juncture (name, arrival_date, description, lat, lon, city, country) values
+  ('Day 1', 1508274574542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 36.9741, -122.0308, 'Santa Cruz', 'United States'),
+  ('Day 2', 1508274774542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 37.7749, -122.4194, 'San Francisco', 'United States'),
+  ('Day 3', 1508278774542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 37.9735, -122.5311, 'San Rafael', 'United States'),
+  ('Day 4', 1508278874542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 38.4741, -119.0308, 'Whichman', 'United States'),
+  ('Day 5', 1528279074542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 38.7749, -118.4194, 'Walter Lake', 'United States'),
+  ('Day 6', 1528279874542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 39.9735, -110.5311, 'Myron', 'United States'),
+  ('Day 7', 1538280574542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 40.9741, -108.0308, 'Baggs', 'United States'),
+  ('Day 8', 1538281674542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 41.7749, -108.4194, 'Rock Springs', 'United States'),
+  ('Day 9', 1548282774542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 39.9735, -114.5311, 'Cherry Creek', 'United States'),
+  ('So it begins', 1408274584542, 'Proin pulvinar non leo sit amet tempor. Curabitur auctor, justo in ullamcorper posuere, velit arcu scelerisque nisl, sit amet vulputate urna est vel mi. Mauris eleifend dolor sit amet tempus eleifend. Aliquam finibus nisl a tortor consequat, quis rhoncus nunc consectetur. Duis velit dui, aliquam id dictum at, molestie sed arcu. Ut imperdiet mauris elit. Integer maximus, augue eu iaculis tempus, nisl libero faucibus magna, et ultricies sem est vitae erat. Phasellus vitae pulvinar lorem. Sed consectetur eu quam non blandit. Ut tincidunt lacus sed tortor ultrices, et laoreet purus ornare. Donec vestibulum metus a ullamcorper iaculis. Donec fermentum est metus, non scelerisque risus vestibulum ac. Suspendisse euismod volutpat nisl vitae euismod. Duis convallis, est id ornare malesuada, lorem urna mattis risus, eu semper elit sem fringilla risus. Nunc porta, sapien sit amet accumsan fermentum, augue nulla congue diam, et lobortis ante ante eget est. Mauris placerat nisl id consequat laoreet.', 4.7110, -74.0721, 'Medellin', 'Colombia');
 
 comment on table pomb.juncture is 'Table with POMB junctures';
 comment on column pomb.juncture.id is 'Primary id for juncture';
@@ -356,6 +361,8 @@ comment on column pomb.juncture.arrival_date is 'Date of juncture';
 comment on column pomb.juncture.description is 'Description of the juncture';
 comment on column pomb.juncture.lat is 'Latitude of the juncture';
 comment on column pomb.juncture.lon is 'Longitude of the juncture';
+comment on column pomb.juncture.city is 'City of the juncture';
+comment on column pomb.juncture.country is 'Country of the juncture';
 comment on column pomb.juncture.created_at is 'When juncture created';
 comment on column pomb.juncture.updated_at is 'When juncture last updated';
 

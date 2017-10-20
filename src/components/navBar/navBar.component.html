@@ -1,6 +1,6 @@
 <div 
   class="navBarContainer" 
-  [ngClass]="utilService.scrollDirection === 'down' ? 'hidden' : null" 
+  [ngClass]="collapsibleNav ? (utilService.scrollDirection === 'down' ? 'hidden' : null) : null" 
   [style.height]="isExpanded ? '60vh' : '40px'"
   (mouseleave)="navHover($event)"
 >

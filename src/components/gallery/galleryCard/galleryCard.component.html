@@ -1,5 +1,5 @@
 <div class="galleryCardContainer">
-  <div class="imgWrapper">
-    <div [ngStyle]="{ 'background-image': 'url(' + cardData.galleryPhotoUrl + ')'}"></div>
+  <div [ngClass]="isSquare ? 'square' : 'rectangle'" class="imgWrapper">
+    <div [style.background-size]="isSquare ? 'cover' : 'contain'" [ngStyle]="{ 'background-image': 'url(' + cardData.photoUrl + ')'}"></div>
   </div>
 </div>

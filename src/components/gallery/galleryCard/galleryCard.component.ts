@@ -9,6 +9,7 @@ import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 })
 export class GalleryCard {
   @Input() cardData: GalleryPhoto;
+  @Input() isSquare: boolean;
 
   constructor(
     private settingsService: SettingsService,

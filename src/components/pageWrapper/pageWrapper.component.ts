@@ -10,6 +10,7 @@ export class PageWrapper {
   @Input() displayHeroBanner: boolean = false;
   @Input() displayFooter: boolean = true;
   @Input() displayNav: boolean = true;
+  @Input() collapsibleNav: boolean = true;
 
   constructor(
 

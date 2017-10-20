@@ -2,6 +2,8 @@
 
 ## Todos
 
+# THE TRICK WHERE YOU CAN PASS IN VARS TO SCSS IS IN THE GRID COMPONENT. CAN MAKE USE OF THAT WITH THE MAP STUFF I THINK
+
 #### Trip report page
 
 - Work on the pane UI. Browser UI is row flex while mobile UI is column flex.

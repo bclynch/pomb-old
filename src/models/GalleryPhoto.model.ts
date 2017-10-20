@@ -1,5 +1,5 @@
 export interface GalleryPhoto {
   id: number;
-  galleryPhotoUrl: string;
+  photoUrl: string;
   description: string;
 }

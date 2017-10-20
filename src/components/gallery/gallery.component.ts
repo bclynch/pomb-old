@@ -11,6 +11,8 @@ import { ExpandedModal } from './expandedModal/expandedModal.component';
 export class Gallery {
   @Input() data: GalleryPhoto[];
   @Input() gutterWidth: string = '5px';
+  @Input() perRow: number;
+  @Input() isSquare: boolean = false;
 
   constructor(
     private modalController: ModalController

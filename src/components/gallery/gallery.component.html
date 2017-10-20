@@ -1,5 +1,10 @@
 <div class="galleryContainer">
-  <div class="cardWrapper" *ngFor="let galleryPhoto of data; let i = index;" [style.padding]="gutterWidth">
-    <GalleryCard [cardData]="galleryPhoto" (click)="expandCarousel(i)"></GalleryCard>
+  <div 
+    class="cardWrapper" 
+    *ngFor="let galleryPhoto of data; let i = index;" 
+    [style.padding]="gutterWidth"
+    [style.width]="perRow ? 1 / perRow * 100 + '%' : null"
+  >
+    <GalleryCard [isSquare]="isSquare" [cardData]="galleryPhoto" (click)="expandCarousel(i)"></GalleryCard>
   </div>
 </div>

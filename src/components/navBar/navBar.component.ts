@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
 import { RegistrationModal } from '../modals/registrationModal/registrationModal';
@@ -26,7 +26,7 @@ interface Section {
   templateUrl: 'navBar.component.html'
 })
 export class NavBar {
-  // @Output() searchTrigger: EventEmitter<void> = new EventEmitter<void>();
+  @Input() collapsibleNav: boolean;
 
   socialOptions: Social[] = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/', label: 'instagram' },
