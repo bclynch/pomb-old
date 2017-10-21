@@ -632,7 +632,7 @@ export class CreatePostModal {
     if(this.galleryPhotos.length === 12) {
       this.alertService.alert('Gallery Full', 'Only 12 images per gallery maximum. Please delete a few to add more.')
     } else {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 12 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
         if(data) {

@@ -1,26 +1,50 @@
 <div class="modalContainer">
-  <div 
-    class="closeModal" 
-    name="close"
-    (click)="onCloseModal()"
-  >
-    <ion-icon name="close"></ion-icon>
-  </div>
-  <div class="locationContainer">
-    Need an option to select current location for check in or some other. If some other I guess we will need to run through google search for lat/lon. Polar steps has slick thing that lets you move the pin on the map exactly. Could be nice
-  </div>
-  <div>Name of our check in. Perhaps prepopulate with city</div>
-  <div class="timeContainer">
-    Time/date of checkin
-    <form class="radioContainer">
-      <div *ngFor="let option of timeOptions">
-        <input name="option.label" [id]="option.label" type="radio" [(ngModel)]="formModel.time" [value]="option.value"/>
-        <label name="option.label" [for]="option.label">{{option.label}}</label>
+  <div class="initWrapper">
+    <div class="header">
+      <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
+      <div class="headerTitle">Create Juncture</div>
+      <div class="saveContainer">
+        <div class="wrapper">
+          <div class="saveBtn">
+            <div class="boldFont text">Save</div>
+            <div class="statusTag" [style.color]="settingsService.secondaryColor">{{junctureSaveType}}</div>
+          </div>
+          <ion-icon name="md-arrow-dropdown" (click)="presentPopover($event)"></ion-icon>
+        </div>
       </div>
-    </form>
+    </div>
+    <div class="mapContainer">
+      <div class="mapInited" *ngIf="inited">
+        <agm-map 
+          [zoomControl]="false"
+          [latitude]="coords.lat" 
+          [longitude]="coords.lon"
+          [disableDefaultUI]="true"
+          [streetViewControl]="false"
+          [styles]=mapStyle
+          [zoom]="zoomLevel"
+        ></agm-map>
+        <div class="target"></div>
+        <div class="directions">Center map on juncture location</div>
+      </div>
+      <div *ngIf="!inited"><ion-spinner name="crescent"></ion-spinner></div>
+    </div>
+    <div>Name of our check in. Perhaps prepopulate with city</div>
+    <div class="timeContainer">
+      Time/date of checkin
+      <form class="radioContainer">
+        <div *ngFor="let option of timeOptions">
+          <input name="option.label" [id]="option.label" type="radio" [(ngModel)]="formModel.time" [value]="option.value"/>
+          <label name="option.label" [for]="option.label">{{option.label}}</label>
+        </div>
+      </form>
+    </div>
+    <textarea placeholder="Share your thoughts..."></textarea>
+    <div class="galleryLoadWrapper">
+        <div (click)="presentGalleryUploaderPopover()">
+          <ion-icon name="md-cloud-upload"></ion-icon>
+          <div>Add images</div>
+        </div>
+      </div>
   </div>
-  <div>Content of the checkin</div>
-  <div>img upload aream Lets say max 5. Need to consider quality...</div>
-  <div>Selector to tie into a blog post. Must be published posts</div>
-  <div (click)="submit()">Submit</div>
 </div>

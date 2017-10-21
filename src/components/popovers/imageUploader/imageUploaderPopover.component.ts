@@ -17,6 +17,7 @@ export class ImageUploaderPopover {
   filesToUpload: Array<File> = [];
   urlArr: string[] = [];
   postSize: 'small' | 'large';
+  maxImgs: number;
 
   constructor(
     public viewCtrl: ViewController,
@@ -26,6 +27,7 @@ export class ImageUploaderPopover {
   ) {
     this.allowMultiple = params.get('type') === 'gallery';
     this.type = params.get('type');
+    this.maxImgs = params.get('max');
     this.capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
   }
 

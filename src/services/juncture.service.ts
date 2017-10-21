@@ -11,7 +11,7 @@ export class JunctureService {
   ) { }
 
   createJuncture() {
-    let modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal'});
+    let modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       //toast maybe if successfull
     });

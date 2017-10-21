@@ -1,0 +1,11 @@
+<div class="popoverContainer">
+  <div class="popoverList">
+    <div 
+      class="popoverItem"
+      *ngFor="let option of options; let i = index" 
+      (click)="selectOption(option)" 
+    >
+      <div class="popoverLabel">{{option}}</div>
+    </div>
+  </div>
+</div>
