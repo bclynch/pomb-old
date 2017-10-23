@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ViewController, NavParams, PopoverController } from 'ionic-angular';
-import { MapsAPILoader, AgmMap } from '@agm/core';
+import { ViewController, NavParams, PopoverController, ModalController, ToastController } from 'ionic-angular';
+import { MapsAPILoader } from '@agm/core';
+import moment from 'moment';
 
 import { APIService } from '../../../services/api.service';
 import { UserService } from '../../../services/user.service';
@@ -14,23 +15,18 @@ import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 import { JunctureSaveTypePopover } from '../../popovers/junctureSaveType/junctureSaveTypePopover.component';
 import { DatePickerModal } from '../datepickerModal/datepickerModal';
 import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
+import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/galleryImgActionPopover.component';
 
 @Component({
   selector: 'JunctureModal',
   templateUrl: 'junctureModal.html'
 })
 export class JunctureModal {
-  registrationModel = {username: '', firstName: '', lastName: '', email: '', password: '', confirm: ''};
-  loginModel = {email: '', password: ''};
+
+  junctureModel = {name: 'Juncture ' + moment().format("l"), time: Date.now(), description: ''};
   inited = false;
   junctureSaveType: string = 'Draft';
-
-  formModel = { time: null } 
-
-  timeOptions = [
-    { label: 'Use Current Time', value: 'current' },
-    { label: 'Use Custom Time', value: 'custom' }
-  ]
+  activeTimeOption: string = 'current';
 
   galleryPhotos: GalleryPhoto[] = [];
 
@@ -48,7 +44,9 @@ export class JunctureModal {
     private mapsAPILoader: MapsAPILoader,
     private utilService: UtilService,
     private popoverCtrl: PopoverController,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController
   ) {
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition((location: any) => {
@@ -68,10 +66,6 @@ export class JunctureModal {
     this.viewCtrl.dismiss();
   }
 
-  submit() {
-    console.log(this.formModel);
-  }
-
   presentPopover(e) {
     let popover = this.popoverCtrl.create(JunctureSaveTypePopover, { options: ['Draft', 'Publish'] }, { cssClass: 'junctureSaveTypePopover' });
     popover.present({
@@ -85,24 +79,23 @@ export class JunctureModal {
   presentDatepickerModal(e: Event) {
     e.stopPropagation();
 
-    // if (this.postOptions[this.activePostOption].name !== 'Draft') {
-    //   let modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, {});
-    //   modal.present({
-    //     ev: e
-    //   });
-    //   modal.onDidDismiss((data: any) => {
-    //     console.log(Date.parse(data));
-    //     if (data) {
-    //       if (this.postOptions[this.activePostOption].name === 'Scheduled') {
-    //         this.scheduledModel.label = moment(data).fromNow();
-    //         this.scheduledModel.value = Date.parse(data);
-    //       } else {
-    //         this.publishModel.label = moment(data).fromNow();
-    //         this.publishModel.value = Date.parse(data);
-    //       }
-    //     }
-    //   });
-    // }
+    if(this.activeTimeOption === 'custom') {
+      let modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
+      modal.present({
+        ev: e
+      });
+      modal.onDidDismiss((data: any) => {
+        console.log(Date.parse(data));
+        if (data) {
+          this.junctureModel.time = Date.parse(data);
+        }
+      });
+    } 
+  }
+
+  toggleTimeOption(type: string) {
+    if(type === 'current') this.junctureModel.time = Date.now();
+    this.activeTimeOption = type;
   }
 
   presentGalleryUploaderPopover() {
@@ -128,4 +121,66 @@ export class JunctureModal {
       });
     }
   }
+
+  presentGalleryPopover(e, index: number) {
+    const self = this;
+    let popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
+    popover.present({
+      ev: e
+    });
+    popover.onDidDismiss((data) => {
+      if(data) {
+        if(data.action === 'delete') {
+          this.alertService.confirm(
+            'Delete Gallery Image', 
+            'Are you sure you want to delete permanently delete this image?', 
+            { label: 'Delete', handler: () =>  {
+              //if photo has already been saved to db
+              if(this.galleryPhotos[index].id) {
+                this.apiService.deletePostToGalleryPhotoById(this.galleryPhotos[index].id).subscribe(
+                  result => {
+                    this.galleryPhotos.splice(index, 1);
+                    toastDelete();
+                  }
+                );
+              } else {
+                this.galleryPhotos.splice(index, 1);
+                toastDelete();
+              }
+            }}
+          );
+        } else {
+          //update photo
+          this.galleryPhotos[index] = data.data;
+          //this.galleryItemHasChanged.push(this.galleryPhotos[index]);
+        }
+      }
+    });
+
+    function toastDelete() {
+      let toast = self.toastCtrl.create({
+        message: `Gallery image deleted`,
+        duration: 3000,
+        position: 'top'
+      }); 
+  
+      toast.present();
+    }
+  }
+
+  saveJuncture() {
+    this.viewCtrl.dismiss({
+      saveType: this.junctureSaveType,
+      name: this.junctureModel.name,
+      description: this.junctureModel.description,
+      photos: this.galleryPhotos,
+      time: this.junctureModel.time,
+      location: this.coords
+    });
+  }
+
+moveCenter(e) {
+  this.coords.lat = e.lat;
+  this.coords.lon = e.lng;
+}
 }

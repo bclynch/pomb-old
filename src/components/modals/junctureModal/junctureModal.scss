@@ -7,6 +7,7 @@ juncturemodal {
 
     .initWrapper {
       height: 100%;
+      overflow: scroll;
 
       .header {
         background: mapGet($basecolor, black);
@@ -91,22 +92,54 @@ juncturemodal {
           }
         }
       }
+      .junctureLabel {
+        display: block;
+        font-size: 10px;
+      }
+      .junctureTextInput {
+        border: none;
+        border-bottom: solid 1px mapGet($basecolor, border);
+        width: 100%;
+        line-height: 24px;
+        font-size: 18px;
+      }
+      .junctureTextInput:focus {
+        &.valid {
+          border-bottom: solid 1px green;
+        }
+        &.invalid {
+          border-bottom: solid 1px red;
+        }
+      }
+      .modalSection {
+        width: 80%;
+        margin: 15px auto;
+      }
       .timeContainer {
-  
-        .radioContainer {
+
+        .timeOptions {
+          width: 70%;
           display: flex;
-  
-          input {
-            opacity: 0;
+          justify-content: space-around;
+          align-items: center;
+          margin: 0 auto;
+
+          > div {
+            cursor: pointer;
           }
-          input[type="radio"]:checked+label {
-            color: mapGet($basecolor, black);
-            font-size: 1.1em;
+        }
+        .timeDisplay {
+
+          .input {
+            line-height: 24px;
+            font-size: 18px;
           }
-          label {
-            transition: .3s;
-            color: mapGet($basecolor, border);
-          }
+        }
+      }
+      .descriptionContainer {
+
+        textarea {
+          width: 100%;
         }
       }
       .galleryLoadWrapper {
@@ -124,6 +157,35 @@ juncturemodal {
         }
         > div:hover {
           opacity: .7;
+        }
+      }
+      .gridWrapper {
+        @include flexbox();
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        padding: 3px;
+
+        > .gridUnitWrapper {
+          width: 50%;
+          padding: 3px;
+  
+          > .imgWrapper {
+            @extend %fixedRatioWrapper;
+    
+            > div {
+              background-size: cover;
+            }
+            ion-icon {
+              position: absolute;
+              top: 5px;
+              right: 5px;
+              cursor: pointer;
+              color: mapGet($basecolor, white);
+              background: rgba(0,0,0, 0.5);
+              padding: 3px;
+            }
+          }
         }
       }
     }
