@@ -1,0 +1,102 @@
+tripmodal {
+  .modalContainer {
+    background: mapGet($basecolor, white);
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    .header {
+      background: mapGet($basecolor, black);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      color: mapGet($basecolor, white);
+
+      > * {
+        flex: 1;
+      }
+      ion-icon {
+        color: mapGet($basecolor, white);
+        padding: 5px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .headerTitle {
+        font-size: 18px;
+        text-align: center;
+      }
+      .saveContainer {
+        font-size: 18px;
+        text-align: right;
+      }
+    }
+    .tripLabel {
+      display: block;
+      font-size: 10px;
+    }
+    .tripTextInput {
+      border: none;
+      border-bottom: solid 1px mapGet($basecolor, border);
+      width: 100%;
+      line-height: 24px;
+      font-size: 18px;
+    }
+    .tripTextInput:focus {
+      &.valid {
+        border-bottom: solid 1px green;
+      }
+      &.invalid {
+        border-bottom: solid 1px red;
+      }
+    }
+    .modalSection {
+      width: 80%;
+      margin: 15px auto;
+    }
+    .timeContainer {
+      display: flex;
+      justify-content: space-between;
+
+      .timeDisplay {
+        width: 40%;
+
+        .dateWrapper {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: solid 1px mapGet($basecolor, border);
+          cursor: pointer;
+
+          .input {
+            line-height: 24px;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .imgLoadWrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+      height: 200px;
+      background-position: center;
+      background-size: cover;
+      cursor: pointer;
+
+      > div {
+        text-align: center;
+
+        ion-icon {
+          font-size: 36px;
+        }
+      }
+    }
+    .imgLoadWrapper:hover {
+      > div {
+        opacity: .7;
+      }
+    }
+  }
+}
+

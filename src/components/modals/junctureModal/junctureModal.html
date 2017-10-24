@@ -41,18 +41,9 @@
       />
     </div>
     <div class="timeContainer modalSection">
-      <div class="timeOptions">
-        <div [style.color]="activeTimeOption === 'current' ? 'black' : '#7f7f7f'" [style.font-weight]="activeTimeOption === 'current' ? 'bold' : null" (click)="toggleTimeOption('current')">Use Current Time</div>
-        <div [style.color]="activeTimeOption === 'custom' ? 'black' : '#7f7f7f'" [style.font-weight]="activeTimeOption === 'custom' ? 'bold' : null" (click)="toggleTimeOption('custom')">Use Custom Time</div>
-      </div>
       <div class="timeDisplay">
         <div class="junctureLabel">Juncture Date</div>
-        <div 
-          class="dateWrapper" 
-          [style.border-bottom]="activeTimeOption === 'custom' ? 'solid 1px #333333' : null" 
-          [style.cursor]="activeTimeOption === 'custom' ? 'pointer' : null" 
-          (click)="presentDatepickerModal($event)"
-        >
+        <div class="dateWrapper" (click)="presentDatepickerModal($event)">
           <div class="input">{{junctureModel.time | date: 'yMMMMd'}}</div>
           <ion-icon name="md-calendar"></ion-icon>
         </div>

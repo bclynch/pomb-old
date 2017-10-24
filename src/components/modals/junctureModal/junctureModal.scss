@@ -14,7 +14,7 @@ juncturemodal {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 5px;
+        padding: 10px;
         color: mapGet($basecolor, white);
   
         > * {
@@ -23,7 +23,7 @@ juncturemodal {
         ion-icon {
           color: mapGet($basecolor, white);
           padding: 5px;
-          font-size: 18px;
+          font-size: 24px;
           cursor: pointer;
         }
         .headerTitle {
@@ -117,22 +117,13 @@ juncturemodal {
       }
       .timeContainer {
 
-        .timeOptions {
-          width: 70%;
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-          margin: 0 auto;
-
-          > div {
-            cursor: pointer;
-          }
-        }
         .timeDisplay {
 
           .dateWrapper {
             display: flex;
             justify-content: space-between;
+            border-bottom: solid 1px mapGet($basecolor, border);
+            cursor: pointer;
 
             .input {
               line-height: 24px;

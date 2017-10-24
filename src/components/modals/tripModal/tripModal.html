@@ -1,0 +1,38 @@
+<div class="modalContainer">
+  <div class="header">
+    <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
+    <div class="headerTitle">Create Trip</div>
+    <div class="saveContainer boldFont" (click)="saveTrip()">Save</div>
+  </div>
+  <div class="imgLoadWrapper" [ngStyle]="{ 'background-image': 'url(' + defaultPath + ')'}" (click)="presentBannerUploaderPopover()">
+    <div>
+      <ion-icon name="md-cloud-upload"></ion-icon>
+      <div>Add images</div>
+    </div>
+  </div>
+  <div class="modalSection">
+    <label class="tripLabel">Trip Name</label>
+    <input 
+      type="text"
+      [(ngModel)]="tripModel.name" 
+      class="tripTextInput"
+      [ngClass]="tripModel.name ? 'valid' : 'invalid'"
+    />
+  </div>
+  <div class="timeContainer modalSection">
+    <div class="timeDisplay">
+      <div class="tripLabel">Trip Start Date</div>
+      <div class="dateWrapper" (click)="presentDatepickerModal($event, true)">
+        <div class="input">{{tripModel.timeStart | date: 'yMMMMd'}}</div>
+        <ion-icon name="md-calendar"></ion-icon>
+      </div>
+    </div>
+    <div class="timeDisplay">
+      <div class="tripLabel">Trip End Date</div>
+      <div class="dateWrapper" (click)="presentDatepickerModal($event, false)">
+        <div class="input">{{tripModel.timeEnd | date: 'yMMMMd'}}</div>
+        <ion-icon name="md-calendar"></ion-icon>
+      </div>
+    </div>
+  </div>
+</div>

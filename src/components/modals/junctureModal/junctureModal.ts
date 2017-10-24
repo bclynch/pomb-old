@@ -26,7 +26,6 @@ export class JunctureModal {
   junctureModel = {name: 'Juncture ' + moment().format("l"), time: Date.now(), description: ''};
   inited = false;
   junctureSaveType: string = 'Draft';
-  activeTimeOption: string = 'current';
 
   galleryPhotos: GalleryPhoto[] = [];
 
@@ -79,23 +78,16 @@ export class JunctureModal {
   presentDatepickerModal(e: Event) {
     e.stopPropagation();
 
-    if(this.activeTimeOption === 'custom') {
-      let modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
-      modal.present({
-        ev: e
-      });
-      modal.onDidDismiss((data: any) => {
-        console.log(Date.parse(data));
-        if (data) {
-          this.junctureModel.time = Date.parse(data);
-        }
-      });
-    } 
-  }
-
-  toggleTimeOption(type: string) {
-    if(type === 'current') this.junctureModel.time = Date.now();
-    this.activeTimeOption = type;
+    let modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
+    modal.present({
+      ev: e
+    });
+    modal.onDidDismiss((data: any) => {
+      console.log(Date.parse(data));
+      if (data) {
+        this.junctureModel.time = Date.parse(data);
+      }
+    });
   }
 
   presentGalleryUploaderPopover() {

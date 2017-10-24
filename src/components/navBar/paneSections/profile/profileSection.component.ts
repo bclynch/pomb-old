@@ -7,6 +7,7 @@ import { SettingsService } from '../../../../services/settings.service';
 import { RouterService } from '../../../../services/router.service';
 import { UserService } from '../../../../services/user.service';
 import { JunctureService } from '../../../../services/juncture.service';
+import { TripService } from '../../../../services/trip.service';
 
 @Component({
   selector: 'ProfileNavSection',
@@ -17,7 +18,8 @@ export class ProfileNavSection {
   quickLinks = [
     {label: 'Juncture Check In', value: 'checkIn'},
     {label: 'Blog Dashboard', value: 'blog'},
-    {label: 'Feed', value: 'feed'}
+    {label: 'Feed', value: 'feed'},
+    {label: 'Create Trip', value: 'trip'}
   ];
 
   constructor(
@@ -25,7 +27,8 @@ export class ProfileNavSection {
     private routerService: RouterService,
     private userService: UserService,
     private modalCtrl: ModalController,
-    private junctureService: JunctureService
+    private junctureService: JunctureService,
+    private tripService: TripService
   ) {}
 
   navigate(path: string) {
@@ -38,6 +41,9 @@ export class ProfileNavSection {
         break;
       case 'checkIn':
         this.junctureService.createJuncture();
+        break;
+      case 'trip':
+        this.tripService.createTrip();
         break;
       default:
       this.routerService.navigateToPage(`/${path}`);

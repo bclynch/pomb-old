@@ -15,6 +15,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { MyApp } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+// Directives
 import { WindowScrollDirective } from '../directives/scroll.directive';
 
 // Components
@@ -46,13 +47,13 @@ import { CommunityNavSection } from '../components/navBar/paneSections/community
 import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
 import { TripCard } from '../components/tripCard/tripCard.component';
 import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
-import { JunctureSaveTypePopover } from '../components/popovers/junctureSaveType/junctureSaveTypePopover.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
 import { GradientPopover } from '../components/popovers/gradient/gradientPopover.component';
 import { ImageUploaderPopover } from '../components/popovers/imageUploader/imageUploaderPopover.component';
 import { GalleryImgActionPopover } from '../components/popovers/galleryImgAction/galleryImgActionPopover.component';
+import { JunctureSaveTypePopover } from '../components/popovers/junctureSaveType/junctureSaveTypePopover.component';
 
 // Modals
 import { RegistrationModal } from '../components/modals/registrationModal/registrationModal';
@@ -60,6 +61,7 @@ import { CreatePostModal } from '../components/modals/createPostModal/createPost
 import { DatePickerModal } from '../components/modals/datepickerModal/datepickerModal';
 import { ExploreModal } from '../components/modals/exploreModal/exploreModal';
 import { JunctureModal } from '../components/modals/junctureModal/junctureModal';
+import { TripModal } from '../components/modals/tripModal/tripModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -101,6 +103,7 @@ import { RoleGuardService } from '../services/roleGuard.service';
 import { ExploreService } from '../services/explore.service';
 import { UtilService } from '../services/util.service';
 import { JunctureService } from '../services/juncture.service';
+import { TripService } from '../services/trip.service';
 
 @NgModule({
   declarations: [
@@ -168,7 +171,8 @@ import { JunctureService } from '../services/juncture.service';
     TripPage,
     JunctureModal,
     BackpackIcon,
-    JunctureSaveTypePopover
+    JunctureSaveTypePopover,
+    TripModal
   ],
   imports: [
     BrowserModule,
@@ -213,7 +217,8 @@ import { JunctureService } from '../services/juncture.service';
     CommunityPage,
     TripPage,
     JunctureModal,
-    JunctureSaveTypePopover
+    JunctureSaveTypePopover,
+    TripModal
   ],
   providers: [
     APIService,
@@ -227,6 +232,7 @@ import { JunctureService } from '../services/juncture.service';
     ExploreService,
     UtilService,
     JunctureService,
+    TripService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
