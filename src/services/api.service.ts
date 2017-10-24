@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
+declare var google: any;
 
 import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -709,6 +710,27 @@ const updateLeadPhotoInfo = gql`
   }
 `;
 
+const createJuncture = gql`
+  mutation($name: String!, $arrivalDate: BigInt!, $description: String, $lat: Float!, $lon: Float!, $city: String!, $country: String!, $isDraft: Boolean!) {
+    createJuncture(input:{
+      juncture: {
+        name: $name,
+        arrivalDate: $arrivalDate,
+        description: $description,
+        lat: $lat,
+        lon: $lon,
+        city: $city,
+        country: $country,
+        isDraft: $isDraft
+      }
+    }) {
+      juncture {
+        id
+      }
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -793,6 +815,25 @@ export class APIService {
           return Observable.throw('Something went wrong');
         }
       );
+  }
+
+  // Reverse Geocoding
+  geocodeCoords(lat: number, lon: number) {
+    console.log('Getting coord information...');
+    let geocoder = new google.maps.Geocoder();
+    return Observable.create(observer => {
+      geocoder.geocode( {'location': {lat, lng: lon}}, (results, status) => {
+        console.log(results);
+        if (status == google.maps.GeocoderStatus.OK) {
+          observer.next(results[0]);
+          observer.complete();
+        } else {
+          console.log('Error - ', results, ' & Status - ', status);
+          observer.next({});
+          observer.complete();
+        }
+      });
+    });
   }
 
   // Graphql Queries
@@ -1053,6 +1094,22 @@ export class APIService {
       variables: {
         id,
         title
+      }
+    });
+  }
+
+  createJuncture(name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean) {
+    return this.apollo.mutate({
+      mutation: createJuncture,
+      variables: {
+        name,
+        arrivalDate,
+        description,
+        lat,
+        lon,
+        city,
+        country,
+        isDraft
       }
     });
   }

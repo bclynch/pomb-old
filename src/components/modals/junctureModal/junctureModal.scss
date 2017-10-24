@@ -130,9 +130,14 @@ juncturemodal {
         }
         .timeDisplay {
 
-          .input {
-            line-height: 24px;
-            font-size: 18px;
+          .dateWrapper {
+            display: flex;
+            justify-content: space-between;
+
+            .input {
+              line-height: 24px;
+              font-size: 18px;
+            }
           }
         }
       }
