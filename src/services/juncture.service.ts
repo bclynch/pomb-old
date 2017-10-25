@@ -30,7 +30,11 @@ export class JunctureService {
               (result: any) => {
                 console.log(result);
                 this.createGalleryPhotoLinks(result.data.createJuncture.juncture.id, data.photos).then(() => {
-                  this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                  this.apiService.createTripToJuncture(data.selectedTrip, result.data.createJuncture.juncture.id).subscribe(
+                    () => {
+                      this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                    }
+                  )
                 });
               }
             )

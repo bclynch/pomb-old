@@ -309,7 +309,7 @@ comment on column pomb.config.updated_at is 'Last updated';
 create table pomb.trip (
   id                  serial primary key,
   name                text not null check (char_length(name) < 256),
-  start_date          bigint,
+  start_date          bigint not null,
   end_date            bigint,
   banner_photo        text,
   created_at          bigint default (extract(epoch from now()) * 1000),

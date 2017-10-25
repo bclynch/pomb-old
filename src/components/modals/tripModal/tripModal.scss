@@ -29,6 +29,10 @@ tripmodal {
       .saveContainer {
         font-size: 18px;
         text-align: right;
+
+        > span {
+          cursor: pointer;
+        }
       }
     }
     .tripLabel {
@@ -52,7 +56,7 @@ tripmodal {
     }
     .modalSection {
       width: 80%;
-      margin: 15px auto;
+      margin: 25px auto;
     }
     .timeContainer {
       display: flex;
@@ -64,8 +68,10 @@ tripmodal {
         .dateWrapper {
           display: flex;
           justify-content: space-between;
+          align-items: center;
           border-bottom: solid 1px mapGet($basecolor, border);
           cursor: pointer;
+          height: 25px;
 
           .input {
             line-height: 24px;
@@ -79,13 +85,15 @@ tripmodal {
       justify-content: center;
       align-items: center;
       margin-bottom: 15px;
-      height: 200px;
+      height: 300px;
       background-position: center;
       background-size: cover;
       cursor: pointer;
 
       > div {
         text-align: center;
+        opacity: 0;
+        transition: .5s;
 
         ion-icon {
           font-size: 36px;
@@ -94,7 +102,7 @@ tripmodal {
     }
     .imgLoadWrapper:hover {
       > div {
-        opacity: .7;
+        opacity: 1;
       }
     }
   }

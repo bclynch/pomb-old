@@ -3,6 +3,7 @@ import { ModalController, ToastController } from 'ionic-angular';
 
 import { TripModal } from '../components/modals/tripModal/tripModal';
 import { APIService } from './api.service';
+import { UserService } from './user.service';
 
 @Injectable()
 export class TripService {
@@ -10,15 +11,23 @@ export class TripService {
   constructor(
     private modalCtrl: ModalController,
     private apiService: APIService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private userService: UserService
   ) { }
 
   createTrip() {
     let modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
-      console.log(data);
       if(data) {
-        this.toast(`New trip ${data.name} successfully created`);
+        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.bannerPath).subscribe(
+          (result: any) => {
+            this.apiService.createUserToTrip(this.userService.user.id, result.data.createTrip.trip.id).subscribe(
+              result => {
+                this.toast(`New trip '${data.name}' successfully created`);
+              }
+            )
+          }
+        )
       }
     });
     modal.present();

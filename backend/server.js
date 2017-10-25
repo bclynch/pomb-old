@@ -97,7 +97,7 @@ app.post("/upload-primary", upload.array("uploads[]", 1), function (req, res) {
   });
 });
 
-app.post("/upload-post-photo/:size", upload.array("uploads[]", 1), function (req, res) {
+app.post("/upload-photo/:size", upload.array("uploads[]", 1), function (req, res) {
   //If ever accept png need to change buffer MIME type to be dynamic
   let fileType = 'jpg';
   const file = req.files[0];

@@ -15,7 +15,7 @@ import { Post } from '../../models/Post.model';
 export class ProfilePage {
 
   posts: Post[] = [];
-  gridPosts: Post[] = [];
+  gridPosts: Post[] = null;
   compactHeroPost: Post = null;
   otherPosts: Post[] = [];
   gridConfiguration: number[] = [ 6.5, 3.5, 3.5, 6.5, 3, 3, 3 ];

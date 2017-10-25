@@ -122,6 +122,7 @@ juncturemodal {
           .dateWrapper {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             border-bottom: solid 1px mapGet($basecolor, border);
             cursor: pointer;
 

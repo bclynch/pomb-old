@@ -546,6 +546,23 @@ const searchTags = gql`
   }
 `;
 
+const tripsByUserId = gql`
+  query tripsByUserId($userId: Int!) {
+    allUserToTrips(condition: {
+      userId: $userId,
+    },
+    orderBy: PRIMARY_KEY_DESC
+    ) {
+      nodes {
+        id,
+        tripByTripId {
+          name
+        }
+      }
+    }
+  }
+`;
+
 //////////////////////////
 /////////// mutations
 ////////////////////////
@@ -731,6 +748,49 @@ const createJuncture = gql`
   }
 `;
 
+const createTrip = gql`
+  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $bannerPhoto: String) {
+    createTrip(input:{
+      trip:{
+        name: $name,
+        startDate: $startDate,
+        endDate: $endDate,
+        bannerPhoto: $bannerPhoto
+      }
+    }) {
+      trip {
+        id
+      }
+    }
+  }
+`;
+
+const createUserToTrip = gql`
+  mutation($userId: Int!, $tripId: Int!) {
+    createUserToTrip(input:{
+      userToTrip:{
+        userId: $userId,
+        tripId: $tripId
+      }
+    }) {
+      clientMutationId
+    }
+  }
+`;
+
+const createTripToJuncture = gql`
+  mutation($tripId: Int!, $junctureId: Int!) {
+    createTripToJuncture(input:{
+      tripToJuncture: {
+        tripId: $tripId,
+        junctureId: $junctureId
+      }
+    }) {
+      clientMutationId
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -772,8 +832,8 @@ export class APIService {
       );
   }
 
-  uploadPostPhoto(formData: FormData, size: string) {
-    return this.http.post(`http://localhost:8080/upload-post-photo/${size}`, formData)
+  uploadPhoto(formData: FormData, size: string) {
+    return this.http.post(`http://localhost:8080/upload-photo/${size}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -963,6 +1023,15 @@ export class APIService {
     });
   }
 
+  tripsByUserId(userId: number) {
+    return this.apollo.watchQuery<any>({
+      query: tripsByUserId,
+      variables: {
+        userId
+      }
+    });
+  }
+
   // Graphql mutations
   registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
     return this.apollo.mutate({
@@ -1110,6 +1179,38 @@ export class APIService {
         city,
         country,
         isDraft
+      }
+    });
+  }
+
+  createTrip(name: string, startDate: number, endDate: number, bannerPhoto: string) {
+    return this.apollo.mutate({
+      mutation: createTrip,
+      variables: {
+        name,
+        startDate,
+        endDate,
+        bannerPhoto
+      }
+    });
+  }
+
+  createUserToTrip(userId: number, tripId: number) {
+    return this.apollo.mutate({
+      mutation: createUserToTrip,
+      variables: {
+        userId,
+        tripId
+      }
+    });
+  }
+
+  createTripToJuncture(tripId: number, junctureId: number) {
+    return this.apollo.mutate({
+      mutation: createTripToJuncture,
+      variables: {
+        tripId,
+        junctureId
       }
     });
   }

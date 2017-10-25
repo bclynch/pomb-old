@@ -3,6 +3,6 @@
   <div class="tripCardContainer">
     <TripCard *ngFor="let trip of user.userToTripsByUserId.nodes;" [trip]="trip.tripByTripId"></TripCard>
   </div>
-  <Grid [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
+  <Grid *ngIf="girdPosts" [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
 </PageWrapper>
 

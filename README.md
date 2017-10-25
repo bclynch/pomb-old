@@ -18,8 +18,7 @@
 
 #### Other
 
-- Need to create Create Trip modal.
-- Need to add field in juncture modal to tie into a trip (default on latest, but dropdown of others)
+- User avatars
 - Validation on create juncture modal
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design

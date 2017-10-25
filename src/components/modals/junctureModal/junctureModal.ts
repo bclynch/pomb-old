@@ -23,9 +23,10 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class JunctureModal {
 
-  junctureModel = {name: 'Juncture ' + moment().format("l"), time: Date.now(), description: ''};
+  junctureModel = {name: 'Juncture ' + moment().format("l"), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
   junctureSaveType: string = 'Draft';
+  tripOptions = null;
 
   galleryPhotos: GalleryPhoto[] = [];
 
@@ -47,6 +48,13 @@ export class JunctureModal {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController
   ) {
+    this.apiService.tripsByUserId(this.userService.user.id).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.tripOptions = data.data.allUserToTrips.nodes;
+        this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
+      }
+    )
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition((location: any) => {
         console.log(location.coords);
@@ -167,7 +175,8 @@ export class JunctureModal {
       description: this.junctureModel.description,
       photos: this.galleryPhotos,
       time: this.junctureModel.time,
-      location: this.coords
+      location: this.coords,
+      selectedTrip: this.junctureModel.selectedTrip
     });
   }
 

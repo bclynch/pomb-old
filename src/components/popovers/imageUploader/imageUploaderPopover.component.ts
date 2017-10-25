@@ -29,6 +29,7 @@ export class ImageUploaderPopover {
     this.type = params.get('type');
     this.maxImgs = params.get('max');
     this.capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
+    this.postSize = params.get('size');
   }
 
   processFormData(): FormData {
@@ -56,10 +57,10 @@ export class ImageUploaderPopover {
     );
   }
 
-  uploadPostPhoto() {
+  uploadPhoto() {
     const formData = this.processFormData();
 
-    this.apiService.uploadPostPhoto(formData, this.postSize).subscribe(
+    this.apiService.uploadPhoto(formData, this.postSize).subscribe(
       result => {
         console.log(result);
         this.urlArr.push(result);
@@ -104,9 +105,6 @@ export class ImageUploaderPopover {
     this.filesToUpload = <Array<File>>fileInput.target.files;
 
     switch(this.type) {
-      case 'post':
-        this.uploadPostPhoto()
-        break;
       case 'banner':
         this.uploadBannerPhoto();
         break;
@@ -115,6 +113,9 @@ export class ImageUploaderPopover {
         break;
       case 'gallery':
         this.uploadGalleryPhotos();
+        break;
+      default:
+        this.uploadPhoto();
         break;
     }
   }

@@ -17,8 +17,7 @@ import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploader
 })
 export class TripModal {
 
-  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, description: ''};
-  defaultPath: string = '../../../assets/images/trip-default.jpg';
+  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerPath: null};
 
   constructor(
     public viewCtrl: ViewController,
@@ -56,28 +55,20 @@ export class TripModal {
   }
 
   saveTrip() {
-    // this.viewCtrl.dismiss({
-    //   saveType: this.junctureSaveType,
-    //   name: this.junctureModel.name,
-    //   description: this.junctureModel.description,
-    //   photos: this.galleryPhotos,
-    //   time: this.junctureModel.time,
-    //   location: this.coords
-    // });
+    this.viewCtrl.dismiss({
+      name: this.tripModel.name,
+      timeStart: this.tripModel.timeStart,
+      timeEnd: this.tripModel.timeEnd,
+      bannerPath: this.tripModel.bannerPath,
+    });
   }
 
   presentBannerUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'tripBanner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: 'large' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if(data) {
-        // data.forEach((img) => {
-        //   this.galleryPhotos.push({
-        //     id: null,
-        //     photoUrl: img.url,
-        //     description: ''
-        //   })
-        // });
+        this.tripModel.bannerPath = data.arr[0].url;
       }
     });
   }

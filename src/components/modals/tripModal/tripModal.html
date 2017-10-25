@@ -2,12 +2,18 @@
   <div class="header">
     <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
     <div class="headerTitle">Create Trip</div>
-    <div class="saveContainer boldFont" (click)="saveTrip()">Save</div>
+    <div class="saveContainer boldFont">
+      <span (click)="saveTrip()">Save</span>
+    </div>
   </div>
-  <div class="imgLoadWrapper" [ngStyle]="{ 'background-image': 'url(' + defaultPath + ')'}" (click)="presentBannerUploaderPopover()">
+  <div 
+    class="imgLoadWrapper" 
+    [ngStyle]="tripModel.bannerPath ? { 'background-image': 'url(' + tripModel.bannerPath + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
+    (click)="presentBannerUploaderPopover()"
+  >
     <div>
       <ion-icon name="md-cloud-upload"></ion-icon>
-      <div>Add images</div>
+      <div>Upload image</div>
     </div>
   </div>
   <div class="modalSection">

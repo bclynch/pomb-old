@@ -30,6 +30,16 @@
       </div>
       <div *ngIf="!inited"><ion-spinner name="crescent"></ion-spinner></div>
     </div>
+    <div class="modalSection tripSelect">
+      <div class="junctureLabel">Trip</div>
+      <select [(ngModel)]="junctureModel.selectedTrip">
+        <option 
+          *ngFor="let trip of tripOptions; let i = index;" 
+          [selected]="i === 0"
+          [value]="trip.id"
+        >{{trip.tripByTripId.name}}</option>
+      </select>
+    </div>
     <div class="modalSection">
       <label class="junctureLabel" for="junctureName">Juncture Name</label>
       <input 
