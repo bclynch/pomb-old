@@ -101,6 +101,18 @@ export class ImageUploaderPopover {
     );
   }
 
+  uploadProfilePhoto() {
+    const formData = this.processFormData();
+
+    this.apiService.uploadProfilePhoto(formData).subscribe(
+      result => {
+        console.log(result);
+        this.isProcessing = false;
+        this.viewCtrl.dismiss(result);
+      }
+    );
+  }
+
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
 
@@ -113,6 +125,9 @@ export class ImageUploaderPopover {
         break;
       case 'gallery':
         this.uploadGalleryPhotos();
+        break;
+      case 'profile':
+        this.uploadProfilePhoto();
         break;
       default:
         this.uploadPhoto();

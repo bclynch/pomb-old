@@ -21,9 +21,10 @@ profileherobanner {
       .profilePhotoContainer {
         height: 125px;
         width: 125px;
-        background: mapGet($basecolor, black);
         border: 3px solid mapGet($basecolor, white);
         border-radius: 5px;
+        background-position: center!important;
+        background-size: contain!important;
       }
       .name {
         font-weight: bold;

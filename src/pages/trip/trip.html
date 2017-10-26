@@ -14,8 +14,8 @@
     >
       <agm-marker 
         *ngFor= "let marker of junctureMarkers; let i = index;"
-        [latitude]= "marker.lat" 
-        [longitude]= "marker.lon" 
+        [latitude]= "marker.junctureByJunctureId.lat" 
+        [longitude]= "marker.junctureByJunctureId.lon" 
         [label]="{
           color: 'orange',
           fontFamily: '',
@@ -29,31 +29,54 @@
           size: {width: 36, height: 36},
           scaledSize: {width: 36, height: 36}
         }"
-        (markerClick)="AgmMap.lastOpen?.close(); AgmMap.lastOpen = infoWindow;"
+        (markerClick)="markerClick(i)"
       >
-        <!-- <agm-info-window [disableAutoPan]="true" #infoWindow>
-          <map-popover [data]="marker" [config]="config"></map-popover>
-        </agm-info-window> -->
+        <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
+          <ng-template>
+            <div *ngIf="!markerLoading">
+              <div 
+                class="juncturePhoto" 
+                [ngStyle]="junctureContentArr[i].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
+              >
+                <div class="overlay">
+                  <div class="overlayName">{{junctureContentArr[i].name}}</div>
+                  <div class="overlayDate">{{junctureContentArr[i].arrivalDate | date: 'yMMMMd'}}</div>
+                </div>
+              </div>
+              <div class="contentWrapper">
+                <div class="windowCity">{{junctureContentArr[i].city}}</div>
+                <div class="windowCountry">{{junctureContentArr[i].country}}</div>
+                <div>{{truncate(junctureContentArr[i].description)}}</div>
+                <div class="windowBtn" (click)="goToJuncture(i)">See More</div>
+              </div>
+            </div>
+          </ng-template>
+        </agm-snazzy-info-window>
       </agm-marker>
       <agm-polyline
         [editable]="false"
         strokeColor="#934000"
         strokeWeight="3"
       >
-        <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.lat" [longitude]="point.lon"></agm-polyline-point>
+        <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.junctureByJunctureId.lat" [longitude]="point.junctureByJunctureId.lon"></agm-polyline-point>
       </agm-polyline>
     </agm-map>
     <div class="juncturePane">
       <div class="paneHeader">
         <BackpackIcon color="white" title="Add To Pack"></BackpackIcon>
-        <div 
-          *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName" 
-          (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)"
-        >{{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}</div>
-        <div 
-          *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName" 
-          (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)"
-        >{{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}</div>
+        <div class="userWrapper" (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)">
+          <div 
+            class="profilePhoto" 
+            *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.profilePhoto" 
+            [ngStyle]="{ 'background-image': 'url(' + tripData.userToTripsByTripId.nodes[0].accountByUserId.profilePhoto + ')'}"
+          ></div>
+          <div *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">
+            {{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}
+          </div>
+          <div *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">
+            {{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}
+          </div>
+        </div>
       </div>
       <div 
         class="paneBanner"

@@ -4,6 +4,7 @@ import { PopoverController, ToastController } from 'ionic-angular';
 import { SettingsService } from '../../../../services/settings.service';
 import { BroadcastService } from '../../../../services/broadcast.service';
 import { APIService } from '../../../../services/api.service';
+import { UserService } from '../../../../services/user.service';
 
 import { GradientPopover } from '../../../../components/popovers/gradient/gradientPopover.component';
 import { ImageUploaderPopover } from '../../../../components/popovers/imageUploader/imageUploaderPopover.component';
@@ -14,7 +15,7 @@ import { ImageUploaderPopover } from '../../../../components/popovers/imageUploa
 })
 export class UserAdminConfigPage {
 
-  configModel = { primaryColor: null, secondaryColor: null, tagline: null, heroBanner: null };
+  configModel = { primaryColor: null, secondaryColor: null, tagline: null, heroBanner: null, userPhoto: null };
 
   constructor(
     private broadcastService: BroadcastService,
@@ -22,11 +23,13 @@ export class UserAdminConfigPage {
     private popoverCtrl: PopoverController,
     private apiService: APIService,
     private toastCtrl: ToastController,
+    private userService: UserService
   ) {  
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
   }
 
   init() {
+    this.configModel.userPhoto = this.userService.user.profilePhoto;
     this.configModel.primaryColor = this.settingsService.primaryColor;
     this.configModel.secondaryColor = this.settingsService.secondaryColor;
     this.configModel.tagline = this.settingsService.tagline;
@@ -46,11 +49,11 @@ export class UserAdminConfigPage {
     });
   }
 
-  presentImageUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+  presentImageUploaderPopover(type: string) {
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if(data) this.configModel.heroBanner = data.url;
+      if(data) type === 'banner' ? this.configModel.heroBanner = data.url : this.configModel.userPhoto = data.url;
     });
   }
 
@@ -62,13 +65,22 @@ export class UserAdminConfigPage {
       this.settingsService.tagline = this.configModel.tagline;
       this.settingsService.heroBanner = this.configModel.heroBanner;
 
-      let toast = this.toastCtrl.create({
-        message: `New site settings saved`,
-        duration: 3000,
-        position: 'top'
-      }); 
-  
-      toast.present();
+      //probably need to put this in a settings menu eventually...
+      const user = this.userService.user;
+      this.apiService.updateAccountById(user.id, user.firstName, user.lastName, user.heroPhoto, this.configModel.userPhoto).subscribe(
+        (result: any) => {
+          //set user service to new returned user
+          this.userService.user = result.data.updateAccountById.account;
+
+          let toast = this.toastCtrl.create({
+            message: `New site settings saved`,
+            duration: 3000,
+            position: 'top'
+          }); 
+      
+          toast.present();
+        }
+      )
     });
   }
 }

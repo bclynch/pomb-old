@@ -45,11 +45,21 @@
     <div 
       class="banner" 
       [ngStyle]="{ 'background-image': 'url(' + configModel.heroBanner + ')'}"
-      (click)="presentImageUploaderPopover()" 
+      (click)="presentImageUploaderPopover('banner')" 
     >
       <div class="hoverOverlay">
         <ion-icon name="md-cloud-upload"></ion-icon>
         <div>Add an image</div>
+      </div>
+    </div>
+    <div 
+      class="userPhoto" 
+      [ngStyle]="configModel.userPhoto ? { 'background': 'url(' + configModel.userPhoto + ')' } : { 'background': 'black' }"
+      (click)="presentImageUploaderPopover('profile')" 
+    >
+      <div class="hoverOverlay">
+        <ion-icon name="md-cloud-upload"></ion-icon>
+        <div>Add an profile picture</div>
       </div>
     </div>
     <div class="saveBtn boldFont" (click)="saveConfig()">Save</div>

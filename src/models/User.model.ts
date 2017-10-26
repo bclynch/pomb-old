@@ -3,4 +3,6 @@ export class User {
   lastName: string;
   username: string;
   id: number;
+  heroPhoto: string;
+  profilePhoto: string;
 }

@@ -19,8 +19,8 @@ create table pomb.account (
   updated_at          timestamp default now()
 );
 
-insert into pomb.account (username, first_name, last_name) values
-  ('rambler', 'John', 'Doe');
+insert into pomb.account (username, first_name, last_name, profile_photo) values
+  ('teeth-creep', 'Ms', 'D', 'https://laze-app.s3.amazonaws.com/19243203_10154776689779211_34706076750698170_o-w250-1509052127322.jpg');
 
 comment on table pomb.account is 'Table with POMB users';
 comment on column pomb.account.id is 'Primary id for account';
@@ -683,7 +683,7 @@ GRANT SELECT ON TABLE pomb.trip_to_juncture TO PUBLIC;
 GRANT SELECT ON TABLE pomb.user_to_trip TO PUBLIC;
 
 GRANT ALL on table pomb.config to PUBLIC; -- ultimately needs to only be admin account that can mod
-GRANT ALL on table pomb.account to pomb_account;
+GRANT ALL on table pomb.account to pomb_account; --ultimately needs to be policy in which only own user!
 GRANT select on pomb.search_index to PUBLIC;
 
 GRANT execute on function pomb.register_account(text, text, text, text, text) to pomb_anonymous;

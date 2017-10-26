@@ -1,9 +1,9 @@
 <div 
   class="heroBannerContainer" 
-  [ngStyle]="user.heroBanner ? { 'background-image': 'url(' + user.heroBanner + ')'} : { 'background-image': 'url(' + defaultBannerImg + ')'}"
+  [ngStyle]="user.heroPhoto ? { 'background-image': 'url(' + user.heroPhoto + ')'} : { 'background-image': 'url(' + defaultBannerImg + ')'}"
 >
   <div class="overlay">
-    <div class="profilePhotoContainer"></div>
+    <div class="profilePhotoContainer" [ngStyle]="user.profilePhoto ? { 'background': 'url(' + user.profilePhoto + ')'} : { 'background': 'black'}"></div>
     <div class="name" *ngIf="user.firstName">{{user.firstName}} {{user.lastName}}</div>
     <div class="name" *ngIf="!user.firstName">{{user.username}}</div>
     <div>Status: On The Road (This needs to be dynamic)</div>

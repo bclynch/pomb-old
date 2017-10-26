@@ -8,12 +8,6 @@ import { APIService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
 import { RouterService } from '../../services/router.service';
 
-interface Marker {
-  lat: number;
-  lon: number;
-  markerImage: string;
-}
-
 @Component({
   selector: 'page-trip',
   templateUrl: 'trip.html'
@@ -23,12 +17,13 @@ export class TripPage {
 
   tripId: number;
   tripData;
-  junctureMarkers: Marker[] = [];
+  junctureMarkers = [];
   inited: boolean = false;
   defaultPhoto: string = '../../assets/images/trip-default.jpg';
   junctureIndex: number = 0;
   junctureContentArr: any = [];
   tempPanStart: number;
+  markerLoading: boolean = false;
 
   //map props
   coords: { lat: number; lon: number; } = { lat: null, lon: null };
@@ -63,24 +58,13 @@ export class TripPage {
       if(this.tripData.tripToJuncturesByTripId.nodes[0]) this.modJunctureContentArr(0, this.tripData.tripToJuncturesByTripId.nodes[0].junctureByJunctureId.id);
       if(this.tripData.tripToJuncturesByTripId.nodes[1]) this.modJunctureContentArr(1, this.tripData.tripToJuncturesByTripId.nodes[1].junctureByJunctureId.id);
 
-      //create markers arr
-      this.tripData.tripToJuncturesByTripId.nodes.forEach((marker) => {
-        let newMarker: any = {};
-        newMarker['lat'] = marker.junctureByJunctureId.lat;
-        newMarker['lon'] = marker.junctureByJunctureId.lon;
-        if(marker.junctureByJunctureId.junctureToPhotosByJunctureId.nodes.length) {
-          newMarker['markerImage'] = marker.junctureByJunctureId.junctureToPhotosByJunctureId.nodes[0].photoUrl;
-        } else {
-          newMarker['markerImage'] = 'https://static.planetminecraft.com/files/avatar/1939407_1.gif'
-        }
-        this.junctureMarkers.push(newMarker);
-      });
+      this.junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
 
       //fitting the map to the markers
       this.mapsAPILoader.load().then(() => {
         this.latlngBounds = new window['google'].maps.LatLngBounds();
-        this.junctureMarkers.forEach((location) => {
-            this.latlngBounds.extend(new window['google'].maps.LatLng(location.lat, location.lon))
+        this.junctureMarkers.forEach((juncture) => {
+          this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.junctureByJunctureId.lat, juncture.junctureByJunctureId.lon))
         });
 
         //grab map style
@@ -99,28 +83,58 @@ export class TripPage {
       //increment index of active juncture
       this.junctureIndex = this.junctureIndex - 1;
 
+      //fetch new juncture data if required
+      if(this.junctureIndex > 2) {
+        this.modJunctureContentArr(this.junctureIndex - 1, this.tripData.tripToJuncturesByTripId.nodes[this.junctureIndex - 1].junctureByJunctureId.id);
+      };
+
       //pan map to our new juncture location
-      this.panToCoords(this.junctureMarkers[i].lat, this.junctureMarkers[i].lon);
+      this.panToCoords(this.junctureMarkers[i].junctureByJunctureId.lat, this.junctureMarkers[i].junctureByJunctureId.lon);
     } else if(i - this.junctureIndex === 1) {
       //increment index of active juncture
       this.junctureIndex = this.junctureIndex + 1;
 
       //fetch new juncture data if required
-      if(this.junctureIndex > 0 && this.junctureIndex < this.junctureMarkers.length - 1) this.modJunctureContentArr(this.junctureIndex + 1, this.tripData.tripToJuncturesByTripId.nodes[this.junctureIndex + 1].junctureByJunctureId.id);
+      if(this.junctureIndex < this.junctureMarkers.length - 1) {
+        this.modJunctureContentArr(this.junctureIndex + 1, this.tripData.tripToJuncturesByTripId.nodes[this.junctureIndex + 1].junctureByJunctureId.id);
+      };
       
       //pan map to our new juncture location
-      this.panToCoords(this.junctureMarkers[i].lat, this.junctureMarkers[i].lon);
+      this.panToCoords(this.junctureMarkers[i].junctureByJunctureId.lat, this.junctureMarkers[i].junctureByJunctureId.lon);
     }
   }
 
   //Adding content one at a time so as not to make a big ass call every time that would take forever. One ahead so its always ready
   modJunctureContentArr(index: number, id: number) {
-    this.apiService.getJunctureById(id).subscribe(({ data }) => {
-      const junctureData = this.processPosts(data.junctureById);
+    return new Promise((resolve, reject)=>{
+
+      //make sure it doesn't already exist
       if(!this.junctureContentArr[index]) {
-        this.junctureContentArr.splice(index, 1, junctureData);
-      };
+        this.apiService.getJunctureById(id).subscribe(({ data }) => {
+          const junctureData = this.processPosts(data.junctureById);
+          if(!this.junctureContentArr[index]) {
+            this.junctureContentArr.splice(index, 1, junctureData);
+            resolve();
+          };
+        });
+      } else {
+        resolve();
+      }
     });
+  }
+
+  markerClick(i: number) {
+    this.markerLoading = true;
+    //check to see if we have data for this marker. If not fetch
+    this.modJunctureContentArr(i, this.junctureMarkers[i].junctureByJunctureId.id).then(() => this.markerLoading = false);
+  }
+
+  goToJuncture(i: number) {
+    this.junctureIndex = i;
+
+    //need to snag the data for juncture on either side so they're loaded up
+    if(i > 2) this.modJunctureContentArr(i - 1, this.junctureMarkers[i - 1].junctureByJunctureId.id);
+    if(i < this.junctureMarkers.length - 1) this.modJunctureContentArr(i + 1, this.junctureMarkers[i + 1].junctureByJunctureId.id);
   }
 
   processPosts(juncture) {
@@ -171,5 +185,10 @@ export class TripPage {
       }
     }
     this.tempPanStart = 0;
+  }
+
+  truncate(text: string) {
+    const ellipsis = text.length > 160 ? '...' : '';
+    return text.slice(0, 200) + ellipsis;
   }
 }

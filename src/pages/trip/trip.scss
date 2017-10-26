@@ -8,6 +8,79 @@ page-trip {
     agm-map {
       flex: 1;
       height: 40vh;
+
+      .si-wrapper-left {
+        margin-top: 0;
+        margin-left: -20px;
+        height: 30vh;
+        width: 50%;
+
+        .si-content-wrapper {
+          padding: 0;
+          height: 100%;
+
+          button {
+            color: mapGet($basecolor, white);
+            opacity: .85;
+          }
+          .si-content {
+            height: 100%;
+            max-height: 100%!important;
+            max-width: 100%!important;
+          }
+  
+          .juncturePhoto {
+            background-position: center;
+            background-size: cover;
+            height: 150px;
+            width: 100%;
+
+            .overlay {
+              height: 100%;
+              width: 100%;
+              background: rgba(0,0,0,.3);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              color: mapGet($basecolor, white);
+
+              .overlayName {
+                font-size: 24px;
+                margin-bottom: 5px;
+              }
+              .overlayDate {
+                font-size: 18px;
+              }
+            }
+          }
+          .contentWrapper {
+            padding: 10px;
+
+            .windowCity {
+              font-weight: bold;
+              font-size: 18px;
+            }
+            .windowCountry {
+              font-size: 16px;
+              margin-bottom: 10px;
+            }
+            .windowBtn {
+              background: mapGet($basecolor, black);
+              color: mapGet($basecolor, white);
+              padding: 8px 0;
+              width: 50%;
+              margin: 5px auto 0;
+              text-align: center;
+              font-weight: bold;
+              cursor: pointer;
+            }
+          }
+        }
+        .si-pointer-left {
+          display: none;
+        }
+      }
     }
     .juncturePane {
       min-height: calc(60vh - 40px); //40px is size of nav
@@ -24,12 +97,25 @@ page-trip {
         color: mapGet($basecolor, white);
         font-weight: bold;
 
+        .userWrapper {
+          display: flex;
+          align-items: center;
+
+          .profilePhoto {
+            height: 25px;
+            width: 25px;
+            background-size: contain;
+            border: 1px solid mapGet($basecolor, white);
+            border-radius: 5px;
+            margin-right: 10px;
+          }
+        }
         BackpackIcon {
           height: 20px;
           width: 20px;
           cursor: pointer;
         }
-        div {
+        > div {
           cursor: pointer;
         }
       }
@@ -136,6 +222,11 @@ page-trip {
   
       agm-map {
         height: calc(100vh - 40px); //40px is size of nav
+
+        .si-wrapper-left {
+          height: 40vh;
+          width: 40%;
+        }
       }
       .juncturePane {
         width: 40%;
@@ -151,7 +242,14 @@ page-trip {
         }
         .paneHeader {
           height: 45px;
+
+          .userWrapper {
   
+            .profilePhoto {
+              height: 32px;
+              width: 32px;
+            }
+          }
           BackpackIcon {
             height: 32px;
             width: 32px;

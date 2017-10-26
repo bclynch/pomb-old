@@ -19,7 +19,9 @@ const currentAccountQuery = gql`
       id,
       firstName,
       lastName,
-      username
+      username,
+      profilePhoto,
+      heroPhoto
     }
   }
 `;
@@ -320,12 +322,7 @@ const getTripById = gql`
             name,
             lat,
             lon,
-            id,
-            junctureToPhotosByJunctureId {
-              nodes {
-                photoUrl
-              }
-            }
+            id
           }
         }
       },
@@ -334,7 +331,8 @@ const getTripById = gql`
           accountByUserId {
             username,
             firstName, 
-            lastName
+            lastName,
+            profilePhoto
           }
         }
       }
@@ -585,6 +583,7 @@ const registerAccount = gql`
     }
   }
 `;
+
 const authAccount = gql`
   mutation authAccount($email: String!, $password: String!) {
     authenticateAccount(input:{
@@ -595,6 +594,30 @@ const authAccount = gql`
     }
   }
 `;
+
+const updateAccountById = gql`
+  mutation updateAccountById($id: Int!, $firstName: String!, $lastName: String!, $heroPhoto: String, $profilePhoto: String) {
+    updateAccountById(input:{
+      id: $id,
+      accountPatch:{
+        firstName: $firstName,
+        lastName: $lastName,
+        profilePhoto: $profilePhoto,
+        heroPhoto: $heroPhoto
+      }
+    }) {
+      account {
+        id,
+        username,
+        firstName,
+        lastName,
+        heroPhoto,
+        profilePhoto
+      }
+    }
+  }
+`;
+
 const deletePostById = gql`
   mutation deletePostById($id: Int!) {
     deletePostById(input: {
@@ -606,6 +629,7 @@ const deletePostById = gql`
     }
   }
 `;
+
 const createPost = gql`
   mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $category: PostCategory, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
     createPost(input: {
@@ -628,6 +652,7 @@ const createPost = gql`
     }
   }
 `;
+
 const createPostTag = gql`
   mutation createPostTag($name: String!, $tagDescription: String) {
     createPostTag(input:{
@@ -643,6 +668,7 @@ const createPostTag = gql`
     }
   }
 `;
+
 const deletePostToTagById = gql`
   mutation deletePostToTagById($id: Int!) {
     deletePostToTagById(input:{
@@ -652,6 +678,7 @@ const deletePostToTagById = gql`
     }
   }
 `;
+
 const deletePostToGalleryPhotoById = gql`
   mutation deletePostToGalleryPhotoById($id: Int!) {
     deletePostToGalleryPhotoById(input:{
@@ -675,6 +702,7 @@ const createPostLeadPhoto = gql`
     }
   }
 `;
+
 const updateConfig = gql`
   mutation updateConfig($primaryColor: String!, $secondaryColor: String!, $tagline: String!, $heroBanner: String!) {
     updateConfigById(input:{
@@ -849,6 +877,21 @@ export class APIService {
 
   uploadBannerPhoto(formData: FormData) {
     return this.http.post('http://localhost:8080/upload-hero-banner', formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  uploadProfilePhoto(formData: FormData) {
+    return this.http.post('http://localhost:8080/upload-profile-photo', formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -1061,6 +1104,19 @@ export class APIService {
       mutation: deletePostById,
       variables: {
         id
+      }
+    });
+  }
+
+  updateAccountById(id: number, firstName: string, lastName: string, heroPhoto: string, profilePhoto: string) {
+    return this.apollo.mutate({
+      mutation: updateAccountById,
+      variables: {
+        id,
+        firstName,
+        lastName,
+        heroPhoto,
+        profilePhoto
       }
     });
   }

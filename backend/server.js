@@ -142,6 +142,28 @@ app.post("/upload-hero-banner", upload.array("uploads[]", 1), function (req, res
   });
 });
 
+//endpoint to upload profile img
+app.post("/upload-profile-photo", upload.array("uploads[]", 1), function (req, res) {
+  //If ever accept png need to change buffer MIME type to be dynamic
+  let fileType = 'jpg';
+  const file = req.files[0];
+
+  resizeImagesWriteBuffer(file, [{ width: 250, height: 250 }], 80, fileType).then((bufferArr) => {
+    console.log('Processed img buffer arr: ', bufferArr);
+    const buffer = bufferArr[0];
+
+    const key = `${file.originalname.split('.')[0]}-w${buffer.width}-${Date.now()}.${fileType}`;
+    
+    uploadToS3(buffer.buffer, key, function (err, data) {
+      if (err) {
+        console.error(err)
+        reject(err);
+      };
+      res.send(JSON.stringify({size: buffer.width, url: data.Location}));
+    });
+  });
+});
+
 //endpoint to upload gallery imgs
 app.post("/upload-gallery", upload.array("uploads[]", 12), function (req, res) {
   let promises = [];

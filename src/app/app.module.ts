@@ -8,6 +8,7 @@ import { MyHammerConfig } from './touchConfig';
 // 3rd Party Libraries
 import { ApolloModule } from 'apollo-angular';
 import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
@@ -183,6 +184,7 @@ import { TripService } from '../services/trip.service';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', //this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
     }),
+    AgmSnazzyInfoWindowModule,
     FroalaEditorModule.forRoot(), 
     FroalaViewModule.forRoot()
   ],
