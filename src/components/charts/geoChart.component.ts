@@ -4,6 +4,7 @@ import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { ExploreService } from '../../services/explore.service';
 import { RouterService } from '../../services/router.service';
+import { UtilService } from '../../services/util.service';
 
 declare var google:any;
 
@@ -32,7 +33,8 @@ export class GoogleChartComponent {
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
     private exploreService: ExploreService,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private utilService: UtilService
   ){
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
   }
@@ -69,9 +71,9 @@ export class GoogleChartComponent {
       console.log(e);
       //if its not a region code we know its a country code
       if(Object.keys(self.exploreService.googleRegionCodes).indexOf(e.region) === -1) {
-        self.routerService.navigateToPage(`/explore/country/${self.exploreService.countryCodeObj[e.region].name.split(' ').join('-').toLowerCase()}`);
+        self.routerService.navigateToPage(`/explore/country/${self.utilService.formatForURLString(self.exploreService.countryCodeObj[e.region].name)}`);
       } else {
-        self.routerService.navigateToPage(`/explore/region/${self.exploreService.googleRegionCodes[e.region].split(' ').join('-').toLowerCase()}`);
+        self.routerService.navigateToPage(`/explore/region/${self.utilService.formatForURLString(self.exploreService.googleRegionCodes[e.region])}`);
       }
     }
     this.chart.draw(this.data, this.options);

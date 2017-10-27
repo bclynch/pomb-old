@@ -17,23 +17,10 @@ import { ExploreModal } from '../../../components/modals/exploreModal/exploreMod
 })
 export class ExploreCountryPage {
 
-  carouselImages: {}[] = [
-    { imgURL: 'http://www.lifewallpapers.net/data/out/2/3473202-1200-x-800-wallpaper.jpg', tagline: 'land of crisp mountain air' }, 
-    { imgURL: 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-nevada-fall-1200x800.jpg', tagline: 'where stone that reaches the sky' }, 
-    { imgURL: 'http://www.jasoncarnew.com/wp-content/uploads/2013/03/fiord-1280x800.jpg', tagline: 'is serene coastlines' }, 
-    { imgURL: 'https://jzholloway.files.wordpress.com/2008/07/moon072608-5back.jpg', tagline: "is your mom's cavern" }, 
-    { imgURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Oslo_Lufthavn_flyfoto.jpg/1200px-Oslo_Lufthavn_flyfoto.jpg', tagline: 'is your way about the world' }
-  ];
+  carouselImages;
 
   modalData = [
-    {
-      label: 'Popular Regions',
-      items: ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania']
-    },
-    {
-      label: 'Popular Countries',
-      items: ['China', 'France', 'Spain', 'Brazil', 'Canada', 'South Africa', 'Japan', 'Russia', 'Mexico', 'India']
-    }
+
   ];
 
   subnavOptions = ['At a Glance', 'Essential Information', 'Map', 'Posts', 'Activities'];
@@ -65,6 +52,19 @@ export class ExploreCountryPage {
     //grab country name
     const country = this.router.url.split('/').slice(-1)[0].split('#')[0];
     this.country = this.utilService.formatURLString(country);
+
+    //grab flickr images for the carousel
+    this.apiService.getFlickrPhotos(this.country, 'landscape').subscribe(
+      result => {
+        console.log(result.photos.photo);
+        const photos = result.photos.photo.slice(0, 5);
+        this.carouselImages = photos.map((photo) => {
+          //_b is 'large' img request so 1024 x 768. We'll go with this for now
+          //_o is 'original' which is 2400 x 1800
+          return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
+        });
+      }
+    )
   }
 
   ngAfterViewInit(): void {

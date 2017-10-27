@@ -10,6 +10,9 @@ import { AlertService } from './alert.service';
 
 import { PostCategory } from '../models/Post.model';
 
+//needs to be an env var
+const flickrKey = '691be9c5a38900c0249854a28a319e2c';
+
 //////////////////////////
 /////////// queries
 ////////////////////////
@@ -831,6 +834,22 @@ export class APIService {
   //get all countries
   getAllCountries() {
     return this.http.get('https://restcountries.eu/rest/v2/')
+    .map(
+      (response: Response) => {
+        const responseData = <any>response;
+        return JSON.parse(responseData._body);
+      }
+    )
+    .catch(
+      (error: Response) => {
+        return Observable.throw('Something went wrong');
+      }
+    );
+  }
+
+  // flickr photos
+  getFlickrPhotos(place: string, tag: string) {
+    return this.http.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrKey}&tags=${place},${tag}&tag_mode=all&content_type=1&sort=interestingness-desc&format=json&nojsoncallback=1`)
     .map(
       (response: Response) => {
         const responseData = <any>response;

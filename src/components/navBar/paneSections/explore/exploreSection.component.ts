@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
+
 import { SettingsService } from '../../../../services/settings.service';
 import { RouterService } from '../../../../services/router.service';
 import { ExploreService } from '../../../../services/explore.service';
+import { UtilService } from '../../../../services/util.service';
 
 interface Social {
   icon: string;
@@ -18,10 +20,11 @@ export class ExploreNavSection {
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
-    private exploreService: ExploreService
+    private exploreService: ExploreService,
+    private utilService: UtilService
   ) {}
 
   navigateToRegion(region: string) {
-    this.routerService.navigateToPage(`/explore/region/${region.split(' ').join('-').toLowerCase()}`);
+    this.routerService.navigateToPage(`/explore/region/${this.utilService.formatForURLString(region)}`);
   }
 }

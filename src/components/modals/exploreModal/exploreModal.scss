@@ -1,5 +1,8 @@
 .exploreModal {
 
+  ion-backdrop {
+    opacity: 0!important;
+  }
   .modal-wrapper {
     width: 100vw;
     height: 40vh;
@@ -15,7 +18,6 @@
       width: 100%;
       position: relative;
       padding: 24px;
-      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -29,6 +31,88 @@
         ion-icon {
           padding: 5px;
           font-size: 1.3em;
+        }
+      }
+      .modalListWrapper {
+        max-width: 600px;
+        width: 50%;
+        padding: 0 30px;
+
+        .listHeader {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+        .listContentWrapper {
+          display: flex;
+          justify-content: space-between;
+
+          .topContent {
+            width: 60%;
+            
+            .topCard {
+              display: flex;
+              cursor: pointer;
+              margin-bottom: 5px;
+
+              .cardImg {
+                height: 75px;
+                width: 75px;
+                position: relative;
+
+                .numberOverlay {
+                  position: absolute;
+                  width: 0;
+                  height: 0;
+                  border-top: 35px solid rgba(0,0,0,.6);
+                  border-left: 35px solid transparent;
+                  top: 0;
+                  right: 0;
+                }
+                .number {
+                  position: absolute;
+                  top: 3px;
+                  right: 3px;
+                  color: mapGet($basecolor, white);
+                  transition: .3s;
+                }
+              }
+              .topLabel {
+                flex: 1;
+                font-size: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #eee;
+                transition: .3s;
+              }
+            }
+            .topCard:hover {
+              .topLabel {
+                color: var(--secondary);
+              }
+              .number {
+                color: var(--secondary);
+              }
+            }
+          }
+          .otherContent {
+            width: 30%;
+            
+            .otherCard {
+              display: flex;
+              margin-bottom: 5px;
+              cursor: pointer;
+              transition: .3s;
+              padding: 5px 0;
+
+              > div {
+                flex: 1;
+              }
+            }
+            .otherCard:hover {
+              color: var(--secondary);
+            }
+          }
         }
       }
     }

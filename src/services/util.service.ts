@@ -20,6 +20,11 @@ export class UtilService {
     }).join(' ');
   }
 
+  formatForURLString(data: string) {
+    //format regions/countries to be formatted for url
+    return data.split(' ').join('-').toLowerCase();
+  }
+
   getJSON(path: string) {
     return this.http.get(path).map((res:Response) => res.json());
   }

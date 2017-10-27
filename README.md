@@ -7,7 +7,6 @@
 #### Trip report page
 
 - Maybe a vertical progress bar like polar steps horizontal one
-- Would like to be able to click a marker (probably end up as a juncture photo or default) for a preview window + quick stats. Can click somehwere in there to open it up fully in the pane.
 
 #### Create/edit post dash
 
@@ -16,9 +15,14 @@
 - Need to consider options for mobile (likely just have left menu as entire UI. Can create/edit posts which pops the modal. Will be a button to trigger preview instead of auto there)
 - Validation for the user only seeing their posts
 
+#### Explore Pages
+- Finish up carousel modals
+    - Cities in country pages and countries in region pages
+- Begin populating country/city/region etc pages
+- Consider how we would like to organize much of the information. Probably need separate pages for certain features since don't really want to pull down all that data ea time. Might be better when server caching enabled...
+
 #### Other
 
-- User avatars
 - Validation on create juncture modal
 - Fix up the img upload functions in the server.
     - Abstract it out of the damn main server itself (look at biotechne scripts for examples of this)
@@ -40,6 +44,7 @@
 - Better error handling
 - Mobile friendly fine tooth comb!
 - Other hosting options would likely be cheaper than Heroku.
+- Ultimately going to need to implement better caching server side. For example don't want to be making calls to Flickr from every client side location. Should be hitting an endpoint on the server. Check a cache to see if photos exist for a place. If so return it, if not fetch it. Could do the same for google results and rest countries end points.
     - https://aws.amazon.com/blogs/aws/amazon-lightsail-the-power-of-aws-the-simplicity-of-a-vps/
     - https://www.digitalocean.com/pricing/
 

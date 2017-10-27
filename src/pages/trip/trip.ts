@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap } from '@agm/core';
+import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
 
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
@@ -14,6 +15,7 @@ import { RouterService } from '../../services/router.service';
 })
 export class TripPage {
   @ViewChild(AgmMap) private map: any;
+  @ViewChildren(AgmSnazzyInfoWindow) snazzyWindowChildren:QueryList<any>;
 
   tripId: number;
   tripData;
@@ -135,6 +137,10 @@ export class TripPage {
     //need to snag the data for juncture on either side so they're loaded up
     if(i > 2) this.modJunctureContentArr(i - 1, this.junctureMarkers[i - 1].junctureByJunctureId.id);
     if(i < this.junctureMarkers.length - 1) this.modJunctureContentArr(i + 1, this.junctureMarkers[i + 1].junctureByJunctureId.id);
+
+    //programmatically close info window
+    let livewindow = this.snazzyWindowChildren.find((window, index)=>{return index === i});
+    livewindow._closeInfoWindow();
   }
 
   processPosts(juncture) {

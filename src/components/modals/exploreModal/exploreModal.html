@@ -7,7 +7,34 @@
   >
     <ion-icon name="close"></ion-icon>
   </div>
-  <div *ngFor="let segment of modalData">
-    <div>{{segment.label}}</div>
+  <div *ngFor="let segment of modalData" class="modalListWrapper">
+    <div class="listHeader">{{segment.label}}</div>
+    <div class="listContentWrapper">
+      <div class="topContent">
+        <div 
+          class="topCard" 
+          *ngFor="let card of segment.top; let i = index;" 
+          [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+          (click)="navigate(card.label, segment.label)"
+        >
+          <div class="cardImg" [ngStyle]="{ 'background-image': 'url(' + card.img + ')'}">
+            <div class="numberOverlay"></div>
+            <div class="number">{{i + 1}}</div>
+          </div>
+          <div class="topLabel">{{card.label}}</div>
+        </div>
+      </div>
+      <div class="otherContent">
+        <div 
+          class="otherCard" 
+          *ngFor="let card of segment.other; let i = index;" 
+          [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+          (click)="navigate(card, segment.label)"
+        >
+          <div class="number">{{i + 4}}.</div>
+          <div>{{card}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
