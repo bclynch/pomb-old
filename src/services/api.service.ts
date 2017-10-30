@@ -12,6 +12,7 @@ import { PostCategory } from '../models/Post.model';
 
 //needs to be an env var
 const flickrKey = '691be9c5a38900c0249854a28a319e2c';
+const geonamesUser = 'bclynch';
 
 //////////////////////////
 /////////// queries
@@ -848,8 +849,24 @@ export class APIService {
   }
 
   // flickr photos
-  getFlickrPhotos(place: string, tag: string) {
-    return this.http.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrKey}&tags=${place},${tag}&tag_mode=all&content_type=1&sort=interestingness-desc&format=json&nojsoncallback=1`)
+  getFlickrPhotos(place: string, tag: string, results: number) {
+    return this.http.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrKey}&tags=${place},${tag}&tag_mode=all&per_page=${results}&content_type=1&sort=interestingness-desc&format=json&nojsoncallback=1`)
+    .map(
+      (response: Response) => {
+        const responseData = <any>response;
+        return JSON.parse(responseData._body);
+      }
+    )
+    .catch(
+      (error: Response) => {
+        return Observable.throw('Something went wrong');
+      }
+    );
+  }
+
+  // city info
+  getCities(countryCode: string) {
+    return this.http.get(`http://api.geonames.org/searchJSON?formatted=true&country=${countryCode}&orderby=population&featureClass=p&username=${geonamesUser}&maxRows=10`)
     .map(
       (response: Response) => {
         const responseData = <any>response;

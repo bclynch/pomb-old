@@ -9,7 +9,7 @@
         class="paneOption boldFont" 
         *ngFor="let subregion of region.subregions" 
         [style.color]="settingsService.secondaryColor"
-        (click)="navigateToRegion(subregion)"
+        (click)="navigateToSubRegion(region.region, subregion)"
       >{{subregion}}</div>
     </div>
   </div>

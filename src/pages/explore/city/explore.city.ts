@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
 import { UtilService } from '../../../services/util.service';
+import { BroadcastService } from '../../../services/broadcast.service';
 
 @Component({
   selector: 'page-explore-city',
@@ -18,14 +19,23 @@ export class ExploreCityPage {
     private apiService: APIService,
     private router: Router,
     private settingsService: SettingsService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private route: ActivatedRoute,
+    private broadcastService: BroadcastService
   ) {  
-    //grab city name
-    const city = this.router.url.split('/').slice(-1)[0].split('#')[0];
-    this.city = this.utilService.formatURLString(city);
+    this.route.params.subscribe(params => {
+      //grab city name
+      this.city = this.utilService.formatURLString(params.city);
+      
+      if(this.settingsService.appInited) this.init();
+    });
 
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());    
+  }
+
+  init() {
     //grab flickr images for the carousel
-    this.apiService.getFlickrPhotos(this.city, 'architecture').subscribe(
+    this.apiService.getFlickrPhotos(this.city, 'architecture', 5).subscribe(
       result => {
         console.log(result.photos.photo);
         const photos = result.photos.photo.slice(0, 5);
@@ -37,5 +47,4 @@ export class ExploreCityPage {
       }
     )
   }
-
 }

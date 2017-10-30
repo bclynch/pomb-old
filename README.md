@@ -38,6 +38,8 @@
 
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
 - Mobile navbar jacked up
+- Need to redraw geo map on regions when changing region (doesn't destroy the original element)
+- Populating modal for cities on country oage initing twice
 
 ## Long Term Todos
 

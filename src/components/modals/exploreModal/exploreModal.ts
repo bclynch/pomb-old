@@ -36,7 +36,7 @@ export class ExploreModal {
     this.modalData.forEach((section, sectionIndex) => {
       section.top.forEach((place, placeIndex) => {
         //grab flickr images for the modal
-        this.apiService.getFlickrPhotos(this.utilService.formatURLString(place.label), 'landscape').subscribe(
+        this.apiService.getFlickrPhotos(this.utilService.formatURLString(place.label), 'landscape', 1).subscribe(
           result => {
             console.log(result.photos.photo);
             const photo = result.photos.photo[0];

@@ -25,6 +25,9 @@ export class ExploreNavSection {
   ) {}
 
   navigateToRegion(region: string) {
-    this.routerService.navigateToPage(`/explore/region/${this.utilService.formatForURLString(region)}`);
+    this.routerService.navigateToPage(`/explore/region/${region}`);
+  }
+  navigateToSubRegion(region: string, subregion: string) {
+    this.routerService.navigateToPage(`/explore/region/${region}/${subregion.split('_').join('-').toLowerCase()}`);
   }
 }

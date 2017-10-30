@@ -50,7 +50,16 @@ const appRoutes: Routes = [
         children: [
           {
             path: ':region',
-            component: ExploreRegionPage
+            children: [
+              {
+                path: '',
+                component: ExploreRegionPage
+              },
+              {
+                path: ':subregion',
+                component: ExploreRegionPage
+              }
+            ]
           },
           {
             path: '',

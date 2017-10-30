@@ -80,6 +80,6 @@ export class GoogleChartComponent {
   }
 
   createBarChart(element:any):any {
-      return new google.visualization.GeoChart(element);
+    return new google.visualization.GeoChart(element);
   }
 }

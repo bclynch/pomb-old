@@ -95,7 +95,7 @@ export class ExploreService {
     const self = this;
     Object.keys(this.regions).forEach((region) => {
       let formattedArr = Object.keys(this.regions[region]).map((subregion) => {
-        return self.formatText(subregion);
+        return self.utilService.formatURLString(subregion);
       });
       self.regionsArr.push({ region, subregions: formattedArr});
     });
@@ -128,6 +128,7 @@ export class ExploreService {
           this.countryCodeObj = codeObj;
           this.countryNameObj = nameObj;
           console.log('All countries by name: ', this.countryNameObj);
+          console.log('All countries by code: ', this.countryCodeObj);
           resolve();
         }
       )
@@ -150,18 +151,7 @@ export class ExploreService {
         countryCodeArr = countryCodeArr.concat(this.combineSubregions(region));
       });
     } else {
-      if(subregion) {
-        //need to identify its parent region
-        //looping through and seeing if prop exists
-        Object.keys(this.regions).forEach((region) => {
-          const formatted = this.regions[region][subregion.split('-').join('_')];
-          if(formatted) {
-            countryCodeArr = countryCodeArr.concat(this.formatSubregion(formatted));
-          }
-        });
-      } else {
-        countryCodeArr = countryCodeArr.concat(this.combineSubregions(region));
-      }
+      countryCodeArr = subregion ? countryCodeArr.concat(this.formatSubregion(this.regions[region][subregion.split(' ').join('_').toLowerCase()])) : countryCodeArr.concat(this.combineSubregions(region.toLowerCase()));
     }
     console.log(countryCodeArr);
 
@@ -172,15 +162,6 @@ export class ExploreService {
       this.countryCodeCache[region] = countryCodeArr;
     }
     return countryCodeArr;
-  }
-
-  private formatText(str: string): string {
-    const split = str.split('_');
-    const capitalized = split.map(function(elem){
-      return elem.charAt(0).toUpperCase() + elem.slice(1);
-    });
-
-    return capitalized.join(' ');
   }
 
   private combineSubregions(region: string) {

@@ -25,7 +25,7 @@ export class RouterService {
     private route: ActivatedRoute,
   ) {
     this.route.queryParams.subscribe((params) => {
-        this.params = params;
+      this.params = params;
     });
     this.route.fragment.subscribe((fragment) => {
       this.fragment = fragment;

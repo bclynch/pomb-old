@@ -2,14 +2,14 @@
   <FadeCarousel 
     [data]="carouselImages" 
     [style.width]="'100vw'" 
-    [title]="region.name"
+    [title]="currentRegion.name"
     btnLabel="Countries"
     (btnClick)="presentModal()"
   ></FadeCarousel>
   <GeoChart 
     [countries]="countryCodes" 
     *ngIf="inited" 
-    [region]="region.code"
+    [region]="currentRegion.code"
     backgroundColor="black"
     [defaultColor]="settingsService.secondaryColor"
     datalessColor="black" 

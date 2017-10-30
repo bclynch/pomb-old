@@ -44,7 +44,7 @@ export class ExplorePage {
     this.countryCodes = this.exploreService.requestCountryCodes('all');
 
     //grab flickr images for the carousel
-    this.apiService.getFlickrPhotos('travel', 'landscape').subscribe(
+    this.apiService.getFlickrPhotos('travel', 'landscape', 5).subscribe(
       result => {
         console.log(result.photos.photo);
         const photos = result.photos.photo.slice(0, 5);

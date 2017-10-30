@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController } from 'ionic-angular';
 
 import { APIService } from '../../../services/api.service';
@@ -18,12 +18,17 @@ export class ExploreRegionPage {
 
   countryCodes: string[][];
   inited = false;
-  region = {code: '', name: ''};
+  currentRegion = {code: '', name: ''};
+  isSubregion: boolean;
+  urlParams;
 
   carouselImages;
 
   modalData = [
-
+    {
+      label: 'Popular Countries',
+      items: []
+    }
   ];
 
   constructor(
@@ -33,27 +38,29 @@ export class ExploreRegionPage {
     private exploreService: ExploreService,
     private broadcastService: BroadcastService,
     private modalController: ModalController,
-    private utilService: UtilService
-  ) {  
+    private utilService: UtilService,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => {
+      this.urlParams = params;
+      //check if subregion
+      this.isSubregion = params.subregion ? true : false;
+      //grab region name
+      this.currentRegion.name = this.isSubregion ? this.utilService.formatURLString(params.subregion) : this.utilService.formatURLString(params.region);
+      
+      if(this.settingsService.appInited) this.init();
+    });
+
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
   }
 
   init() {
-    //grab region name
-    const region = this.router.url.split('/').slice(-1)[0];
-    this.region.name = this.utilService.formatURLString(region);
-    this.region.code = this.exploreService.getGoogleCodeByName(this.region.name);
+    this.currentRegion.code = this.exploreService.getGoogleCodeByName(this.currentRegion.name);
 
-    //check if its a region or subregion
-    if(Object.keys(this.exploreService.regions).indexOf(region) === -1) {
-      //we know its a subregion. Need to find its parent to include for grabbing codes
-      this.countryCodes = this.exploreService.requestCountryCodes(null, region);
-    } else {
-      this.countryCodes = this.exploreService.requestCountryCodes(region);
-    }
+    this.countryCodes = this.isSubregion ? this.exploreService.requestCountryCodes(this.urlParams.region, this.currentRegion.name) : this.exploreService.requestCountryCodes(this.currentRegion.name);
 
     //grab flickr images for the carousel
-    this.apiService.getFlickrPhotos(this.region.name, 'landscape').subscribe(
+    this.apiService.getFlickrPhotos(this.currentRegion.name, 'landscape', 5).subscribe(
       result => {
         console.log(result.photos.photo);
         const photos = result.photos.photo.slice(0, 5);
@@ -65,6 +72,11 @@ export class ExploreRegionPage {
         this.inited = true;
       }
     )
+
+    //populate modal data
+    this.modalData[0].items = this.countryCodes.slice(1, 11).reduce((a, b) => {
+      return a.concat(b);
+    }, []);
   }
 
   presentModal() {
