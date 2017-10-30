@@ -48,6 +48,7 @@ import { CommunityNavSection } from '../components/navBar/paneSections/community
 import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
 import { TripCard } from '../components/tripCard/tripCard.component';
 import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
+import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -63,6 +64,7 @@ import { DatePickerModal } from '../components/modals/datepickerModal/datepicker
 import { ExploreModal } from '../components/modals/exploreModal/exploreModal';
 import { JunctureModal } from '../components/modals/junctureModal/junctureModal';
 import { TripModal } from '../components/modals/tripModal/tripModal';
+import { MobileNavModal } from '../components/modals/mobileNavModal/mobileNavModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -173,7 +175,9 @@ import { TripService } from '../services/trip.service';
     JunctureModal,
     BackpackIcon,
     JunctureSaveTypePopover,
-    TripModal
+    TripModal,
+    MobileNavModal,
+    PlaceGuide
   ],
   imports: [
     BrowserModule,
@@ -220,7 +224,8 @@ import { TripService } from '../services/trip.service';
     TripPage,
     JunctureModal,
     JunctureSaveTypePopover,
-    TripModal
+    TripModal,
+    MobileNavModal
   ],
   providers: [
     APIService,

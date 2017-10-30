@@ -95,7 +95,7 @@ export class ExploreService {
     const self = this;
     Object.keys(this.regions).forEach((region) => {
       let formattedArr = Object.keys(this.regions[region]).map((subregion) => {
-        return self.utilService.formatURLString(subregion);
+        return subregion.split('_').join(' ');
       });
       self.regionsArr.push({ region, subregions: formattedArr});
     });

@@ -1,0 +1,17 @@
+<div class="modalContainer">
+  <div class="mockNav">
+    <div class="logoWrapper">
+      <div 
+        class="boldFont gradientText" 
+        [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" 
+        (click)="dismiss('home')"
+      >POMB</div>
+    </div>
+    <div class="mobilePromptClose" (click)="dismiss()">
+      <div><ion-icon name="md-close"></ion-icon></div>
+    </div>
+  </div>
+  <div class="contentWrapper">
+    <div class="section" *ngFor="let option of sectionOptions;" (click)="dismiss(option.value)">{{option.label}}</div>
+  </div>
+</div>

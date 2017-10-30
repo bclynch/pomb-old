@@ -1,0 +1,9 @@
+<div class="placeGuideContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+  <div class="guideOption" *ngFor="let guide of guides;">
+    <div class="guideWrapper">
+      <ion-icon [name]="guide.icon" [style.color]="settingsService.secondaryColor"></ion-icon>
+      <div class="guideName">{{guide.name}}</div>
+      <div class="guideDescription">{{guide.description}}</div>
+    </div>
+  </div>
+</div>

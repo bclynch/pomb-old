@@ -866,7 +866,7 @@ export class APIService {
 
   // city info
   getCities(countryCode: string) {
-    return this.http.get(`http://api.geonames.org/searchJSON?formatted=true&country=${countryCode}&orderby=population&featureClass=p&username=${geonamesUser}&maxRows=10`)
+    return this.http.get(`http://api.geonames.org/searchJSON?formatted=true&country=${countryCode}&cities=cities15000&orderby=population&featureClass=p&username=${geonamesUser}&maxRows=10`)
     .map(
       (response: Response) => {
         const responseData = <any>response;
@@ -956,12 +956,30 @@ export class APIService {
       );
   }
 
-  // Reverse Geocoding
-  geocodeCoords(lat: number, lon: number) {
+  // Geocoding
+  reverseGeocodeCoords(lat: number, lon: number) {
     console.log('Getting coord information...');
     let geocoder = new google.maps.Geocoder();
     return Observable.create(observer => {
       geocoder.geocode( {'location': {lat, lng: lon}}, (results, status) => {
+        console.log(results);
+        if (status == google.maps.GeocoderStatus.OK) {
+          observer.next(results[0]);
+          observer.complete();
+        } else {
+          console.log('Error - ', results, ' & Status - ', status);
+          observer.next({});
+          observer.complete();
+        }
+      });
+    });
+  }
+
+  geocodeCoords(place: string) {
+    console.log('Getting coord information...');
+    let geocoder = new google.maps.Geocoder();
+    return Observable.create(observer => {
+      geocoder.geocode({ address: place }, (results, status) => {
         console.log(results);
         if (status == google.maps.GeocoderStatus.OK) {
           observer.next(results[0]);

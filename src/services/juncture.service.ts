@@ -20,7 +20,7 @@ export class JunctureService {
     modal.onDidDismiss(data => {
       console.log(data);
       if(data) {
-        this.apiService.geocodeCoords(data.location.lat, data.location.lon).subscribe(
+        this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
           result => {
             // console.log(result);
             const city = result.formatted_address.split(',')[1];

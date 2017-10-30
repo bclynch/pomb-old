@@ -27,10 +27,8 @@ export class ExploreCityPage {
       //grab city name
       this.city = this.utilService.formatURLString(params.city);
       
-      if(this.settingsService.appInited) this.init();
-    });
-
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());    
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
+    });   
   }
 
   init() {

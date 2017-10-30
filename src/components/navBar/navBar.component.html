@@ -4,10 +4,6 @@
   [style.height]="isExpanded ? '60vh' : '40px'"
   (mouseleave)="navHover($event)"
 >
-  <div class="mobileWrapper">
-    <div class="boldFont mobileLogo" (click)="routerService.navigateToPage('/')">POMB</div>
-    <div (click)="openSearch()"><ion-icon name="ios-search"></ion-icon></div>
-  </div>
   <div class="navBarWrapper">
     <div class="barWrapper">
       <div class="logoWrapper">
@@ -27,6 +23,9 @@
       </div>
       <div class="searchWrapper" (click)="openSearch()">
         <div><ion-icon name="ios-search"></ion-icon></div>
+      </div>
+      <div class="mobilePrompt" (click)="openMobileNav()">
+        <div><ion-icon name="md-menu"></ion-icon></div>
       </div>
     </div>
   </div>

@@ -1,0 +1,57 @@
+$navbarHeight: 40px;
+
+.mobileNavModal {
+
+  ion-backdrop {
+    opacity: 0!important;
+  }
+  .modal-wrapper {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  mobilenavmodal {
+    .modalContainer {
+      background: rgba(255,255,255,.95);
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      .mockNav {
+        background: mapGet($basecolor, black);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: $navbarHeight;
+        padding: 0 10px;
+
+        ion-icon:hover {
+          opacity: .7;
+        }
+        .logoWrapper {
+          font-size: 24px;
+        }
+        .mobilePromptClose {
+          width: 24px;
+
+          ion-icon {
+            font-size: 28px;
+            color: mapGet($basecolor, white);
+          }
+        }
+      }
+      .contentWrapper {
+        padding: 0 20px;
+
+        .section {
+          padding: 25px 10px;
+          border-bottom: solid 1px #ddd;
+        }
+      }
+    }
+  }
+}
+

@@ -22,18 +22,6 @@ navBar {
       color: mapGet($basecolor, white);
       cursor: pointer;
     }
-    .mobileWrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      height: $navbarHeight;
-
-      .mobileLogo {
-        font-size: 24px;
-        margin-left: 16px;
-      }
-    }
     .navBarWrapper {
       max-width: 1100px;
       width: 100%;
@@ -57,6 +45,7 @@ navBar {
           justify-content: space-around;
           height: inherit;
           width: 60%;
+          display: none;
           
           > div {
             cursor: pointer;
@@ -71,12 +60,19 @@ navBar {
           }
         }
         .logoWrapper {
-          display: none;
+          font-size: 24px;
         }
         .searchWrapper {
           width: 48px;
           display: none;
           justify-content: center;
+        }
+        .mobilePrompt {
+          width: 24px;
+
+          ion-icon {
+            font-size: 28px;
+          }
         }
       }
     }
@@ -141,15 +137,10 @@ navBar {
       display: flex;
       justify-content: center;
 
-      .mobileWrapper {
-        display: none;
-      }
       .socialWrapper, .searchWrapper {
         display: flex!important;
       }
       .logoWrapper {
-        font-size: 24px;
-        display: block!important;
 
         > div {
           cursor: pointer;
@@ -159,11 +150,15 @@ navBar {
         }
       }
       .sectionsWrapper {
+        display: flex!important;
         
         > div {
           padding: 0 12px;
           font-size: 18px;
         }
+      }
+      .mobilePrompt {
+        display: none;
       }
     }
   }

@@ -26,6 +26,22 @@ page-explore-country {
         flex-direction: column;
         align-items: center;
 
+        .sectionHeader {
+          font-size: 32px;
+          text-align: center;
+          position: relative;
+          padding-bottom: 15px;
+        }
+        .sectionHeader:after {
+          border-bottom: .2rem solid var(--secondary);
+          bottom: 0;
+          content: "";
+          display: block;
+          left: 50%;
+          margin-left: -1.5rem;
+          position: absolute;
+          width: 3rem;
+        }
         &.glance {
           width: 80%;
           
@@ -64,11 +80,22 @@ page-explore-country {
             }
           }
         }
+        &.guide {
+
+          .sectionHeader {
+            margin-bottom: 25px;
+          }
+        }
       }
     }
   }
   
 
+  @include respond-to(tiny) {
+    .sectionHeader {
+      font-size: 48px!important;
+    }
+  }
   @include respond-to(medium) {
     .subnavWrapper {
       display: block!important;

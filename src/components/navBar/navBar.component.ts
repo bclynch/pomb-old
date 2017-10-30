@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ModalController } from 'ionic-angular';
 
 import { RegistrationModal } from '../modals/registrationModal/registrationModal';
+import { MobileNavModal } from '../modals/mobileNavModal/mobileNavModal';
 
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
@@ -82,5 +83,19 @@ export class NavBar {
       this.isExpanded = false;
       this.activeSection = null;
     }
+  }
+
+  openMobileNav() {
+    let modal = this.modalCtrl.create(MobileNavModal, {}, {cssClass: 'mobileNavModal', enableBackdropDismiss: false});
+    modal.onDidDismiss(data => {
+      if(data) {
+        if(data === 'home') {
+          this.routerService.navigateToPage('/'); 
+        } else {
+          this.routerService.navigateToPage(`/${data}`); 
+        }
+      }
+    });
+    modal.present();
   }
 }

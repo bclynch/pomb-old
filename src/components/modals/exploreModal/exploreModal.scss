@@ -5,7 +5,7 @@
   }
   .modal-wrapper {
     width: 100vw;
-    height: 40vh;
+    height: 100vh;
     top: auto;
     left: 0;
     right: 0;
@@ -115,6 +115,11 @@
           }
         }
       }
+    }
+  }
+  @include respond-to(tiny) {
+    .modal-wrapper {
+      height: 40vh;
     }
   }
 }

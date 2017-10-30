@@ -1,0 +1,68 @@
+placeguide {
+
+  .placeGuideContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    .guideOption {
+      flex: 1;
+      text-align: center;
+      margin: 15px 0;
+
+      .guideWrapper {
+        width: 100%;
+        cursor: pointer;
+        transition: .4s;
+        margin: 0 auto;
+
+        ion-icon {
+          font-size: 60px;
+          transition: .4s;
+        }
+        .guideName {
+          font-size: 18px;
+          width: 70%;
+          margin: 10px auto;
+        }
+        .guideDescription {
+          color: #9b9b9b;
+          width: 70%;
+          margin: 0 auto;
+        }
+      }
+      .guideWrapper:hover {
+        
+        .guideName {
+          color: var(--secondary);
+        }
+        ion-icon {
+          transform: translate(0, -10px);
+        }
+      }
+    }
+  }
+
+  @include respond-to(tiny) {
+
+    .placeGuideContainer {
+      flex-direction: row;
+
+      .guideOption {
+        margin: 0;
+  
+        .guideWrapper {
+          width: 90%;
+
+          ion-icon {
+            font-size: 80px;
+          }
+          .guideName, .guideDescription {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

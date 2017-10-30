@@ -2,11 +2,10 @@
 
 ## Todos
 
-# THE TRICK WHERE YOU CAN PASS IN VARS TO SCSS IS IN THE GRID COMPONENT. CAN MAKE USE OF THAT WITH THE MAP STUFF I THINK
-
 #### Trip report page
 
 - Maybe a vertical progress bar like polar steps horizontal one
+- Map is drawing polylines willy nilly when panning around
 
 #### Create/edit post dash
 
@@ -16,10 +15,9 @@
 - Validation for the user only seeing their posts
 
 #### Explore Pages
-- Finish up carousel modals
-    - Cities in country pages and countries in region pages
 - Begin populating country/city/region etc pages
 - Consider how we would like to organize much of the information. Probably need separate pages for certain features since don't really want to pull down all that data ea time. Might be better when server caching enabled...
+- Climate for country/region level can have maybe five cities pinned with their precip/temp over the course of year in a little popover
 
 #### Other
 
@@ -39,7 +37,7 @@
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
 - Mobile navbar jacked up
 - Need to redraw geo map on regions when changing region (doesn't destroy the original element)
-- Populating modal for cities on country oage initing twice
+- Fix transition on mobile nav. Probably some kind of fade in with no moving transition. https://forum.ionicframework.com/t/adding-custom-transitions-custom-modal-transition/75924/3
 
 ## Long Term Todos
 
