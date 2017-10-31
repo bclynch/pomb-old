@@ -52,7 +52,7 @@ export class JunctureModal {
       (data: any) => {
         console.log(data);
         this.tripOptions = data.data.allUserToTrips.nodes;
-        this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
+        if(data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
       }
     )
     if(navigator.geolocation){

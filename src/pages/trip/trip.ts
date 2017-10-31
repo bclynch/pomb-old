@@ -68,6 +68,7 @@ export class TripPage {
         this.junctureMarkers.forEach((juncture) => {
           this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.junctureByJunctureId.lat, juncture.junctureByJunctureId.lon))
         });
+        console.log(this.latlngBounds);
 
         //grab map style
         this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {

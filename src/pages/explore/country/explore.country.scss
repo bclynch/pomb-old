@@ -3,12 +3,15 @@ page-explore-country {
   .contentWrapper {
     display: flex;
     width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
 
     .subnavWrapper {
       width: 240px; //width of subnav
       margin-left: 15px;
       margin-top: 15px;
       display: none;
+      position: relative;
 
       ExploreSubnav {
         align-self: flex-start;
@@ -20,70 +23,130 @@ page-explore-country {
       flex-direction: column;
       align-items: center;
 
-      .section {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      .widthWrapper {
+        width: 100%;
+        max-width: 1000px;
 
-        .sectionHeader {
-          font-size: 32px;
-          text-align: center;
-          position: relative;
-          padding-bottom: 15px;
-        }
-        .sectionHeader:after {
-          border-bottom: .2rem solid var(--secondary);
-          bottom: 0;
-          content: "";
-          display: block;
-          left: 50%;
-          margin-left: -1.5rem;
-          position: absolute;
-          width: 3rem;
-        }
-        &.glance {
-          width: 80%;
-          
-          .glanceHeader {
-            font-size: 45px;
-            margin-bottom: 10px;
-            align-self: flex-start;
-
-            &.facts {
-              font-size: 36px;
-            }
-          }
-          .glanceSubsection {
-            font-style: italic;
-            line-height: 42px;
-            font-size: 28px;
-          }
-          .glanceContent {
-            .content {
-              font-size: 20px;
-              line-height: 36px;
-            }
-          }
-          .toggleBtn {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 15px;
-            border-top: solid 1px mapGet($basecolor, darkened);
-            margin-top: 10px;
-
-            ion-icon {
-              margin-left: 10px;
-              font-size: 12px;
-            }
-          }
-        }
-        &.guide {
-
+        .section {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+  
           .sectionHeader {
-            margin-bottom: 25px;
+            font-size: 32px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+          }
+          .sectionHeader:after {
+            border-bottom: .2rem solid var(--secondary);
+            bottom: 0;
+            content: "";
+            display: block;
+            left: 50%;
+            margin-left: -1.5rem;
+            position: absolute;
+            width: 3rem;
+          }
+          &.glance {
+            
+            .glanceHeader {
+              font-size: 45px;
+              margin-bottom: 10px;
+              align-self: flex-start;
+  
+              &.facts {
+                font-size: 36px;
+              }
+            }
+            .glanceSubsection {
+              font-style: italic;
+              line-height: 42px;
+              font-size: 28px;
+            }
+            .glanceContent {
+              .content {
+                font-size: 20px;
+                line-height: 36px;
+              }
+            }
+            .toggleBtn {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              font-size: 18px;
+              padding: 15px;
+              border-top: solid 1px mapGet($basecolor, darkened);
+              margin-top: 10px;
+  
+              ion-icon {
+                margin-left: 10px;
+                font-size: 12px;
+              }
+            }
+          }
+          &.guide {
+  
+            .sectionHeader {
+              margin-bottom: 25px;
+            }
+          }
+          &.map {
+            width: 100%;
+  
+            agm-map {
+              margin: 20px 15px 0 0;
+              height: 70vh;
+              width: 100%;
+  
+              .si-wrapper-left {
+                height: 15vh;
+                width: 25%;
+        
+                .si-content-wrapper {
+                  padding: 0;
+                  height: 100%;
+        
+                  .si-content {
+                    height: 100%;
+                    max-height: 100%!important;
+                    max-width: 100%!important;
+  
+                    > div {
+                      height: 100%;
+  
+                      .windowWrapper {
+                        padding: 10px;
+                        height: 100%;
+            
+                        .windowPlace {
+                          font-weight: bold;
+                          font-size: 18px;
+                        }
+                        .windowPopulation {
+                          font-size: 16px;
+                          margin-top: 15px;
+                          color: #b9b9b9;
+                        }
+                        .windowBtn {
+                          background: mapGet($basecolor, black);
+                          color: mapGet($basecolor, white);
+                          padding: 8px 0;
+                          width: 50%;
+                          position: absolute;
+                          bottom: 5px;
+                          left: 25%;
+                          text-align: center;
+                          font-weight: bold;
+                          cursor: pointer;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

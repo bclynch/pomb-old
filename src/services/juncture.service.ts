@@ -18,7 +18,6 @@ export class JunctureService {
   createJuncture() {
     let modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
-      console.log(data);
       if(data) {
         this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
           result => {

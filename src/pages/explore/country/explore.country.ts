@@ -14,6 +14,13 @@ import { AlertService } from '../../../services/alert.service';
 
 import { ExploreModal } from '../../../components/modals/exploreModal/exploreModal';
 
+interface CityMarker {
+  lat: number;
+  lon: number;
+  name: string;
+  population: number;
+}
+
 @Component({
   selector: 'page-explore-country',
   templateUrl: 'explore.country.html'
@@ -44,6 +51,7 @@ export class ExploreCountryPage {
   latlngBounds;
   mapStyle;
   mapInited: boolean = false;
+  cityMarkers: CityMarker[] = [];
 
   constructor(
     private apiService: APIService,
@@ -58,7 +66,7 @@ export class ExploreCountryPage {
     private alertService: AlertService,
     private sanitizer: DomSanitizer,
     private mapsAPILoader: MapsAPILoader
-  ) {  
+  ) {
     this.route.params.subscribe(params => {
       //grab country name
       this.country = this.utilService.formatURLString(params.country);
@@ -84,37 +92,41 @@ export class ExploreCountryPage {
       )
 
       //bounds data for map
-      this.apiService.geocodeCoords(this.country).subscribe(
-        result => {
-          const viewport = result.geometry.viewport;
-          const viewportBounds = [{lat: viewport.b.b, lon: viewport.b.f}, {lat: viewport.f.b, lon: viewport.f.f}]
-          console.log(viewportBounds);
-          //fitting the map to the bounds of the country
-          this.mapsAPILoader.load().then(() => {
-            this.latlngBounds = new window['google'].maps.LatLngBounds();
-            viewportBounds.forEach((bound) => {
-              this.latlngBounds.extend(new window['google'].maps.LatLng(bound.lat, bound.lon))
-            });
+      this.mapsAPILoader.load().then(() => {
+        this.apiService.geocodeCoords(this.country).subscribe(
+          result => {
+            const viewport = result.geometry.viewport;
+            const viewportBounds = [{lat: viewport.f.b, lon: viewport.b.b}, {lat: viewport.f.f, lon: viewport.b.f}]
+            console.log(viewportBounds);
+
+            this.latlngBounds = result.geometry.viewport;
 
             //grab map style
             this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
               this.mapStyle = data;
               this.mapInited = true;
             });
-          });
-        }
-      )
 
-      //grab cities for modal
-      this.modalData[0].items = [];
-      this.apiService.getCities(this.exploreService.countryNameObj[this.country].alpha2Code).subscribe(
-        result => {
-          console.log(result.geonames);
-          result.geonames.forEach((city) => {
-            this.modalData[0].items.push(city.toponymName);
-          });
-        }, err => console.log(err)
-      )
+            //grab cities for modal
+            this.modalData[0].items = [];
+            this.apiService.getCities(this.exploreService.countryNameObj[this.country].alpha2Code).subscribe(
+              result => {
+                console.log(result.geonames);
+                result.geonames.forEach((city) => {
+                  this.modalData[0].items.push(city.name);
+                  this.cityMarkers.push({
+                    lat: +city.lat,
+                    lon: +city.lng,
+                    name: city.name,
+                    population: city.population
+                  });
+                });
+                console.log(this.cityMarkers);
+              }, err => console.log(err)
+            )
+          }
+        );
+      });
     } else {
       this.routerService.navigateToPage('/');
       this.alertService.alert('Error', 'The requested country does not exist');
@@ -133,6 +145,13 @@ export class ExploreCountryPage {
 
   presentModal() {
     let modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
+    modal.onDidDismiss((data) => {
+      if(data) this.goToCity(data);
+    });
     modal.present();
+  }
+
+  goToCity(city: string) {
+    this.routerService.navigateToPage(`/explore/country/${this.utilService.formatForURLString(this.country)}/${this.utilService.formatForURLString(city)}`)
   }
 }

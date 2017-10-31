@@ -61,8 +61,8 @@ export class ExploreModal {
         this.routerService.navigateToPage(`/explore/country/${this.utilService.formatForURLString(place)}`);
         break;
       case 'Popular Cities':
-
-        break;
+        this.viewCtrl.dismiss(place);
+        return;
     }
 
     this.viewCtrl.dismiss();

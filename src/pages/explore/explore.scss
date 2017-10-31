@@ -1,8 +1,12 @@
 page-explore {
 
-  
+  GeoChart {
+    display: none; 
+  }
 
-  @include respond-to(small) {
-
+  @include respond-to(tiny) {
+    GeoChart {
+      display: block; 
+    }
   }
 }

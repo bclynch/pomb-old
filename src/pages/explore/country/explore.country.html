@@ -15,86 +15,64 @@
       ></ExploreSubnav>
     </div>
     <div class="sectionsWrapper">
-      <div class="section glance" id="at-a-glance">
-        <div class="glanceHeader">Explore {{country}}</div>
-        <div class="glanceSubsection">{{glanceSubsection}}</div>
-        <div 
-          class="toggleBtn" 
-          (click)="glanceExpanded = !glanceExpanded" 
-          *ngIf="!glanceExpanded"
-        >More <ion-icon name="ios-arrow-down"></ion-icon></div>
-        <div *ngIf="glanceExpanded">
-          <div class="glanceContent" *ngFor="let section of glanceContent">
-            <h2>{{section.title}}</h2>
-            <div class="content">{{section.content}}</div>
+      <div class="widthWrapper">
+        <div class="section glance" id="at-a-glance">
+          <div class="glanceHeader">Explore {{country}}</div>
+          <div class="glanceSubsection">{{glanceSubsection}}</div>
+          <div 
+            class="toggleBtn" 
+            (click)="glanceExpanded = !glanceExpanded" 
+            *ngIf="!glanceExpanded"
+          >More <ion-icon name="ios-arrow-down"></ion-icon></div>
+          <div *ngIf="glanceExpanded">
+            <div class="glanceContent" *ngFor="let section of glanceContent">
+              <h2>{{section.title}}</h2>
+              <div class="content">{{section.content}}</div>
+            </div>
           </div>
+          <div 
+            class="toggleBtn" 
+            (click)="glanceExpanded = !glanceExpanded" 
+            *ngIf="glanceExpanded"
+          >Less <ion-icon name="ios-arrow-up"></ion-icon></div>
+          <div class="glanceHeader facts">You Should Know</div>
         </div>
-        <div 
-          class="toggleBtn" 
-          (click)="glanceExpanded = !glanceExpanded" 
-          *ngIf="glanceExpanded"
-        >Less <ion-icon name="ios-arrow-up"></ion-icon></div>
-        <div class="glanceHeader facts">You Should Know</div>
-      </div>
-      <div class="section guide" id="country-guide">
-        <div class="sectionHeader">Country Guide</div>
-        <PlaceGuide type="Country" [selectedOptions]="['visa', 'money', 'climate']"></PlaceGuide>
-      </div>
-      <div class="section" id="map">
-        <agm-map 
-          *ngIf="mapInited"
-          [zoomControl]="false"
-          [disableDefaultUI]="true"
-          [streetViewControl]="false"
-          [fitBounds]="latlngBounds"
-          [styles]=mapStyle
-          #AgmMap
-        >
-          <!-- <agm-marker 
-            *ngFor= "let marker of junctureMarkers; let i = index;"
-            [latitude]= "marker.junctureByJunctureId.lat" 
-            [longitude]= "marker.junctureByJunctureId.lon" 
-            [label]="{
-              color: 'orange',
-              fontFamily: '',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              text: (i + 1).toString()
-            }"
-            [iconUrl]= "{
-              url: 'http://lessonpix.com/drawings/224/100x100/Red+Circle.png',
-              anchor: {x: 18, y: 18},
-              size: {width: 36, height: 36},
-              scaledSize: {width: 36, height: 36}
-            }"
-            (markerClick)="markerClick(i)"
+        <div class="section guide" id="country-guide">
+          <div class="sectionHeader">Country Guide</div>
+          <PlaceGuide type="Country" [selectedOptions]="['visa', 'money', 'climate']"></PlaceGuide>
+        </div>
+        <div class="section map" id="map">
+            <div class="sectionHeader">Map</div>
+          <agm-map 
+            *ngIf="mapInited"
+            [disableDefaultUI]="true"
+            [streetViewControl]="false"
+            [fitBounds]="latlngBounds"
+            [styles]=mapStyle
+            mapTypeId="terrain"
+            [scrollwheel]="false"
+            #AgmMap
           >
-            <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
-              <ng-template>
-                <div *ngIf="!markerLoading">
-                  <div 
-                    class="juncturePhoto" 
-                    [ngStyle]="junctureContentArr[i].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
-                  >
-                    <div class="overlay">
-                      <div class="overlayName">{{junctureContentArr[i].name}}</div>
-                      <div class="overlayDate">{{junctureContentArr[i].arrivalDate | date: 'yMMMMd'}}</div>
-                    </div>
+            <agm-marker 
+              *ngFor= "let marker of cityMarkers"
+              [latitude]= "marker.lat" 
+              [longitude]= "marker.lon" 
+            >
+              <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
+                <ng-template> 
+                  <div class="windowWrapper">
+                    <div class="windowPlace">{{marker.name}}, {{country}}</div>
+                    <div class="windowPopulation">Population: {{marker.population | number: '1.0-0'}}</div>
+                    <div class="windowBtn" (click)="goToCity(marker.name)">Explore</div>
                   </div>
-                  <div class="contentWrapper">
-                    <div class="windowCity">{{junctureContentArr[i].city}}</div>
-                    <div class="windowCountry">{{junctureContentArr[i].country}}</div>
-                    <div>{{truncate(junctureContentArr[i].description)}}</div>
-                    <div class="windowBtn" (click)="goToJuncture(i)">See More</div>
-                  </div>
-                </div>
-              </ng-template>
-            </agm-snazzy-info-window>
-          </agm-marker> -->
-        </agm-map>
+                </ng-template>
+              </agm-snazzy-info-window>
+            </agm-marker>
+          </agm-map>
+        </div>
+        <div class="section" id="posts">Posts</div>
+        <div class="section" id="activities">Activities</div>
       </div>
-      <div class="section" id="posts">Posts</div>
-      <div class="section" id="activities">Activities</div>
     </div>
   </div>
 </PageWrapper>

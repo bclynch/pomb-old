@@ -29,13 +29,12 @@
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
 - Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
-    - Google analytics would be nice as well
+    - Google analytics required as well https://github.com/angulartics/angulartics2
 - Would like to mod the categories a bit. Similar to bikepacking.com in that you can have broader features for topics. Probably backpacking, biking, travel, join, etc. Gear would be a subset for ea category.
 
 ### Bugs + Issues
 
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
-- Mobile navbar jacked up
 - Need to redraw geo map on regions when changing region (doesn't destroy the original element)
 - Fix transition on mobile nav. Probably some kind of fade in with no moving transition. https://forum.ionicframework.com/t/adding-custom-transitions-custom-modal-transition/75924/3
 
@@ -43,10 +42,13 @@
 
 - Better error handling
 - Mobile friendly fine tooth comb!
+- Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Other hosting options would likely be cheaper than Heroku.
 - Ultimately going to need to implement better caching server side. For example don't want to be making calls to Flickr from every client side location. Should be hitting an endpoint on the server. Check a cache to see if photos exist for a place. If so return it, if not fetch it. Could do the same for google results and rest countries end points.
     - https://aws.amazon.com/blogs/aws/amazon-lightsail-the-power-of-aws-the-simplicity-of-a-vps/
     - https://www.digitalocean.com/pricing/
+    - https://www.linode.com/docs/getting-started ($10 coupon there) Seems to have better value
+    - https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
 
 ## Feature Ideas
 
@@ -146,6 +148,12 @@ var postgraphql = require('postgraphql').postgraphql;
 var app = express();
 app.use(postgraphql('postgresql://<username>:<password>@<endpoint>:<port#>/<db_name>?sslmode=require&ssl=1', '<schema_name>', {graphiql: true}));
 ```
+
+## Maps
+
+### Type
+- mapTypeId prop: 'roadmap' | 'hybrid' | 'satellite' | 'terrain'
+- styles prop for road map styling
 
 ## Image Sizing
 
