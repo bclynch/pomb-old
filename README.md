@@ -22,9 +22,6 @@
 #### Other
 
 - Validation on create juncture modal
-- Fix up the img upload functions in the server.
-    - Abstract it out of the damn main server itself (look at biotechne scripts for examples of this)
-    - Would like to make the endpoint more generic. Aka multiple or single uploads. How many max. Image quality. Image size. All can be img params or something.
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)
 - Admin page to change certain types of things like hero banner, highlighted posts, or grid design
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
@@ -49,6 +46,7 @@
     - https://www.digitalocean.com/pricing/
     - https://www.linode.com/docs/getting-started ($10 coupon there) Seems to have better value
     - https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
+    - https://hackernoon.com/continuous-deployment-for-node-js-on-digitalocean-d800e8520ffe
 
 ## Feature Ideas
 

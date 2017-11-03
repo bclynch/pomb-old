@@ -32,7 +32,7 @@ comment on column pomb.account.hero_photo is 'Hero photo of account';
 comment on column pomb.account.created_at is 'When account created';
 comment on column pomb.account.updated_at is 'When account last updated';
 
--- alter table pomb.account enable row level security;
+--alter table pomb.account enable row level security;
 
 -- Limiting choices for category field on post
 create type pomb.post_category as enum (
@@ -87,6 +87,8 @@ comment on column pomb.post.is_published is 'Post is published';
 comment on column pomb.post.published_date is 'Date post is published';
 comment on column pomb.post.created_at is 'When post created';
 comment on column pomb.post.updated_at is 'Last updated date';
+
+--alter table pomb.post enable row level security;
 
 create table pomb.post_tag (
   id                  serial primary key,
@@ -695,7 +697,19 @@ GRANT execute on function pomb.search_posts(text) to PUBLIC;
 
 -- ///////////////// RLS Policies ////////////////////////////////
 
--- create policy account_self on pomb.account for ALL to pomb_account
+-- Can make it an 'all' by omitting the for ... (update) statement
+-- Can only do one type of method per policy
+
+-- --only user can edit account
+-- create policy account_update on pomb.account for UPDATE to pomb_account
 --   using (id = current_setting('jwt.claims.account_id')::integer);
+
+-- -- only user can edit, delete posts
+-- create policy account_post_update on pomb.post for UPDATE to pomb_account
+--   using (id = current_setting('jwt.claims.account_id')::integer);
+
+-- create policy account_post_delete on pomb.post for DELETE to pomb_account
+--   using (id = current_setting('jwt.claims.account_id')::integer);
+
 
 commit;

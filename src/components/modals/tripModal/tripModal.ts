@@ -64,7 +64,7 @@ export class TripModal {
   }
 
   presentBannerUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: 'large' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if(data) {

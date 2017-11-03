@@ -881,8 +881,11 @@ export class APIService {
   }
 
   //S3 Uploads
-  uploadPrimaryPhoto(formData: FormData) {
-    return this.http.post('http://localhost:8080/upload-primary', formData)
+  uploadImages(formData: FormData, sizes: { width: number; height: number; }[], quality: number) {
+    const formattedSizes = sizes.map((size) => {
+      return [size.width, 'x', size.height].join('');
+    }).join(';');
+    return this.http.post(`http://localhost:8080/upload-images?sizes=${formattedSizes}&quality=${quality}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -896,53 +899,12 @@ export class APIService {
       );
   }
 
-  uploadPhoto(formData: FormData, size: string) {
-    return this.http.post(`http://localhost:8080/upload-photo/${size}`, formData)
-      .map(
-        (response: Response) => {
-          const data = response.json();
-          return data;
-        }
-      )
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        }
-      );
-  }
-
-  uploadBannerPhoto(formData: FormData) {
-    return this.http.post('http://localhost:8080/upload-hero-banner', formData)
-      .map(
-        (response: Response) => {
-          const data = response.json();
-          return data;
-        }
-      )
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        }
-      );
-  }
-
-  uploadProfilePhoto(formData: FormData) {
-    return this.http.post('http://localhost:8080/upload-profile-photo', formData)
-      .map(
-        (response: Response) => {
-          const data = response.json();
-          return data;
-        }
-      )
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        }
-      );
-  }
-
-  uploadGalleryPhotos(formData: FormData) {
-    return this.http.post('http://localhost:8080/upload-gallery', formData)
+  //just for fun testing
+  uploadImagesLocal(formData: FormData, sizes: { width: number; height: number; }[], quality: number) {
+    const formattedSizes = sizes.map((size) => {
+      return [size.width, 'x', size.height].join('');
+    }).join(';');
+    return this.http.post(`http://localhost:8080/upload-images/local?sizes=${formattedSizes}&quality=${quality}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
