@@ -6,7 +6,7 @@ express = require('express'),
 router = express.Router();
 
 aws.config.loadFromPath('./config/aws-config.json');
-const photoBucket = new aws.S3({params: {Bucket: 'laze-app'}});
+const photoBucket = new aws.S3({params: {Bucket: 'packonmyback'}});
 
 
 //Route 
@@ -38,11 +38,11 @@ router.post("/", upload.array("uploads[]", 12), function (req, res) {
         let S3PromiseArr = [];
 
         bufferArr.forEach((obj) => {
-          let S3Promise = new Promise((resolve, reject)=> { //promise for each size of the image
+          let S3Promise = new Promise((resolve, reject) => { //promise for each size of the image
             //send off to S3
             const key = `${file.originalname.split('.')[0]}-w${obj.width}-${Date.now()}.${fileType}`;
             
-            uploadToS3(obj.buffer, key, function (err, data) {
+            uploadToS3(obj.buffer, key, (err, data) => {
               if (err) {
                 console.error(err)
                 reject(err);

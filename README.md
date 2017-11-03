@@ -29,6 +29,16 @@
     - Google analytics required as well https://github.com/angulartics/angulartics2
 - Would like to mod the categories a bit. Similar to bikepacking.com in that you can have broader features for topics. Probably backpacking, biking, travel, join, etc. Gear would be a subset for ea category.
 
+#### Analytics
+
+- Wire in Google analytics for page views - check
+- Wire in analytics for events
+    - Create post
+    - Create juncture
+    - Create Trip
+    - Upload photos
+    - ...
+
 ### Bugs + Issues
 
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
@@ -104,23 +114,174 @@ $ postgraphql  --schema pomb,pomb_private --secret some_secret -t pomb.jwt_token
     - Run `$ psql -f schema_drop.sql`
     - Run the above setup again
 
-## Heroku Setup
+## Linode
 
-- Run `$ heroku create <name>`
-- Snag required npm modules: `$ npm install express cors body-parser postgraphql --save`
-- Add heroku postgre addon to project
-- To add data schemas/data with psql:
-    - `$ heroku pg:psql --app <app_name> < <file.name>`
-- Need to change client.ts uri prop to simply '/graphql' instead of our dev version 'http://localhost:5000/graphql'
-- Require in postgraphql to server.js and add following line:
-    - app.use(postgraphql('<my_uri>', '<my_schema>', {graphiql: true}));
-- Add a Procfile with `web: node server.js` in root of project
-- *Important* Remove www/ folder from .gitignore 
-- Git add/commit then `$ git push heroku master`
-- Activate app with `$ heroku ps:scale web=1`
-- Open with `$ heroku open`
-- If Heroku is being cranky running `$ heroku restart` resets the dynos and can help
-- Make sure Graphql server wired up correctly by visiting root_url/graphiql
+### Updating Servers
+
+- Server should be updated frequently with the following:
+    - `$ apt-get update && apt-get upgrade`
+
+### Getting Started
+
+- https://www.linode.com/docs/getting-started
+    - Follow the above instructions for setting up + adding security measures
+        - Make sure to reboot for hostname to take effect
+    - When setting up the hostname it must be edited correct in the /etc/hosts file. To check run the following:
+        - `$ cat /etc/hosts`
+    - If it just says local host you need to edit it. Enter in with `$ sudo nano /etc/hosts`
+    - To make sure it works run `$ sudo true` and you shouldn't get an error
+
+### Connect Via Terminal
+
+- Go to remote access page https://manager.linode.com/linodes/remote_access/linode4207486
+- Take four numbers up to the slash in the first of the public ips
+- Enter `$ ssh bclynch@50.116.9.92` in your terminal
+
+### Setup Instructions
+
+#### Create Server
+
+- Setup Ubuntu 16.04LTS server with appropriate security measures per directions in the getting started section above
+
+### nginx
+
+#### Installation
+
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+
+`$ sudo apt-get install nginx`
+
+- Before we can test Nginx, we need to reconfigure our firewall software to allow access to the service. Nginx registers itself as a service with ufw, our firewall, upon installation.
+
+`$ sudo ufw app list`
+
+- It is recommended that you enable the most restrictive profile that will still allow the traffic you've configured. Since we haven't configured SSL for our server yet, in this guide, we will only need to allow traffic on port 80.
+
+`$ sudo ufw allow 'Nginx HTTP'`
+
+- At the end of the installation process, Ubuntu 16.04 starts Nginx. The web server should already be up and running.
+
+`$ systemctl status nginx`
+
+- See if the server is up and running at your ipaddress http://50.116.9.92/
+
+#### Commands
+
+- To stop your web server, you can type:
+
+`$ sudo systemctl stop nginx`
+- To start the web server when it is stopped, type:
+
+`$ sudo systemctl start nginx`
+- To stop and then start the service again, type:
+
+`$ sudo systemctl restart nginx`
+- If you are simply making configuration changes, Nginx can often reload without dropping connections. To do this, this command can be used:
+
+`$ sudo systemctl reload nginx`
+- By default, Nginx is configured to start automatically when the server boots. If this is not what you want, you can disable this behavior by typing:
+
+`$ sudo systemctl disable nginx`
+- To re-enable the service to start up at boot, you can type:
+
+`$ sudo systemctl enable nginx`
+
+#### Files + Directories
+
+**Content**
+
+/var/www/html: The actual web content, which by default only consists of the default Nginx page you saw earlier, is served out of the /var/www/html directory. This can be changed by altering Nginx configuration files.
+
+To change the directory being served:
+
+`$ sudo nano /etc/nginx/sites-enabled/default`
+
+- Change the 'root' path to wherever your dist/www folder is
+- Will need to restart nginx with `$ sudo systemctl restart nginx`
+
+**Server Configuration**
+
+/etc/nginx: The nginx configuration directory. All of the Nginx configuration files reside here.
+
+/etc/nginx/nginx.conf: The main Nginx configuration file. This can be modified to make changes to the Nginx global configuration.
+
+/etc/nginx/sites-available/: The directory where per-site "server blocks" can be stored. Nginx will not use the configuration files found in this directory unless they are linked to the sites-enabled directory (see below). Typically, all server block configuration is done in this directory, and then enabled by linking to the other directory.
+
+/etc/nginx/sites-enabled/: The directory where enabled per-site "server blocks" are stored. Typically, these are created by linking to configuration files found in the sites-available directory.
+
+/etc/nginx/snippets: This directory contains configuration fragments that can be included elsewhere in the Nginx configuration. Potentially repeatable configuration segments are good candidates for refactoring into snippets.
+
+**Server Logs**
+
+/var/log/nginx/access.log: Every request to your web server is recorded in this log file unless Nginx is configured to do otherwise.
+
+/var/log/nginx/error.log: Any Nginx errors will be recorded in this log.
+
+#### SSL Registration
+- https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
+
+#### Configuring multiple domains on one server
+
+- https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04
+
+## Bash
+
+### Handy Commands:
+- Open file in editor
+    - `$ sudo nano <path>`
+    - ^x to quit then y to save
+- Remove folder and all contents
+    - `$ rm -rf <name>`
+- Create folder
+    - `$ mkdir <name>`
+- Create file
+    - `$ touch <name>`
+
+## PM2
+
+- https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
+- PM2 provides an easy way to manage and daemonize applications (run them in the background as a service).
+- Applications that are running under PM2 will be restarted automatically if the application crashes or is killed, but an additional step needs to be taken to get the application to launch on system startup (boot or reboot).
+
+### Start App
+
+- `$ pm2 start <file>`
+
+- The startup subcommand generates and configures a startup script to launch PM2 and its managed processes on server boots:
+
+- `$ pm2 startup systemd`
+
+- Run the command that was generated to set PM2 up to start on boot
+
+- This will create a systemd unit which runs pm2 for your user on boot. This pm2 instance, in turn, runs hello.js. You can check the status of the systemd unit with systemctl:
+
+- `$ systemctl status pm2-bclynch`
+
+### Sub Commands
+
+PM2 provides many subcommands that allow you to manage or look up information about your applications. Note that running pm2 without any arguments will display a help page, including example usage, that covers PM2 usage in more detail than this section of the tutorial.
+
+- Stop an application with this command (specify the PM2 App name or id):
+
+`$ pm2 stop app_name_or_id`
+
+- Restart an application with this command (specify the PM2 App name or id):
+
+`$ pm2 restart app_name_or_id`
+
+- The list of applications currently managed by PM2 can also be looked up with the list subcommand:
+
+`$ pm2 list`
+
+- More information about a specific application can be found by using the info subcommand (specify the PM2 App name or id):
+
+`$ pm2 info example`
+
+- The PM2 process monitor can be pulled up with the monit subcommand. This displays the application status, CPU, and memory usage:
+
+`$ pm2 monit`
+
+- Now that your Node.js application is running, and managed by PM2, let's set up the reverse proxy.
 
 ## AWS
 

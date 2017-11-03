@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Router, NavigationEnd } from '@angular/router'
+import { Subscription } from 'rxjs/Subscription'
 
 import { APIService } from '../services/api.service';
 import { LocalStorageService } from '../services/localStorage.service';
@@ -7,10 +9,14 @@ import { AlertService } from '../services/alert.service';
 import { SettingsService } from '../services/settings.service';
 import { BroadcastService, BroadcastEvent } from '../services/broadcast.service';
 
+declare let ga: Function
+
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit, OnDestroy {
+
+  subscription: Subscription
 
   constructor(
     private apiService: APIService,
@@ -18,7 +24,8 @@ export class MyApp {
     private userService: UserService,
     private alertService: AlertService,
     private settingsService: SettingsService,
-    private broadcastService: BroadcastService
+    private broadcastService: BroadcastService,
+    private router: Router
   ) {
     //grab site config
     this.settingsService.appInit().then(() => {
@@ -47,6 +54,20 @@ export class MyApp {
       this.localStorageService.set('pomb-user', '');
       window.location.reload();
     });
+  }
+
+  //analytics tracking
+  ngOnInit() {
+    this.subscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects)
+        ga('send', 'pageview')
+      }
+    })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   emitReady() {
