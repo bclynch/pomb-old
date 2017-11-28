@@ -5,7 +5,16 @@
 #### Trip report page
 
 - Maybe a vertical progress bar like polar steps horizontal one
-- Map is drawing polylines willy nilly when panning around
+- Map is drawing polylines willy nilly when panning around (nixing)
+- Best to make the checkpoints simply clickable markers. Data layer should not be clickable.
+- Use geoJSON data layers for drawing lines. Can use strava app and this chrome extension to export GPX 
+    - https://chrome.google.com/webstore/detail/strava-export-gpx-track/kdemfmhkoncmbcphejembfngiihppkei?hl=en
+- Use this library to build something into the chrome server to run the conversion
+    - https://mapbox.github.io/togeojson/
+    - Lots of cool charting than can be done.
+        - Use this for speed, bounds, distance: https://github.com/manuelbieh/Geolib
+        - http://utrack.crempa.net/ - Use this to see whats possible
+        - Props could include climbing, descending, or flat so that it can be accounted for in stats/charting.
 
 #### Create/edit post dash
 

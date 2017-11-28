@@ -38,6 +38,7 @@ const appRoutes: Routes = [
       }
     ]
   },
+  { path: 'settings', component: SettingsPage },
   { path: 'trekking', component: HubPage},
   { path: 'biking', component: HubPage},
   { path: 'culture', component: HubPage},
