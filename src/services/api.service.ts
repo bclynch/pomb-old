@@ -918,6 +918,22 @@ export class APIService {
       );
   }
 
+  //upload gpx information
+  uploadGPX(formData: FormData) {
+    return this.http.post(`http://localhost:8080/upload-gpx`, formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
   // Geocoding
   reverseGeocodeCoords(lat: number, lon: number) {
     console.log('Getting coord information...');

@@ -32,7 +32,7 @@ export class ImageUploaderPopover {
     this.imgSize = params.get('size');
   }
 
-  processFormData(): FormData {
+  private processFormData(): FormData {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
 

@@ -1,4 +1,25 @@
-<PageWrapper>
+<!-- <PageWrapper>
   SETTINGS
-</PageWrapper>
+</PageWrapper> -->
 
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px" *ngIf="geoJsonObject">
+  <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
+  </agm-data-layer>
+</agm-map>
+
+<input 
+  type="file" 
+  id="file"
+  (change)="fileChangeEvent($event)"
+  [multiple]="true"
+  accept=".gpx" 
+/>
+
+<!-- Chart must be wrapped in a div to show for some reason -->
+<div class="chartWrapper">
+  <canvas #donut height="400" width="400"></canvas>
+</div> 
+
+<div class="chartWrapper line">
+  <canvas #line height="400" width="800"></canvas>
+</div>

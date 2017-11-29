@@ -10,7 +10,7 @@ const photoBucket = new aws.S3({params: {Bucket: 'packonmyback'}});
 
 
 //Route 
-router.post("/", upload.array("uploads[]", 12), function (req, res) {
+router.post("/", upload.array("uploads[]", 12), (req, res) => {
   //avail query params:
   //quality: number - between 0 - 100 **Required
   //sizes: semicolon seperated wxh i.e -> ?sizes=1220x813;320x213 **Required
@@ -127,7 +127,7 @@ function resizeImagesWriteBuffer(file, sizes, quality, type) {
 ///////////////////Save To uploads folder
 ///////////////////////////////////////////////////////
 
-router.post("/local", upload.array("uploads[]", 12), function (req, res) {
+router.post("/local", upload.array("uploads[]", 12), (req, res) => {
   //avail query params:
   //quality: number - between 0 - 100 **Required
   //sizes: semicolon seperated wxh i.e -> ?sizes=1220x813;320x213 **Required

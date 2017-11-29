@@ -2,6 +2,19 @@
 
 ## Todos
 
+### Top Priorities
+
+- Google Analytics
+- Share buttons for posts / trips / junctures
+- Add to data model for views / likes
+- Favorites / 'add to pack' for posts, images, trips
+- Figure out what main page looks like
+- Figure out what main hub pages look like. --> trips hub, explore hub, etc
+- Flesh out user profile
+- Linode Hosting
+- Admin panels
+- Password Retrieval + mailing on new account
+
 #### Trip report page
 
 - Maybe a vertical progress bar like polar steps horizontal one
