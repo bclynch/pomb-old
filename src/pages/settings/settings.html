@@ -2,24 +2,33 @@
   SETTINGS
 </PageWrapper> -->
 
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px" *ngIf="geoJsonObject">
-  <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
-  </agm-data-layer>
-</agm-map>
+<PageWrapper>
+  <input 
+    type="file" 
+    id="file"
+    (change)="fileChangeEvent($event)"
+    [multiple]="true"
+    accept=".gpx" 
+  />
 
-<input 
-  type="file" 
-  id="file"
-  (change)="fileChangeEvent($event)"
-  [multiple]="true"
-  accept=".gpx" 
-/>
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px; width: 80%;" *ngIf="geoJsonObject">
+    <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
+    </agm-data-layer>
+  </agm-map>
 
-<!-- Chart must be wrapped in a div to show for some reason -->
-<div class="chartWrapper">
-  <canvas #donut height="400" width="400"></canvas>
-</div> 
+  <div class="chartWrapper line">
+    <canvas #elevationTime height="400" width="800"></canvas> 
+  </div>
 
-<div class="chartWrapper line">
-  <canvas #line height="400" width="800"></canvas>
-</div>
+  <div class="chartWrapper line">
+    <canvas #elevationDistance height="400" width="800"></canvas> 
+  </div>
+
+  <div class="chartWrapper line">
+    <canvas #speedTime height="400" width="800"></canvas> 
+  </div>
+
+  <div class="chartWrapper line">
+    <canvas #speedDistance height="400" width="800"></canvas> 
+  </div>
+</PageWrapper>
