@@ -27,10 +27,8 @@ import Chart from 'chart.js';
  templateUrl: 'settings.html'
 })
 export class SettingsPage {
-  @ViewChild('elevationTime') elevationTime: any;
-  @ViewChild('elevationDistance') elevationDistance: any;
-  @ViewChild('speedTime') speedTime: any;
-  @ViewChild('speedDistance') speedDistance: any;
+  @ViewChild('distance') distance: any;
+  @ViewChild('time') time: any;
 
   lat: number = 37.662323;
   lng: number = -122.399451;
@@ -40,10 +38,10 @@ export class SettingsPage {
   filesToUpload: Array<File> = [];
 
   geoJsonObject: Object = null;
-  elevationTimeData: number[];
-  elevationDistanceData: number[];
-  speedTimeData: number[];
-  speedDistanceData: number[];
+  elevationTimeData: {}[];
+  elevationDistanceData: {}[];
+  speedTimeData: {}[];
+  speedDistanceData: {}[];
  
   constructor(
     private settingsService: SettingsService,
@@ -66,225 +64,146 @@ export class SettingsPage {
   }
 
   createLineChart() {
-    let elevationTimeCtx = this.elevationTime.nativeElement.getContext('2d');
-    
-    console.log(this.elevationTimeData);
-    const mydata = {
-      datasets: [{ 
-          data: this.elevationTimeData,
-          label: "Elevation",
-          backgroundColor: 'rgba(255,133,0,0.2)',
-          borderColor: 'rgba(255,133,0,1)',
-          pointBackgroundColor: 'rgba(255,133,0,1)',
-          pointBorderColor: 'rgba(255,133,0,1)',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }
-      ]
-    }; 
-    const elevationTimeOptions = {
-      title: {
-        display: true,
-        text: 'Elevation Profile'
-      },
-      // spanGaps: false,
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            displayFormats: {
-              quarter: 'HH:mm'
+    let distanceCtx = this.distance.nativeElement.getContext('2d');
+
+      const distanceData = {
+        "datasets": [
+          {
+            label: "Elevation",
+            yAxisID: "A",
+            data: this.elevationDistanceData,
+            backgroundColor: 'rgba(255,133,0,0.2)',
+            borderColor: 'rgba(255,133,0,1)',
+          }, {
+            "label": "Speed",
+            yAxisID: "B",
+            "data": this.speedDistanceData,
+            backgroundColor: 'rgba(0, 212, 255,0.2)',
+            borderColor: 'rgba(0, 212, 255,1)',
+          }
+        ]
+      }
+  
+      const distanceOptions = {
+        title: {
+          display: true,
+          text: 'Distance Chart'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Distance (kms)'
+            },
+            type: 'linear'
+          }],
+          yAxes: [{
+            id: 'A',
+            type: 'linear',
+            position: 'left',
+            scaleLabel: {
+              display: true,
+              labelString: 'Elevation (m)'
             }
+          }, {
+            id: 'B',
+            type: 'linear',
+            position: 'right',
+            scaleLabel: {
+              display: true,
+              labelString: 'Speed (km/h)'
+            }
+          }]
+        },
+        events: ['click'],
+        elements: {
+          point:{
+            radius: 0
           },
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
+          line: {
+            // tension: 0, // disables bezier curves
           }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Elevation (m)'
-          }
-        }]
-      },
-      events: [],
-      elements: {
-        point:{
-          radius: 0
         }
-      }
-    };
-
-    var myLineChart = new Chart(elevationTimeCtx, {
-      type: 'line',
-      data: mydata,
-      options: elevationTimeOptions
-    });
-
-    let speedCtx = this.speedTime.nativeElement.getContext('2d');
+      };
   
-    const speeddata = {
-      datasets: [{ 
-          data: this.speedTimeData,
-          label: "Speed",
-          backgroundColor: 'rgba(255,133,0,0.2)',
-          borderColor: 'rgba(255,133,0,1)',
-          pointBackgroundColor: 'rgba(255,133,0,1)',
-          pointBorderColor: 'rgba(255,133,0,1)',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      var distanceChart = new Chart(distanceCtx, {
+        type: 'line',
+        data: distanceData,
+        options: distanceOptions
+      });
+
+      let timeCtx = this.time.nativeElement.getContext('2d');
+  
+        const timeData = {
+          "datasets": [
+            {
+              label: "Elevation",
+              yAxisID: "A",
+              data: this.elevationTimeData,
+              backgroundColor: 'rgba(255,133,0,0.2)',
+              borderColor: 'rgba(255,133,0,1)',
+            }, {
+              "label": "Speed",
+              yAxisID: "B",
+              "data": this.speedTimeData,
+              backgroundColor: 'rgba(0, 212, 255,0.2)',
+              borderColor: 'rgba(0, 212, 255,1)',
+            }
+          ]
         }
-      ]
-    }; 
-    const speedoptions = {
-      title: {
-        display: true,
-        text: 'Speed Profile'
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            displayFormats: {
-              quarter: 'HH:mm'
-            } 
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
-          }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Speed (km/h)'
-          }
-        }]
-      },
-      events: [],
-      elements: {
-        point:{
-          radius: 0
-        }
-      }
-    };
-
-    var speedChart = new Chart(speedCtx, {
-      type: 'line',
-      data: speeddata,
-      options: speedoptions
-    });
-
-
-    let elevationDistanceCtx = this.elevationDistance.nativeElement.getContext('2d');
     
-    console.log(this.elevationDistanceData);
-    const elevationDistanceData = {
-      datasets: [{ 
-          data: this.elevationDistanceData,
-          label: "Elevation",
-          backgroundColor: 'rgba(255,133,0,0.2)',
-          borderColor: 'rgba(255,133,0,1)',
-          pointBackgroundColor: 'rgba(255,133,0,1)',
-          pointBorderColor: 'rgba(255,133,0,1)',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }
-      ]
-    }; 
-
-    const elevationDistanceOptions = {
-      title: {
-        display: true,
-        text: 'Elevation Profile'
-      },
-      // spanGaps: false,
-      scales: {
-        xAxes: [{
-          scaleLabel: {
+        const timeOptions = {
+          title: {
             display: true,
-            labelString: 'Distance (kms)'
+            text: 'Time Chart'
           },
-          type: 'linear'
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Elevation (m)'
-          }
-        }]
-      },
-      events: [],
-      elements: {
-        point:{
-          radius: 0
-        },
-        line: {
-          tension: 0, // disables bezier curves
-        }
-      }
-    };
-
-    var elevationDistanceChart = new Chart(elevationDistanceCtx, {
-      type: 'line',
-      data: elevationDistanceData,
-      options: elevationDistanceOptions
-    });
-
-    let speedDistanceCtx = this.speedDistance.nativeElement.getContext('2d');
-  
-    console.log(this.speedDistanceData);
-    const speedDistanceData = {
-      datasets: [{ 
-          data: this.speedDistanceData,
-          label: "Speed",
-          backgroundColor: 'rgba(255,133,0,0.2)',
-          borderColor: 'rgba(255,133,0,1)',
-          pointBackgroundColor: 'rgba(255,133,0,1)',
-          pointBorderColor: 'rgba(255,133,0,1)',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }
-      ]
-    };
-
-    const speedDistanceOtions = {
-      title: {
-        display: true,
-        text: 'Speed Profile'
-      },
-      scales: {
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Distance (kms)'
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                displayFormats: {
+                  quarter: 'HH:mm'
+                } 
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
+              }
+            }],
+            yAxes: [{
+              id: 'A',
+              type: 'linear',
+              position: 'left',
+              scaleLabel: {
+                display: true,
+                labelString: 'Elevation (m)'
+              }
+            }, {
+              id: 'B',
+              type: 'linear',
+              position: 'right',
+              scaleLabel: {
+                display: true,
+                labelString: 'Speed (km/h)'
+              }
+            }]
           },
-          type: 'linear'
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Speed (km/h)'
+          events: ['click'],
+          elements: {
+            point:{
+              radius: 0
+            },
+            line: {
+              // tension: 0, // disables bezier curves
+            }
           }
-        }]
-      },
-      events: [],
-      elements: {
-        point:{
-          radius: 0
-        },
-        line: {
-          tension: 0, // disables bezier curves
-        }
-      }
-    };
-
-    var speedDistanceChart = new Chart(speedDistanceCtx, {
-      type: 'line',
-      data: speedDistanceData,
-      options: speedDistanceOtions
-    });
+        };
+    
+        var timeChart = new Chart(timeCtx, {
+          type: 'line',
+          data: timeData,
+          options: timeOptions
+        });
   }
 
   fileChangeEvent(fileInput: any) {
