@@ -1,6 +1,7 @@
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { getClient } from './client';
 import { MyHammerConfig } from './touchConfig';
@@ -9,9 +10,11 @@ import { MyHammerConfig } from './touchConfig';
 import { ApolloModule } from 'apollo-angular';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-import "froala-editor/js/froala_editor.pkgd.min.js";
+import 'froala-editor/js/froala_editor.pkgd.min.js';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { Angulartics2GoogleAnalytics, Angulartics2Module } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { ShareButtonsModule } from 'ngx-sharebuttons';
 
 // App
 import { MyApp } from './app.component';
@@ -50,6 +53,7 @@ import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBa
 import { TripCard } from '../components/tripCard/tripCard.component';
 import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
 import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
+import { ShareBtns } from '../components/shareBtns/shareBtns.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -178,7 +182,8 @@ import { TripService } from '../services/trip.service';
     JunctureSaveTypePopover,
     TripModal,
     MobileNavModal,
-    PlaceGuide
+    PlaceGuide,
+    ShareBtns
   ],
   imports: [
     BrowserModule,
@@ -191,8 +196,10 @@ import { TripService } from '../services/trip.service';
     }),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     AgmSnazzyInfoWindowModule,
-    FroalaEditorModule.forRoot(), 
-    FroalaViewModule.forRoot()
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
+    ShareButtonsModule.forRoot(),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

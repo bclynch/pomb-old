@@ -5,81 +5,91 @@ page-trip {
     display: flex;
     flex-direction: column;
 
-    agm-map {
+    .mapContainer {
       flex: 1;
       height: 40vh;
+      position: relative;
 
-      .si-wrapper-left {
-        margin-top: 0;
-        margin-left: -20px;
-        height: 30vh;
-        width: 50%;
-
-        .si-content-wrapper {
-          padding: 0;
-          height: 100%;
-
-          button {
-            color: mapGet($basecolor, white);
-            opacity: .85;
-          }
-          .si-content {
-            height: 100%;
-            max-height: 100%!important;
-            max-width: 100%!important;
-          }
+      agm-map {
+        height: 100%;
   
-          .juncturePhoto {
-            background-position: center;
-            background-size: cover;
-            height: 150px;
-            width: 100%;
-
-            .overlay {
-              height: 100%;
-              width: 100%;
-              background: rgba(0,0,0,.3);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex-direction: column;
+        .si-wrapper-left {
+          margin-top: 0;
+          margin-left: -20px;
+          height: 30vh;
+          width: 50%;
+  
+          .si-content-wrapper {
+            padding: 0;
+            height: 100%;
+  
+            button {
               color: mapGet($basecolor, white);
-
-              .overlayName {
-                font-size: 24px;
-                margin-bottom: 5px;
+              opacity: .85;
+            }
+            .si-content {
+              height: 100%;
+              max-height: 100%!important;
+              max-width: 100%!important;
+            }
+    
+            .juncturePhoto {
+              background-position: center;
+              background-size: cover;
+              height: 150px;
+              width: 100%;
+  
+              .overlay {
+                height: 100%;
+                width: 100%;
+                background: rgba(0,0,0,.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                color: mapGet($basecolor, white);
+  
+                .overlayName {
+                  font-size: 24px;
+                  margin-bottom: 5px;
+                }
+                .overlayDate {
+                  font-size: 18px;
+                }
               }
-              .overlayDate {
+            }
+            .contentWrapper {
+              padding: 10px;
+  
+              .windowCity {
+                font-weight: bold;
                 font-size: 18px;
               }
+              .windowCountry {
+                font-size: 16px;
+                margin-bottom: 10px;
+              }
+              .windowBtn {
+                background: mapGet($basecolor, black);
+                color: mapGet($basecolor, white);
+                padding: 8px 0;
+                width: 50%;
+                margin: 5px auto 0;
+                text-align: center;
+                font-weight: bold;
+                cursor: pointer;
+              }
             }
           }
-          .contentWrapper {
-            padding: 10px;
-
-            .windowCity {
-              font-weight: bold;
-              font-size: 18px;
-            }
-            .windowCountry {
-              font-size: 16px;
-              margin-bottom: 10px;
-            }
-            .windowBtn {
-              background: mapGet($basecolor, black);
-              color: mapGet($basecolor, white);
-              padding: 8px 0;
-              width: 50%;
-              margin: 5px auto 0;
-              text-align: center;
-              font-weight: bold;
-              cursor: pointer;
-            }
+          .si-pointer-left {
+            display: none;
           }
         }
-        .si-pointer-left {
-          display: none;
-        }
+      }
+      ShareBtns {
+        position: absolute;
+        bottom: 15px;
+        right: -10px;
       }
     }
     .juncturePane {
@@ -132,13 +142,14 @@ page-trip {
           align-items: center;
           color: mapGet($basecolor, white);
           text-shadow: 2px 2px mapGet($basecolor, black);
+          position: relative;
 
           .bannerTitle {
             font-size: 44px;
           }
           .timeframe {
             font-size: 24px;
-           text-transform: uppercase;
+            text-transform: uppercase;
           }
         }
       }
@@ -220,12 +231,16 @@ page-trip {
     .initedLayer {
       flex-direction: row;
   
-      agm-map {
+      .mapContainer {
         height: calc(100vh - 40px); //40px is size of nav
 
-        .si-wrapper-left {
-          height: 40vh;
-          width: 40%;
+        agm-map {
+          height: 100%;
+
+          .si-wrapper-left {
+            height: 40vh;
+            width: 40%;
+          }
         }
       }
       .juncturePane {

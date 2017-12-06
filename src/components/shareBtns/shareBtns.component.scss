@@ -1,0 +1,14 @@
+sharebtns {
+
+  .shareBtnsContainer {
+    &.icons {
+      button {
+        background-color: transparent!important;
+      }
+    }
+  }
+
+  @include respond-to(small) {
+
+  }
+}

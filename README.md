@@ -14,6 +14,7 @@
 - Linode Hosting
 - Admin panels
 - Password Retrieval + mailing on new account
+- Open graph stuff http://ogp.me/
 
 #### Trip report page
 

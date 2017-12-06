@@ -1,67 +1,75 @@
 <PageWrapper [collapsibleNav]="false">
   <div *ngIf="inited" class="initedLayer">
-    <agm-map 
-      [zoomControl]="false"
-      [latitude]="coords.lat" 
-      [longitude]="coords.lon"
-      [disableDefaultUI]="true"
-      [streetViewControl]="false"
-      [fitBounds]="latlngBounds"
-      [styles]=mapStyle
-      [zoom]="zoomLevel"
-      (zoomChange)="onZoomChange($event)" 
-      mapTypeId="terrain"
-      #AgmMap
-    >
-      <agm-marker 
-        *ngFor= "let marker of junctureMarkers; let i = index;"
-        [latitude]= "marker.junctureByJunctureId.lat" 
-        [longitude]= "marker.junctureByJunctureId.lon" 
-        [label]="{
-          color: 'orange',
-          fontFamily: '',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          text: (i + 1).toString()
-        }"
-        [iconUrl]= "{
-          url: 'http://lessonpix.com/drawings/224/100x100/Red+Circle.png',
-          anchor: {x: 18, y: 18},
-          size: {width: 36, height: 36},
-          scaledSize: {width: 36, height: 36}
-        }"
-        (markerClick)="markerClick(i)"
+    <div class="mapContainer">
+        <agm-map 
+        [zoomControl]="false"
+        [latitude]="coords.lat" 
+        [longitude]="coords.lon"
+        [disableDefaultUI]="true"
+        [streetViewControl]="false"
+        [fitBounds]="latlngBounds"
+        [styles]=mapStyle
+        [zoom]="zoomLevel"
+        (zoomChange)="onZoomChange($event)" 
+        mapTypeId="terrain"
+        #AgmMap
       >
-        <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
-          <ng-template>
-            <div *ngIf="!markerLoading">
-              <div 
-                class="juncturePhoto" 
-                [ngStyle]="junctureContentArr[i].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
-              >
-                <div class="overlay">
-                  <div class="overlayName">{{junctureContentArr[i].name}}</div>
-                  <div class="overlayDate">{{junctureContentArr[i].arrivalDate | date: 'yMMMMd'}}</div>
+        <agm-marker 
+          *ngFor= "let marker of junctureMarkers; let i = index;"
+          [latitude]= "marker.junctureByJunctureId.lat" 
+          [longitude]= "marker.junctureByJunctureId.lon" 
+          [label]="{
+            color: 'orange',
+            fontFamily: '',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            text: (i + 1).toString()
+          }"
+          [iconUrl]= "{
+            url: 'http://lessonpix.com/drawings/224/100x100/Red+Circle.png',
+            anchor: {x: 18, y: 18},
+            size: {width: 36, height: 36},
+            scaledSize: {width: 36, height: 36}
+          }"
+          (markerClick)="markerClick(i)"
+        >
+          <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
+            <ng-template>
+              <div *ngIf="!markerLoading">
+                <div 
+                  class="juncturePhoto" 
+                  [ngStyle]="junctureContentArr[i].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
+                >
+                  <div class="overlay">
+                    <div class="overlayName">{{junctureContentArr[i].name}}</div>
+                    <div class="overlayDate">{{junctureContentArr[i].arrivalDate | date: 'yMMMMd'}}</div>
+                  </div>
+                </div>
+                <div class="contentWrapper">
+                  <div class="windowCity">{{junctureContentArr[i].city}}</div>
+                  <div class="windowCountry">{{junctureContentArr[i].country}}</div>
+                  <div>{{truncate(junctureContentArr[i].description)}}</div>
+                  <div class="windowBtn" (click)="goToJuncture(i)">See More</div>
                 </div>
               </div>
-              <div class="contentWrapper">
-                <div class="windowCity">{{junctureContentArr[i].city}}</div>
-                <div class="windowCountry">{{junctureContentArr[i].country}}</div>
-                <div>{{truncate(junctureContentArr[i].description)}}</div>
-                <div class="windowBtn" (click)="goToJuncture(i)">See More</div>
-              </div>
-            </div>
-          </ng-template>
-        </agm-snazzy-info-window>
-      </agm-marker>
-      <agm-polyline
-        [editable]="false"
-        strokeColor="#934000"
-        strokeWeight="3"
-      >
-        <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.junctureByJunctureId.lat" [longitude]="point.junctureByJunctureId.lon"></agm-polyline-point>
-      </agm-polyline>
-    </agm-map>
+            </ng-template>
+          </agm-snazzy-info-window>
+        </agm-marker>
+        <agm-polyline
+          [editable]="false"
+          strokeColor="#934000"
+          strokeWeight="3"
+        >
+          <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.junctureByJunctureId.lat" [longitude]="point.junctureByJunctureId.lon"></agm-polyline-point>
+        </agm-polyline>
+      </agm-map>
+      <ShareBtns 
+        [title]="tripData.name" 
+        description="Check out {{tripData.name}}" 
+        [justIcons]="true"
+        size="-3"
+      ></ShareBtns>
+    </div>
     <div class="juncturePane">
       <div class="paneHeader">
         <BackpackIcon color="white" title="Add To Pack"></BackpackIcon>
