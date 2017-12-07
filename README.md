@@ -4,14 +4,21 @@
 
 ### Top Priorities
 
+#### FOCUS ON TRIP / JUNCTURE / DIARY EXPERIENCE
+- Add gpx input to junctures modal
+- Work in what the trip page looks like with this new data if it exists and how it will work with non gpx data
+- Figure out data model for how to house all this information
+- Should probably make a separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
+- Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
 - Google Analytics
 - Share buttons for posts / trips / junctures
 - Add to data model for views / likes
 - Favorites / 'add to pack' for posts, images, trips
-- Figure out what main page looks like
+- Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Flesh out user profile
 - Linode Hosting
+- Mobile usage!
 - Admin panels
 - Password Retrieval + mailing on new account
 - Open graph stuff http://ogp.me/

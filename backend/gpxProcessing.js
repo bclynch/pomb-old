@@ -30,10 +30,32 @@ let distanceArr = [];
 //Route 
 router.post("/", upload.array("uploads[]", 5), (req, res) => {
   const files = req.files;
-  const name = files[0].originalname;
+  console.log('# FILES: ', files.length);
 
-  var gpx = new DOMParser().parseFromString(fs.readFileSync(`${tempFolderPath}${name}`, 'utf8'));
-  var converted = convertGPX.gpx(gpx);
+  var converted;
+
+  //we want to combine both the coords and the coordTimes arr of all files
+  for(let i = 0; i < files.length; i++) {
+    const name = files[i].originalname;
+  
+    const gpx = new DOMParser().parseFromString(fs.readFileSync(`${tempFolderPath}${name}`, 'utf8'));
+    if(i === 0) {
+      converted = convertGPX.gpx(gpx);
+    } else {
+      //Need to see if this data comes before the existing data in the arr or after. Check times
+      const data = convertGPX.gpx(gpx);
+      //if new time data < existing arr add to beginning of array
+      if(Date.parse(data.features[0].properties.coordTimes[0]) < Date.parse(converted.features[0].properties.coordTimes[0])) {
+        converted.features[0].properties.coordTimes = data.features[0].properties.coordTimes.concat(converted.features[0].properties.coordTimes);
+        converted.features[0].geometry.coordinates = data.features[0].geometry.coordinates.concat(converted.features[0].geometry.coordinates);
+      } else {
+        converted.features[0].properties.coordTimes = converted.features[0].properties.coordTimes.concat(data.features[0].properties.coordTimes);
+        converted.features[0].geometry.coordinates = converted.features[0].geometry.coordinates.concat(data.features[0].geometry.coordinates);
+      }
+    };
+
+    fs.unlink(`${tempFolderPath}${name}`, () => console.log('deleted temp file') ); 
+  }
 
   const totalDistance = getTotalDistance(converted.features[0].geometry.coordinates);
   console.log('TOTAL DISTANCE in kms: ', totalDistance / 1000);
@@ -48,11 +70,7 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
   converted.distanceArr = distanceArr.slice(0);
   distanceArr = [];
 
-  fs.unlink(`${tempFolderPath}${name}`, () => {
-    console.log('deleted temp file');
-
-    res.send(JSON.stringify({data: converted}));
-  }); 
+  res.send(JSON.stringify({data: converted}));
 });
 
 //take in coord arr and find total distance
@@ -78,7 +96,6 @@ function getTotalDistance(arr) {
 
 function getSpeedArr(geoArr, timeArr) {
   let speedsArr = [];
-  console.log(Date.parse(timeArr[0]));
   for(let i = 0; i < geoArr.length; i++) {
     if(i < geoArr.length - 1) {
       const timeToMs = Date.parse(timeArr[i]);
