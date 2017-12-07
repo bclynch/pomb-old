@@ -27,14 +27,15 @@ var converted = convertGPX.gpx(gpx);
 let convertedTimeArr = [];
 let distanceArr = [];
 
-//Route 
+// Route 
 router.post("/", upload.array("uploads[]", 5), (req, res) => {
   const files = req.files;
   console.log('# FILES: ', files.length);
 
-  var converted;
+  let converted;
+  let gpxData = {};
 
-  //we want to combine both the coords and the coordTimes arr of all files
+  // we want to combine both the coords and the coordTimes arr of all files
   for(let i = 0; i < files.length; i++) {
     const name = files[i].originalname;
   
@@ -42,9 +43,9 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
     if(i === 0) {
       converted = convertGPX.gpx(gpx);
     } else {
-      //Need to see if this data comes before the existing data in the arr or after. Check times
+      // Need to see if this data comes before the existing data in the arr or after. Check times
       const data = convertGPX.gpx(gpx);
-      //if new time data < existing arr add to beginning of array
+      // if new time data < existing arr add to beginning of array
       if(Date.parse(data.features[0].properties.coordTimes[0]) < Date.parse(converted.features[0].properties.coordTimes[0])) {
         converted.features[0].properties.coordTimes = data.features[0].properties.coordTimes.concat(converted.features[0].properties.coordTimes);
         converted.features[0].geometry.coordinates = data.features[0].geometry.coordinates.concat(converted.features[0].geometry.coordinates);
@@ -57,20 +58,30 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
     fs.unlink(`${tempFolderPath}${name}`, () => console.log('deleted temp file') ); 
   }
 
-  const totalDistance = getTotalDistance(converted.features[0].geometry.coordinates);
+  gpxData.geoJSON = converted.features[0];
+
+  //console.log(JSON.stringify(gpxData.geoJSON));
+
+  // We are looking at roughly 1000 data points per 20 mins or 50/min
+  // Don't really want / need all the data. Lets investigate what still looks good for our mapping to find nice balance between data / visuals
+  //Taking 10% of data points appears solid for now
+  gpxData.geoJSON.properties.coordTimes = gpxData.geoJSON.properties.coordTimes.filter((_,i) => i % 10 == 0);
+  gpxData.geoJSON.geometry.coordinates = gpxData.geoJSON.geometry.coordinates.filter((_,i) => i % 10 == 0);
+
+  const totalDistance = getTotalDistance(gpxData.geoJSON.geometry.coordinates);
   console.log('TOTAL DISTANCE in kms: ', totalDistance / 1000);
-  converted.features[0].totalDistance = totalDistance;
+  gpxData.totalDistance = totalDistance;
 
-  const speeds = getSpeedArr(converted.features[0].geometry.coordinates, converted.features[0].properties.coordTimes);
-  converted.features[0].speedsArr = speeds;
+  const speeds = getSpeedArr(gpxData.geoJSON.geometry.coordinates, converted.features[0].properties.coordTimes);
+  gpxData.speedsArr = speeds;
 
-  converted.timeArr = convertedTimeArr.slice(0);
+  gpxData.timeArr = convertedTimeArr.slice(0);
   convertedTimeArr = [];
 
-  converted.distanceArr = distanceArr.slice(0);
+  gpxData.distanceArr = distanceArr.slice(0);
   distanceArr = [];
 
-  res.send(JSON.stringify({data: converted}));
+  res.send(JSON.stringify({data: gpxData}));
 });
 
 //take in coord arr and find total distance

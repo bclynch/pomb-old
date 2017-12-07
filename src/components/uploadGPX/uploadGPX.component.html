@@ -1,0 +1,10 @@
+<div class="gpxUploadContainer">
+  <ion-icon name="md-map"></ion-icon>
+  <input 
+    type="file" 
+    id="file"
+    (change)="fileChangeEvent($event)"
+    [multiple]="true"
+    accept=".gpx" 
+  />
+</div>

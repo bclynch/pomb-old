@@ -54,6 +54,7 @@ import { TripCard } from '../components/tripCard/tripCard.component';
 import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
 import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
 import { ShareBtns } from '../components/shareBtns/shareBtns.component';
+import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -183,7 +184,8 @@ import { TripService } from '../services/trip.service';
     TripModal,
     MobileNavModal,
     PlaceGuide,
-    ShareBtns
+    ShareBtns,
+    UploadGPX
   ],
   imports: [
     BrowserModule,

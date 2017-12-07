@@ -30,11 +30,11 @@ export class SettingsPage {
   @ViewChild('distance') distance: any;
   @ViewChild('time') time: any;
 
-  lat: number = 37.662323;
-  lng: number = -122.399451;
-  zoom: number = 10;
+  lat = 37.662323;
+  lng = -122.399451;
+  zoom = 10;
 
-  isProcessing: boolean = false;
+  isProcessing = false;
   filesToUpload: Array<File> = [];
 
   geoJsonObject: Object = null;
@@ -198,8 +198,8 @@ export class SettingsPage {
             }
           }
         };
-    
-        var timeChart = new Chart(timeCtx, {
+
+        const timeChart = new Chart(timeCtx, {
           type: 'line',
           data: timeData,
           options: timeOptions
@@ -207,30 +207,37 @@ export class SettingsPage {
   }
 
   fileChangeEvent(fileInput: any) {
-      this.filesToUpload = <Array<File>>fileInput.target.files;
-      const processedData = this.processFormData();
+    this.filesToUpload = <Array<File>>fileInput.target.files;
+    const processedData = this.processFormData();
 
-      this.apiService.uploadGPX(processedData).subscribe(
-          result => {
-            console.log(result);
-            this.geoJsonObject = result.data.features[0];
-            this.elevationTimeData = result.data.features[0].geometry.coordinates.map((coord, i) => { return { x: result.data.timeArr[i], y: coord[2] } });
-            //reducing points on graph
-            this.elevationTimeData = this.elevationTimeData.filter((_,i) => i % 15 == 0); 
-            this.speedTimeData = result.data.features[0].speedsArr.map((speed, i) => { return { x: result.data.timeArr[i], y: speed } });
-            //reducing points on graph
-            this.speedTimeData = this.speedTimeData.filter((_,i) => i % 15 == 0); 
-            this.elevationDistanceData = result.data.features[0].geometry.coordinates.map((coord, i) => { return { x: result.data.distanceArr[i] / 1000, y: coord[2] } });
-            //reducing points on graph
-            this.elevationDistanceData = this.elevationDistanceData.filter((_,i) => i % 15 == 0); 
-            this.speedDistanceData = result.data.features[0].speedsArr.map((speed, i) => { return { x: result.data.distanceArr[i] / 1000, y: speed } });
-            //reducing points on graph
-            this.speedDistanceData = this.speedDistanceData.filter((_,i) => i % 15 == 0);
-            this.createLineChart();
-            this.isProcessing = false; 
-          } 
-        );
-    }
+    this.apiService.uploadGPX(processedData).subscribe(
+        result => {
+          console.log(result);
+          this.geoJsonObject = result.data.geoJSON;
+
+          // We want roughly 80-120 points per graph to be mindful of performance / look. Creating a filter number to arrive there
+          // take number of data points and find reasonable divisor
+          let filterDivisor;
+          for (let i = 1; i < result.data.geoJSON.geometry.coordinates.length; i++) {
+            if (result.data.geoJSON.geometry.coordinates.length / i < 120) {
+              filterDivisor = i;
+              break;
+            }
+          }
+
+          console.log('FILTER Number: ', result.data.geoJSON.geometry.coordinates.length / filterDivisor);
+
+          // creating x and y coords for our various graohs and filtering down to our deemed appropriate number of data points
+          this.elevationTimeData = result.data.geoJSON.geometry.coordinates.map((coord, i) => ( { x: result.data.timeArr[i], y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
+          this.speedTimeData = result.data.speedsArr.map((speed, i) => ( { x: result.data.timeArr[i], y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
+          this.elevationDistanceData = result.data.geoJSON.geometry.coordinates.map((coord, i) => ( { x: result.data.distanceArr[i] / 1000, y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
+          this.speedDistanceData = result.data.speedsArr.map((speed, i) => ( { x: result.data.distanceArr[i] / 1000, y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
+
+          this.createLineChart();
+          this.isProcessing = false;
+        }
+      );
+  }
 
   private processFormData(): FormData {
     const formData: FormData = new FormData();

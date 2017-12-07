@@ -38,14 +38,13 @@ export class TripModal {
   presentDatepickerModal(e: Event, isStart) {
     e.stopPropagation();
 
-    let modal = this.modalCtrl.create(DatePickerModal, { date: isStart ? this.tripModel.timeStart : this.tripModel.timeEnd || Date.now() }, {});
+    const modal = this.modalCtrl.create(DatePickerModal, { date: isStart ? this.tripModel.timeStart : this.tripModel.timeEnd || Date.now() }, {});
     modal.present({
       ev: e
     });
     modal.onDidDismiss((data: any) => {
-      console.log(Date.parse(data));
       if (data) {
-        if(isStart) {
+        if (isStart) {
           this.tripModel.timeStart = Date.parse(data);
         } else {
           this.tripModel.timeEnd = Date.parse(data);
@@ -64,10 +63,10 @@ export class TripModal {
   }
 
   presentBannerUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if(data) {
+      if (data) {
         this.tripModel.bannerPath = data.arr[0].url;
       }
     });

@@ -23,16 +23,16 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class JunctureModal {
 
-  junctureModel = {name: 'Juncture ' + moment().format("l"), time: Date.now(), description: '', selectedTrip: null};
+  junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
-  junctureSaveType: string = 'Draft';
+  junctureSaveType = 'Draft';
   tripOptions = null;
 
   galleryPhotos: GalleryPhoto[] = [];
 
   coords = { lat: null, lon: null };
   mapStyle;
-  zoomLevel: number = 12;
+  zoomLevel = 12;
 
   constructor(
     public viewCtrl: ViewController,
@@ -52,15 +52,15 @@ export class JunctureModal {
       (data: any) => {
         console.log(data);
         this.tripOptions = data.data.allUserToTrips.nodes;
-        if(data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
+        if (data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
       }
-    )
-    if(navigator.geolocation){
+    );
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location: any) => {
         console.log(location.coords);
         this.coords.lat = location.coords.latitude;
         this.coords.lon = location.coords.longitude;
-        //grab map style
+        // grab map style
         this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
           this.mapStyle = data;
           this.inited = true;
@@ -74,19 +74,19 @@ export class JunctureModal {
   }
 
   presentPopover(e) {
-    let popover = this.popoverCtrl.create(JunctureSaveTypePopover, { options: ['Draft', 'Publish'] }, { cssClass: 'junctureSaveTypePopover' });
+    const popover = this.popoverCtrl.create(JunctureSaveTypePopover, { options: ['Draft', 'Publish'] }, { cssClass: 'junctureSaveTypePopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) this.junctureSaveType = data;
+      if (data) this.junctureSaveType = data;
     });
   }
 
   presentDatepickerModal(e: Event) {
     e.stopPropagation();
 
-    let modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
+    const modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
     modal.present({
       ev: e
     });
@@ -99,14 +99,14 @@ export class JunctureModal {
   }
 
   presentGalleryUploaderPopover() {
-    if(this.galleryPhotos.length === 6) {
+    if (this.galleryPhotos.length === 6) {
       this.alertService.alert('Gallery Full', 'Only 6 images per juncture gallery maximum. Please delete a few to add more.')
     } else {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 6 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+      const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 6 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
-        if(data) {
-          if(data === 'maxErr') {
+        if (data) {
+          if (data === 'maxErr') {
             this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 6 or less');
           } else {
             data.forEach((img) => {
@@ -114,7 +114,7 @@ export class JunctureModal {
                 id: null,
                 photoUrl: img.url,
                 description: ''
-              })
+              });
             });
           }
         }
@@ -124,19 +124,19 @@ export class JunctureModal {
 
   presentGalleryPopover(e, index: number) {
     const self = this;
-    let popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
+    const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) {
-        if(data.action === 'delete') {
+      if (data) {
+        if (data.action === 'delete') {
           this.alertService.confirm(
-            'Delete Gallery Image', 
-            'Are you sure you want to delete permanently delete this image?', 
+            'Delete Gallery Image',
+            'Are you sure you want to delete permanently delete this image?',
             { label: 'Delete', handler: () =>  {
-              //if photo has already been saved to db
-              if(this.galleryPhotos[index].id) {
+              // if photo has already been saved to db
+              if (this.galleryPhotos[index].id) {
                 this.apiService.deletePostToGalleryPhotoById(this.galleryPhotos[index].id).subscribe(
                   result => {
                     this.galleryPhotos.splice(index, 1);
@@ -150,20 +150,19 @@ export class JunctureModal {
             }}
           );
         } else {
-          //update photo
+          // update photo
           this.galleryPhotos[index] = data.data;
-          //this.galleryItemHasChanged.push(this.galleryPhotos[index]);
+          // this.galleryItemHasChanged.push(this.galleryPhotos[index]);
         }
       }
     });
 
     function toastDelete() {
-      let toast = self.toastCtrl.create({
+      const toast = self.toastCtrl.create({
         message: `Gallery image deleted`,
         duration: 3000,
         position: 'top'
-      }); 
-  
+      });
       toast.present();
     }
   }
@@ -180,8 +179,8 @@ export class JunctureModal {
     });
   }
 
-moveCenter(e) {
-  this.coords.lat = e.lat;
-  this.coords.lon = e.lng;
-}
+  moveCenter(e) {
+    this.coords.lat = e.lat;
+    this.coords.lon = e.lng;
+  }
 }
