@@ -10,7 +10,7 @@ import { AlertService } from './alert.service';
 
 import { PostCategory } from '../models/Post.model';
 
-//needs to be an env var
+// needs to be an env var
 const flickrKey = '691be9c5a38900c0249854a28a319e2c';
 const geonamesUser = 'bclynch';
 
@@ -69,7 +69,7 @@ const getAllPublishedPosts = gql`
           nodes {
             postCommentByCommentId {
               accountByAuthor {
-              firstName 
+              firstName
               },
               content,
               createdAt
@@ -139,7 +139,7 @@ query allPosts($author: Int!) {
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName 
+            firstName
             },
             content,
             createdAt
@@ -210,7 +210,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName 
+            firstName
             },
             content,
             createdAt
@@ -326,7 +326,15 @@ const getTripById = gql`
             name,
             lat,
             lon,
-            id
+            id,
+            coordsByJunctureId {
+              nodes {
+                lat,
+                lon,
+                elevation,
+                coordTime
+              }
+            }
           }
         }
       },
@@ -334,7 +342,7 @@ const getTripById = gql`
         nodes {
           accountByUserId {
             username,
-            firstName, 
+            firstName,
             lastName,
             profilePhoto
           }
@@ -351,7 +359,7 @@ const getJunctureById = gql`
       name,
       arrivalDate,
       description,
-      city, 
+      city,
       country,
       junctureToPostsByJunctureId {
         nodes {
@@ -387,7 +395,7 @@ const getJunctureById = gql`
   }
 `;
 
-const getPostById = gql` 
+const getPostById = gql`
   query postById($id: Int!) {
     postById(id: $id) {
       id,
@@ -416,7 +424,7 @@ const getPostById = gql`
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName 
+            firstName
             },
             content,
             createdAt
@@ -576,7 +584,7 @@ const registerAccount = gql`
       lastName: $lastName,
       password: $password,
       email: $email,
-    }) 
+    })
     {
       account {
         id,
@@ -760,7 +768,7 @@ const updateLeadPhotoInfo = gql`
 `;
 
 const createJuncture = gql`
-  mutation($name: String!, $arrivalDate: BigInt!, $description: String, $lat: Float!, $lon: Float!, $city: String!, $country: String!, $isDraft: Boolean!) {
+  mutation($name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean) {
     createJuncture(input:{
       juncture: {
         name: $name,
@@ -823,6 +831,28 @@ const createTripToJuncture = gql`
   }
 `;
 
+const updateJuncture = gql`
+  mutation($junctureId: Int!, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean) {
+    updateJunctureById(input:{
+      id: $junctureId,
+      juncturePatch: {
+        name: $name,
+        arrivalDate: $arrivalDate,
+        description: $description,
+        lat: $lat,
+        lon: $lon,
+        city: $city,
+        country: $country,
+        isDraft: $isDraft
+      }
+    }) {
+      juncture {
+        id
+      }
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -832,7 +862,7 @@ export class APIService {
     private alertService: AlertService
   ) {}
 
-  //get all countries
+  // get all countries
   getAllCountries() {
     return this.http.get('https://restcountries.eu/rest/v2/')
     .map(
@@ -880,7 +910,7 @@ export class APIService {
     );
   }
 
-  //S3 Uploads
+  // S3 Uploads
   uploadImages(formData: FormData, sizes: { width: number; height: number; }[], quality: number) {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
@@ -899,7 +929,7 @@ export class APIService {
       );
   }
 
-  //just for fun testing
+  // just for fun testing
   uploadImagesLocal(formData: FormData, sizes: { width: number; height: number; }[], quality: number) {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
@@ -918,9 +948,9 @@ export class APIService {
       );
   }
 
-  //upload gpx information
-  uploadGPX(formData: FormData) {
-    return this.http.post(`http://localhost:8080/upload-gpx`, formData)
+  // upload gpx information
+  uploadGPX(formData: FormData, junctureId: number) {
+    return this.http.post(`http://localhost:8080/upload-gpx?juncture=${junctureId}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -937,11 +967,11 @@ export class APIService {
   // Geocoding
   reverseGeocodeCoords(lat: number, lon: number) {
     console.log('Getting coord information...');
-    let geocoder = new google.maps.Geocoder();
+    const geocoder = new google.maps.Geocoder();
     return Observable.create(observer => {
       geocoder.geocode( {'location': {lat, lng: lon}}, (results, status) => {
         console.log(results);
-        if (status == google.maps.GeocoderStatus.OK) {
+        if (status === google.maps.GeocoderStatus.OK) {
           observer.next(results[0]);
           observer.complete();
         } else {
@@ -955,11 +985,11 @@ export class APIService {
 
   geocodeCoords(place: string) {
     console.log('Getting coord information...');
-    let geocoder = new google.maps.Geocoder();
+    const geocoder = new google.maps.Geocoder();
     return Observable.create(observer => {
       geocoder.geocode({ address: place }, (results, status) => {
         console.log(results);
-        if (status == google.maps.GeocoderStatus.OK) {
+        if (status === google.maps.GeocoderStatus.OK) {
           observer.next(results[0]);
           observer.complete();
         } else {
@@ -999,7 +1029,7 @@ export class APIService {
       variables: {
         isDraft,
         isScheduled,
-        isPublished, 
+        isPublished,
         author
       }
     });
@@ -1070,7 +1100,7 @@ export class APIService {
       }
     });
   }
-  
+
   getTagByName(tagName: string) {
     return this.apollo.watchQuery<any>({
       query: getTagByName,
@@ -1255,13 +1285,13 @@ export class APIService {
     });
   }
 
-  createJuncture(name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean) {
+  createJuncture(name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean) {
     return this.apollo.mutate({
       mutation: createJuncture,
       variables: {
         name,
-        arrivalDate,
-        description,
+        arrivalDate: arrivalDate ? arrivalDate : null,
+        description: description ? description : null,
         lat,
         lon,
         city,
@@ -1299,6 +1329,23 @@ export class APIService {
       variables: {
         tripId,
         junctureId
+      }
+    });
+  }
+
+  updateJuncture(junctureId: number, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean) {
+    return this.apollo.mutate({
+      mutation: updateJuncture,
+      variables: {
+        junctureId,
+        name,
+        arrivalDate,
+        description,
+        lat,
+        lon,
+        city,
+        country,
+        isDraft
       }
     });
   }

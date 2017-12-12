@@ -1,10 +1,10 @@
-import { NgModule }              from '@angular/core';
-import { RouterModule, Routes }  from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { RoleGuardService as RoleGuard } from '../services/roleGuard.service';
 
-//pages
+// pages
 import { HomePage } from '../pages/home/home';
 import { PostPage } from '../pages/post/post';
 import { HubPage } from '../pages/hub/hub';
@@ -22,9 +22,10 @@ import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
 import { UserAdminPage } from '../pages/userAdmin/admin';
 import { TripPage } from '../pages/trip/trip';
+import { TripPage1 } from '../pages/trip1/trip1';
 
 const appRoutes: Routes = [
-  { 
+  {
     path: 'post',
     children: [
       {
@@ -97,8 +98,8 @@ const appRoutes: Routes = [
   ]},
   { path: 'archive', component: ArchivePage },
   { path: 'admin',
-  // canActivate: [RoleGuard], 
-  // data: { 
+  // canActivate: [RoleGuard],
+  // data: {
   //   expectedRole: 'pomb_admin'
   // },
     children: [
@@ -138,16 +139,16 @@ const appRoutes: Routes = [
       },
       {
         path: 'admin',
-        canActivate: [RoleGuard], 
-        data: { 
+        canActivate: [RoleGuard],
+        data: {
           expectedRole: 'pomb_account'
         },
         component: UserAdminPage
       },
-      { 
+      {
         path: 'post-dashboard',
-        canActivate: [RoleGuard], 
-        data: { 
+        canActivate: [RoleGuard],
+        data: {
           expectedRole: 'pomb_account'
         },
         component: DashboardPage
@@ -158,6 +159,15 @@ const appRoutes: Routes = [
           {
             path: ':id',
             component: TripPage
+          }
+        ]
+      },
+      {
+        path: 'trip1',
+        children: [
+          {
+            path: ':id',
+            component: TripPage1
           }
         ]
       }

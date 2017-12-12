@@ -5,15 +5,11 @@
 ### Top Priorities
 
 #### FOCUS ON TRIP / JUNCTURE / DIARY EXPERIENCE
-- Add gpx input to junctures modal
+- Finish juncture creation modal
+- Work in trip1 page to be only trip page
 - Work in what the trip page looks like with this new data if it exists and how it will work with non gpx data
-- Figure out data model for how to house all this information
-    - I've got postgres working on node (albeit only with admin...) and can insert into tables
-    - Need to create a table with columns: id, foreign key to juncture, lat, lon, elevation
-    - Can create a big string of insert query and add all the rows to this table when I compute it
-    - From there we do the speed / distance calcs on the front end. Maybe keep simple stats like distance / time / etc on a property after the first time its calculated. Arrays will need to be generated on the fly.
-    - Can grab this data and combine on front end for trip gpx data or charting 
-- Should probably make a separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
+- Work out bounds so map renders correctly with various markers / gpx data
+- Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
 - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
 - Google Analytics
 - Share buttons for posts / trips / junctures
@@ -26,6 +22,7 @@
 - Mobile usage!
 - Admin panels
 - Password Retrieval + mailing on new account
+- Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 
 #### Trip report page

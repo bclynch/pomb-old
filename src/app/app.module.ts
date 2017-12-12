@@ -98,6 +98,7 @@ import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
 import { TripPage } from '../pages/trip/trip';
+import { TripPage1 } from '../pages/trip1/trip1';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -185,7 +186,8 @@ import { TripService } from '../services/trip.service';
     MobileNavModal,
     PlaceGuide,
     ShareBtns,
-    UploadGPX
+    UploadGPX,
+    TripPage1
   ],
   imports: [
     BrowserModule,
@@ -236,7 +238,8 @@ import { TripService } from '../services/trip.service';
     JunctureModal,
     JunctureSaveTypePopover,
     TripModal,
-    MobileNavModal
+    MobileNavModal,
+    TripPage1
   ],
   providers: [
     APIService,

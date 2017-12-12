@@ -16,29 +16,29 @@ export class JunctureService {
   ) { }
 
   createJuncture() {
-    let modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal', enableBackdropDismiss: false});
+    const modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
-      if(data) {
+      if (data) {
         this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
           result => {
             // console.log(result);
             const city = result.formatted_address.split(',')[1];
             const country = result.formatted_address.split(',').slice(-1);
-  
-            this.apiService.createJuncture(data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft').subscribe(
+
+            this.apiService.updateJuncture(data.junctureId, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft').subscribe(
               (result: any) => {
                 console.log(result);
-                this.createGalleryPhotoLinks(result.data.createJuncture.juncture.id, data.photos).then(() => {
-                  this.apiService.createTripToJuncture(data.selectedTrip, result.data.createJuncture.juncture.id).subscribe(
+                this.createGalleryPhotoLinks(result.data.updateJunctureById.juncture.id, data.photos).then(() => {
+                  this.apiService.createTripToJuncture(data.selectedTrip, result.data.updateJunctureById.juncture.id).subscribe(
                     () => {
                       this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
                     }
-                  )
+                  );
                 });
               }
-            )
+            );
           }
-        ) 
+        );
       }
     });
     modal.present();
@@ -46,9 +46,9 @@ export class JunctureService {
 
   createGalleryPhotoLinks(junctureId: number, photoArr: GalleryPhoto[]) {
     return new Promise((resolve, reject) => {
-      if(!photoArr.length) resolve();
+      if (!photoArr.length) resolve();
 
-      //bulk add links to post
+      // bulk add links to post
       let query = `mutation {`;
       photoArr.forEach((photo, i) => {
         query += `a${i}: createJunctureToPhoto(input:{
@@ -71,11 +71,11 @@ export class JunctureService {
   }
 
   toast(message: string) {
-    let toast = this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message,
       duration: 3000,
       position: 'top'
-    }); 
+    });
 
     toast.present();
   }

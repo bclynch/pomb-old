@@ -10,10 +10,10 @@ import { UtilService } from '../../services/util.service';
 import { RouterService } from '../../services/router.service';
 
 @Component({
-  selector: 'page-trip',
-  templateUrl: 'trip.html'
+  selector: 'page-trip-1',
+  templateUrl: 'trip1.html'
 })
-export class TripPage {
+export class TripPage1 {
   @ViewChild(AgmMap) private map: any;
   @ViewChildren(AgmSnazzyInfoWindow) snazzyWindowChildren: QueryList<any>;
 
@@ -31,6 +31,7 @@ export class TripPage {
   coords: { lat: number; lon: number; } = { lat: null, lon: null };
   zoomLevel: number;
   latlngBounds;
+  geoJsonObject: Object = null;
   mapStyle;
 
   constructor(
@@ -62,6 +63,10 @@ export class TripPage {
 
       this.junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
 
+      // trip coords
+      const junctureArr = this.tripData.tripToJuncturesByTripId.nodes.map((juncture) => ( juncture.junctureByJunctureId.coordsByJunctureId.nodes ));
+      this.geoJsonObject = this.generateGeoJSON(junctureArr);
+
       // fitting the map to the markers
       this.mapsAPILoader.load().then(() => {
         this.latlngBounds = new window['google'].maps.LatLngBounds();
@@ -79,6 +84,40 @@ export class TripPage {
     }, (error) => {
       console.log('there was an error sending the query', error);
     });
+  }
+
+  styleFunc(feature) {
+    return ({
+      clickable: false,
+      strokeColor: '#f7ea00',
+      strokeWeight: 3
+    });
+  }
+
+  generateGeoJSON(data) {
+    let geoJSON = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: []
+      },
+      properties: {
+        name: 'Booger',
+        coordTimes: []
+      }
+    };
+
+    // WILL NEED TO FIGURE OUT ORDERING PROPERLY
+    data.forEach((juncture) => {
+      juncture.forEach((coords) => {
+        geoJSON.geometry.coordinates.push([ coords.lat, coords.lon, coords.elevation ]);
+        geoJSON.properties.coordTimes.push(coords.coordTime);
+      });
+    });
+
+    console.log(geoJSON);
+
+    return geoJSON;
   }
 
   changeIndex(i: number) {

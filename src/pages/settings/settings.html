@@ -12,8 +12,7 @@
   />
 
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px; width: 80%;" *ngIf="geoJsonObject">
-    <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc">
-    </agm-data-layer>
+    <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc"></agm-data-layer>
   </agm-map>
 
   <div class="chartWrapper line">

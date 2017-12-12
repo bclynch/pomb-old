@@ -23,10 +23,12 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class JunctureModal {
 
+  junctureId: number;
   junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
   junctureSaveType = 'Draft';
   tripOptions = null;
+  geoJsonObject: Object = null;
 
   galleryPhotos: GalleryPhoto[] = [];
 
@@ -48,6 +50,15 @@ export class JunctureModal {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController
   ) {
+    // create juncture so we have an ID for gpx upload
+    this.apiService.createJuncture().subscribe(
+      (data: any) => {
+        console.log('NEW JUNCTURE ID: ', data.data.createJuncture.juncture.id);
+        this.junctureId = data.data.createJuncture.juncture.id;
+      }
+    );
+
+    // grab trips to populate select
     this.apiService.tripsByUserId(this.userService.user.id).subscribe(
       (data: any) => {
         console.log(data);
@@ -55,6 +66,8 @@ export class JunctureModal {
         if (data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
       }
     );
+
+    // grab location for map
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location: any) => {
         console.log(location.coords);
@@ -71,6 +84,19 @@ export class JunctureModal {
 
   onCloseModal() {
     this.viewCtrl.dismiss();
+  }
+
+  onGPXUploaded(gpxData) {
+    console.log('GPX Data: ', gpxData);
+    this.geoJsonObject = gpxData;
+  }
+
+  styleFunc(feature) {
+    return ({
+      clickable: false,
+      strokeColor: 'purple',#98AC91
+      strokeWeight: 3
+    });
   }
 
   presentPopover(e) {
@@ -169,6 +195,7 @@ export class JunctureModal {
 
   saveJuncture() {
     this.viewCtrl.dismiss({
+      junctureId: this.junctureId,
       saveType: this.junctureSaveType,
       name: this.junctureModel.name,
       description: this.junctureModel.description,

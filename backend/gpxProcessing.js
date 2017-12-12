@@ -5,6 +5,7 @@ DOMParser = require('xmldom').DOMParser,
 multer = require('multer'),
 tempFolderPath = './tempFiles/',
 express = require('express'),
+db = require('./db/index'),
 router = express.Router();
 
 const storage = multer.diskStorage({
@@ -24,8 +25,8 @@ var converted = convertGPX.gpx(gpx);
 
 // console.log(JSON.stringify(converted));
 
-let convertedTimeArr = [];
-let distanceArr = [];
+// let convertedTimeArr = [];
+// let distanceArr = [];
 
 // Route 
 router.post("/", upload.array("uploads[]", 5), (req, res) => {
@@ -34,6 +35,7 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
 
   let converted;
   let gpxData = {};
+  const junctureId = +req.query.juncture;
 
   // we want to combine both the coords and the coordTimes arr of all files
   for(let i = 0; i < files.length; i++) {
@@ -60,26 +62,32 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
 
   gpxData.geoJSON = converted.features[0];
 
-  //console.log(JSON.stringify(gpxData.geoJSON));
-
   // We are looking at roughly 1000 data points per 20 mins or 50/min
   // Don't really want / need all the data. Lets investigate what still looks good for our mapping to find nice balance between data / visuals
-  //Taking 10% of data points appears solid for now
+  // Taking 10% of data points appears solid for now
   gpxData.geoJSON.properties.coordTimes = gpxData.geoJSON.properties.coordTimes.filter((_,i) => i % 10 == 0);
   gpxData.geoJSON.geometry.coordinates = gpxData.geoJSON.geometry.coordinates.filter((_,i) => i % 10 == 0);
+
+  // save to table
+  const sql = createSQLString(gpxData.geoJSON, junctureId);
+  
+  db.query(sql, (err, res) => {
+    if (err) console.log(err);
+    if (res) console.log(`added ${res.length - 2} coords`);
+  });
 
   const totalDistance = getTotalDistance(gpxData.geoJSON.geometry.coordinates);
   console.log('TOTAL DISTANCE in kms: ', totalDistance / 1000);
   gpxData.totalDistance = totalDistance;
 
-  const speeds = getSpeedArr(gpxData.geoJSON.geometry.coordinates, converted.features[0].properties.coordTimes);
-  gpxData.speedsArr = speeds;
+  // const speeds = getSpeedArr(gpxData.geoJSON.geometry.coordinates, converted.features[0].properties.coordTimes);
+  // gpxData.speedsArr = speeds;
 
-  gpxData.timeArr = convertedTimeArr.slice(0);
-  convertedTimeArr = [];
+  // gpxData.timeArr = convertedTimeArr.slice(0);
+  // convertedTimeArr = [];
 
-  gpxData.distanceArr = distanceArr.slice(0);
-  distanceArr = [];
+  // gpxData.distanceArr = distanceArr.slice(0);
+  // distanceArr = [];
 
   res.send(JSON.stringify({data: gpxData}));
 });
@@ -96,32 +104,42 @@ function getTotalDistance(arr) {
       );
 
       totalDistance += distance;
-      distanceArr.push(totalDistance);
+      // distanceArr.push(totalDistance);
     }
   }
   //copying the last elem and pushing to end of arr so it has same count as coord arr.
-  distanceArr.splice(distanceArr.length - 1, 0, distanceArr[distanceArr.length - 1]);
+  // distanceArr.splice(distanceArr.length - 1, 0, distanceArr[distanceArr.length - 1]);
 
   return totalDistance;
 }
 
-function getSpeedArr(geoArr, timeArr) {
-  let speedsArr = [];
-  for(let i = 0; i < geoArr.length; i++) {
-    if(i < geoArr.length - 1) {
-      const timeToMs = Date.parse(timeArr[i]);
-      convertedTimeArr.push(timeToMs);
-      speedsArr.push(geolib.getSpeed(
-        { lat: geoArr[i][1], lng: geoArr[i][0], time: timeToMs },
-        { lat: geoArr[i + 1][1], lng: geoArr[i + 1][0], time: Date.parse(timeArr[i + 1]) }
-      ));
-    }
-  }
-  //copying the last elem and pushing to end of arr so it has same count as coord arr. Same for times
-  speedsArr.splice(speedsArr.length - 1, 0, speedsArr[speedsArr.length - 1]);
-  convertedTimeArr.splice(convertedTimeArr.length - 1, 0, convertedTimeArr[convertedTimeArr.length - 1])
+// function getSpeedArr(geoArr, timeArr) {
+//   let speedsArr = [];
+//   for(let i = 0; i < geoArr.length; i++) {
+//     if(i < geoArr.length - 1) {
+//       const timeToMs = Date.parse(timeArr[i]);
+//       convertedTimeArr.push(timeToMs);
+//       speedsArr.push(geolib.getSpeed(
+//         { lat: geoArr[i][1], lng: geoArr[i][0], time: timeToMs },
+//         { lat: geoArr[i + 1][1], lng: geoArr[i + 1][0], time: Date.parse(timeArr[i + 1]) }
+//       ));
+//     }
+//   }
+//   //copying the last elem and pushing to end of arr so it has same count as coord arr. Same for times
+//   speedsArr.splice(speedsArr.length - 1, 0, speedsArr[speedsArr.length - 1]);
+//   convertedTimeArr.splice(convertedTimeArr.length - 1, 0, convertedTimeArr[convertedTimeArr.length - 1])
 
-  return speedsArr;
+//   return speedsArr;
+// }
+
+function createSQLString(geoJSON, junctureId) {
+  let sql = 'BEGIN; ';
+  geoJSON.geometry.coordinates.forEach((event, i) => {
+    const coordData = [ event[0], event[1], event[2] ].join(', ');
+    sql += `INSERT INTO pomb.coords(juncture_id, lat, lon, elevation, coord_time) VALUES (${junctureId}, ${coordData}, '${geoJSON.properties.coordTimes[i]}'); `;
+  });
+  sql += 'COMMIT;'
+  return sql;
 }
 
 module.exports = router;

@@ -336,11 +336,11 @@ create table pomb.juncture (
   name                text check (char_length(name) < 256),
   arrival_date        bigint,
   description         text check (char_length(name) < 1200),
-  lat                 decimal not null,
-  lon                 decimal not null,
-  city                text not null,
-  country             text not null,
-  is_draft            boolean not null,
+  lat                 decimal,
+  lon                 decimal,
+  city                text,
+  country             text,
+  is_draft            boolean,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
@@ -445,6 +445,23 @@ comment on table pomb.user_to_trip is 'Join table for trip related to a user';
 comment on column pomb.user_to_trip.id is 'Id of the row';
 comment on column pomb.user_to_trip.user_id is 'Id of the user';
 comment on column pomb.user_to_trip.trip_id is 'Id of the trip';
+
+create table pomb.coords (
+  id                  serial primary key,
+  juncture_id         integer not null references pomb.juncture(id) on delete cascade,
+  lat                 decimal not null,
+  lon                 decimal not null,
+  elevation           decimal,
+  coord_time          timestamp
+);
+
+comment on table pomb.coords is 'Table with POMB juncture coordinates';
+comment on column pomb.coords.id is 'Primary id for coordinates';
+comment on column pomb.coords.juncture_id is 'Foreign key to referred juncture';
+comment on column pomb.coords.lat is 'Latitude of coords';
+comment on column pomb.coords.lon is 'Longitude of coords';
+comment on column pomb.coords.elevation is 'Elevation of coords';
+comment on column pomb.coords.coord_time is 'Timestamp of coords';
 
 -- *******************************************************************
 -- *********************** Function Queries **************************
@@ -667,6 +684,7 @@ GRANT ALL ON TABLE pomb.juncture_to_photo TO pomb_account; --ultimately needs to
 GRANT ALL ON TABLE pomb.juncture_to_post TO pomb_account; --ultimately needs to be policy in which only own user!
 GRANT ALL ON TABLE pomb.trip_to_juncture TO pomb_account; --ultimately needs to be policy in which only own user!
 GRANT ALL ON TABLE pomb.user_to_trip TO pomb_account; --ultimately needs to be policy in which only own user!
+GRANT ALL ON TABLE pomb.coords TO PUBLIC; --Need to figure this out... Inserting from node
 
 GRANT select on table pomb.post to PUBLIC;
 GRANT select on table pomb.post_tag to PUBLIC;

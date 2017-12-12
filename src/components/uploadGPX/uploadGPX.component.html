@@ -1,4 +1,4 @@
-<div class="gpxUploadContainer">
+<div class="gpxUploadContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor +';')">
   <ion-icon name="md-map"></ion-icon>
   <input 
     type="file" 
@@ -7,4 +7,5 @@
     [multiple]="true"
     accept=".gpx" 
   />
+  <div class="uploadMsg">Upload GPX Data</div>
 </div>

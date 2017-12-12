@@ -210,7 +210,7 @@ export class SettingsPage {
     this.filesToUpload = <Array<File>>fileInput.target.files;
     const processedData = this.processFormData();
 
-    this.apiService.uploadGPX(processedData).subscribe(
+    this.apiService.uploadGPX(processedData, 1).subscribe(
         result => {
           console.log(result);
           this.geoJsonObject = result.data.geoJSON;

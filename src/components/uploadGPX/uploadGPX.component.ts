@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { SettingsService } from '../../services/settings.service';
 import { APIService } from '../../services/api.service';
 
 @Component({
@@ -7,34 +9,27 @@ import { APIService } from '../../services/api.service';
   templateUrl: 'uploadGPX.component.html'
 })
 export class UploadGPX {
+  @Input() junctureId: number;
+  @Output() gpxUploaded: EventEmitter<any> = new EventEmitter<any>();
 
   isProcessing = false;
   filesToUpload: Array<File> = [];
 
   constructor(
-    private apiService: APIService
+    private apiService: APIService,
+    private settingsService: SettingsService,
+    private sanitizer: DomSanitizer
   ) { }
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
     const processedData = this.processFormData();
 
-    this.apiService.uploadGPX(processedData).subscribe(
+    this.apiService.uploadGPX(processedData, this.junctureId).subscribe(
         result => {
           console.log(result);
-          this.geoJsonObject = result.data.features[0];
-          this.elevationTimeData = result.data.features[0].geometry.coordinates.map((coord, i) => { return { x: result.data.timeArr[i], y: coord[2] } });
-          // reducing points on graph
-          this.elevationTimeData = this.elevationTimeData.filter((_,i) => i % 15 == 0); 
-          this.speedTimeData = result.data.features[0].speedsArr.map((speed, i) => { return { x: result.data.timeArr[i], y: speed } });
-          // reducing points on graph
-          this.speedTimeData = this.speedTimeData.filter((_,i) => i % 15 == 0); 
-          this.elevationDistanceData = result.data.features[0].geometry.coordinates.map((coord, i) => { return { x: result.data.distanceArr[i] / 1000, y: coord[2] } });
-          // reducing points on graph
-          this.elevationDistanceData = this.elevationDistanceData.filter((_,i) => i % 15 == 0); 
-          this.speedDistanceData = result.data.features[0].speedsArr.map((speed, i) => { return { x: result.data.distanceArr[i] / 1000, y: speed } });
-          // reducing points on graph
-          this.speedDistanceData = this.speedDistanceData.filter((_,i) => i % 15 == 0);
+          this.gpxUploaded.emit(result.data.geoJSON);
+
           this.isProcessing = false;
         }
       );

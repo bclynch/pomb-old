@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <uploadGPX></uploadGPX>
+    <uploadGPX [junctureId]="junctureId" (gpxUploaded)="onGPXUploaded($event)"></uploadGPX>
     <div class="mapContainer">
       <div class="mapInited" *ngIf="inited">
         <agm-map 
@@ -25,7 +25,9 @@
           [styles]=mapStyle
           [zoom]="zoomLevel"
           (centerChange)="moveCenter($event)"
-        ></agm-map>
+        >
+          <agm-data-layer [geoJson]="geoJsonObject" [style]="styleFunc"></agm-data-layer>
+        </agm-map>
         <div class="target"></div>
         <div class="directions">Center map on juncture location</div>
       </div>
