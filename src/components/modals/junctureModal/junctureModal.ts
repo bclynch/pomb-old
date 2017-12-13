@@ -26,7 +26,7 @@ export class JunctureModal {
   junctureId: number;
   junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
-  junctureSaveType = 'Draft';
+  junctureSaveType = 'Publish';
   tripOptions = null;
   geoJsonObject: Object = null;
 
@@ -88,13 +88,15 @@ export class JunctureModal {
 
   onGPXUploaded(gpxData) {
     console.log('GPX Data: ', gpxData);
+    this.coords.lat = gpxData.geometry.coordinates.slice(-1)[0][1];
+    this.coords.lon = gpxData.geometry.coordinates.slice(-1)[0][0];
     this.geoJsonObject = gpxData;
   }
 
   styleFunc(feature) {
     return ({
       clickable: false,
-      strokeColor: 'purple',#98AC91
+      strokeColor: 'orange',
       strokeWeight: 3
     });
   }
@@ -126,7 +128,7 @@ export class JunctureModal {
 
   presentGalleryUploaderPopover() {
     if (this.galleryPhotos.length === 6) {
-      this.alertService.alert('Gallery Full', 'Only 6 images per juncture gallery maximum. Please delete a few to add more.')
+      this.alertService.alert('Gallery Full', 'Only 6 images per juncture gallery maximum. Please delete a few to add more.');
     } else {
       const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 6 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();

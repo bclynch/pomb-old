@@ -98,7 +98,6 @@ import { ExploreCountryPage } from '../pages/explore/country/explore.country';
 import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
 import { TripPage } from '../pages/trip/trip';
-import { TripPage1 } from '../pages/trip1/trip1';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -186,8 +185,7 @@ import { TripService } from '../services/trip.service';
     MobileNavModal,
     PlaceGuide,
     ShareBtns,
-    UploadGPX,
-    TripPage1
+    UploadGPX
   ],
   imports: [
     BrowserModule,
@@ -196,7 +194,7 @@ import { TripService } from '../services/trip.service';
     IonicModule.forRoot(MyApp),
     ApolloModule.withClient(getClient),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', //this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
+      apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', // this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
     }),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     AgmSnazzyInfoWindowModule,
@@ -238,8 +236,7 @@ import { TripService } from '../services/trip.service';
     JunctureModal,
     JunctureSaveTypePopover,
     TripModal,
-    MobileNavModal,
-    TripPage1
+    MobileNavModal
   ],
   providers: [
     APIService,

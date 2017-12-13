@@ -326,6 +326,7 @@ const getTripById = gql`
             name,
             lat,
             lon,
+            arrivalDate,
             id,
             coordsByJunctureId {
               nodes {

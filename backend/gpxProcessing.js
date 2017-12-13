@@ -135,7 +135,7 @@ function getTotalDistance(arr) {
 function createSQLString(geoJSON, junctureId) {
   let sql = 'BEGIN; ';
   geoJSON.geometry.coordinates.forEach((event, i) => {
-    const coordData = [ event[0], event[1], event[2] ].join(', ');
+    const coordData = [ event[1], event[0], event[2] ].join(', ');
     sql += `INSERT INTO pomb.coords(juncture_id, lat, lon, elevation, coord_time) VALUES (${junctureId}, ${coordData}, '${geoJSON.properties.coordTimes[i]}'); `;
   });
   sql += 'COMMIT;'

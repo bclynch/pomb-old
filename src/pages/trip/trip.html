@@ -10,7 +10,8 @@
         [fitBounds]="latlngBounds"
         [styles]=mapStyle
         [zoom]="zoomLevel"
-        (zoomChange)="onZoomChange($event)" 
+        (zoomChange)="onZoomChange($event)"
+        (mapReady)="mapReady($event)"
         mapTypeId="terrain"
         #AgmMap
       >
@@ -55,13 +56,14 @@
             </ng-template>
           </agm-snazzy-info-window>
         </agm-marker>
-        <agm-polyline
+        <agm-data-layer [geoJson]="geoJsonObject" [style]="styleFunc"></agm-data-layer>
+        <!-- <agm-polyline
           [editable]="false"
           strokeColor="#934000"
           strokeWeight="3"
         >
           <agm-polyline-point *ngFor="let point of junctureMarkers" [latitude]="point.junctureByJunctureId.lat" [longitude]="point.junctureByJunctureId.lon"></agm-polyline-point>
-        </agm-polyline>
+        </agm-polyline> -->
       </agm-map>
       <ShareBtns 
         [title]="tripData.name" 

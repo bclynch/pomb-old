@@ -31,7 +31,9 @@ export class TripPage {
   coords: { lat: number; lon: number; } = { lat: null, lon: null };
   zoomLevel: number;
   latlngBounds;
+  geoJsonObject: any = null;
   mapStyle;
+  boundedZoom: number;
 
   constructor(
     private settingsService: SettingsService,
@@ -62,13 +64,25 @@ export class TripPage {
 
       this.junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
 
+      // trip coords
+      const junctureArr = this.tripData.tripToJuncturesByTripId.nodes.map((juncture) => {
+        // if its got gpx coords add them
+        if (juncture.junctureByJunctureId.coordsByJunctureId.nodes.length) return juncture.junctureByJunctureId.coordsByJunctureId.nodes;
+
+        // else add its manual marker coords
+        return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
+      });
+      console.log(junctureArr);
+      this.geoJsonObject = this.generateGeoJSON(junctureArr);
+
       // fitting the map to the markers
       this.mapsAPILoader.load().then(() => {
         this.latlngBounds = new window['google'].maps.LatLngBounds();
         this.junctureMarkers.forEach((juncture) => {
           this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.junctureByJunctureId.lat, juncture.junctureByJunctureId.lon));
         });
-        console.log(this.latlngBounds);
+        // making sure to check first coord of first juncture to compensate for it
+        this.latlngBounds.extend(new window['google'].maps.LatLng(this.geoJsonObject.geometry.coordinates[0][1], this.geoJsonObject.geometry.coordinates[0][0]));
 
         // grab map style
         this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe( (data) => {
@@ -79,6 +93,40 @@ export class TripPage {
     }, (error) => {
       console.log('there was an error sending the query', error);
     });
+  }
+
+  styleFunc(feature) {
+    return ({
+      clickable: false,
+      strokeColor: 'orange',
+      strokeWeight: 3
+    });
+  }
+
+  generateGeoJSON(data) {
+    let geoJSON = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: []
+      },
+      properties: {
+        name: 'Booger',
+        coordTimes: []
+      }
+    };
+
+    // WILL NEED TO FIGURE OUT ORDERING PROPERLY
+    data.forEach((juncture) => {
+      juncture.forEach((coords, i) => {
+        geoJSON.geometry.coordinates.push([ coords.lon, coords.lat, coords.elevation ]);
+        geoJSON.properties.coordTimes.push(coords.coordTime);
+      });
+    });
+
+    console.log(geoJSON);
+
+    return geoJSON;
   }
 
   changeIndex(i: number) {
@@ -140,7 +188,7 @@ export class TripPage {
     if (i < this.junctureMarkers.length - 1) this.modJunctureContentArr(i + 1, this.junctureMarkers[i + 1].junctureByJunctureId.id);
 
     // programmatically close info window
-    let livewindow = this.snazzyWindowChildren.find((window, index) => ( index === i ));
+    const livewindow = this.snazzyWindowChildren.find((window, index) => ( index === i ));
     livewindow._closeInfoWindow();
   }
 
@@ -167,11 +215,13 @@ export class TripPage {
   panToCoords(lat: number, lon: number) {
     this.coords.lat = lat;
     this.coords.lon = lon;
-    this.zoomLevel = 7;
+    this.zoomLevel = this.boundedZoom < 8 ? this.boundedZoom + 2 : this.boundedZoom + 1;
     this.map._mapsWrapper.panTo({lat: this.coords.lat, lng: this.coords.lon});
   }
 
   onZoomChange(e) {
+    // if original bound zoom value failed then apply this
+    if (!this.boundedZoom) this.boundedZoom = e;
     this.zoomLevel = e;
   }
 
@@ -197,5 +247,11 @@ export class TripPage {
   truncate(text: string) {
     const ellipsis = text.length > 160 ? '...' : '';
     return text.slice(0, 200) + ellipsis;
+  }
+
+  mapReady(e) {
+    // bounded zoom is what the map originally used based on bounds formula and is useful for panning around later
+    // is undefined on load, but this works otherwise
+    if (e.zoom) this.boundedZoom = e.zoom;
   }
 }

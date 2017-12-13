@@ -22,7 +22,6 @@ import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
 import { UserAdminPage } from '../pages/userAdmin/admin';
 import { TripPage } from '../pages/trip/trip';
-import { TripPage1 } from '../pages/trip1/trip1';
 
 const appRoutes: Routes = [
   {
@@ -159,15 +158,6 @@ const appRoutes: Routes = [
           {
             path: ':id',
             component: TripPage
-          }
-        ]
-      },
-      {
-        path: 'trip1',
-        children: [
-          {
-            path: ':id',
-            component: TripPage1
           }
         ]
       }

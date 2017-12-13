@@ -6,18 +6,22 @@
 
 #### FOCUS ON TRIP / JUNCTURE / DIARY EXPERIENCE
 - Finish juncture creation modal
-- Work in trip1 page to be only trip page
-- Work in what the trip page looks like with this new data if it exists and how it will work with non gpx data
-- Work out bounds so map renders correctly with various markers / gpx data
+    - Probably want to stop user from being able to modify juncture point if its gpx
+    - Improve UI for gpx OR manual
+    - Maybe informational badge for gpx
+- Need a way for user to reorder junctures or perhaps just by time ... need to consider
+- Need to improve markers on map (make images)
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
 - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
+- Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way. Map explorer is a different (default?) way to view a trip
 - Google Analytics
-- Share buttons for posts / trips / junctures
+- Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
 - Favorites / 'add to pack' for posts, images, trips
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
-- Flesh out user profile
+- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+- Think about sub trips ? i.e. a trek in the middle of a longer trip
 - Linode Hosting
 - Mobile usage!
 - Admin panels
