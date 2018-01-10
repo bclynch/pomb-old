@@ -1,224 +1,165 @@
 page-trip {
 
-  .initedLayer {
+  // modding the nav bar for this page
+  .pageWrapperContainer {
+    margin: 0;
+
+    .navBarContainer {
+      position: absolute;
+      background: transparent;
+    }
+  }
+
+  .contentWrapper {
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    max-width: 1600px;
+    margin: 0 auto;
 
-    .mapContainer {
-      flex: 1;
-      height: 40vh;
-      position: relative;
+    .subnavContainer {
+      width: 100vw;
+      max-width: 1600px;
+      top: 0;
+      background: white;
+      z-index: 10;
 
-      agm-map {
-        height: 100%;
+      .borderWrapper {
+        width: 100%;
+        margin: 0 auto;
+        border-bottom: solid 1px mapGet($basecolor, darkened);
+
+        .subnavWrapper {
+          margin: 0 auto;
+          width: 97%;
+          display: flex;
+          justify-content: space-between;
+
+          > div {
+            cursor: pointer;
+            transition: .3s;
+            flex: 1;
+            padding: 30px 0;
+            text-align: center;
+            text-transform: uppercase;
+          }
+          > div:hover {
+            color: var(--secondary);
+          }
+        }
+      }
+    }
+    .sectionsWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .widthWrapper {
+        width: 100%;
+        max-width: 1000px;
+
+        .section {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
   
-        .si-wrapper-left {
-          margin-top: 0;
-          margin-left: -20px;
-          height: 30vh;
-          width: 50%;
+          .sectionHeader {
+            font-size: 32px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+          }
+          .sectionHeader:after {
+            border-bottom: .2rem solid var(--secondary);
+            bottom: 0;
+            content: "";
+            display: block;
+            left: 50%;
+            margin-left: -1.5rem;
+            position: absolute;
+            width: 3rem;
+          }
+          &.glance {
+            
+            .glanceHeader {
+              font-size: 45px;
+              margin-bottom: 10px;
+              align-self: flex-start;
   
-          .si-content-wrapper {
-            padding: 0;
-            height: 100%;
-  
-            button {
-              color: mapGet($basecolor, white);
-              opacity: .85;
+              &.facts {
+                font-size: 36px;
+              }
             }
-            .si-content {
-              height: 100%;
-              max-height: 100%!important;
-              max-width: 100%!important;
+            .glanceSubsection {
+              font-style: italic;
+              line-height: 42px;
+              font-size: 28px;
             }
-    
-            .juncturePhoto {
-              background-position: center;
-              background-size: cover;
-              height: 150px;
-              width: 100%;
+            .glanceContent {
+              .content {
+                font-size: 20px;
+                line-height: 36px;
+              }
+            }
+            .toggleBtn {
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              font-size: 18px;
+              padding: 15px;
+              border-top: solid 1px mapGet($basecolor, darkened);
+              margin-top: 10px;
   
-              .overlay {
-                height: 100%;
-                width: 100%;
-                background: rgba(0,0,0,.3);
+              ion-icon {
+                margin-left: 10px;
+                font-size: 12px;
+              }
+            }
+          }
+          &.guide {
+  
+            .sectionHeader {
+              margin-bottom: 25px;
+            }
+          }
+          &.map {
+            width: 100%;
+            
+            .mapContainer {
+              margin-top: 20px;
+              position: relative;
+
+              agm-map {
+                width: 100vw;
+                height: calc(90vh - 80px);
+              }
+              .mapBtn {
+                width: 300px;
+                position: absolute;
+                bottom: 10%;
+                left: calc(50% - 150px);
+                background: var(--secondary);
+                color: white;
+                text-align: center;
+                padding: 20px 0;
+                text-transform: uppercase;
+                cursor: pointer;
+                font-weight: bold;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                flex-direction: column;
-                color: mapGet($basecolor, white);
-  
-                .overlayName {
+                transition: .2s;
+
+                ion-icon {
+                  margin-right: 20px;
                   font-size: 24px;
-                  margin-bottom: 5px;
-                }
-                .overlayDate {
-                  font-size: 18px;
+                  transition: .2s;
                 }
               }
-            }
-            .contentWrapper {
-              padding: 10px;
-  
-              .windowCity {
-                font-weight: bold;
-                font-size: 18px;
-              }
-              .windowCountry {
-                font-size: 16px;
-                margin-bottom: 10px;
-              }
-              .windowBtn {
-                background: mapGet($basecolor, black);
-                color: mapGet($basecolor, white);
-                padding: 8px 0;
-                width: 50%;
-                margin: 5px auto 0;
-                text-align: center;
-                font-weight: bold;
-                cursor: pointer;
-              }
-            }
-          }
-          .si-pointer-left {
-            display: none;
-          }
-        }
-      }
-      ShareBtns {
-        position: absolute;
-        bottom: 15px;
-        right: -10px;
-      }
-    }
-    .juncturePane {
-      min-height: calc(60vh - 40px); //40px is size of nav
-      width: 100%;
-      overflow: hidden;
+              .mapBtn:hover {
 
-      .paneHeader {
-        height: 35px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 15px;
-        background: mapGet($basecolor, border);
-        color: mapGet($basecolor, white);
-        font-weight: bold;
-
-        .userWrapper {
-          display: flex;
-          align-items: center;
-
-          .profilePhoto {
-            height: 25px;
-            width: 25px;
-            background-size: contain;
-            border: 1px solid mapGet($basecolor, white);
-            border-radius: 5px;
-            margin-right: 10px;
-          }
-        }
-        BackpackIcon {
-          height: 20px;
-          width: 20px;
-          cursor: pointer;
-        }
-        > div {
-          cursor: pointer;
-        }
-      }
-      .paneBanner {
-        display: none;
-
-        .overlay {
-          background: rgba(0,0,0,.2);
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          color: mapGet($basecolor, white);
-          text-shadow: 2px 2px mapGet($basecolor, black);
-          position: relative;
-
-          .bannerTitle {
-            font-size: 44px;
-          }
-          .timeframe {
-            font-size: 24px;
-            text-transform: uppercase;
-          }
-        }
-      }
-      .paneJunctureTracker {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        position: relative;
-        border-right: solid 1px mapGet($basecolor, border);
-
-        .trackerWrapper {
-          position: absolute;
-          display: flex;
-          transition: .5s;
-          height: 35px;
-
-          > div {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border-left: solid 1px mapGet($basecolor, border);
-          }
-          > div:hover {
-            opacity: .7;
-          }
-        }
-      }
-      .paneContent {
-        position: relative;
-        top: 35px;
-
-        .contentWrapper {
-          position: absolute;
-          display: flex;
-          transition: .5s;
-
-          .junctureContentContainer {
-            flex: 1;
-            padding: 24px;
-
-            .junctureCity {
-              font-size: 28px;
-            }
-            .junctureCountry {
-              font-size: 18px;
-              margin: 10px 0;
-            }
-            .junctureDescription {
-              line-height: 24px;
-              font-size: 16px;
-            }
-            .junctureTimeRow {
-              display: flex;
-              align-items: center;
-              margin-bottom: 5px;
-
-              .junctureNumber {
-                background: mapGet($basecolor, border);
-                color: mapGet($basecolor, white);
-                font-weight: bold;
-                padding: 5px 10px;
-                margin-right: 10px;
-              }
-            }
-            Gallery {
-              .galleryContainer {
-                margin: 10px 0;
+                ion-icon {
+                  transform: translate(-5px, 0);
+                }
               }
             }
           }
@@ -226,50 +167,19 @@ page-trip {
       }
     }
   }
+  
 
+  @include respond-to(tiny) {
+    .sectionHeader {
+      font-size: 48px!important;
+    }
+  }
   @include respond-to(small) {
-    .initedLayer {
-      flex-direction: row;
-  
-      .mapContainer {
-        height: calc(100vh - 40px); //40px is size of nav
+    .borderWrapper {
+      width: 100%;
 
-        agm-map {
-          height: 100%;
-
-          .si-wrapper-left {
-            height: 40vh;
-            width: 40%;
-          }
-        }
-      }
-      .juncturePane {
-        width: 40%;
-        min-width: 500px;
-        height: calc(100vh - 40px); //40px is size of nav
-        overflow-y: scroll;
-
-        .paneBanner {
-          display: block;
-          height: 300px;
-          background-position: center;
-          background-size: cover;
-        }
-        .paneHeader {
-          height: 45px;
-
-          .userWrapper {
-  
-            .profilePhoto {
-              height: 32px;
-              width: 32px;
-            }
-          }
-          BackpackIcon {
-            height: 32px;
-            width: 32px;
-          }
-        }
+      .subnavWrapper {
+        width: 70% !important;
       }
     }
   }

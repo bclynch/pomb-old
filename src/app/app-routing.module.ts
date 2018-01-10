@@ -22,6 +22,8 @@ import { ExploreCityPage } from '../pages/explore/city/explore.city';
 import { CommunityPage } from '../pages/community/community';
 import { UserAdminPage } from '../pages/userAdmin/admin';
 import { TripPage } from '../pages/trip/trip';
+import { TripMapPage } from '../pages/tripMap/tripMap';
+import { JuncturePage } from '../pages/juncture/juncture';
 
 const appRoutes: Routes = [
   {
@@ -130,6 +132,33 @@ const appRoutes: Routes = [
     ]
   },
   {
+    path: 'trip',
+    children: [
+      {
+        path: ':id',
+        children: [
+          {
+            path: '',
+            component: TripPage
+          },
+          {
+            path: 'map',
+            component: TripMapPage
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'juncture',
+    children: [
+      {
+        path: ':id',
+        component: JuncturePage
+      }
+    ]
+  },
+  {
     path: ':username',
     children: [
       {
@@ -152,15 +181,6 @@ const appRoutes: Routes = [
         },
         component: DashboardPage
       },
-      {
-        path: 'trip',
-        children: [
-          {
-            path: ':id',
-            component: TripPage
-          }
-        ]
-      }
     ]
   },
   { path: 'community', component: CommunityPage },

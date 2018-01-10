@@ -12,7 +12,8 @@
     - Need to stop scroll on the map
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-- Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
+    - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
+- Starting pin for trip
 - Linode Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way. Map explorer is a different (default?) way to view a trip
@@ -23,10 +24,10 @@
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
-    - Blog
+    - Stories
         - Shade would have link + icon to main blog page (current main page), featured posts, categories links
         - Blog itself would be curated list of posts
-        - Route would be /blog and /blog?tag=some-tag and /blog/postId
+        - Route would be /stories and /stories?tag=some-tag and /stories/postId
     - Profile
         - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
         - Profile page would be like facebook in that what you see is what a vistor would see, but you have the ability to edit some stuff. Posts, pics, trips assembled nicely

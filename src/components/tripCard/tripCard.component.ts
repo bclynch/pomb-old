@@ -20,7 +20,7 @@ export class TripCard {
   ) { }
 
   navigateToTrip() {
-    this.routerService.navigateToPage(`${this.router.url}/trip/${this.trip.id}`);
+    this.routerService.navigateToPage(`/trip/${this.trip.id}`);
   }
 
   daysTraveling() {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { UtilService } from '../services/util.service';
 import { ExploreService } from '../services/explore.service';
+import { TripService } from '../services/trip.service';
 
 @Directive({ selector: '[scrollDirective]' })
 export class WindowScrollDirective implements OnInit, OnDestroy {
@@ -15,9 +16,11 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
       private ngZone: NgZone,
       private utilService: UtilService,
       private router: Router,
-      private exploreService: ExploreService
+      private exploreService: ExploreService,
+      private tripService: TripService
     ) {
       this.exploreService.displayExploreNav = this.priorScrollValue > 345;
+      this.tripService.displayTripNav = this.priorScrollValue > 630;
     }
 
     ngOnInit() {
@@ -72,6 +75,18 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
         } else if (e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
           this.ngZone.run(() => {
             this.exploreService.displayExploreNav = false;
+          });
+        }
+      }
+      // if trip page run change detection when crossing 360 threshold sweetspot for our fixed nav menu
+      if (this.router.url.split('/')[1] === 'trip') {
+        if (e.target.scrollTop > 630 && this.tripService.displayTripNav === false) {
+          this.ngZone.run(() => {
+            this.tripService.displayTripNav = true;
+          });
+        } else if (e.target.scrollTop < 630 && this.tripService.displayTripNav === true) {
+          this.ngZone.run(() => {
+            this.tripService.displayTripNav = false;
           });
         }
       }
