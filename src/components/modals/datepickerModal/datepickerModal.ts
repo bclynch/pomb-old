@@ -1,6 +1,6 @@
 
-import { Component, Output, EventEmitter } from "@angular/core";
-import { Modal, ModalController, ViewController, NavParams } from "ionic-angular";
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Modal, ModalController, ViewController, NavParams } from 'ionic-angular';
 
 import moment from 'moment';
 
@@ -25,7 +25,7 @@ export class DatePickerModal {
   timeModel = { hour: null, minutes: null };
 
   constructor(
-    public modalCtrl: ModalController, 
+    public modalCtrl: ModalController,
     public viewCtrl: ViewController,
     private params: NavParams
   ) {
@@ -42,21 +42,21 @@ export class DatePickerModal {
   }
 
   private generateDaysOfMonth(year: number, month: number, day: number) {
-    let calendarMonth = moment(`${year}-${month}-${day}`, "YYYY-MM-DD");
+    const calendarMonth = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD');
 
-    let startOfMonth = calendarMonth.clone().startOf("month").day("sunday");
-    let endOfMonth = calendarMonth.clone().endOf("month").day("saturday");
+    const startOfMonth = calendarMonth.clone().startOf('month').day('sunday');
+    const endOfMonth = calendarMonth.clone().endOf('month').day('saturday');
 
-    let totalDays = endOfMonth.diff(startOfMonth, "days") + 1;
+    const totalDays = endOfMonth.diff(startOfMonth, 'days') + 1;
 
-    let calendarDays: DateItem[] = [];
+    const calendarDays: DateItem[] = [];
 
     for (let i = 0; i < totalDays; i++) {
-      let immunableStartOfMonth = startOfMonth.clone();
+      const immunableStartOfMonth = startOfMonth.clone();
 
-      let dateItem: DateItem = {
+      const dateItem: DateItem = {
         isSelected: false,
-        momentDate: immunableStartOfMonth.add(i, "day"),
+        momentDate: immunableStartOfMonth.add(i, 'day'),
         isEnabled: this.isBelongToThisMonth(immunableStartOfMonth, month)
       };
 
@@ -68,12 +68,12 @@ export class DatePickerModal {
 
   private groupByWeek(daysOfMonth: DateItem[]) {
 
-    let groupedDaysOfMonth = new Array<DateItem[]>();
+    const groupedDaysOfMonth = new Array<DateItem[]>();
 
     daysOfMonth.forEach((item, index) => {
 
 
-      let groupIndex = Math.floor((index / 7));
+      const groupIndex = Math.floor((index / 7));
 
       groupedDaysOfMonth[groupIndex] = groupedDaysOfMonth[groupIndex] || [];
 
@@ -101,9 +101,9 @@ export class DatePickerModal {
   }
 
   private setDefaultSelectedDate() {
-    const date = this.currentMoment.startOf("day");
-    let foundDates = this.daysOfMonth
-      .filter((item: DateItem) => date.isSame(item.momentDate.clone().startOf("day")));
+    const date = this.currentMoment.startOf('day');
+    const foundDates = this.daysOfMonth
+      .filter((item: DateItem) => date.isSame(item.momentDate.clone().startOf('day')));
 
     if (foundDates && foundDates.length > 0) {
       this.selectedDateItem = foundDates[0];
@@ -118,22 +118,22 @@ export class DatePickerModal {
   }
 
   private setMonthBack() {
-    this.currentMoment.subtract(1, "month");
+    this.currentMoment.subtract(1, 'month');
     this.renderCalender();
 
   }
 
   private setMonthForward() {
-    this.currentMoment.add(1, "month");
+    this.currentMoment.add(1, 'month');
     this.renderCalender();
   }
 
   private setYearBack() {
-    this.currentMoment.subtract(1, "year");
+    this.currentMoment.subtract(1, 'year');
     this.renderCalender();
   }
   private setYearForward() {
-    this.currentMoment.add(1, "year");
+    this.currentMoment.add(1, 'year');
     this.renderCalender();
   }
 

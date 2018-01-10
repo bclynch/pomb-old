@@ -6,7 +6,7 @@ import { UtilService } from './util.service';
 @Injectable()
 export class ExploreService {
 
-  //maybe make into JSON
+  // maybe make into JSON
   regions = {
     africa: {
       northern_africa: ['DZ', 'EG', 'EH', 'LY', 'MA', 'SD', 'SS', 'TN'],
@@ -41,7 +41,7 @@ export class ExploreService {
       polynesia: ['AS', 'CK', 'NU', 'PF', 'PN', 'TK', 'TO', 'TV', 'WF', 'WS']
     }
   };
-  //again nice to put into json
+  // again nice to put into json
   googleRegionCodes = {
     '002': 'Africa', 
     '015': 'Northern Africa', 
@@ -131,7 +131,7 @@ export class ExploreService {
           console.log('All countries by code: ', this.countryCodeObj);
           resolve();
         }
-      )
+      );
     });
   }
 

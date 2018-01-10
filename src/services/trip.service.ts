@@ -16,29 +16,29 @@ export class TripService {
   ) { }
 
   createTrip() {
-    let modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
+    const modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
-      if(data) {
+      if (data) {
         this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.bannerPath).subscribe(
           (result: any) => {
             this.apiService.createUserToTrip(this.userService.user.id, result.data.createTrip.trip.id).subscribe(
-              result => {
+              () => {
                 this.toast(`New trip '${data.name}' successfully created`);
               }
-            )
+            );
           }
-        )
+        );
       }
     });
     modal.present();
   }
 
   toast(message: string) {
-    let toast = this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message,
       duration: 3000,
       position: 'top'
-    }); 
+    });
 
     toast.present();
   }

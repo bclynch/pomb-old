@@ -15,7 +15,7 @@ export class PostCard {
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService
-  ) { 
+  ) {
 
   }
 

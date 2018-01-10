@@ -12,14 +12,14 @@ export class FadeCarousel {
   @Input() btnLabel: string;
   @Output() btnClick = new EventEmitter<any>();
 
-  displayedIndex: number = 0;
+  displayedIndex = 0;
 
   constructor(
     private settingsService: SettingsService
-  ) { 
+  ) {
     setInterval(() => {
-      this.displayedIndex = this.displayedIndex === this.data.length - 1 ? 0 : this.displayedIndex + 1; 
-    }, 10000)
+      this.displayedIndex = this.displayedIndex === this.data.length - 1 ? 0 : this.displayedIndex + 1;
+    }, 10000);
   }
 
   onBtnClick(): void {

@@ -14,7 +14,7 @@ interface Guide {
   templateUrl: 'placeGuide.component.html'
 })
 export class PlaceGuide implements OnInit {
-  @Input() selectedOptions: string[]; 
+  @Input() selectedOptions: string[];
 
   guides: Guide[] = [];
   options = {
@@ -33,13 +33,13 @@ export class PlaceGuide implements OnInit {
       icon: 'md-cash',
       description: 'Currency and budget information so your wallet is as ready as you are'
     }
-  }
+  };
 
   constructor(
     private sanitizer: DomSanitizer,
     private settingsService: SettingsService
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {

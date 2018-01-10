@@ -13,7 +13,7 @@ export class GalleryCard {
 
   constructor(
     private settingsService: SettingsService,
-  ) { 
+  ) {
 
   }
 

@@ -1,12 +1,12 @@
-import { Directive, NgZone } from '@angular/core';
+import { Directive, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UtilService } from '../services/util.service'
-import { ExploreService } from '../services/explore.service'
+import { UtilService } from '../services/util.service';
+import { ExploreService } from '../services/explore.service';
 
 @Directive({ selector: '[scrollDirective]' })
-export class WindowScrollDirective {
-  
+export class WindowScrollDirective implements OnInit, OnDestroy {
+
     private eventOptions: boolean|{capture?: boolean, passive?: boolean};
     private priorScrollValue = window.pageYOffset || document.documentElement.scrollTop;
     scrollDirection: 'up' | 'down' = null;
@@ -20,16 +20,16 @@ export class WindowScrollDirective {
       this.exploreService.displayExploreNav = this.priorScrollValue > 345;
     }
 
-    ngOnInit() {    
-      //check support for passive event listener
+    ngOnInit() {
+      // check support for passive event listener
       let supportsPassive = false;
       try {
-        var opts = Object.defineProperty({}, 'passive', {
+        const opts = Object.defineProperty({}, 'passive', {
           get: function() {
             supportsPassive = true;
           }
         });
-        window.addEventListener("test", null, opts);
+        window.addEventListener('test', null, opts);
       } catch (e) {}
 
       if (supportsPassive) {
@@ -51,10 +51,10 @@ export class WindowScrollDirective {
     }
 
     scroll = (e): void => {
-      let scrollDirection: 'up' | 'down' = e.target.scrollTop > this.priorScrollValue ? 'down' : 'up';
-      
-      //if new direction is different from old run change detection && if past 40px (height of nav bar)
-      if(this.scrollDirection !== scrollDirection && e.target.scrollTop > 40) {
+      const scrollDirection: 'up' | 'down' = e.target.scrollTop > this.priorScrollValue ? 'down' : 'up';
+
+      // if new direction is different from old run change detection && if past 40px (height of nav bar)
+      if (this.scrollDirection !== scrollDirection && e.target.scrollTop > 40) {
         this.scrollDirection = scrollDirection;
         this.ngZone.run(() => {
           this.utilService.scrollDirection = scrollDirection;
@@ -63,17 +63,17 @@ export class WindowScrollDirective {
 
       this.priorScrollValue = e.target.scrollTop;
 
-      //if explore page run change detection when crossing 360 threshold sweetspot for our fixed side menu
-      if(this.router.url.split('/')[1] === 'explore') {
-        if(e.target.scrollTop > 345 && this.exploreService.displayExploreNav === false) {
+      // if explore page run change detection when crossing 360 threshold sweetspot for our fixed side menu
+      if (this.router.url.split('/')[1] === 'explore') {
+        if (e.target.scrollTop > 345 && this.exploreService.displayExploreNav === false) {
           this.ngZone.run(() => {
             this.exploreService.displayExploreNav = true;
           });
-        } else if(e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
+        } else if (e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
           this.ngZone.run(() => {
             this.exploreService.displayExploreNav = false;
           });
         }
       }
-    };  
+    }
   }

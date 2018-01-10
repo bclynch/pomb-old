@@ -19,7 +19,7 @@ export class ExploreSubnav {
     private routerService: RouterService,
     private exploreService: ExploreService,
     private utilService: UtilService
-  ) { 
+  ) {
 
   }
 

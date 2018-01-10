@@ -11,7 +11,7 @@ import { User } from '../models/User.model';
 
 @Injectable()
 export class UserService {
-  signedIn: boolean = false;
+  signedIn = false;
   user: User;
 
   constructor(
@@ -23,14 +23,14 @@ export class UserService {
 
   loginUser(model) {
     this.authAccount({email: model.email, password: model.password}).then((token) => {
-      //need to get current user function rolling for other pertinent info
-      let userObj: any = {};
+      // need to get current user function rolling for other pertinent info
+      const userObj: any = {};
       userObj.token = token;
 
-      //save user to local storage
+      // save user to local storage
       this.localStorageService.set('pomb-user', userObj);
 
-      //reload window to update db role
+      // reload window to update db role
       window.location.reload();
     }, (err) => {
       this.alertService.alert('Invalid Login', 'The email or password is incorrect. Please check your account information and login again');
@@ -39,10 +39,10 @@ export class UserService {
 
   logoutUser() {
     this.signedIn = false;
-    //reset apollo cache and refetch queries
+    // reset apollo cache and refetch queries
     this.apollo.getClient().resetStore();
     localStorage.removeItem('pomb-user');
-    //reload window to update db role
+    // reload window to update db role
     window.location.reload();
   }
 
@@ -50,21 +50,21 @@ export class UserService {
     return new Promise<string>((resolve, reject) => {
       this.apiService.authAccount(loginCredentials.email, loginCredentials.password).subscribe(({ data }) => {
         console.log('got data', data);
-        const authData = <any>data
-        if(authData.authenticateAccount.jwtToken) {
+        const authData = <any>data;
+        if (authData.authenticateAccount.jwtToken) {
           this.signedIn = true;
-          //reset apollo cache and refetch queries
+          // reset apollo cache and refetch queries
           this.apollo.getClient().resetStore();
           resolve(authData.authenticateAccount.jwtToken);
         } else {
-          //incorrect login warning
+          // incorrect login warning
           reject('invalid login');
         }
-      },(error) => {
+      }, (error) => {
         console.log('there was an error sending the query', error);
-        reject(error); 
+        reject(error);
       });
-    });        
+    });
   }
 
   registerAccount(model: Registration) {
@@ -72,19 +72,19 @@ export class UserService {
       const userObj = data as any;
       console.log('Successfully created account');
 
-      //auth to snag token
+      // auth to snag token
       this.authAccount({email: model.email, password: model.password}).then((token) => {
         userObj.token = token;
-        //save user token to local storage
+        // save user token to local storage
         this.localStorageService.set('pomb-user', userObj);
 
-        //reload window to update db role
-        window.location.reload()
+        // reload window to update db role
+        window.location.reload();
       }, () => {
         console.log('err');
       });
     }, err => {
-      switch(err.message) {
+      switch (err.message) {
         case 'GraphQL error: duplicate key value violates unique constraint "account_username_key"':
           this.alertService.alert('Invalid Registration', 'That username already exists, please select a new one!');
           break;

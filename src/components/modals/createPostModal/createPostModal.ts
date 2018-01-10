@@ -51,15 +51,15 @@ interface LeadPhoto {
 export class CreatePostModal {
 
   containerOptions: string[] = ['Content', 'Options', 'Gallery'];
-  activeContainerOption: number = 0;
+  activeContainerOption = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
   postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhotoTitle: '' };
   data: Post;
 
-  //https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
+  // https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
   editorOptions: Object;
 
-  activePostOption: number = 2;
+  activePostOption = 2;
   postOptions: PostOption[] = [
     { name: 'Published', description: 'Publish this post now', secondaryDescription: 'Publish ' },
     { name: 'Scheduled', description: 'Publish this post in the future', secondaryDescription: 'Schedule for ' },
@@ -119,7 +119,7 @@ export class CreatePostModal {
       this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
     }
 
-    //creating custom image uploader
+    // creating custom image uploader
     $.FroalaEditor.DefineIcon('myImageUploader', { NAME: 'image' });
     const self = this;
     $.FroalaEditor.RegisterCommand('myImageUploader', {
@@ -129,7 +129,7 @@ export class CreatePostModal {
       refreshAfterCallback: false,
       callback: function () {
         self.presentImageUploaderPopover('post').then((data) => {
-          if(data) this.html.insert(`<img src="${data.arr[0].url}" width="${data.size === 'large' ? '100%' : '50%'}" />`); 
+          if (data) this.html.insert(`<img src="${data.arr[0].url}" width="${data.size === 'large' ? '100%' : '50%'}" />`);
         });
       }
     });
@@ -139,13 +139,13 @@ export class CreatePostModal {
       heightMin: '300px',
       heightMax: '525px',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
-    }
+    };
   }
 
   selectSmallLeadPhoto(arr: LeadPhoto[]): LeadPhoto {
     let smallPhoto: LeadPhoto;
     arr.forEach((photo) => {
-      if(photo.size === 320) smallPhoto = photo;
+      if (photo.size === 320) smallPhoto = photo;
     });
     return smallPhoto;
   }
@@ -173,7 +173,7 @@ export class CreatePostModal {
   }
 
   cancelConfirm() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Review Changes',
       subTitle: 'You have unsaved work, do you want to save or discard it?',
       cssClass: 'confirmAlert',
@@ -200,7 +200,7 @@ export class CreatePostModal {
   }
 
   deleteConfirm() {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Discard Post',
       subTitle: 'Are you sure you want to discard this post?',
       cssClass: 'confirmAlert',
@@ -221,88 +221,88 @@ export class CreatePostModal {
   }
 
   savePost() {
-    //validate required fields filled out if post status is scheduled or publish
-    if(this.activePostOption !== 2) {
+    // validate required fields filled out if post status is scheduled or publish
+    if (this.activePostOption !== 2) {
       const requiredFields: { field: any, label: string }[] = [
-        { field: this.postModel.postTitle, label: 'post title' }, 
-        { field: this.postModel.postSubtitle, label: 'post subtitle' }, 
-        { field: this.postModel.content, label: 'post content' }, 
-        { field: this.postModel.category, label: 'category' }, 
-        { field: this.postModel.leadPhotoTitle, label: 'primary image title' }, 
+        { field: this.postModel.postTitle, label: 'post title' },
+        { field: this.postModel.postSubtitle, label: 'post subtitle' },
+        { field: this.postModel.content, label: 'post content' },
+        { field: this.postModel.category, label: 'category' },
+        { field: this.postModel.leadPhotoTitle, label: 'primary image title' },
         { field: this.displayedLeadPhoto, label: 'primary image' }
       ];
-      for(let i = 0; i < requiredFields.length; i++) {
-        if(!requiredFields[i].field) {
+      for (let i = 0; i < requiredFields.length; i++) {
+        if (!requiredFields[i].field) {
           this.alertService.alert('Error', `In order to publish or schedule a post all required fields must be filled out. Please check the ${requiredFields[i].label} field and try again.`);
           return;
         }
       }
     }
 
-    //if has a post we know its a put otherwise a post
+    // if has a post we know its a put otherwise a post
     this.data ? this.updatePost() : this.createPost();
   }
 
   updatePost() {
-    //this.data is the original data passed in and shouldn't be mutated
-    //We can use this as a ref to know if we need to pass in new edits/changes
+    // this.data is the original data passed in and shouldn't be mutated
+    // We can use this as a ref to know if we need to pass in new edits/changes
     this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
-      result => {
-        let updatePromises = [];
-        //check if photo title has changed. If so update postLeadPhoto
-        updatePromises.push(this.comparePhoto());
+        result => {
+          const updatePromises = [];
+          // check if photo title has changed. If so update postLeadPhoto
+          updatePromises.push(this.comparePhoto());
 
-        //check if leadPhotoLink url has changed. If so update leadPhotoLinks
-        updatePromises.push(this.comparePhotoLinks());
+          // check if leadPhotoLink url has changed. If so update leadPhotoLinks
+          updatePromises.push(this.comparePhotoLinks());
 
-        //check for new + edited gallery photos to update
-        updatePromises.push(this.compareGalleryPhotos(this.data.id));
+          // check for new + edited gallery photos to update
+          updatePromises.push(this.compareGalleryPhotos(this.data.id));
 
-        //check if tags have changed. If so update post tags and or post to tags as required          
-        updatePromises.push(this.compareTags(this.data.postToTagsByPostId.nodes));
+          // check if tags have changed. If so update post tags and or post to tags as required
+          updatePromises.push(this.compareTags(this.data.postToTagsByPostId.nodes));
 
-        //when all the above have resolved dismiss the modal
-        Promise.all(updatePromises).then(() => {
-          this.viewCtrl.dismiss('refresh');
-        });
-      }
-      )
+          // when all the above have resolved dismiss the modal
+          Promise.all(updatePromises).then(() => {
+            this.viewCtrl.dismiss('refresh');
+          });
+        }
+      );
   }
 
   createPost() {
     const self = this;
-    //Add most of the model to our post table
+    // Add most of the model to our post table
     this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           console.log(result);
           const createPostData = <any>result;
 
-          //Create lead photo
+          // Create lead photo
           this.apiService.createPostLeadPhoto(createPostData.data.createPost.post.id, this.postModel.leadPhotoTitle).subscribe(
             postLeadPhoto => {
               console.log(postLeadPhoto);
               const postLeadPhotoData = <any>postLeadPhoto;
 
-              //create links for lead photo
+              // create links for lead photo
               this.createLeadPhotoLinks(postLeadPhotoData.data.createPostLeadPhoto.postLeadPhoto.id).then(
                 () => {
 
-                  //create gallery photo links
+                  // create gallery photo links
                   this.createGalleryPhotoLinks(createPostData.data.createPost.post.id, this.galleryPhotos).then(
                     () => {
 
-                      //create tags + save as required
+                      // create tags + save as required
                       this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
                         result => {
                           this.viewCtrl.dismiss('refresh');
                         }, err => createPostErrorHandler(err)
                       );
                     }, err => createPostErrorHandler(err)
-                  )
+                  );
                 }, err => createPostErrorHandler(err)
-              )
+              );
             }, err => createPostErrorHandler(err)
           );
         }
@@ -317,8 +317,8 @@ export class CreatePostModal {
 
   createLeadPhotoLinks(leadPhotoId: number) {
     return new Promise((resolve, reject) => {
-      //then bulk add links to post
-      if(this.leadPhotoLinks.length) {
+      // then bulk add links to post
+      if (this.leadPhotoLinks.length) {
         let query = `mutation {`;
         console.log(this.leadPhotoLinks);
         this.leadPhotoLinks.forEach((photo, i) => {
@@ -333,7 +333,7 @@ export class CreatePostModal {
           }`;
         });
         query += `}`;
-  
+
         this.apiService.genericCall(query).subscribe(
           result => resolve(result),
           err => console.log(err)
@@ -346,9 +346,9 @@ export class CreatePostModal {
 
   createGalleryPhotoLinks(postId: number, photoArr: GalleryPhoto[]) {
     return new Promise((resolve, reject) => {
-      if(!photoArr.length) resolve();
+      if (!photoArr.length) resolve();
 
-      //bulk add links to post
+      // bulk add links to post
       let query = `mutation {`;
       photoArr.forEach((photo, i) => {
         query += `a${i}: createPostToGalleryPhoto(input:{
@@ -372,20 +372,20 @@ export class CreatePostModal {
 
   createTagsMutation(postId: number, tagsArr: Tag[]) {
     return new Promise((resolve, reject) => {
-      let finalTags: Tag[] = [];
-      //first need to create any totally new tags and add to db
-      let promiseArr = [];
+      const finalTags: Tag[] = [];
+      // first need to create any totally new tags and add to db
+      const promiseArr = [];
       if (tagsArr.length) {
         tagsArr.forEach((tag, i) => {
           if (!tag.id) {
-            let promise = new Promise((resolve, reject) => {
+            const promise = new Promise((resolve, reject) => {
               this.apiService.createPostTag(tag.name).subscribe(
                 data => {
                   const tagData = <any>data;
                   finalTags.push(tagData.data.createPostTag.postTag);
                   resolve();
                 }
-              )
+              );
             });
             promiseArr.push(promise);
           } else {
@@ -396,8 +396,8 @@ export class CreatePostModal {
         Promise.all(promiseArr).then(() => {
           console.log('promise all complete');
 
-          if(finalTags.length) {
-            //then bulk add tag to post
+          if (finalTags.length) {
+            // then bulk add tag to post
             let query = `mutation {`;
             finalTags.forEach((tag, i) => {
               query += `a${i}: createPostToTag(input: {
@@ -427,37 +427,37 @@ export class CreatePostModal {
 
   compareTags(existingTags: { id: number, postTagByPostTagId: Tag }[]): Promise<{}> {
     return new Promise((resolve, reject) => {
-      //checking for dif between arrays
+      // checking for dif between arrays
       const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x.postTagByPostTagId) < 0);
       console.log(diffExisting); // remove post to tag
-      const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => { return value.postTagByPostTagId });
+      const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => value.postTagByPostTagId );
       const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x) < 0);
       console.log(diffNew); // create tag + post to tag
 
-      //if no changes resolve
+      // if no changes resolve
       if (!diffExisting.length && !diffNew.length) resolve();
 
-      //If no diff existing
-      //send these off to create tags mutation
+      // If no diff existing
+      // send these off to create tags mutation
       if (!diffExisting.length) {
         this.createTagsMutation(this.data.id, diffNew).then(
           result => resolve()
-        )
+        );
       }
 
-      //Has diff existing so run a for each and delete
+      // Has diff existing so run a for each and delete
       diffExisting.forEach((tag, i) => {
         const tagData = <any>tag;
         this.apiService.deletePostToTagById(tagData.id).subscribe(
           result => {
             console.log(result);
 
-            //if the last tag deleted then cont
+            // if the last tag deleted then cont
             if (i === diffExisting.length - 1) {
-              //send these off to create tags mutation
+              // send these off to create tags mutation
               this.createTagsMutation(this.data.id, diffNew).then(
                 result => resolve()
-              )
+              );
             }
           }
         );
@@ -468,10 +468,10 @@ export class CreatePostModal {
   comparePhoto(): Promise<{}> {
     return new Promise((resolve, reject) => {
       if (this.data.postLeadPhotosByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) {
-        //api call to update then resolve
+        // api call to update then resolve
         this.apiService.updateLeadPhotoInfo(this.data.postLeadPhotosByPostId.nodes[0].id, this.postModel.leadPhotoTitle).subscribe(
           result => resolve()
-        )
+        );
       } else {
         resolve();
       }
@@ -480,21 +480,21 @@ export class CreatePostModal {
 
   comparePhotoLinks(): Promise<{}> {
     return new Promise((resolve, reject) => {
-      //check to see if there is a lead img at all
-      if(this.leadPhotoLinks.length) {
+      // check to see if there is a lead img at all
+      if (this.leadPhotoLinks.length) {
 
-        //check to see if there was formerly a lead img
-        if(this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.length) {
+        // check to see if there was formerly a lead img
+        if (this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.length) {
 
-          //compare old vs new
+          // compare old vs new
           if (this.selectSmallLeadPhoto(this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes).url !== this.selectSmallLeadPhoto(this.leadPhotoLinks).url) {
-            //snag ids of original links + size for ref
-            let idRefs: {} = {}
+            // snag ids of original links + size for ref
+            const idRefs: {} = {};
             this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.forEach((link) => {
               idRefs[`w${link.size}`] = link.id;
             });
-  
-            //then bulk links to post
+
+            // then bulk links to post
             let query = `mutation {`;
             this.leadPhotoLinks.forEach((link, i) => {
               query += `a${i}: updateLeadPhotoLinkById(input: {
@@ -507,7 +507,7 @@ export class CreatePostModal {
               }`;
             });
             query += `}`;
-  
+
             this.apiService.genericCall(query).subscribe(
               result => resolve(result),
               err => console.log(err)
@@ -527,15 +527,15 @@ export class CreatePostModal {
 
   compareGalleryPhotos(postId: number) {
     return new Promise((resolve, reject) => {
-      //add newly created photos
-      let newPhotoArr: GalleryPhoto[] = this.galleryPhotos.filter((img) => !img.id );
+      // add newly created photos
+      const newPhotoArr: GalleryPhoto[] = this.galleryPhotos.filter((img) => !img.id );
       this.createGalleryPhotoLinks(postId, newPhotoArr).then(
         result => {
-          //update edited gallery photos
-          //make sure 'new' photos not on 'edited' arr
-          let filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
-          //then bulk update imgs
-          if(filteredEditedArr.length) {
+          // update edited gallery photos
+          // make sure 'new' photos not on 'edited' arr
+          const filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
+          // then bulk update imgs
+          if (filteredEditedArr.length) {
             let query = `mutation {`;
             filteredEditedArr.forEach((img, i) => {
               query += `a${i}: updatePostToGalleryPhotoById(input:{
@@ -548,7 +548,7 @@ export class CreatePostModal {
               }`;
             });
             query += `}`;
-  
+
             this.apiService.genericCall(query).subscribe(
               result => resolve(result),
               err => console.log(err)
@@ -557,12 +557,12 @@ export class CreatePostModal {
             resolve();
           }
         }
-      )
+      );
     });
   }
 
   presentPopover(e) {
-    let popover = this.popoverCtrl.create(PostTypePopover, { options: this.postOptions }, { cssClass: 'postTypePopover' });
+    const popover = this.popoverCtrl.create(PostTypePopover, { options: this.postOptions }, { cssClass: 'postTypePopover' });
     popover.present({
       ev: e
     });
@@ -573,10 +573,10 @@ export class CreatePostModal {
 
   presentImageUploaderPopover(type: string): Promise<{ arr: { url: string, width: number }[], size: string }> {
     return new Promise((resolve, reject) => {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+      const popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
-        //return arr of images (in this case one)
+        // return arr of images (in this case one)
         resolve(data);
       });
     });
@@ -584,19 +584,19 @@ export class CreatePostModal {
 
   presentGalleryPopover(e, index: number) {
     const self = this;
-    let popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
+    const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) {
-        if(data.action === 'delete') {
+      if (data) {
+        if (data.action === 'delete') {
           this.alertService.confirm(
-            'Delete Gallery Image', 
-            'Are you sure you want to delete permanently delete this image?', 
+            'Delete Gallery Image',
+            'Are you sure you want to delete permanently delete this image?',
             { label: 'Delete', handler: () =>  {
-              //if photo has already been saved to db
-              if(this.galleryPhotos[index].id) {
+              // if photo has already been saved to db
+              if (this.galleryPhotos[index].id) {
                 this.apiService.deletePostToGalleryPhotoById(this.galleryPhotos[index].id).subscribe(
                   result => {
                     this.galleryPhotos.splice(index, 1);
@@ -610,7 +610,7 @@ export class CreatePostModal {
             }}
           );
         } else {
-          //update photo
+          // update photo
           this.galleryPhotos[index] = data.data;
           this.galleryItemHasChanged.push(this.galleryPhotos[index]);
         }
@@ -618,25 +618,25 @@ export class CreatePostModal {
     });
 
     function toastDelete() {
-      let toast = self.toastCtrl.create({
+      const toast = self.toastCtrl.create({
         message: `Gallery image deleted`,
         duration: 3000,
         position: 'top'
-      }); 
-  
+      });
+
       toast.present();
     }
   }
 
   presentGalleryUploaderPopover() {
-    if(this.galleryPhotos.length === 12) {
-      this.alertService.alert('Gallery Full', 'Only 12 images per gallery maximum. Please delete a few to add more.')
+    if (this.galleryPhotos.length === 12) {
+      this.alertService.alert('Gallery Full', 'Only 12 images per gallery maximum. Please delete a few to add more.');
     } else {
-      let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 12 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+      const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 12 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
-        if(data) {
-          if(data === 'maxErr') {
+        if (data) {
+          if (data === 'maxErr') {
             this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 12 or less');
           } else {
             data.forEach((img) => {
@@ -644,7 +644,7 @@ export class CreatePostModal {
                 id: null,
                 photoUrl: img.url,
                 description: ''
-              })
+              });
             });
           }
         }
@@ -653,10 +653,10 @@ export class CreatePostModal {
   }
 
   presentPrimaryUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'primary' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'primary' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if(data) {
+      if (data) {
         this.leadPhotoLinks = data;
         this.displayedLeadPhoto = this.selectSmallLeadPhoto(this.leadPhotoLinks);
       }
@@ -667,7 +667,7 @@ export class CreatePostModal {
     e.stopPropagation();
 
     if (this.postOptions[this.activePostOption].name !== 'Draft') {
-      let modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, {});
+      const modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, {});
       modal.present({
         ev: e
       });
@@ -687,7 +687,7 @@ export class CreatePostModal {
   }
 
   addTag(data: Tag) {
-    let exists: boolean = false;
+    let exists = false;
     this.tagOptions.forEach((tag) => {
       if (tag.name === data.name) exists = true;
     });

@@ -20,7 +20,7 @@ export class Search {
   @Input() isActive: boolean;
 
   search = new FormControl();
-  value: string = '';
+  value = '';
 
   constructor(
     private apiService: APIService,
@@ -28,10 +28,10 @@ export class Search {
     private routerService: RouterService
   ) { }
 
-  //focus on search input when it becomes visible
+  // focus on search input when it becomes visible
   ngOnChanges(changes: SimpleChanges) {
     const change: SimpleChange = changes.isActive;
-    if(change.currentValue) this.searchInput.nativeElement.focus();
+    if (change.currentValue) this.searchInput.nativeElement.focus();
   }
 
   onClose() {
@@ -41,6 +41,6 @@ export class Search {
 
   submitQuery(e) {
     e.preventDefault();
-    if(this.value) this.routerService.navigateToPage('/search', this.value);
+    if (this.value) this.routerService.navigateToPage('/search', this.value);
   }
 }

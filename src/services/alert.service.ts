@@ -11,12 +11,12 @@ export class AlertService {
 
   constructor(
     private alertCtrl: AlertController
-  ) { 
+  ) {
 
   }
 
   alert(title: string, message: string) {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title,
       message,
       buttons: [
@@ -26,11 +26,11 @@ export class AlertService {
         }
       ]
     });
-    alert.present(); 
+    alert.present();
   }
 
   confirm(title: string, message: string, confirmBtn: Confirm) {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title,
       message,
       buttons: [

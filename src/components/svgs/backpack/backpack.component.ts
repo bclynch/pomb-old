@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'backpack.component.html'
 })
 export class BackpackIcon {
-  @Input() color: string = 'black';
+  @Input() color = 'black';
 
   constructor() { }
 

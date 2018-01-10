@@ -12,24 +12,24 @@ export class TagSearch {
   @Output() selectTag: EventEmitter<Tag> = new EventEmitter<Tag>();
 
   search = new FormControl();
-  value: string = '';
+  value = '';
   searchResults: Tag[] = [];
 
   constructor(
     private apiService: APIService
-  ) { 
+  ) {
     this.search.valueChanges
       .debounceTime(250)
-      .subscribe(query => { 
-        if(query) {
+      .subscribe(query => {
+        if (query) {
           console.log(query);
           this.apiService.searchTags(query).subscribe(
             result => {
-              //limiting to 5 results
+              // limiting to 5 results
               this.searchResults = result.data.searchTags.nodes.slice(0, 5);
               console.log(this.searchResults);
             }
-          )
+          );
         } else {
           this.searchResults = [];
         }
@@ -37,10 +37,10 @@ export class TagSearch {
   }
 
   submitQuery() {
-    //debouncing a second so search results have a sec to catch up
+    // debouncing a second so search results have a sec to catch up
     setTimeout(() => {
-      //if it equals the name of the search result we will use this to not add to db again because it already exists
-      if(this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
+      // if it equals the name of the search result we will use this to not add to db again because it already exists
+      if (this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
         this.selectTag.emit(this.searchResults[0]);
       } else {
         this.selectTag.emit({ id: null, name: this.value.toLowerCase() });

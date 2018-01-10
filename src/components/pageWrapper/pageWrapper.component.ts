@@ -7,17 +7,17 @@ import { UtilService } from '../../services/util.service';
   templateUrl: 'pageWrapper.component.html'
 })
 export class PageWrapper {
-  @Input() backgroundColor: string = 'white';
-  @Input() displayNavLogo: boolean = true;
-  @Input() displayHeroBanner: boolean = false;
-  @Input() displayFooter: boolean = true;
-  @Input() displayNav: boolean = true;
-  @Input() collapsibleNav: boolean = true;
+  @Input() backgroundColor = 'white';
+  @Input() displayNavLogo = true;
+  @Input() displayHeroBanner = false;
+  @Input() displayFooter = true;
+  @Input() displayNav = true;
+  @Input() collapsibleNav = true;
 
   constructor(
     private utilService: UtilService
-  ) { 
-    //want nav always there on page init to start
+  ) {
+    // want nav always there on page init to start
     this.utilService.scrollDirection = 'up';
   }
 

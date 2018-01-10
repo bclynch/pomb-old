@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 
 interface Gradient {
-  primaryColor: string,
-  secondaryColor: string
+  primaryColor: string;
+  secondaryColor: string;
 }
 
 @Component({
@@ -12,7 +12,7 @@ interface Gradient {
 })
 export class GradientPopover {
 
-  //be wary darker colors combos dont work as well with black background
+  // be wary darker colors combos dont work as well with black background
   gradients: Gradient[] = [
     { primaryColor: '#FC5C7D', secondaryColor: '#6A82FB'},
     { primaryColor: '#D3CCE3', secondaryColor: '#E9E4F0'},
@@ -41,7 +41,7 @@ export class GradientPopover {
   ) {
 
   }
- 
+
   selectOption(i: number) {
     this.viewCtrl.dismiss(this.gradients[i]);
   }

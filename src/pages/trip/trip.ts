@@ -104,7 +104,7 @@ export class TripPage {
   }
 
   generateGeoJSON(data) {
-    let geoJSON = {
+    const geoJSON = {
       type: 'Feature',
       geometry: {
         type: 'LineString',

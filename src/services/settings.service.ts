@@ -6,7 +6,7 @@ import { ExploreService } from './explore.service';
 
 export class SettingsService {
 
-  appInited: boolean = false;
+  appInited = false;
   primaryColor: string;
   secondaryColor: string;
   tagline: string;
@@ -27,12 +27,12 @@ export class SettingsService {
   ) {   }
 
   appInit() {
-    let promises = [];
+    const promises = [];
 
-    //countries data
+    // countries data
     promises.push(this.exploreService.init());
 
-    let promise2 = new Promise<string>((resolve, reject) => {
+    const promise2 = new Promise<string>((resolve, reject) => {
       this.apiService.getConfig().subscribe(
         data => {
           const appSettings = data.data.allConfigs.nodes[0];
@@ -44,7 +44,7 @@ export class SettingsService {
           resolve();
         },
         err => reject(err)
-      )
+      );
     });
     promises.push(promise2);
 

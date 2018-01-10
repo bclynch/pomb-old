@@ -15,7 +15,7 @@
         mapTypeId="terrain"
         #AgmMap
       >
-        <agm-marker 
+        <!-- <agm-marker 
           *ngFor= "let marker of junctureMarkers; let i = index;"
           [latitude]= "marker.junctureByJunctureId.lat" 
           [longitude]= "marker.junctureByJunctureId.lon" 
@@ -31,6 +31,18 @@
             anchor: {x: 18, y: 18},
             size: {width: 36, height: 36},
             scaledSize: {width: 36, height: 36}
+          }"
+          (markerClick)="markerClick(i)"
+        > -->
+        <agm-marker 
+          *ngFor= "let marker of junctureMarkers; let i = index;"
+          [latitude]= "marker.junctureByJunctureId.lat" 
+          [longitude]= "marker.junctureByJunctureId.lon" 
+          [iconUrl]= "{
+            url: 'https://cdn4.iconfinder.com/data/icons/world-flags-circular/1000/Flag_of_Portugal_-_Circle-128.png',
+            anchor: {x: 18, y: 18},
+            size: {width: 32, height: 32},
+            scaledSize: {width: 32, height: 32}
           }"
           (markerClick)="markerClick(i)"
         >

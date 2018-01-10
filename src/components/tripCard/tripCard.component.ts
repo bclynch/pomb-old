@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router }  from '@angular/router';
+import { Router } from '@angular/router';
 
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
@@ -11,7 +11,7 @@ import { RouterService } from '../../services/router.service';
 export class TripCard {
   @Input() trip;
 
-  defaultPhoto: string = '../../assets/images/trip-default.jpg';
+  defaultPhoto = '../../assets/images/trip-default.jpg';
 
   constructor(
     private settingsService: SettingsService,
@@ -25,7 +25,7 @@ export class TripCard {
 
   daysTraveling() {
     let timeDiff: number;
-    if(this.trip.endDate) {
+    if (this.trip.endDate) {
       timeDiff = this.trip.endDate - this.trip.startDate;
     } else {
       timeDiff = Date.now() - this.trip.startDate;

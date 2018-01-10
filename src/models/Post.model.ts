@@ -9,7 +9,7 @@ export class Post {
   title: string;
   subtitle: string;
   content: string;
-  category: PostCategory
+  category: PostCategory;
   userByAuthor: string;
   isDraft: boolean;
   isScheduled: boolean;
@@ -30,14 +30,14 @@ export class Post {
   };
   postToGalleryPhotosByPostId: {
     nodes: GalleryPhoto[]
-  }
+  };
 }
 
 // export type PostCategory = 'Trekking' | 'Biking' | 'Travel' | 'Culture' | 'Gear';
 export enum PostCategory {
-  TREKKING = <any>"Trekking", 
-  BIKING = <any>"Biking", 
-  CULTURE = <any>"Culture",  
-  TRAVEL = <any>"Travel", 
-  GEAR = <any>"Gear",     
+  TREKKING = <any>'Trekking',
+  BIKING = <any>'Biking',
+  CULTURE = <any>'Culture',
+  TRAVEL = <any>'Travel',
+  GEAR = <any>'Gear',
 }

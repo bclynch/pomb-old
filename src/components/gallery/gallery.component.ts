@@ -10,16 +10,16 @@ import { ExpandedModal } from './expandedModal/expandedModal.component';
 })
 export class Gallery {
   @Input() data: GalleryPhoto[];
-  @Input() gutterWidth: string = '5px';
+  @Input() gutterWidth = '5px';
   @Input() perRow: number;
-  @Input() isSquare: boolean = false;
+  @Input() isSquare = false;
 
   constructor(
     private modalController: ModalController
   ) { }
 
   expandCarousel(i: number) {
-    let modal = this.modalController.create(ExpandedModal, { data: this.data, index: i }, { cssClass: 'expandedModal' });
+    const modal = this.modalController.create(ExpandedModal, { data: this.data, index: i }, { cssClass: 'expandedModal' });
     modal.present();
   }
 }

@@ -13,7 +13,7 @@ import { SettingsService } from '../../../services/settings.service';
   templateUrl: 'registrationModal.html'
 })
 export class RegistrationModal {
-  isRegister: boolean = false;
+  isRegister = false;
   registrationModel = {username: '', firstName: '', lastName: '', email: '', password: '', confirm: ''};
   loginModel = {email: '', password: ''};
 

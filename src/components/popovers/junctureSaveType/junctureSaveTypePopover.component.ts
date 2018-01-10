@@ -15,7 +15,7 @@ export class JunctureSaveTypePopover {
   ) {
     this.options = params.get('options');
   }
- 
+
   selectOption(option: string) {
     this.viewCtrl.dismiss(option);
   }

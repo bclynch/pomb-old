@@ -5,10 +5,10 @@ import 'rxjs/add/operator/filter';
 // Services
 import { APIService } from '../services/api.service';
 
-interface urlData {
+interface UrlData {
   segmentId: string;
   folderId: string;
-  assetId: string; 
+  assetId: string;
 }
 
 @Injectable()
@@ -17,7 +17,7 @@ export class RouterService {
   params;
   fragment;
   baseURL: string = this.router.url.split('?')[0];
-  activeRoute: string; //used by nav component
+  activeRoute: string; // used by nav component
 
   constructor(
     private apiService: APIService,
@@ -41,13 +41,13 @@ export class RouterService {
 
   grabBaseRoute(url: string): string {
     let baseUrl: string;
-    //means there is at least one param or no fragment
-    //therefore we need to split at the '?' to grab everything before the query params (which will always be before the fragments)
-    if(Object.keys(this.params)[0] || !this.fragment) {
+    // means there is at least one param or no fragment
+    // therefore we need to split at the '?' to grab everything before the query params (which will always be before the fragments)
+    if (Object.keys(this.params)[0] || !this.fragment) {
       baseUrl = url.split('?')[0];
     } else {
-      //means none of either or fragment
-      //therefore we need to split at the '#' to grab all before fragment (or it'll just split nothing)
+      // means none of either or fragment
+      // therefore we need to split at the '#' to grab all before fragment (or it'll just split nothing)
       baseUrl = url.split('#')[0];
     }
     return baseUrl;
@@ -55,32 +55,32 @@ export class RouterService {
 
   modifyQueryParams(fileTypes, tags) {
     console.log(fileTypes);
-    let params: any = {};
-    if(fileTypes.length) {
+    const params: any = {};
+    if (fileTypes.length) {
       params.fileTypes = fileTypes;
     }
-    //will likely need to do something with these different filters 
-    if(tags.length) {
+    // will likely need to do something with these different filters
+    if (tags.length) {
       params.tags = tags;
     }
 
-    //maintain search query if it exists
-    if(this.params.q) {
+    // maintain search query if it exists
+    if (this.params.q) {
       params.q = this.params.q;
     }
 
-    let paramsObj = { queryParams : params };
+    const paramsObj = { queryParams : params };
 
-    let url = this.grabBaseRoute(this.router.url);
+    const url = this.grabBaseRoute(this.router.url);
     this.router.navigate([url], paramsObj);
   }
 
   modifyFragment(fragment: string) {
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       fragment
     };
 
-    let url = this.grabBaseRoute(this.router.url);
+    const url = this.grabBaseRoute(this.router.url);
     this.router.navigate([url], navigationExtras);
   }
 
@@ -89,5 +89,4 @@ export class RouterService {
 
     this.router.navigate([path], queryParams);
   }
-
 }

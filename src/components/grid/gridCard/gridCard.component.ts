@@ -16,7 +16,7 @@ export class GridCard {
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService
-  ) { 
+  ) {
 
   }
 

@@ -32,7 +32,7 @@ export class ProfileNavSection {
   ) {}
 
   navigate(path: string) {
-    switch(path) {
+    switch (path) {
       case 'blog':
         this.routerService.navigateToPage(`/${this.userService.user.username}/post-dashboard`);
         break;
@@ -55,7 +55,7 @@ export class ProfileNavSection {
   }
 
   signinUser() {
-    let modal = this.modalCtrl.create(RegistrationModal, {}, {cssClass: 'registrationModal'});
-    modal.present(); 
+    const modal = this.modalCtrl.create(RegistrationModal, {}, {cssClass: 'registrationModal'});
+    modal.present();
   }
 }

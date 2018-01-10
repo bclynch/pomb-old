@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 export class ProfileHeroBanner {
   @Input() user;
 
-  defaultBannerImg: string = 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg';
+  defaultBannerImg = 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg';
 
   constructor(
 

@@ -13,10 +13,10 @@ export class ImageUploaderPopover {
   allowMultiple: boolean;
   type: string;
   capitalizedType: string;
-  isProcessing: boolean = false;
+  isProcessing = false;
   filesToUpload: Array<File> = [];
   urlArr: string[] = [];
-  imgSize: { width: number, height: number }; 
+  imgSize: { width: number, height: number };
   maxImgs: number;
 
   constructor(

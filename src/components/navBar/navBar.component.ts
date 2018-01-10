@@ -36,10 +36,10 @@ export class NavBar {
   ];
 
   sectionOptions: Section[] = [];
-  isExpanded: boolean = false;
+  isExpanded = false;
   activeSection: Section;
 
-  searchActive: boolean = false;
+  searchActive = false;
 
   regions;
 
@@ -52,7 +52,7 @@ export class NavBar {
     private exploreService: ExploreService,
     private utilService: UtilService
   ) {
-    this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories()); 
+    this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories());
   }
 
   snagCategories() {
@@ -66,8 +66,8 @@ export class NavBar {
   }
 
   signinUser() {
-    let modal = this.modalCtrl.create(RegistrationModal, {}, {cssClass: 'registrationModal'});
-    modal.present(); 
+    const modal = this.modalCtrl.create(RegistrationModal, {}, {cssClass: 'registrationModal'});
+    modal.present();
   }
 
   openSearch() {
@@ -76,7 +76,7 @@ export class NavBar {
   }
 
   navHover(e, i: number) {
-    if(e.type === 'mouseenter') {
+    if (e.type === 'mouseenter') {
       this.isExpanded = true;
       this.activeSection = this.sectionOptions[i];
     } else {
@@ -86,13 +86,13 @@ export class NavBar {
   }
 
   openMobileNav() {
-    let modal = this.modalCtrl.create(MobileNavModal, {}, {cssClass: 'mobileNavModal', enableBackdropDismiss: false});
+    const modal = this.modalCtrl.create(MobileNavModal, {}, {cssClass: 'mobileNavModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
-      if(data) {
-        if(data === 'home') {
-          this.routerService.navigateToPage('/'); 
+      if (data) {
+        if (data === 'home') {
+          this.routerService.navigateToPage('/');
         } else {
-          this.routerService.navigateToPage(`/${data}`); 
+          this.routerService.navigateToPage(`/${data}`);
         }
       }
     });
