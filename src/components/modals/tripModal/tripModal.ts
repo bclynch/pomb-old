@@ -63,11 +63,11 @@ export class TripModal {
   }
 
   presentBannerUploaderPopover() {
-    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'trip', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'custom', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) {
-        this.tripModel.bannerPath = data.arr[0].url;
+        this.tripModel.bannerPath = data[0].url;
       }
     });
   }

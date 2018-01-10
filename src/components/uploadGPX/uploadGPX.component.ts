@@ -21,7 +21,7 @@ export class UploadGPX {
     private sanitizer: DomSanitizer
   ) { }
 
-  fileChangeEvent(fileInput: any) {
+  fileChangeEventGPX(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
     const processedData = this.processFormData();
 

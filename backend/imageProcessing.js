@@ -38,8 +38,8 @@ router.post("/", upload.array("uploads[]", 12), (req, res) => {
         let S3PromiseArr = [];
 
         bufferArr.forEach((obj) => {
-          let S3Promise = new Promise((resolve, reject) => { //promise for each size of the image
-            //send off to S3
+          const S3Promise = new Promise((resolve, reject) => { //promise for each size of the image
+            // send off to S3
             const key = `${file.originalname.split('.')[0]}-w${obj.width}-${Date.now()}.${fileType}`;
             
             uploadToS3(obj.buffer, key, (err, data) => {
@@ -53,6 +53,7 @@ router.post("/", upload.array("uploads[]", 12), (req, res) => {
           });
           S3PromiseArr.push(S3Promise);
         });
+
         Promise.all(S3PromiseArr).then(() => {
           console.log('S3 upload promise all complete');
           resolve(); //resolve for resize img promise
@@ -62,6 +63,29 @@ router.post("/", upload.array("uploads[]", 12), (req, res) => {
 
     promises.push(promise);
   });
+
+  // if we need a small circular version for map markers add to promise arr
+  if (req.query.isJuncture === 'true') {
+    const maskPromise = new Promise((resolve, reject) => {
+      maskImage(req.files[0], 128, 60, './imageMasks/circle-mask-128.png').then(
+        (buffer) => {
+          // send off to S3
+          const key = `${req.files[0].originalname.split('.')[0]}-marker-${Date.now()}.png`;
+
+          uploadToS3(buffer, key, (err, data) => {
+            if (err) {
+              console.error(err)
+              reject(err);
+            };
+            S3LinksArr.push({size: 'marker', url: data.Location});
+            resolve();
+          });
+        }
+      )
+    });
+    promises.push(maskPromise);
+  };
+
   console.log(promises);
   Promise.all(promises).then(() => {
     console.log('promise all complete');
@@ -124,7 +148,32 @@ function resizeImagesWriteBuffer(file, sizes, quality, type) {
 }
 
 ///////////////////////////////////////////////////////
-///////////////////Save To uploads folder
+///////////////////Image masking
+///////////////////////////////////////////////////////
+// takes in file, desired size, quality, and the img to mask with to output buffer
+function maskImage(file, size, quality, maskingImg) {
+  return new Promise((resolve, reject)=> {
+    resizeImagesWriteBuffer(file, [{ width: size, height: size }], quality, 'png').then((bufferArr) => {
+      const p1 = Jimp.read(bufferArr[0].buffer);
+      const p2 = Jimp.read(maskingImg);
+
+      Promise.all([p1, p2]).then(function(images){
+          var original = images[0];
+          var mask = images[1];
+          original.mask(mask, 0, 0)
+          .getBuffer(Jimp.MIME_PNG, (err, buffer) => { // grabbing as buffer. 
+            resolve(buffer);
+          });
+      }).catch(function (err) {
+        console.error(err);
+        reject();
+      });
+    });
+  });
+}
+
+///////////////////////////////////////////////////////
+///////////////////Save to uploads folder
 ///////////////////////////////////////////////////////
 
 router.post("/local", upload.array("uploads[]", 12), (req, res) => {
@@ -144,7 +193,7 @@ router.post("/local", upload.array("uploads[]", 12), (req, res) => {
   req.files.forEach((file, i) => {
     let promise = new Promise((resolve, reject)=>{
 
-      resizeImagesWriteLocal(file, [{width: 2400, height: 1600}, {width: 1200, height: 800}, {width: 600, height: 400}, {width: 300, height: 200}], quality, 'jpg').then(() => {
+      resizeImagesWriteLocal(file, sizes, quality, 'jpg').then(() => {
         console.log(`finished file ${i + 1}`);
         resolve();
       });

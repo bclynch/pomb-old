@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 declare var google: any;
 
 import {Apollo} from 'apollo-angular';
@@ -328,6 +329,7 @@ const getTripById = gql`
             lon,
             arrivalDate,
             id,
+            markerImg
             coordsByJunctureId {
               nodes {
                 lat,
@@ -769,7 +771,7 @@ const updateLeadPhotoInfo = gql`
 `;
 
 const createJuncture = gql`
-  mutation($name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean) {
+  mutation($name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     createJuncture(input:{
       juncture: {
         name: $name,
@@ -779,7 +781,8 @@ const createJuncture = gql`
         lon: $lon,
         city: $city,
         country: $country,
-        isDraft: $isDraft
+        isDraft: $isDraft,
+        markerImg: $markerImg
       }
     }) {
       juncture {
@@ -833,7 +836,7 @@ const createTripToJuncture = gql`
 `;
 
 const updateJuncture = gql`
-  mutation($junctureId: Int!, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean) {
+  mutation($junctureId: Int!, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     updateJunctureById(input:{
       id: $junctureId,
       juncturePatch: {
@@ -844,7 +847,8 @@ const updateJuncture = gql`
         lon: $lon,
         city: $city,
         country: $country,
-        isDraft: $isDraft
+        isDraft: $isDraft,
+        markerImg: $markerImg
       }
     }) {
       juncture {
@@ -912,11 +916,12 @@ export class APIService {
   }
 
   // S3 Uploads
-  uploadImages(formData: FormData, sizes: { width: number; height: number; }[], quality: number) {
+  uploadImages(formData: FormData, sizes: { width: number; height: number; }[], quality: number, isJuncture?: boolean) {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    return this.http.post(`http://localhost:8080/upload-images?sizes=${formattedSizes}&quality=${quality}`, formData)
+    console.log(isJuncture);
+    return this.http.post(`http://localhost:8080/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -1286,7 +1291,7 @@ export class APIService {
     });
   }
 
-  createJuncture(name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean) {
+  createJuncture(name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
       mutation: createJuncture,
       variables: {
@@ -1297,7 +1302,8 @@ export class APIService {
         lon,
         city,
         country,
-        isDraft
+        isDraft,
+        markerImg
       }
     });
   }
@@ -1334,7 +1340,7 @@ export class APIService {
     });
   }
 
-  updateJuncture(junctureId: number, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean) {
+  updateJuncture(junctureId: number, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
       mutation: updateJuncture,
       variables: {
@@ -1346,7 +1352,8 @@ export class APIService {
         lon,
         city,
         country,
-        isDraft
+        isDraft,
+        markerImg
       }
     });
   }

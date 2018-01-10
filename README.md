@@ -9,21 +9,36 @@
     - Probably want to stop user from being able to modify juncture point if its gpx
     - Improve UI for gpx OR manual
     - Maybe informational badge for gpx
+    - Need to stop scroll on the map
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
-- Need to improve markers on map (make images) 
-    - https://github.com/oliver-moran/jimp/issues/69
-    - Just create this masked image at the same time the juncture is created and or juncture img edited
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
 - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
 - Linode Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way. Map explorer is a different (default?) way to view a trip
+    - Lonely planet would actually be a nice template for this... Already done some work on the format too
+    - Dont use default nav  - keep at top
+    - Use our developed side menu nav with user description, map, junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all juncutres' page that displays chronological), gallery, couple stats (countries, distance, w/e), posts 
+- Can probably pare down the nav to just the following:
+    - Community
+        - Shade would have social links for POMB, link / design to community hub, featured members/trips?
+        - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
+    - Blog
+        - Shade would have link + icon to main blog page (current main page), featured posts, categories links
+        - Blog itself would be curated list of posts
+        - Route would be /blog and /blog?tag=some-tag and /blog/postId
+    - Profile
+        - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
+        - Profile page would be like facebook in that what you see is what a vistor would see, but you have the ability to edit some stuff. Posts, pics, trips assembled nicely
+        - Route for trips should user/trip/name-of-trip
+        - Juncture could be user/trip/name-of-trip/juncture/name-of-juncture
 - Google Analytics
-- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
 - Favorites / 'add to pack' for posts, images, trips
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
+    - uber eats, stripe, fresh desk
+- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Think about sub trips ? i.e. a trek in the middle of a longer trip
 - Admin panels

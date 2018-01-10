@@ -25,7 +25,7 @@ export class JunctureService {
             const city = result.formatted_address.split(',')[1];
             const country = result.formatted_address.split(',').slice(-1);
 
-            this.apiService.updateJuncture(data.junctureId, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft').subscribe(
+            this.apiService.updateJuncture(data.junctureId, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
               (result: any) => {
                 console.log(result);
                 this.createGalleryPhotoLinks(result.data.updateJunctureById.juncture.id, data.photos).then(() => {

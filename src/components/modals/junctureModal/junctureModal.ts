@@ -31,6 +31,7 @@ export class JunctureModal {
   geoJsonObject: Object = null;
 
   galleryPhotos: GalleryPhoto[] = [];
+  markerURL: string = null;
 
   coords = { lat: null, lon: null };
   mapStyle;
@@ -130,7 +131,8 @@ export class JunctureModal {
     if (this.galleryPhotos.length === 6) {
       this.alertService.alert('Gallery Full', 'Only 6 images per juncture gallery maximum. Please delete a few to add more.');
     } else {
-      const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'gallery', existingPhotos: this.galleryPhotos.length, max: 6 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+      // type is gallery as of original
+      const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'juncture', existingPhotos: this.galleryPhotos.length, max: 6 }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
       popover.onDidDismiss((data) => {
         if (data) {
@@ -138,11 +140,15 @@ export class JunctureModal {
             this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 6 or less');
           } else {
             data.forEach((img) => {
-              this.galleryPhotos.push({
-                id: null,
-                photoUrl: img.url,
-                description: ''
-              });
+              if (img.size === 'marker') {
+                this.markerURL = img.url;
+              } else {
+                this.galleryPhotos.push({
+                  id: null,
+                  photoUrl: img.url,
+                  description: ''
+                });
+              }
             });
           }
         }
@@ -204,7 +210,8 @@ export class JunctureModal {
       photos: this.galleryPhotos,
       time: this.junctureModel.time,
       location: this.coords,
-      selectedTrip: this.junctureModel.selectedTrip
+      selectedTrip: this.junctureModel.selectedTrip,
+      markerImg: this.markerURL
     });
   }
 

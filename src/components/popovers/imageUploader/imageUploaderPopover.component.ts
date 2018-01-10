@@ -25,7 +25,7 @@ export class ImageUploaderPopover {
     private apiService: APIService,
     private alertService: AlertService
   ) {
-    this.allowMultiple = params.get('type') === 'gallery';
+    this.allowMultiple = params.get('type') === 'gallery' || params.get('type') === 'juncture';
     this.type = params.get('type');
     this.maxImgs = params.get('max');
     this.capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
@@ -45,7 +45,7 @@ export class ImageUploaderPopover {
     return formData;
   }
 
-  uploadImages(sizes: { width: number; height: number; }[], quality: number, max?: number) {
+  uploadImages(sizes: { width: number; height: number; }[], quality: number, max?: number, isJuncture?: boolean) {
     const formData = this.processFormData();
 
     // console.log(this.filesToUpload.length);
@@ -55,7 +55,24 @@ export class ImageUploaderPopover {
       this.viewCtrl.dismiss('maxErr');
       return;
     }
-    this.apiService.uploadImages(formData, sizes, quality).subscribe(
+    this.apiService.uploadImages(formData, sizes, quality, isJuncture).subscribe(
+      result => {
+        console.log(result);
+        this.isProcessing = false;
+        this.viewCtrl.dismiss(result);
+      }
+    );
+  }
+
+  // testing local image saving
+  uploadImagesTest(sizes: { width: number; height: number; }[], quality: number, max?: number) {
+    const formData = this.processFormData();
+
+    if (max && this.filesToUpload.length + this.params.get('existingPhotos') > max) {
+      this.viewCtrl.dismiss('maxErr');
+      return;
+    }
+    this.apiService.uploadImagesLocal(formData, sizes, quality).subscribe(
       result => {
         console.log(result);
         this.isProcessing = false;
@@ -76,6 +93,9 @@ export class ImageUploaderPopover {
         break;
       case 'gallery':
         this.uploadImages([{ width: 1220, height: 813 }], 80, 12);
+        break;
+      case 'juncture':
+        this.uploadImages([{ width: 1220, height: 813 }], 80, 12, true);
         break;
       case 'profile':
         this.uploadImages([{ width: 250, height: 250 }], 80);

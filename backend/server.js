@@ -13,7 +13,7 @@ app.use(express.static("www")); // Our Ionic app build is in the www folder (kep
 app.use(postgraphql('postgres://pomb_admin:abc123@localhost:5432/bclynch', ['pomb','pomb_private'], {graphiql: true, jwtSecret: 'some-secret', jwtPgTypeIdentifier: 'pomb.jwt_token'}));
 
 //routes
-app.use('/upload-images', require('./imageUpload'));
+app.use('/upload-images', require('./imageProcessing'));
 app.use('/upload-gpx', require('./gpxProcessing'));
 
 // Initialize the app.
