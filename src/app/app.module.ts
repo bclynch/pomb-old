@@ -115,6 +115,7 @@ import { ExploreService } from '../services/explore.service';
 import { UtilService } from '../services/util.service';
 import { JunctureService } from '../services/juncture.service';
 import { TripService } from '../services/trip.service';
+import { MappingService } from '../services/mapping.service';
 
 @NgModule({
   declarations: [
@@ -257,6 +258,7 @@ import { TripService } from '../services/trip.service';
     UtilService,
     JunctureService,
     TripService,
+    MappingService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

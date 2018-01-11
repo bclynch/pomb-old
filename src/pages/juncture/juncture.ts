@@ -1,8 +1,10 @@
 import { ViewChild, Component, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { AgmMap, AgmDataLayer } from '@agm/core';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
+import { MappingService } from '../../services/mapping.service';
 
 import Chart from 'chart.js';
 
@@ -14,14 +16,15 @@ export class JuncturePage {
   @ViewChild('distance') distance: any;
   @ViewChild('time') time: any;
 
-  lat = 37.662323;
-  lng = -122.399451;
-  zoom = 10;
+  junctureId: number;
+  junctureData;
+  bannerImg: string;
 
   isProcessing = false;
   filesToUpload: Array<File> = [];
 
-  geoJsonObject: Object = null;
+  isGPX: boolean;
+  geoJsonObject = null;
   elevationTimeData: {}[];
   elevationDistanceData: {}[];
   speedTimeData: {}[];
@@ -30,9 +33,35 @@ export class JuncturePage {
   constructor(
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
-    private apiService: APIService
+    private apiService: APIService,
+    private router: Router,
+    private mappingService: MappingService
   ) {
-    this.settingsService.appInited ? console.log('neat') : this.broadcastService.on('appIsReady', () => console.log('neat'));
+    this.junctureId = +this.router.url.split('/').slice(-1);
+    console.log(this.junctureId);
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
+
+  init() {
+    this.apiService.getFullJunctureById(this.junctureId).subscribe(({ data }) => {
+      console.log(data.junctureById);
+      this.junctureData = data.junctureById;
+      this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
+      this.createLineCharts();
+
+      // grab flickr images for the banner
+      this.apiService.getFlickrPhotos(this.junctureData.city.trim(), 'landscape', 1, this.junctureData.country.trim()).subscribe(
+        result => {
+          console.log(result.photos.photo);
+          if (result.photos.photo.length) {
+            const photo = result.photos.photo[0];
+            this.bannerImg = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+          } else {
+            this.bannerImg = '../../assets/images/trip-default.jpg';
+          }
+        }
+      );
+    });
   }
 
   clicked(clickEvent) {
@@ -47,7 +76,28 @@ export class JuncturePage {
     });
   }
 
-  createLineChart() {
+  createLineCharts() {
+    this.geoJsonObject = this.mappingService.generateGeoJSON([this.junctureData.coordsByJunctureId.nodes]);
+    console.log(this.geoJsonObject);
+
+    // We want roughly 80-120 points per graph to be mindful of performance / look. Creating a filter number to arrive there
+    // take number of data points and find reasonable divisor
+    let filterDivisor;
+    for (let i = 1; i < this.geoJsonObject.geometry.coordinates.length; i++) {
+      if (this.geoJsonObject.geometry.coordinates.length / i < 120) {
+        filterDivisor = i;
+        break;
+      }
+    }
+
+    console.log('FILTER Number: ', this.geoJsonObject.geometry.coordinates.length / filterDivisor);
+
+    // creating x and y coords for our various graohs and filtering down to our deemed appropriate number of data points
+    // this.elevationTimeData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: result.data.timeArr[i], y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
+    // this.speedTimeData = result.data.speedsArr.map((speed, i) => ( { x: result.data.timeArr[i], y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
+    // this.elevationDistanceData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: result.data.distanceArr[i] / 1000, y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
+    // this.speedDistanceData = result.data.speedsArr.map((speed, i) => ( { x: result.data.distanceArr[i] / 1000, y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
+
     const distanceCtx = this.distance.nativeElement.getContext('2d');
 
       const distanceData = {
@@ -188,39 +238,6 @@ export class JuncturePage {
           data: timeData,
           options: timeOptions
         });
-  }
-
-  fileChangeEvent(fileInput: any) {
-    this.filesToUpload = <Array<File>>fileInput.target.files;
-    const processedData = this.processFormData();
-
-    this.apiService.uploadGPX(processedData, 1).subscribe(
-        result => {
-          console.log(result);
-          this.geoJsonObject = result.data.geoJSON;
-
-          // We want roughly 80-120 points per graph to be mindful of performance / look. Creating a filter number to arrive there
-          // take number of data points and find reasonable divisor
-          let filterDivisor;
-          for (let i = 1; i < result.data.geoJSON.geometry.coordinates.length; i++) {
-            if (result.data.geoJSON.geometry.coordinates.length / i < 120) {
-              filterDivisor = i;
-              break;
-            }
-          }
-
-          console.log('FILTER Number: ', result.data.geoJSON.geometry.coordinates.length / filterDivisor);
-
-          // creating x and y coords for our various graohs and filtering down to our deemed appropriate number of data points
-          this.elevationTimeData = result.data.geoJSON.geometry.coordinates.map((coord, i) => ( { x: result.data.timeArr[i], y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
-          this.speedTimeData = result.data.speedsArr.map((speed, i) => ( { x: result.data.timeArr[i], y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
-          this.elevationDistanceData = result.data.geoJSON.geometry.coordinates.map((coord, i) => ( { x: result.data.distanceArr[i] / 1000, y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
-          this.speedDistanceData = result.data.speedsArr.map((speed, i) => ( { x: result.data.distanceArr[i] / 1000, y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
-
-          this.createLineChart();
-          this.isProcessing = false;
-        }
-      );
   }
 
   private processFormData(): FormData {

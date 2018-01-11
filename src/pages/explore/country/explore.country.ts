@@ -68,30 +68,30 @@ export class ExploreCountryPage {
     private mapsAPILoader: MapsAPILoader
   ) {
     this.route.params.subscribe(params => {
-      //grab country name
+      // grab country name
       this.country = this.utilService.formatURLString(params.country);
-      
+
       this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
     });
   }
 
   init() {
-    //check if country exists
-    if(this.exploreService.countryNameObj[this.country]) {
-      //grab flickr images for the carousel
+    // check if country exists
+    if (this.exploreService.countryNameObj[this.country]) {
+      // grab flickr images for the carousel
       this.apiService.getFlickrPhotos(this.country, 'landscape', 5).subscribe(
         result => {
           console.log(result.photos.photo);
           const photos = result.photos.photo.slice(0, 5);
           this.carouselImages = photos.map((photo) => {
-            //_b is 'large' img request so 1024 x 768. We'll go with this for now
-            //_o is 'original' which is 2400 x 1800
+            // _b is 'large' img request so 1024 x 768. We'll go with this for now
+            // _o is 'original' which is 2400 x 1800
             return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
           });
         }
-      )
+      );
 
-      //bounds data for map
+      // bounds data for map
       this.mapsAPILoader.load().then(() => {
         this.apiService.geocodeCoords(this.country).subscribe(
           result => {
@@ -101,7 +101,7 @@ export class ExploreCountryPage {
 
             this.latlngBounds = result.geometry.viewport;
 
-            //grab map style
+            // grab map style
             this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
               this.mapStyle = data;
               this.mapInited = true;

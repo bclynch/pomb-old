@@ -9,6 +9,7 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
 import { TripService } from '../../services/trip.service';
+import { MappingService } from '../../services/mapping.service';
 import { RouterService } from '../../services/router.service';
 
 @Component({
@@ -47,6 +48,7 @@ export class TripMapPage {
     private utilService: UtilService,
     private tripService: TripService,
     private routerService: RouterService,
+    private mappingService: MappingService,
     private sanitizer: DomSanitizer,
   ) {
     this.tripId = +this.router.url.split('/').slice(-2, -1)[0];
@@ -78,7 +80,7 @@ export class TripMapPage {
         return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
       });
       console.log(junctureArr);
-      this.geoJsonObject = this.tripService.generateGeoJSON(junctureArr);
+      this.geoJsonObject = this.mappingService.generateGeoJSON(junctureArr);
 
       this.dataLayerStyle = {
         clickable: false,
@@ -138,7 +140,7 @@ export class TripMapPage {
 
       // make sure it doesn't already exist
       if (!this.junctureContentArr[index]) {
-        this.apiService.getJunctureById(id).subscribe(({ data }) => {
+        this.apiService.getPartialJunctureById(id).subscribe(({ data }) => {
           const junctureData = this.processPosts(data.junctureById);
           if (!this.junctureContentArr[index]) {
             this.junctureContentArr.splice(index, 1, junctureData);

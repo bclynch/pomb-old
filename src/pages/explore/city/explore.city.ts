@@ -22,27 +22,27 @@ export class ExploreCityPage {
     private utilService: UtilService,
     private route: ActivatedRoute,
     private broadcastService: BroadcastService
-  ) {  
+  ) {
     this.route.params.subscribe(params => {
-      //grab city name
+      // grab city name
       this.city = this.utilService.formatURLString(params.city);
-      
-      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
-    });   
+
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
   }
 
   init() {
-    //grab flickr images for the carousel
+    // grab flickr images for the carousel
     this.apiService.getFlickrPhotos(this.city, 'architecture', 5).subscribe(
       result => {
         console.log(result.photos.photo);
         const photos = result.photos.photo.slice(0, 5);
         this.carouselImages = photos.map((photo) => {
-          //_b is 'large' img request so 1024 x 768. We'll go with this for now
-          //_o is 'original' which is 2400 x 1800
+          // _b is 'large' img request so 1024 x 768. We'll go with this for now
+          // _o is 'original' which is 2400 x 1800
           return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
         });
       }
-    )
+    );
   }
 }

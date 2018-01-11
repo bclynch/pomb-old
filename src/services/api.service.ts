@@ -355,7 +355,7 @@ const getTripById = gql`
   }
 `;
 
-const getJunctureById = gql`
+const getPartialJunctureById = gql`
   query junctureById($id: Int!) {
     junctureById(id: $id) {
       id,
@@ -392,6 +392,59 @@ const getJunctureById = gql`
           id,
           photoUrl,
           description
+        }
+      }
+    }
+  }
+`;
+
+const getFullJunctureById = gql`
+  query junctureById($id: Int!) {
+    junctureById(id: $id) {
+      id,
+      name,
+      arrivalDate,
+      description,
+      lat,
+      lon,
+      city,
+      country,
+      markerImg,
+      junctureToPhotosByJunctureId {
+        nodes {
+          id,
+          photoUrl,
+          description
+        }
+      },
+      junctureToPostsByJunctureId {
+        nodes {
+          postByPostId {
+             id,
+            author,
+            accountByAuthor {
+              id
+            },
+            postLeadPhotosByPostId {
+              nodes {
+                description,
+                title,
+                leadPhotoLinksByLeadPhotoId {
+                  nodes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      coordsByJunctureId {
+        nodes {
+          lat,
+          lon,
+          elevation,
+          coordTime
         }
       }
     }
@@ -884,8 +937,8 @@ export class APIService {
   }
 
   // flickr photos
-  getFlickrPhotos(place: string, tag: string, results: number) {
-    return this.http.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrKey}&tags=${place},${tag}&tag_mode=all&per_page=${results}&content_type=1&sort=interestingness-desc&format=json&nojsoncallback=1`)
+  getFlickrPhotos(place: string, tag: string, results: number, additionalTag?: string) {
+    return this.http.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${flickrKey}&tags=${place},${tag}${additionalTag ? ', ' + additionalTag : ''}&tag_mode=all&per_page=${results}&content_type=1&sort=interestingness-desc&format=json&nojsoncallback=1`)
     .map(
       (response: Response) => {
         const responseData = <any>response;
@@ -1050,9 +1103,18 @@ export class APIService {
     });
   }
 
-  getJunctureById(id: number) {
+  getPartialJunctureById(id: number) {
     return this.apollo.watchQuery<any>({
-      query: getJunctureById,
+      query: getPartialJunctureById,
+      variables: {
+          id
+      }
+    });
+  }
+
+  getFullJunctureById(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getFullJunctureById,
       variables: {
           id
       }

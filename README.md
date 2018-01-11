@@ -16,10 +16,10 @@
 - Starting pin for trip
 - Linode Hosting
 - Mobile usage!
-- Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way. Map explorer is a different (default?) way to view a trip
-    - Lonely planet would actually be a nice template for this... Already done some work on the format too
-    - Dont use default nav  - keep at top
-    - Use our developed side menu nav with user description, map, junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all juncutres' page that displays chronological), gallery, couple stats (countries, distance, w/e), posts 
+- Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way.
+    - Lonely planet would actually be a nice template for this... Already done some work on the format too - check
+    - Dont use default nav  - keep at top - check
+    - Use our developed side menu nav with user description, map, junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological), gallery, couple stats (countries, distance, w/e), posts 
 - Can probably pare down the nav to just the following:
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?

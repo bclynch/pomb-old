@@ -44,30 +44,4 @@ export class TripService {
 
     toast.present();
   }
-
-  generateGeoJSON(data) {
-    const geoJSON = {
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates: []
-      },
-      properties: {
-        name: 'Booger',
-        coordTimes: []
-      }
-    };
-
-    // WILL NEED TO FIGURE OUT ORDERING PROPERLY
-    data.forEach((juncture) => {
-      juncture.forEach((coords, i) => {
-        geoJSON.geometry.coordinates.push([ coords.lon, coords.lat, coords.elevation ]);
-        geoJSON.properties.coordTimes.push(coords.coordTime);
-      });
-    });
-
-    console.log(geoJSON);
-
-    return geoJSON;
-  }
 }

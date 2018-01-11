@@ -197,8 +197,25 @@ page-trip-map {
             flex: 1;
             padding: 24px;
 
-            .junctureCity {
-              font-size: 28px;
+            .headerWrapper {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              width: 100%;
+
+              .junctureCity {
+                font-size: 28px;
+              }
+              .junctureLink {
+                border: solid 1px black;
+                cursor: pointer;
+                padding: 5px 10px;
+                transition: .3s;
+              }
+              .junctureLink:hover {
+                border: solid 1px var(--secondary);
+                color: var(--secondary);
+              }
             }
             .junctureCountry {
               font-size: 18px;

@@ -106,8 +106,11 @@
               [style.left]="junctureIndex * -100 + '%'"
               [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length) + '%'"
             >
-              <div class="junctureContentContainer" *ngFor="let juncture of junctureContentArr; let i = index;"> 
-                <div class="junctureCity">{{juncture?.city}}</div>
+              <div class="junctureContentContainer" *ngFor="let juncture of junctureContentArr; let i = index;">
+                <div class="headerWrapper">
+                  <div class="junctureCity">{{juncture?.city}}</div>
+                  <div class="junctureLink" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">View Full Details</div>
+                </div> 
                 <div class="junctureCountry">{{juncture?.country}}</div>
                 <div class="junctureTimeRow">
                   <div class="junctureNumber">Juncture #{{i + 1}}</div>

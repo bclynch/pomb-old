@@ -1,11 +1,42 @@
 <PageWrapper>
-  <div>Juncture</div>
+  <div class="junctureBannerContainer">
+    <div class="banner" [ngStyle]="{ 'background-image': 'url(' + bannerImg + ')'}">
+      <div class="bannerTitle">{{junctureData?.name}}</div>
+      <div class="bannerSubtitle">{{junctureData?.city}}, {{junctureData?.country}}</div>
+    </div>
+  </div>
 
-  <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px; width: 80%;" *ngIf="geoJsonObject">
-    <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc"></agm-data-layer>
-  </agm-map>
+  <div class="infoContainer">
+    <div class="mapContainer">
+      <agm-map 
+        [latitude]="lat" 
+        [longitude]="lng" 
+        [zoom]="zoom" 
+        style="height: 500px; width: 80%;" 
+        *ngIf="geoJsonObject"
+      >
+        <agm-data-layer 
+          [geoJson]="geoJsonObject" 
+          (layerClick)="clicked($event)" 
+          [style]="styleFunc"
+          *ngIf="isGPX"
+        ></agm-data-layer>
+        <agm-marker 
+          *ngIf= "!isGPX"
+          [latitude]= "junctureData.lat" 
+          [longitude]= "junctureData.lon" 
+          [iconUrl]= "{
+            url: junctureData.markerImg || 'https://www.shareicon.net/data/256x256/2016/11/14/852173_circle_512x512.png',
+            anchor: {x: 18, y: 18},
+            size: {width: 32, height: 32},
+            scaledSize: {width: 32, height: 32}
+          }"
+        ></agm-marker>
+      </agm-map>
+    </div>
+  </div>
 
-  <div class="chartWrapper line">
+  <!-- <div class="chartWrapper line">
     <canvas #distance height="400" width="800"></canvas> 
   </div>
 
