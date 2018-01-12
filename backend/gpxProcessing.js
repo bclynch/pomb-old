@@ -76,9 +76,9 @@ router.post("/", upload.array("uploads[]", 5), (req, res) => {
     if (res) console.log(`added ${res.length - 2} coords`);
   });
 
-  const totalDistance = getTotalDistance(gpxData.geoJSON.geometry.coordinates);
-  console.log('TOTAL DISTANCE in kms: ', totalDistance / 1000);
-  gpxData.totalDistance = totalDistance;
+  // const totalDistance = getTotalDistance(gpxData.geoJSON.geometry.coordinates);
+  // console.log('TOTAL DISTANCE in kms: ', totalDistance / 1000);
+  // gpxData.totalDistance = totalDistance;
 
   // const speeds = getSpeedArr(gpxData.geoJSON.geometry.coordinates, converted.features[0].properties.coordTimes);
   // gpxData.speedsArr = speeds;

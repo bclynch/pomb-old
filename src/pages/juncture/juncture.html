@@ -9,24 +9,30 @@
   <div class="infoContainer">
     <div class="mapContainer">
       <agm-map 
-        [latitude]="lat" 
-        [longitude]="lng" 
-        [zoom]="zoom" 
-        style="height: 500px; width: 80%;" 
-        *ngIf="geoJsonObject"
+        [zoomControl]="false"
+        [disableDefaultUI]="true"
+        [streetViewControl]="false"
+        [mapDraggable]="false"
+        [scrollwheel]="false"
+        [fitBounds]="latlngBounds" 
+        [styles]=mapStyle
+        [latitude]="junctureData?.lat" 
+        [longitude]="junctureData?.lon"
+        [zoom]="zoomLevel"
+        mapTypeId="terrain" 
       >
         <agm-data-layer 
           [geoJson]="geoJsonObject" 
           (layerClick)="clicked($event)" 
-          [style]="styleFunc"
+          [style]="dataLayerStyle"
           *ngIf="isGPX"
         ></agm-data-layer>
         <agm-marker 
           *ngIf= "!isGPX"
-          [latitude]= "junctureData.lat" 
-          [longitude]= "junctureData.lon" 
+          [latitude]= "junctureData?.lat" 
+          [longitude]= "junctureData?.lon" 
           [iconUrl]= "{
-            url: junctureData.markerImg || 'https://www.shareicon.net/data/256x256/2016/11/14/852173_circle_512x512.png',
+            url: junctureData?.markerImg || 'https://www.shareicon.net/data/256x256/2016/11/14/852173_circle_512x512.png',
             anchor: {x: 18, y: 18},
             size: {width: 32, height: 32},
             scaledSize: {width: 32, height: 32}
@@ -34,13 +40,36 @@
         ></agm-marker>
       </agm-map>
     </div>
+    <div class="statsContainer" *ngIf="isGPX">
+      <h2>Juncture Statistics</h2>
+      <div class="statsGrid">
+        <div class="statWrapper" *ngFor="let stat of stats;">
+          <div class="innerWrapper">
+            <ion-icon [name]="stat.icon" [style.color]="stat.iconColor"></ion-icon>
+            <div class="statData">
+              <div class="statLabel">{{stat.label}}</div>
+              <div class="statValue">{{stat.value}} <span>{{stat.unitOfMeasure}}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- <div class="chartWrapper line">
-    <canvas #distance height="400" width="800"></canvas> 
+  <div class="chartsContainer" *ngIf="isGPX && inited">
+    <div>
+      <chart
+        type="line"
+        [chartOptions]="distanceChartOptions"
+        [chartData]="distanceChartData"
+      ></chart>
+    </div>
+    <div>
+      <chart
+        type="line"
+        [chartOptions]="timeChartOptions"
+        [chartData]="timeChartData"
+      ></chart>
+    </div>
   </div>
-
-  <div class="chartWrapper line">
-    <canvas #time height="400" width="800"></canvas> 
-  </div> -->
 </PageWrapper>

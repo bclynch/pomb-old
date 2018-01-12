@@ -9,7 +9,7 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
 import { TripService } from '../../services/trip.service';
-import { MappingService } from '../../services/mapping.service';
+import { GeoService } from '../../services/geo.service';
 import { RouterService } from '../../services/router.service';
 
 @Component({
@@ -48,7 +48,7 @@ export class TripMapPage {
     private utilService: UtilService,
     private tripService: TripService,
     private routerService: RouterService,
-    private mappingService: MappingService,
+    private geoService: GeoService,
     private sanitizer: DomSanitizer,
   ) {
     this.tripId = +this.router.url.split('/').slice(-2, -1)[0];
@@ -80,7 +80,7 @@ export class TripMapPage {
         return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
       });
       console.log(junctureArr);
-      this.geoJsonObject = this.mappingService.generateGeoJSON(junctureArr);
+      this.geoJsonObject = this.geoService.generateGeoJSON(junctureArr);
 
       this.dataLayerStyle = {
         clickable: false,

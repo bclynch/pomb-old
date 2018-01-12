@@ -12,8 +12,9 @@
     - Need to stop scroll on the map
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-    - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat)
+    - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
 - Starting pin for trip
+- BUG when changing route on juncture (and other pages) it doesn't rerender automatically on route change. I think I handled this in web client somewhere
 - Linode Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way.

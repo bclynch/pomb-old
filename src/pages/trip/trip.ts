@@ -9,7 +9,7 @@ import { SettingsService } from '../../services/settings.service';
 import { UtilService } from '../../services/util.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { RouterService } from '../../services/router.service';
-import { MappingService } from '../../services/mapping.service';
+import { GeoService } from '../../services/geo.service';
 import { TripService } from '../../services/trip.service';
 import { AlertService } from '../../services/alert.service';
 
@@ -59,7 +59,7 @@ export class TripPage implements AfterViewInit {
     private utilService: UtilService,
     private broadcastService: BroadcastService,
     private routerService: RouterService,
-    private mappingService: MappingService,
+    private geoService: GeoService,
     private route: ActivatedRoute,
     private alertService: AlertService,
     private tripService: TripService,
@@ -86,7 +86,7 @@ export class TripPage implements AfterViewInit {
         return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
       });
       console.log(junctureArr);
-      this.geoJsonObject = this.mappingService.generateGeoJSON(junctureArr);
+      this.geoJsonObject = this.geoService.generateGeoJSON(junctureArr);
       const junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
 
       this.dataLayerStyle = {

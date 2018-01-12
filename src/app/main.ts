@@ -2,9 +2,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app.module';
 
-//for froala
+// for froala
 import * as $ from 'jquery';
-window["$"] = $;
-window["jQuery"] = $;
+window['$'] = $;
+window['jQuery'] = $;
 
 platformBrowserDynamic().bootstrapModule(AppModule);

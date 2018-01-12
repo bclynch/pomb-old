@@ -1,7 +1,7 @@
 import { ApolloClient, createNetworkInterface, createBatchingNetworkInterface } from 'apollo-client';
 
 const networkInterface = createNetworkInterface({
-    uri: 'http://localhost:8080/graphql', //prod --> /graphql dev --> http://localhost:5000/graphql node dev --> http://localhost:8080/graphql
+    uri: 'http://localhost:8080/graphql', // prod --> /graphql dev --> http://localhost:5000/graphql node dev --> http://localhost:8080/graphql
     opts: {
       credentials: 'same-origin',
     },
@@ -22,10 +22,10 @@ networkInterface.use([{
     }
     // get the authentication token from local storage if it exists
     let jwt: string;
-    let user: any = localStorage.getItem('pomb-user'); 
-    if(user) {
+    let user: any = localStorage.getItem('pomb-user');
+    if (user) {
       user = JSON.parse(user);
-      if(user.token) {
+      if (user.token) {
         jwt = `Bearer ${user.token}`;
         req.options.headers.Authorization = jwt
       }
@@ -41,7 +41,7 @@ networkInterface.use([{
 //     }
 //     // get the authentication token from local storage if it exists
 //     let jwt: string;
-//     let user: any = localStorage.getItem('laze-user'); 
+//     let user: any = localStorage.getItem('laze-user');
 //     if(user) {
 //       user = JSON.parse(user);
 //       if(user.token) {
@@ -55,7 +55,7 @@ networkInterface.use([{
 
 const client = new ApolloClient({
   networkInterface
-}); 
+});
 
 export function getClient(): ApolloClient {
   return client;

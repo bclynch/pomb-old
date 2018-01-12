@@ -11,6 +11,7 @@ export class SettingsService {
   secondaryColor: string;
   tagline: string;
   heroBanner: string;
+  unitOfMeasure: 'imperial' | 'metric' = 'imperial';
 
   siteSections: any = {
     'Travel': { description: '' },

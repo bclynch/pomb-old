@@ -44,21 +44,129 @@ page-juncture {
       }
     }
   }
-  .chartWrapper {
-    max-height: 400px;
-    max-width: 400px;
+  .infoContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 
-    canvas {
-      height: 400px!important;
-      width: 400px!important;
-    }
-    &.line {
-      max-width: 800px;
+    .mapContainer {
+      width: 100%;
 
-      canvas {
-        height: 400px!important;
-        width: 800px!important;
+      agm-map {
+        width: 100%;
+        height: 70vh;
       }
+    }
+    .statsContainer {
+      width: 100%;
+
+      h2 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      .statsGrid {
+        display: flex;
+        flex-wrap: wrap;
+
+        .statWrapper {
+          width: 100%;
+          margin-bottom: 30px;
+  
+          .innerWrapper {
+            width: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+  
+            ion-icon {
+              font-size: 36px;
+              flex: 2;
+              text-align: center;
+            }
+            .statData {
+              flex: 3;
+
+              .statLabel {
+                font-size: 20px;
+              }
+              .statValue {
+                font-size: 32px;
+
+                span {
+                  font-size: 18px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .chartsContainer {
+    margin-top: 20px;
+    width: 100%;
+    overflow: hidden;
+    display: none;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+    .chartWrapper {
+      width: 95vw;
+    }
+  }
+  @include respond-to(large) {
+    .chartsContainer {
+
+      .chartWrapper {
+        width: 45vw;
+      }
+    }
+  }
+  @include respond-to(medium) {
+    .infoContainer {
+      .mapContainer {
+        width: 50%;
+  
+        agm-map {
+          width: 100%;
+          height: 50vh;
+        }
+      }
+      .statsContainer {
+        width: 50%;
+      }
+    }
+    .chartsContainer {
+      display: flex !important;
+    }
+  }
+  @include respond-to(tiny) {
+    .infoContainer {
+      .statsContainer {
+  
+        .statWrapper {
+          width: 50% !important;
+          display: flex;
+          align-items: center;
+  
+          .innerWrapper {
+            width: 80%;
+
+            ion-icon {
+              text-align: center;
+            }
+            .statData {
+              flex: 2 !important;
+            }
+          }
+        }
+      }
+    }
+    .chartsContainer {
+      display: flex !important;
     }
   }
 }

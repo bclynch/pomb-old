@@ -55,6 +55,7 @@ import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
 import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
 import { ShareBtns } from '../components/shareBtns/shareBtns.component';
 import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
+import { ChartComponent } from '../components/chart/chart.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -115,7 +116,7 @@ import { ExploreService } from '../services/explore.service';
 import { UtilService } from '../services/util.service';
 import { JunctureService } from '../services/juncture.service';
 import { TripService } from '../services/trip.service';
-import { MappingService } from '../services/mapping.service';
+import { GeoService } from '../services/geo.service';
 
 @NgModule({
   declarations: [
@@ -190,7 +191,8 @@ import { MappingService } from '../services/mapping.service';
     ShareBtns,
     UploadGPX,
     JuncturePage,
-    TripMapPage
+    TripMapPage,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
@@ -258,7 +260,7 @@ import { MappingService } from '../services/mapping.service';
     UtilService,
     JunctureService,
     TripService,
-    MappingService,
+    GeoService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
