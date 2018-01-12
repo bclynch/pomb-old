@@ -1,0 +1,63 @@
+page-trip-timeline {
+
+  .rangeContainer {
+    width: 100%;
+    position: relative;
+
+    ion-range {
+      width: 80%;
+      padding-top: 40px !important;
+      margin: 0 auto;
+  
+      .range-bar-active {
+        background: var(--secondary);
+      }
+      .range-knob-handle {
+        border: solid 1px #ddd !important;
+        padding: 5px !important;
+        border-radius: 50% !important;
+        background: white !important;
+        z-index: 10;
+      }
+      .range-knob {
+        background: transparent !important;
+        background-image: url('https://www.svgrepo.com/show/9394/backpack.svg') !important;
+        border-radius: 0 !important;
+        height: 40px !important;
+        width: 40px !important;
+        left: 0 !important;
+        top: 0 !important;
+      }
+      .range-pin {
+        left: -10px;
+        top: -40px !important;
+        width: 50px !important;
+        border-radius: 10% !important;
+        background: var(--secondary) !important;
+      }
+      .range-pin:before {
+          content: "Day " !important;
+          position: static !important;
+          transform: none !important;
+          margin-left: 0 !important;
+          background: var(--secondary) !important;
+      }
+    }
+    .startCircle,
+    .endCircle {
+      border-radius: 50%;
+      height: 15px;
+      width: 15px;
+      border: solid 2px #bdbdbd;
+      position: absolute;
+      bottom: 23%;
+      background: white;
+    }
+    .startCircle {
+      left: 10%;
+    }
+    .endCircle {
+      right: 10%;
+    }
+  }
+}

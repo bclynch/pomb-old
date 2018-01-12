@@ -1,0 +1,13 @@
+<PageWrapper [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+  Trip timeline
+  <div class="rangeContainer">
+    <ion-range 
+      min="0" 
+      max="100" 
+      [(ngModel)]="saturation" 
+      [pin]="true"
+    ></ion-range>
+    <div class="startCircle"></div>
+    <div class="endCircle"></div>
+  </div>
+</PageWrapper>

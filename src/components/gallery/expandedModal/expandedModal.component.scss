@@ -16,16 +16,16 @@
         .closeModal {
           cursor: pointer;
           position: absolute;
-          top: 20px;
-          right: 20px;
           background: mapGet($basecolor, black);
-          border: solid 1px mapGet($basecolor, white);
+          top: 15px;
+          right: 15px;
           z-index: 10;
+          opacity: .6;
     
           ion-icon {
             color: mapGet($basecolor, white);
-            padding: 5px;
-            font-size: 1.3em;
+            padding: 0 5px;
+            font-size: 32px;
           }
         }
         .imgWrapper {

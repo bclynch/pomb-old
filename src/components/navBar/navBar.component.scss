@@ -44,7 +44,7 @@ navBar {
           display: flex;
           justify-content: space-around;
           height: inherit;
-          width: 50%;
+          width: 70%;
           display: none;
           
           > div {
@@ -160,6 +160,11 @@ navBar {
       .mobilePrompt {
         display: none;
       }
+    }
+  }
+  @include respond-to(small) {
+    .sectionsWrapper {
+      width: 50% !important;
     }
   }
 }

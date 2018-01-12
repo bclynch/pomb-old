@@ -58,10 +58,14 @@
             </div>
           </div>
           <div class="section" id="Junctures">
-            Junctures
+            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Junctures</div>
           </div>
-          <div class="section" id="Posts" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Posts</div>
-          <div class="section" id="Photos">Photos</div>
+          <div class="section" id="Posts">
+            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Posts</div>
+          </div>
+          <div class="section" id="Photos">
+            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Photos</div>
+          </div>
         </div>
       </div>
     </div>

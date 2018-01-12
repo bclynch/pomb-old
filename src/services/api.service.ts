@@ -582,6 +582,7 @@ const getPostsByTrip = gql`
       tripToJuncturesByTripId {
         nodes {
           junctureByJunctureId {
+            id,
             junctureToPostsByJunctureId {
               nodes {
                 postByPostId {

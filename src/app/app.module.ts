@@ -101,6 +101,7 @@ import { CommunityPage } from '../pages/community/community';
 import { TripPage } from '../pages/trip/trip';
 import { TripMapPage } from '../pages/tripMap/tripMap';
 import { JuncturePage } from '../pages/juncture/juncture';
+import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -192,7 +193,8 @@ import { GeoService } from '../services/geo.service';
     JuncturePage,
     TripMapPage,
     ChartComponent,
-    Newsletter
+    Newsletter,
+    TripTimelinePage
   ],
   imports: [
     BrowserModule,
@@ -245,7 +247,8 @@ import { GeoService } from '../services/geo.service';
     TripModal,
     MobileNavModal,
     JuncturePage,
-    TripMapPage
+    TripMapPage,
+    TripTimelinePage
   ],
   providers: [
     APIService,

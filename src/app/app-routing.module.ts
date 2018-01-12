@@ -23,6 +23,7 @@ import { CommunityPage } from '../pages/community/community';
 import { UserAdminPage } from '../pages/userAdmin/admin';
 import { TripPage } from '../pages/trip/trip';
 import { TripMapPage } from '../pages/tripMap/tripMap';
+import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { JuncturePage } from '../pages/juncture/juncture';
 
 const appRoutes: Routes = [
@@ -151,7 +152,7 @@ const appRoutes: Routes = [
           },
           {
             path: 'junctures',
-            component: HubPage // needs actual page
+            component: TripTimelinePage
           },
           {
             path: 'photos',

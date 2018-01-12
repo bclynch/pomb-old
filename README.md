@@ -23,10 +23,15 @@
     - Dont use default nav  - keep at top - check
     - Use LP top menu fixed - check
     - map - check
+		- Nice to have visited countries on the trip banner as flags - Can take flags from polarsteps like this https://s3-eu-west-1.amazonaws.com/polarsteps/assets/img/flags/sz.svg
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
+			- Juncture timeline can look like polar steps sort of
+			- Sticky traveling man range thing up top with nice scroll thing a la trip page. Nav static up top
+			- Tree timeline on down alternating sides. Mobile use needs to just be down the center I guess
+			- Include image (if one), title, place, start of description, and date (maybe in the center timeline itself?)
     - gallery + all photos page w/ infinite scroll
     - couple stats (countries, distance, w/e)
-    - posts + all posts page (looks like blog list view)
+    - posts + all posts page (looks like blog list view) - in progress
 - Place newsletter component around (one of the nav shades, blog posts, w/e)
 - Can probably pare down the nav to just the following: -- in progress
     - Community
@@ -41,6 +46,9 @@
         - Profile page would be like facebook in that what you see is what a vistor would see, but you have the ability to edit some stuff. Posts, pics, trips assembled nicely
         - Route for trips should user/trip/name-of-trip
         - Juncture could be user/trip/name-of-trip/juncture/name-of-juncture
+- Footer needs a pick me up
+- DB security
+- Context dependent search (blog posts, trip info, users)
 - Google Analytics
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
