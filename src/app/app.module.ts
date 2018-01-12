@@ -44,9 +44,8 @@ import { ExpandedModal } from '../components/gallery/expandedModal/expandedModal
 import { GoogleChartComponent } from '../components/charts/geoChart.component';
 import { FadeCarousel } from '../components/fadeCarousel/fadeCarousel.component';
 import { ExploreSubnav } from '../components/exploreSubnav/exploreSubnav.component';
-import { ProfileNavSection } from '../components/navBar/paneSections/profile/profileSection.component';
-import { TravelNavSection } from '../components/navBar/paneSections/travel/travelSection.component';
-import { OutdoorsNavSection } from '../components/navBar/paneSections/outdoors/outdoorsSection.component';
+import { MyPackNavSection } from '../components/navBar/paneSections/myPack/myPackSection.component';
+import { StoriesNavSection } from '../components/navBar/paneSections/stories/storiesSection.component';
 import { ExploreNavSection } from '../components/navBar/paneSections/explore/exploreSection.component';
 import { CommunityNavSection } from '../components/navBar/paneSections/community/communitySection.component';
 import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
@@ -56,6 +55,7 @@ import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
 import { ShareBtns } from '../components/shareBtns/shareBtns.component';
 import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
 import { ChartComponent } from '../components/chart/chart.component';
+import { Newsletter } from '../components/newsletter/newsletter.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -174,9 +174,8 @@ import { GeoService } from '../services/geo.service';
     WindowScrollDirective,
     CommunityPage,
     ExploreSubnav,
-    ProfileNavSection,
-    TravelNavSection,
-    OutdoorsNavSection,
+    MyPackNavSection,
+    StoriesNavSection,
     ExploreNavSection,
     CommunityNavSection,
     ProfileHeroBanner,
@@ -192,7 +191,8 @@ import { GeoService } from '../services/geo.service';
     UploadGPX,
     JuncturePage,
     TripMapPage,
-    ChartComponent
+    ChartComponent,
+    Newsletter
   ],
   imports: [
     BrowserModule,

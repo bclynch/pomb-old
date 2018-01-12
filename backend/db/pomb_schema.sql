@@ -465,6 +465,17 @@ comment on column pomb.coords.lon is 'Longitude of coords';
 comment on column pomb.coords.elevation is 'Elevation of coords';
 comment on column pomb.coords.coord_time is 'Timestamp of coords';
 
+create table pomb.email_list (
+  id                  serial primary key,
+  email               text not null unique check (char_length(email) < 256),
+  created_at          bigint default (extract(epoch from now()) * 1000)
+);
+
+comment on table pomb.email_list is 'Table with POMB list of emails';
+comment on column pomb.email_list.id is 'Primary id for email';
+comment on column pomb.email_list.email is 'Email of user';
+comment on column pomb.email_list.created_at is 'When email created';
+
 -- *******************************************************************
 -- *********************** Function Queries **************************
 -- *******************************************************************
@@ -687,6 +698,7 @@ GRANT ALL ON TABLE pomb.juncture_to_post TO pomb_account; --ultimately needs to 
 GRANT ALL ON TABLE pomb.trip_to_juncture TO pomb_account; --ultimately needs to be policy in which only own user!
 GRANT ALL ON TABLE pomb.user_to_trip TO pomb_account; --ultimately needs to be policy in which only own user!
 GRANT ALL ON TABLE pomb.coords TO PUBLIC; --Need to figure this out... Inserting from node
+GRANT ALL ON TABLE pomb.email_list TO PUBLIC; --Need to figure this out... Inserting from node
 
 GRANT select on table pomb.post to PUBLIC;
 GRANT select on table pomb.post_tag to PUBLIC;

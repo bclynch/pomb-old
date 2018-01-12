@@ -13,6 +13,7 @@
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
+    - Need to add posts, photos, description
 - Starting pin for trip
 - BUG when changing route on juncture (and other pages) it doesn't rerender automatically on route change. I think I handled this in web client somewhere
 - Linode Hosting
@@ -20,8 +21,14 @@
 - Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way.
     - Lonely planet would actually be a nice template for this... Already done some work on the format too - check
     - Dont use default nav  - keep at top - check
-    - Use our developed side menu nav with user description, map, junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological), gallery, couple stats (countries, distance, w/e), posts 
-- Can probably pare down the nav to just the following:
+    - Use LP top menu fixed - check
+    - map - check
+    - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
+    - gallery + all photos page w/ infinite scroll
+    - couple stats (countries, distance, w/e)
+    - posts + all posts page (looks like blog list view)
+- Place newsletter component around (one of the nav shades, blog posts, w/e)
+- Can probably pare down the nav to just the following: -- in progress
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people

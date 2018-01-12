@@ -10,10 +10,10 @@ import { JunctureService } from '../../../../services/juncture.service';
 import { TripService } from '../../../../services/trip.service';
 
 @Component({
-  selector: 'ProfileNavSection',
-  templateUrl: 'profileSection.component.html'
+  selector: 'MyPackNavSection',
+  templateUrl: 'myPackSection.component.html'
 })
-export class ProfileNavSection {
+export class MyPackNavSection {
 
   quickLinks = [
     {label: 'Juncture Check In', value: 'checkIn'},

@@ -14,11 +14,10 @@ export class SettingsService {
   unitOfMeasure: 'imperial' | 'metric' = 'imperial';
 
   siteSections: any = {
-    'Travel': { description: '' },
-    'Outdoors': { description: '' },
-    'Explore': { description: '' },
     'Community': { description: '' },
-    'Profile': { description: '' },
+    'Stories': { description: '' },
+    // 'Explore': { description: '' },
+    'My Pack': { description: '' },
   };
   categoryOptions: string[] = ['Trekking', 'Biking', 'Travel', 'Culture', 'Gear'];
 

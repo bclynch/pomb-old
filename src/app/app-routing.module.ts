@@ -144,7 +144,19 @@ const appRoutes: Routes = [
           {
             path: 'map',
             component: TripMapPage
-          }
+          },
+          {
+            path: 'posts',
+            component: HubPage
+          },
+          {
+            path: 'junctures',
+            component: HubPage // needs actual page
+          },
+          {
+            path: 'photos',
+            component: HubPage // needs actual page
+          },
         ]
       }
     ]

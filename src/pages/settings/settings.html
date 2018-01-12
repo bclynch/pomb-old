@@ -1,25 +1,3 @@
-<!-- <PageWrapper>
-  SETTINGS
-</PageWrapper> -->
-
 <PageWrapper>
-  <input 
-    type="file" 
-    id="file"
-    (change)="fileChangeEvent($event)"
-    [multiple]="true"
-    accept=".gpx" 
-  />
-
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 500px; width: 80%;" *ngIf="geoJsonObject">
-    <agm-data-layer [geoJson]="geoJsonObject" (layerClick)="clicked($event)" [style]="styleFunc"></agm-data-layer>
-  </agm-map>
-
-  <div class="chartWrapper line">
-    <canvas #distance height="400" width="800"></canvas> 
-  </div>
-
-  <div class="chartWrapper line">
-    <canvas #time height="400" width="800"></canvas> 
-  </div>
+  Settings
 </PageWrapper>

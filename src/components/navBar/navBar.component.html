@@ -30,11 +30,10 @@
     </div>
   </div>
   <div class="sectionInfoPane">
-    <TravelNavSection *ngIf="activeSection?.label === 'Travel'"></TravelNavSection>
-    <OutdoorsNavSection *ngIf="activeSection?.label === 'Outdoors'"></OutdoorsNavSection>
-    <ExploreNavSection *ngIf="activeSection?.label === 'Explore'"></ExploreNavSection>
     <CommunityNavSection *ngIf="activeSection?.label === 'Community'" [socialOptions]="socialOptions"></CommunityNavSection>
-    <ProfileNavSection *ngIf="activeSection?.label === 'Profile'"></ProfileNavSection>    
+    <!-- <ExploreNavSection *ngIf="activeSection?.label === 'Explore'"></ExploreNavSection> -->
+    <StoriesNavSection *ngIf="activeSection?.label === 'Stories'"></StoriesNavSection>  
+    <MyPackNavSection *ngIf="activeSection?.label === 'My Pack'"></MyPackNavSection>    
   </div>
 </div>
 <Search [isActive]="searchActive && !isExpanded"></Search>

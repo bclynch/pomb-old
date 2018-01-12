@@ -1,20 +1,3 @@
 page-settings {
 
-  .chartWrapper {
-    max-height: 400px;
-    max-width: 400px;
-
-    canvas {
-      height: 400px!important;
-      width: 400px!important;
-    }
-    &.line {
-      max-width: 800px;
-
-      canvas {
-        height: 400px!important;
-        width: 800px!important;
-      }
-    }
-  }
 }

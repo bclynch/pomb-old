@@ -574,6 +574,48 @@ const getPostsByCategory = gql`
   }
 `;
 
+const getPostsByTrip = gql`
+  query getPostsByTrip($id: Int!) {
+    tripById(id: $id) {
+      id,
+      name,
+      tripToJuncturesByTripId {
+        nodes {
+          junctureByJunctureId {
+            junctureToPostsByJunctureId {
+              nodes {
+                postByPostId {
+                  id,
+                  title,
+                  accountByAuthor {
+                    firstName,
+                    lastName
+                  }
+                  subtitle,
+                  createdAt,
+                  postLeadPhotosByPostId {
+                    nodes {
+                      id,
+                      title,
+                      leadPhotoLinksByLeadPhotoId {
+                        nodes {
+                          id,
+                          url,
+                          size
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const getTagByName = gql`
 query allPostTags($tagName: String!) {
   allPostTags(condition: {
@@ -888,6 +930,18 @@ const createTripToJuncture = gql`
   }
 `;
 
+const createEmailListEntry = gql`
+  mutation($email: String!) {
+    createEmailList(input:{
+      emailList: {
+        email: $email
+      }
+    }) {
+      clientMutationId
+    }
+  }
+`;
+
 const updateJuncture = gql`
   mutation($junctureId: Int!, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     updateJunctureById(input:{
@@ -1148,6 +1202,15 @@ export class APIService {
     });
   }
 
+  getPostsByTrip(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getPostsByTrip,
+      variables: {
+        id
+      }
+    });
+  }
+
   getAllPostTags() {
     return this.apollo.watchQuery<any>({
       query: getAllPostTags
@@ -1398,6 +1461,15 @@ export class APIService {
       variables: {
         tripId,
         junctureId
+      }
+    });
+  }
+
+  createEmailListEntry(email: string) {
+    return this.apollo.mutate({
+      mutation: createEmailListEntry,
+      variables: {
+        email
       }
     });
   }

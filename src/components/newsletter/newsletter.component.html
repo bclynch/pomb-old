@@ -1,0 +1,13 @@
+<div class="newsletterContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+  <span class="boldFont gradientText" [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" >POMB</span>
+  <div class="callout">Want POMB's email newsletter?</div>
+  <form (submit)="onFormSubmit($event)">
+    <input 
+      placeholder="Your email address" 
+      [(ngModel)]="emailAddress" 
+      name="email"
+    />
+    <div class="errMsg" [style.visibility]="!isValid ? 'visible' : 'hidden'">Please enter a valid email address</div>
+    <button type="submit" class="subscribeBtn">Subscribe</button>
+  </form>
+</div>
