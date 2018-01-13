@@ -9,6 +9,8 @@ import { GalleryPhoto } from '../models/GalleryPhoto.model';
 @Injectable()
 export class JunctureService {
 
+  displayTripNav: boolean;
+
   constructor(
     private modalCtrl: ModalController,
     private apiService: APIService,

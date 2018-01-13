@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
+import { JunctureService } from '../../services/juncture.service';
 
 @Component({
  selector: 'page-trip-timeline',
@@ -20,7 +21,8 @@ export class TripTimelinePage {
     private broadcastService: BroadcastService,
     private router: Router,
     private apiService: APIService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private junctureService: JunctureService
   ) {
     this.tripId = +this.router.url.split('/')[2];
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());

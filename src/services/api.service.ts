@@ -329,7 +329,10 @@ const getTripById = gql`
             lon,
             arrivalDate,
             id,
-            markerImg
+            markerImg,
+            description,
+            city,
+            country,
             coordsByJunctureId {
               nodes {
                 lat,

@@ -23,6 +23,9 @@ import { AppRoutingModule } from './app-routing.module';
 // Directives
 import { WindowScrollDirective } from '../directives/scroll.directive';
 
+// Pipes
+import { TruncatePipe } from '../pipes/truncate.pipe';
+
 // Components
 import { PageNotFoundComponent } from './not-found.component';
 import { Grid } from '../components/grid/grid.component';
@@ -194,7 +197,8 @@ import { GeoService } from '../services/geo.service';
     TripMapPage,
     ChartComponent,
     Newsletter,
-    TripTimelinePage
+    TripTimelinePage,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

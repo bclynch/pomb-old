@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UtilService } from '../services/util.service';
 import { ExploreService } from '../services/explore.service';
 import { TripService } from '../services/trip.service';
+import { JunctureService } from '../services/juncture.service';
 
 @Directive({ selector: '[scrollDirective]' })
 export class WindowScrollDirective implements OnInit, OnDestroy {
@@ -17,10 +18,12 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
       private utilService: UtilService,
       private router: Router,
       private exploreService: ExploreService,
-      private tripService: TripService
+      private tripService: TripService,
+      private junctureService: JunctureService
     ) {
       this.exploreService.displayExploreNav = this.priorScrollValue > 345;
       this.tripService.displayTripNav = this.priorScrollValue > 630;
+      this.junctureService.displayTripNav = this.priorScrollValue > 160;
     }
 
     ngOnInit() {
@@ -87,6 +90,18 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
         } else if (e.target.scrollTop < 630 && this.tripService.displayTripNav === true) {
           this.ngZone.run(() => {
             this.tripService.displayTripNav = false;
+          });
+        }
+      }
+      // if trip timeline page run change detection when crossing 360 threshold sweetspot for our fixed nav menu
+      if (this.router.url.split('/')[1] === 'trip' && this.router.url.split('/')[3] === 'junctures') {
+        if (e.target.scrollTop > 160 && this.junctureService.displayTripNav === false) {
+          this.ngZone.run(() => {
+            this.junctureService.displayTripNav = true;
+          });
+        } else if (e.target.scrollTop < 160 && this.junctureService.displayTripNav === true) {
+          this.ngZone.run(() => {
+            this.junctureService.displayTripNav = false;
           });
         }
       }
