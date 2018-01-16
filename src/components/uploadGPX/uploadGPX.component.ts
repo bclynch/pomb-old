@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
 import { APIService } from '../../services/api.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'uploadGPX',
@@ -18,7 +19,8 @@ export class UploadGPX {
   constructor(
     private apiService: APIService,
     private settingsService: SettingsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private alertService: AlertService
   ) { }
 
   fileChangeEventGPX(fileInput: any) {
@@ -45,5 +47,9 @@ export class UploadGPX {
 
     this.isProcessing = true;
     return formData;
+  }
+
+  presentInfo() {
+    this.alertService.alert('GPX Upload', 'A GPX file is GPS data saved in the GPS Exchange format, an open standard that can be freely used by GPS programs. Import your own gpx files from apps or devices for a detailed trip juncture!');
   }
 }

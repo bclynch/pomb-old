@@ -66,9 +66,10 @@ export class TripPage implements AfterViewInit {
     private sanitizer: DomSanitizer,
     private mapsAPILoader: MapsAPILoader
   ) {
-    this.tripId = +this.router.url.split('/').slice(-1);
-    console.log(this.tripId);
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    this.route.params.subscribe((params) => {
+      this.tripId = params.id;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
   }
 
   init() {

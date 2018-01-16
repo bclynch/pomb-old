@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
@@ -22,10 +22,13 @@ export class TripTimelinePage {
     private router: Router,
     private apiService: APIService,
     private sanitizer: DomSanitizer,
-    private junctureService: JunctureService
+    private junctureService: JunctureService,
+    private route: ActivatedRoute
   ) {
-    this.tripId = +this.router.url.split('/')[2];
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    this.route.params.subscribe((params) => {
+      this.tripId = params.id;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
   }
 
   init() {

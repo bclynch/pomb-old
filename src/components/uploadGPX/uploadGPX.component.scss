@@ -34,4 +34,17 @@ uploadgpx {
       color: var(--secondary);
     }
   }
+  .infoBadge {
+    position: absolute;
+    top: 10px;
+    left: 60%;
+    cursor: pointer;
+    z-index: 99;
+    
+    ion-icon {
+      color: var(--secondary);
+      padding: 5px;
+      font-size: 20px;
+    }
+  }
 }

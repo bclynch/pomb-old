@@ -1,4 +1,4 @@
-<div class="modalContainer">
+<div class="modalContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="initWrapper">
     <div class="header">
       <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
@@ -13,70 +13,100 @@
         </div>
       </div>
     </div>
-    <uploadGPX [junctureId]="junctureId" (gpxUploaded)="onGPXUploaded($event)"></uploadGPX>
-    <div class="mapContainer">
-      <div class="mapInited" *ngIf="inited">
-        <agm-map 
-          [zoomControl]="false"
-          [latitude]="coords.lat" 
-          [longitude]="coords.lon"
-          [disableDefaultUI]="true"
-          [streetViewControl]="false"
-          [styles]=mapStyle
-          [zoom]="zoomLevel"
-          (centerChange)="moveCenter($event)"
-        >
-          <agm-data-layer [geoJson]="geoJsonObject" [style]="styleFunc"></agm-data-layer>
-        </agm-map>
-        <div class="target"></div>
-        <div class="directions">Center map on juncture location</div>
+    <div class="contentWrapper">
+      <div class="tabBtnContainer">
+        <div 
+          class="tabBtn" 
+          *ngFor="let btn of tabBtns; let i = index;"
+          [ngClass]="selectedIndex === i ? 'selected' : ''" 
+          (click)="selectedIndex = i"
+        >{{btn}}</div>
       </div>
-      <div *ngIf="!inited"><ion-spinner name="crescent"></ion-spinner></div>
-    </div>
-    <div class="modalSection tripSelect">
-      <div class="junctureLabel">Trip</div>
-      <select [(ngModel)]="junctureModel.selectedTrip">
-        <option 
-          *ngFor="let trip of tripOptions; let i = index;" 
-          [selected]="i === 0"
-          [value]="trip.id"
-        >{{trip.tripByTripId.name}}</option>
-      </select>
-    </div>
-    <div class="modalSection">
-      <label class="junctureLabel" for="junctureName">Juncture Name</label>
-      <input 
-        type="text"
-        [(ngModel)]="junctureModel.name" 
-        id="junctureName"
-        class="junctureTextInput"
-        [ngClass]="junctureModel.name ? 'valid' : 'invalid'"
-      />
-    </div>
-    <div class="timeContainer modalSection">
-      <div class="timeDisplay">
-        <div class="junctureLabel">Juncture Date</div>
-        <div class="dateWrapper" (click)="presentDatepickerModal($event)">
-          <div class="input">{{junctureModel.time | date: 'yMMMMd'}}</div>
-          <ion-icon name="md-calendar"></ion-icon>
+      <div class="uploadContainer" *ngIf="selectedIndex === 0">
+        <uploadGPX [junctureId]="junctureId" (gpxUploaded)="onGPXUploaded($event)"></uploadGPX>
+        <div class="mapContainer" *ngIf="gpxLoaded">
+          <div class="mapInited">
+            <agm-map
+              [zoomControl]="false"
+              [scrollwheel]="false"
+              [fitBounds]="latlngBounds"
+              [disableDefaultUI]="true"
+              [streetViewControl]="false"
+              [mapDraggable]="false"
+              mapTypeId="terrain"
+              [styles]=mapStyle
+            >
+              <agm-data-layer [geoJson]="geoJsonObject" [style]="dataLayerStyle"></agm-data-layer>
+            </agm-map>
+          </div>
+          <div *ngIf="!inited"><ion-spinner name="crescent"></ion-spinner></div>
         </div>
       </div>
-    </div>
-    <div class="descriptionContainer modalSection">
-      <div class="junctureLabel">Juncture Content</div>
-      <textarea [(ngModel)]="junctureModel.description" rows="6"></textarea>
-    </div>
-    <div class="galleryLoadWrapper">
-      <div (click)="presentGalleryUploaderPopover()">
-        <ion-icon name="md-cloud-upload"></ion-icon>
-        <div>Add images</div>
+      <div class="manualContainer" *ngIf="selectedIndex === 1">
+        <div class="mapContainer">
+          <div class="mapInited" *ngIf="inited">
+            <agm-map 
+              [latitude]="coords.lat" 
+              [longitude]="coords.lon"
+              [scrollwheel]="false"
+              [disableDefaultUI]="true"
+              [streetViewControl]="false"
+              [styles]=mapStyle
+              [zoom]="zoomLevel"
+              mapTypeId="terrain"
+              (centerChange)="moveCenter($event)"
+            ></agm-map>
+            <div class="target"></div>
+            <div class="directions">Center map on juncture location</div>
+          </div>
+          <div *ngIf="!inited"><ion-spinner name="crescent"></ion-spinner></div>
+        </div>
       </div>
-    </div>
-    <div class="gridWrapper">
-      <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
-        <div class="imgWrapper">
-          <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.photoUrl + ')'}"></div>
-          <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event, i)"></ion-icon> 
+      <div class="modalSection tripSelect">
+        <div class="junctureLabel">Trip</div>
+        <select [(ngModel)]="junctureModel.selectedTrip">
+          <option 
+            *ngFor="let trip of tripOptions; let i = index;" 
+            [selected]="i === 0"
+            [value]="trip.id"
+          >{{trip.tripByTripId.name}}</option>
+        </select>
+      </div>
+      <div class="modalSection">
+        <label class="junctureLabel" for="junctureName">Juncture Name</label>
+        <input 
+          type="text"
+          [(ngModel)]="junctureModel.name" 
+          id="junctureName"
+          class="junctureTextInput"
+          [ngClass]="junctureModel.name ? 'valid' : 'invalid'"
+        />
+      </div>
+      <div class="timeContainer modalSection">
+        <div class="timeDisplay">
+          <div class="junctureLabel">Juncture Date</div>
+          <div class="dateWrapper" (click)="presentDatepickerModal($event)">
+            <div class="input">{{junctureModel.time | date: 'yMMMMd'}}</div>
+            <ion-icon name="md-calendar"></ion-icon>
+          </div>
+        </div>
+      </div>
+      <div class="descriptionContainer modalSection">
+        <div class="junctureLabel">Juncture Content</div>
+        <textarea [(ngModel)]="junctureModel.description" rows="6"></textarea>
+      </div>
+      <div class="galleryLoadWrapper">
+        <div (click)="presentGalleryUploaderPopover()">
+          <ion-icon name="md-cloud-upload"></ion-icon>
+          <div>Add images</div>
+        </div>
+      </div>
+      <div class="gridWrapper">
+        <div class="gridUnitWrapper" *ngFor="let galleryPhoto of galleryPhotos; let i = index;">
+          <div class="imgWrapper">
+            <div [ngStyle]="{ 'background-image': 'url(' + galleryPhoto.photoUrl + ')'}"></div>
+            <ion-icon name="md-create" title="Edit gallery photo" (click)="presentGalleryPopover($event, i)"></ion-icon> 
+          </div>
         </div>
       </div>
     </div>

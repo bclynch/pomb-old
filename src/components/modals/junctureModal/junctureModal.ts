@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ViewController, NavParams, PopoverController, ModalController, ToastController } from 'ionic-angular';
 import { MapsAPILoader } from '@agm/core';
@@ -36,6 +37,12 @@ export class JunctureModal {
   coords = { lat: null, lon: null };
   mapStyle;
   zoomLevel = 12;
+  dataLayerStyle;
+  latlngBounds;
+  gpxLoaded = false;
+
+  tabBtns = ['Upload GPX', 'Manual'];
+  selectedIndex = 0;
 
   constructor(
     public viewCtrl: ViewController,
@@ -49,7 +56,8 @@ export class JunctureModal {
     private popoverCtrl: PopoverController,
     private alertService: AlertService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private sanitizer: DomSanitizer
   ) {
     // create juncture so we have an ID for gpx upload
     this.apiService.createJuncture().subscribe(
@@ -67,6 +75,12 @@ export class JunctureModal {
         if (data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
       }
     );
+
+    this.dataLayerStyle = {
+      clickable: false,
+      strokeColor: 'orange',
+      strokeWeight: 3
+    };
 
     // grab location for map
     if (navigator.geolocation) {
@@ -88,17 +102,26 @@ export class JunctureModal {
   }
 
   onGPXUploaded(gpxData) {
+    this.gpxLoaded = false;
     console.log('GPX Data: ', gpxData);
-    this.coords.lat = gpxData.geometry.coordinates.slice(-1)[0][1];
-    this.coords.lon = gpxData.geometry.coordinates.slice(-1)[0][0];
-    this.geoJsonObject = gpxData;
-  }
 
-  styleFunc(feature) {
-    return ({
-      clickable: false,
-      strokeColor: 'orange',
-      strokeWeight: 3
+    this.mapsAPILoader.load().then(() => {
+      this.latlngBounds = new window['google'].maps.LatLngBounds();
+      // take five coord pairs from the coords arr evenly spaced to hopefully encapsulate all the bounds
+      const chosenCoords = [];
+      const desiredNumberPairs = 5;
+      for (let i = 0; i < gpxData.geometry.coordinates.length && chosenCoords.length < desiredNumberPairs; i += Math.ceil(gpxData.geometry.coordinates.length / desiredNumberPairs)) {
+        chosenCoords.push(gpxData.geometry.coordinates[i]);
+      }
+
+      chosenCoords.forEach((dataSet) => {
+        this.latlngBounds.extend(new window['google'].maps.LatLng(dataSet[1], dataSet[0]));
+      });
+
+      this.coords.lat = gpxData.geometry.coordinates.slice(-1)[0][1];
+      this.coords.lon = gpxData.geometry.coordinates.slice(-1)[0][0];
+      this.geoJsonObject = gpxData;
+      this.gpxLoaded = true;
     });
   }
 

@@ -6,29 +6,27 @@
 
 #### FOCUS ON TRIP / JUNCTURE / DIARY EXPERIENCE
 - Finish juncture creation modal
-    - Probably want to stop user from being able to modify juncture point if its gpx
-    - Improve UI for gpx OR manual
-    - Maybe informational badge for gpx
-    - Need to stop scroll on the map
+    - gpx upload component is uploading every time user adds something. Should ONLY be when they save
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
     - Need to add posts, photos, description
-- Starting pin for trip
-- BUG when changing route on juncture (and other pages) it doesn't rerender automatically on route change. I think I handled this in web client somewhere
+- Starting pin for trip - Maybe just have a similar map interface to juncture where you can set the starting point.
+- Need a default img for marker w/o image (trip map + juncture + juncture modal)
+- BUG - date picker jacked up
 - Linode Hosting
 - Mobile usage!
-- Would be nice to have a trip page thats a little more static, but graphical. SHows all junctures, posts, photos, stats in some nice way.
+- Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.
     - Lonely planet would actually be a nice template for this... Already done some work on the format too - check
     - Dont use default nav  - keep at top - check
     - Use LP top menu fixed - check
     - map - check
 		- Nice to have visited countries on the trip banner as flags - Can take flags from polarsteps like this https://s3-eu-west-1.amazonaws.com/polarsteps/assets/img/flags/sz.svg
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
-			- Juncture timeline can look like polar steps sort of
-			- Sticky traveling man range thing up top with nice scroll thing a la trip page. Nav static up top
-			- Tree timeline on down alternating sides. Mobile use needs to just be down the center I guess
-			- Include image (if one), title, place, start of description, and date (maybe in the center timeline itself?)
+        - Juncture timeline can look like polar steps sort of
+        - Sticky traveling man range thing up top with nice scroll thing a la trip page. Nav static up top
+        - Tree timeline on down alternating sides. Mobile use needs to just be down the center I guess
+        - Include image (if one), title, place, start of description, and date (maybe in the center timeline itself?)
     - gallery + all photos page w/ infinite scroll
     - couple stats (countries, distance, w/e)
     - posts + all posts page (looks like blog list view) - in progress

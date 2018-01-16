@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { AgmSnazzyInfoWindow } from '@agm/snazzy-info-window';
@@ -50,10 +50,12 @@ export class TripMapPage {
     private routerService: RouterService,
     private geoService: GeoService,
     private sanitizer: DomSanitizer,
+    private route: ActivatedRoute
   ) {
-    this.tripId = +this.router.url.split('/').slice(-2, -1)[0];
-    console.log(this.tripId);
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    this.route.params.subscribe((params) => {
+      this.tripId = params.id;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
   }
 
   init() {

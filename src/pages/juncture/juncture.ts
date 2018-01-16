@@ -1,5 +1,5 @@
 import { ViewChild, Component, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AgmMap, AgmDataLayer, MapsAPILoader } from '@agm/core';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
@@ -79,11 +79,13 @@ export class JuncturePage {
     private router: Router,
     private geoService: GeoService,
     private mapsAPILoader: MapsAPILoader,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private route: ActivatedRoute
   ) {
-    this.junctureId = +this.router.url.split('/').slice(-1);
-    console.log(this.junctureId);
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    this.route.params.subscribe((params) => {
+      this.junctureId = params.id;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
   }
 
   init() {
