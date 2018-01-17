@@ -116,7 +116,7 @@ export class JuncturePage {
         });
         this.dataLayerStyle = {
           clickable: false,
-          strokeColor: 'orange',
+          strokeColor: this.settingsService.secondaryColor,
           strokeWeight: 3
         };
       });

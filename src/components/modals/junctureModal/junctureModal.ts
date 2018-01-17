@@ -78,7 +78,7 @@ export class JunctureModal {
 
     this.dataLayerStyle = {
       clickable: false,
-      strokeColor: 'orange',
+      strokeColor: this.settingsService.secondaryColor,
       strokeWeight: 3
     };
 

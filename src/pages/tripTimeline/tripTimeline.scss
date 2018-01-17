@@ -3,7 +3,6 @@ page-trip-timeline {
   // modding the nav bar for this page
   .pageWrapperContainer {
     margin: 0;
-    height: 10000px;
 
     .navBarContainer {
       position: absolute;
@@ -93,7 +92,7 @@ page-trip-timeline {
       }
     }
     .timelineContainer {
-      width: 60%;
+      width: 90%;
       margin: 50px auto 0;
       position: relative;
 
@@ -101,39 +100,90 @@ page-trip-timeline {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-direction: column;
         width: 100%;
         margin-bottom: 30px;
 
-        > div {
-          width: calc(50% - 20px);
+        &.even {
+
+          .imgGroup {
+
+            .connector {
+              margin-left: 10px;
+            }
+          }
+        }
+        &.odd {
+
+          .imgGroup {
+
+            .connector {
+              margin-right: 10px;
+            }
+            .junctureDate {
+              text-align: right;
+            }
+          }
+          .dataGroup {
+            text-align: right;
+          }
         }
         .imgGroup {
           display: flex;
           align-items: center;
+          justify-content: space-between;
+          flex-direction: column;
+          width: 100%;
+          cursor: pointer;
 
           .junctureImg {
             height: 150px;
             width: 150px;
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: left center;
+            margin: 20px 0;
           }
           .junctureDate {
             font-size: 18px;
+            transition: .3s;
           }
           .connector {
-            height: 10px;
-            width: 100px;
-            background: red;
+            height: 5px;
+            background: var(--secondary);
+            display: none;
+          }
+          > * {
+            flex: 1;
           }
         }
         .dataGroup {
+          width: 100%;
+          cursor: pointer;
 
           .junctureTitle {
             font-size: 18px;
             font-weight: bold;
+            transition: .3s;
           }
           .junctureLocation {
             font-size: 16px;
+          }
+        }
+        .mobileConnector {
+          height: 80px;
+          width: 20px;
+          background: var(--secondary);
+          margin-top: 30px; 
+        }
+        .dataGroup:hover {
+          .junctureTitle {
+            color: var(--secondary);
+          }
+        }
+        .imgGroup:hover {
+          .junctureDate {
+            color: var(--secondary);
           }
         }
       }
@@ -141,9 +191,46 @@ page-trip-timeline {
         width: 20px;
         height: 100%;
         position: absolute;
-        left: 50%;
+        display: none;
+        left: calc(50% - 10px);
         top: 0;
-        background: red;
+        background: var(--secondary);
+      }
+    }
+  }
+  @include respond-to(small) {
+    .timelineContainer {
+      width: 60% !important;
+
+      .junctureContainer {
+        flex-direction: row !important;
+  
+        &.odd {
+          flex-direction: row-reverse !important;
+
+          .imgGroup {
+            flex-direction: row-reverse !important;
+          }
+        }
+        > div {
+          width: calc(50% - 20px) !important;
+        }
+        .imgGroup {
+          flex-direction: row !important;
+
+          .connector {
+            display: block !important;
+          }
+          .junctureImg {
+            margin: 0 !important;
+          }
+        }
+        .mobileConnector {
+          display: none !important;
+        }
+      }
+      .timelinePipe {
+        display: block !important;
       }
     }
   }

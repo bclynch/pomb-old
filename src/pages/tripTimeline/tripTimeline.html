@@ -1,39 +1,43 @@
 <PageWrapper [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)" [collapsibleNav]="false">
-  <div class="contentWrapper">
-    <div class="header">
-      <div>{{tripData?.name}} Timeline</div>
-    </div>
-    <div class="rangeContainer" [style.position]="junctureService.displayTripNav ? 'fixed' : 'static'">
-      <div class="rangeWrapper">
-        <ion-range 
-          min="0" 
-          [max]="tripData?.tripToJuncturesByTripId.nodes.length" 
-          [(ngModel)]="saturation" 
-          [pin]="true"
-        ></ion-range>
-        <div class="startCircle"></div>
-        <div class="endCircle"></div>
+  <div class="topoWrapper">
+    <div class="contentWrapper">
+      <div class="header">
+        <div>{{tripData?.name}} Timeline</div>
       </div>
-    </div>
-    <div class="timelineContainer">
-      <div class="junctureContainer" *ngFor="let juncture of tripData?.tripToJuncturesByTripId.nodes; let i = index;">
-        <div class="imgGroup" *ngIf="i % 2 === 0">
-          <div class="junctureDate">{{juncture.junctureByJunctureId.arrivalDate | date:'mediumDate'}}</div>
-          <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + juncture.junctureByJunctureId.markerImg + ')'}"></div>
-          <div class="connector"></div>
-        </div>
-        <div class="dataGroup" [style.text-align]="i % 2 === 0 ? 'left' : 'right'">
-          <div class="junctureTitle">{{juncture.junctureByJunctureId.name}}</div>
-          <div class="junctureLocation">{{juncture.junctureByJunctureId.city}}, {{juncture.junctureByJunctureId.country}}</div>
-          <div class="junctureDescription">{{juncture.junctureByJunctureId.description | truncate:[200, '...']}}</div>
-        </div>
-        <div class="imgGroup" *ngIf="i % 2 !== 0">
-          <div class="connector"></div>
-          <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + juncture.junctureByJunctureId.markerImg + ')'}"></div>
-          <div class="junctureDate">{{juncture.junctureByJunctureId.arrivalDate | date:'mediumDate'}}</div>
+      <div class="rangeContainer" [style.position]="junctureService.displayTripNav ? 'fixed' : 'static'">
+        <div class="rangeWrapper">
+          <ion-range 
+            min="0" 
+            [max]="tripData?.tripToJuncturesByTripId.nodes.length" 
+            [(ngModel)]="saturation" 
+            [pin]="true"
+            (ionChange)="rangeChange($event)"
+          ></ion-range>
+          <div class="startCircle"></div>
+          <div class="endCircle"></div>
         </div>
       </div>
-      <div class="timelinePipe"></div>
+      <div class="timelineContainer">
+        <div 
+          class="junctureContainer" 
+          *ngFor="let juncture of tripData?.tripToJuncturesByTripId.nodes; let i = index; let last=last" 
+          [id]="'juncture' + i" 
+          [ngClass]="i % 2 === 0 ? 'even' : 'odd'"
+        >
+          <div class="imgGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.junctureByJunctureId.id)">
+            <div class="junctureDate">{{juncture.junctureByJunctureId.arrivalDate | date:'mediumDate'}}</div>
+            <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}"></div>
+            <div class="connector"></div>
+          </div>
+          <div class="dataGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.junctureByJunctureId.id)">
+            <div class="junctureTitle">{{juncture.junctureByJunctureId.name}}</div>
+            <div class="junctureLocation">{{juncture.junctureByJunctureId.city}}, {{juncture.junctureByJunctureId.country}}</div>
+            <div class="junctureDescription">{{juncture.junctureByJunctureId.description | truncate:[200, '...']}}</div>
+          </div>
+          <div class="mobileConnector" *ngIf="!last"></div>
+        </div>
+        <div class="timelinePipe"></div>
+      </div>
     </div>
   </div>
 </PageWrapper>

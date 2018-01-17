@@ -10,9 +10,9 @@
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
+    - Component for toggle imperial / metric
     - Need to add posts, photos, description
 - Starting pin for trip - Maybe just have a similar map interface to juncture where you can set the starting point.
-- Need a default img for marker w/o image (trip map + juncture + juncture modal)
 - BUG - date picker jacked up
 - Linode Hosting
 - Mobile usage!
@@ -23,10 +23,7 @@
     - map - check
 		- Nice to have visited countries on the trip banner as flags - Can take flags from polarsteps like this https://s3-eu-west-1.amazonaws.com/polarsteps/assets/img/flags/sz.svg
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
-        - Juncture timeline can look like polar steps sort of
-        - Sticky traveling man range thing up top with nice scroll thing a la trip page. Nav static up top
-        - Tree timeline on down alternating sides. Mobile use needs to just be down the center I guess
-        - Include image (if one), title, place, start of description, and date (maybe in the center timeline itself?)
+        - Need banner img for timeline page
     - gallery + all photos page w/ infinite scroll
     - couple stats (countries, distance, w/e)
     - posts + all posts page (looks like blog list view) - in progress
@@ -45,18 +42,23 @@
         - Route for trips should user/trip/name-of-trip
         - Juncture could be user/trip/name-of-trip/juncture/name-of-juncture
 - Footer needs a pick me up
-- DB security
 - Context dependent search (blog posts, trip info, users)
+- Better error handling
+- Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
+
+*AFTER ONLINE*
+
+- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+- DB security
 - Google Analytics
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
+- Admin panels
 - Favorites / 'add to pack' for posts, images, trips
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
     - uber eats, stripe, fresh desk
-- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Think about sub trips ? i.e. a trek in the middle of a longer trip
-- Admin panels
 - Password Retrieval + mailing on new account
 - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
@@ -112,19 +114,6 @@
 - Need to consider how to retrieve thumbnail for search results. Currently the index doesn't give back the relational options. Need to figure out how to do so (better) or add a prop on the main post object with a link to the thumbnail.
 - Need to redraw geo map on regions when changing region (doesn't destroy the original element)
 - Fix transition on mobile nav. Probably some kind of fade in with no moving transition. https://forum.ionicframework.com/t/adding-custom-transitions-custom-modal-transition/75924/3
-
-## Long Term Todos
-
-- Better error handling
-- Mobile friendly fine tooth comb!
-- Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
-- Other hosting options would likely be cheaper than Heroku.
-- Ultimately going to need to implement better caching server side. For example don't want to be making calls to Flickr from every client side location. Should be hitting an endpoint on the server. Check a cache to see if photos exist for a place. If so return it, if not fetch it. Could do the same for google results and rest countries end points.
-    - https://aws.amazon.com/blogs/aws/amazon-lightsail-the-power-of-aws-the-simplicity-of-a-vps/
-    - https://www.digitalocean.com/pricing/
-    - https://www.linode.com/docs/getting-started ($10 coupon there) Seems to have better value
-    - https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
-    - https://hackernoon.com/continuous-deployment-for-node-js-on-digitalocean-d800e8520ffe
 
 ## Feature Ideas
 

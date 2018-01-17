@@ -17,11 +17,7 @@ const storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage });
-
-var gpx = new DOMParser().parseFromString(fs.readFileSync('./test.gpx', 'utf8'));
-
-var converted = convertGPX.gpx(gpx);
+const upload = multer({ storage });
 
 // console.log(JSON.stringify(converted));
 

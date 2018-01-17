@@ -6,6 +6,7 @@ import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { JunctureService } from '../../services/juncture.service';
+import { RouterService } from '../../services/router.service';
 
 @Component({
  selector: 'page-trip-timeline',
@@ -23,7 +24,8 @@ export class TripTimelinePage {
     private apiService: APIService,
     private sanitizer: DomSanitizer,
     private junctureService: JunctureService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private routerService: RouterService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.id;
@@ -36,5 +38,17 @@ export class TripTimelinePage {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
     });
+  }
+
+  scrollTo(option: string) {
+    document.getElementById(option).scrollIntoView({behavior: 'smooth'});
+  }
+
+  rangeChange(e) {
+    if (e._value !== 0) this.scrollTo(`juncture${e._value - 1}`);
+  }
+
+  junctureImage(juncture) {
+    return juncture.junctureByJunctureId.markerImg || this.junctureService.defaultMarkerImg;
   }
 }

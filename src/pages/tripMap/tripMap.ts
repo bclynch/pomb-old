@@ -86,7 +86,7 @@ export class TripMapPage {
 
       this.dataLayerStyle = {
         clickable: false,
-        strokeColor: 'orange',
+        strokeColor: this.settingsService.secondaryColor,
         strokeWeight: 3
       };
 

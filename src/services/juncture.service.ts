@@ -10,6 +10,7 @@ import { GalleryPhoto } from '../models/GalleryPhoto.model';
 export class JunctureService {
 
   displayTripNav: boolean;
+  defaultMarkerImg = 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png';
 
   constructor(
     private modalCtrl: ModalController,
