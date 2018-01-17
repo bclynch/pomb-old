@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Router, NavigationEnd } from '@angular/router'
-import { Subscription } from 'rxjs/Subscription'
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { APIService } from '../services/api.service';
 import { LocalStorageService } from '../services/localStorage.service';
@@ -9,14 +9,14 @@ import { AlertService } from '../services/alert.service';
 import { SettingsService } from '../services/settings.service';
 import { BroadcastService, BroadcastEvent } from '../services/broadcast.service';
 
-declare let ga: Function
+declare let ga: Function;
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit, OnDestroy {
 
-  subscription: Subscription
+  subscription: Subscription;
 
   constructor(
     private apiService: APIService,
@@ -27,14 +27,14 @@ export class MyApp implements OnInit, OnDestroy {
     private broadcastService: BroadcastService,
     private router: Router
   ) {
-    //grab site config
+    // grab site config
     this.settingsService.appInit().then(() => {
       this.settingsService.appInited = true;
 
-      this.apiService.getCurrentAccount().subscribe(({ data }) => { 
-        //checking in to snag user data
-        console.log('got user data', data); 
-        if(data.currentAccount) {
+      this.apiService.getCurrentAccount().subscribe(({ data }) => {
+        // checking in to snag user data
+        console.log('got user data', data);
+        if (data.currentAccount) {
           this.userService.signedIn = true;
           this.userService.user = data.currentAccount;
           this.emitReady();
@@ -43,36 +43,36 @@ export class MyApp implements OnInit, OnDestroy {
           this.localStorageService.set('pomb-user', '');
           this.emitReady();
         }
-      },(error) => {
+      }, (error) => {
         console.log('there was an error sending the query', error);
         this.localStorageService.set('pomb-user', '');
         alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
         this.emitReady();
       });
     }, error => {
-      // JWT expired so get rid of it in local storage 
+      // JWT expired so get rid of it in local storage
       this.localStorageService.set('pomb-user', '');
       window.location.reload();
     });
   }
 
-  //analytics tracking
+  // analytics tracking
   ngOnInit() {
     this.subscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        ga('set', 'page', event.urlAfterRedirects)
-        ga('send', 'pageview')
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
       }
-    })
+    });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe();
   }
 
   emitReady() {
-    //app ready to init
-    let broadcastEvent: BroadcastEvent = { name: 'appIsReady', message: 'init' };
+    // app ready to init
+    const broadcastEvent: BroadcastEvent = { name: 'appIsReady', message: 'init' };
     this.broadcastService.broadcast(broadcastEvent);
   }
 }

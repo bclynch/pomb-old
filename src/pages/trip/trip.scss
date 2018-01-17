@@ -16,14 +16,18 @@ page-trip {
     margin: 0 auto;
 
     .subnavContainer {
-      width: 100vw;
-      max-width: 1600px;
       top: 0;
+      left: 0;
       background: white;
       z-index: 10;
 
+      &.fixed {
+        position: fixed;
+        width: 100vw;
+      }
       .borderWrapper {
         width: 100%;
+        max-width: 1600px;
         margin: 0 auto;
         border-bottom: solid 1px mapGet($basecolor, darkened);
 

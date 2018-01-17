@@ -5,7 +5,7 @@
       [title]="trip"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
-      <div class="subnavContainer" [style.position]="tripService.displayTripNav ? 'fixed' : 'static'">
+      <div class="subnavContainer" [ngClass]="tripService.displayTripNav ? 'fixed' : ''">
         <div class="borderWrapper">
           <div class="subnavWrapper">
             <div *ngFor="let option of subnavOptions;" (click)="scrollTo(option)">{{option}}</div>

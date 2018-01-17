@@ -29,6 +29,7 @@ page-trip-timeline {
       width: 100%;
       top: 0;
       background: white;
+      z-index: 99;
   
       .rangeWrapper {
         width: 100%;
@@ -94,15 +95,17 @@ page-trip-timeline {
     .timelineContainer {
       width: 60%;
       margin: 50px auto 0;
+      position: relative;
 
       .junctureContainer {
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        margin-bottom: 30px;
 
         > div {
-          flex: 1;
+          width: calc(50% - 20px);
         }
         .imgGroup {
           display: flex;
@@ -114,7 +117,33 @@ page-trip-timeline {
             background-size: contain;
             background-repeat: no-repeat;
           }
+          .junctureDate {
+            font-size: 18px;
+          }
+          .connector {
+            height: 10px;
+            width: 100px;
+            background: red;
+          }
         }
+        .dataGroup {
+
+          .junctureTitle {
+            font-size: 18px;
+            font-weight: bold;
+          }
+          .junctureLocation {
+            font-size: 16px;
+          }
+        }
+      }
+      .timelinePipe {
+        width: 20px;
+        height: 100%;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        background: red;
       }
     }
   }
