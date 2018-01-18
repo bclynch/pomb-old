@@ -27,23 +27,23 @@
           }"
           (markerClick)="markerClick(i)"
         >
-          <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true">
+          <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true" *ngIf="i > 0">
             <ng-template>
               <div *ngIf="!markerLoading">
                 <div 
                   class="juncturePhoto" 
-                  [ngStyle]="junctureContentArr[i].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
+                  [ngStyle]="junctureContentArr[i - 1].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i - 1].junctureToPhotosByJunctureId.nodes[0].photoUrl + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
                 >
                   <div class="overlay">
-                    <div class="overlayName">{{junctureContentArr[i].name}}</div>
-                    <div class="overlayDate">{{junctureContentArr[i].arrivalDate | date: 'yMMMMd'}}</div>
+                    <div class="overlayName">{{junctureContentArr[i - 1].name}}</div>
+                    <div class="overlayDate">{{junctureContentArr[i - 1].arrivalDate | date: 'yMMMMd'}}</div>
                   </div>
                 </div>
                 <div class="contentWrapper">
-                  <div class="windowCity">{{junctureContentArr[i].city}}</div>
-                  <div class="windowCountry">{{junctureContentArr[i].country}}</div>
-                  <div>{{truncate(junctureContentArr[i].description)}}</div>
-                  <div class="windowBtn" (click)="goToJuncture(i)">See More</div>
+                  <div class="windowCity">{{junctureContentArr[i - 1].city}}</div>
+                  <div class="windowCountry">{{junctureContentArr[i - 1].country}}</div>
+                  <div>{{junctureContentArr[i - 1].description | truncate:[200, '...']}}</div>
+                  <div class="windowBtn" (click)="goToJuncture(i)" *ngIf="i !== 0">See More</div>
                 </div>
               </div>
             </ng-template>

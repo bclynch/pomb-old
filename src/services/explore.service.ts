@@ -43,32 +43,32 @@ export class ExploreService {
   };
   // again nice to put into json
   googleRegionCodes = {
-    '002': 'Africa', 
-    '015': 'Northern Africa', 
-    '011': 'Western Africa', 
-    '017': 'Middle Africa', 
-    '014': 'Eastern Africa', 
-    '018': 'Southern Africa', 
-    '150': 'Europe', 
-    '154': 'Northern Europe', 
-    '155': 'Western Europe', 
-    '151': 'Eastern Europe', 
-    '039': 'Southern Europe', 
-    '019': 'Americas', 
-    '021': 'North America', 
-    '029': 'Caribbean', 
-    '013': 'Central America', 
-    '005': 'South America', 
-    '142': 'Asia', 
-    '143': 'Central Asia', 
-    '030': 'Eastern Asia', 
-    '034': 'Southern Asia', 
-    '035': 'South Eastern Asia', 
-    '145': 'Western Asia', 
-    '009': 'Oceania', 
-    '053': 'Australasia', 
-    '054': 'Melanesia', 
-    '057': 'Micronesia', 
+    '002': 'Africa',
+    '015': 'Northern Africa',
+    '011': 'Western Africa',
+    '017': 'Middle Africa',
+    '014': 'Eastern Africa',
+    '018': 'Southern Africa',
+    '150': 'Europe',
+    '154': 'Northern Europe',
+    '155': 'Western Europe',
+    '151': 'Eastern Europe',
+    '039': 'Southern Europe',
+    '019': 'Americas',
+    '021': 'North America',
+    '029': 'Caribbean',
+    '013': 'Central America',
+    '005': 'South America',
+    '142': 'Asia',
+    '143': 'Central Asia',
+    '030': 'Eastern Asia',
+    '034': 'Southern Asia',
+    '035': 'South Eastern Asia',
+    '145': 'Western Asia',
+    '009': 'Oceania',
+    '053': 'Australasia',
+    '054': 'Melanesia',
+    '057': 'Micronesia',
     '061': 'Polyneisa'
   };
 
@@ -113,15 +113,15 @@ export class ExploreService {
 
   private createCountryObjects() {
     return new Promise<string>((resolve, reject) => {
-      let nameObj = {};
-      let codeObj = {};
+      const nameObj = {};
+      const codeObj = {};
       this.apiService.getAllCountries().subscribe(
         countries => {
           countries.forEach((country) => {
-            //create object with name keys
+            // create object with name keys
             nameObj[country.name] = country;
 
-            //create object with code keys
+            // create object with code keys
             codeObj[country.alpha2Code] = country;
           });
 
@@ -136,17 +136,17 @@ export class ExploreService {
   }
 
   requestCountryCodes(region: string, subregion?: string) {
-    //check cache first
-    if(subregion) {
-      if(this.countryCodeCache[subregion]) return this.countryCodeCache[subregion];
+    // check cache first
+    if (subregion) {
+      if (this.countryCodeCache[subregion]) return this.countryCodeCache[subregion];
     } else {
-      if(this.countryCodeCache[region]) return this.countryCodeCache[region];
+      if (this.countryCodeCache[region]) return this.countryCodeCache[region];
     }
 
-    //geochart likes having country keyword first
+    // geochart likes having country keyword first
     let countryCodeArr: string[][] = [['Country']];
     const self = this;
-    if(region === 'all') {
+    if (region === 'all') {
       Object.keys(this.regions).forEach((region) => {
         countryCodeArr = countryCodeArr.concat(this.combineSubregions(region));
       });
@@ -155,8 +155,8 @@ export class ExploreService {
     }
     console.log(countryCodeArr);
 
-    //caching
-    if(subregion) {
+    // caching
+    if (subregion) {
       this.countryCodeCache[subregion] = countryCodeArr;
     } else {
       this.countryCodeCache[region] = countryCodeArr;
@@ -173,10 +173,29 @@ export class ExploreService {
   }
 
   private formatSubregion(arr: string[]) {
-    let subregionArr: string[][] = [];
+    const subregionArr: string[][] = [];
     arr.forEach((code) => {
-      if(this.countryCodeObj[code]) subregionArr.push([this.countryCodeObj[code].name]);
-    }); 
+      if (this.countryCodeObj[code]) subregionArr.push([this.countryCodeObj[code].name]);
+    });
     return subregionArr;
+  }
+
+  getCountryFlag(country: string): string {
+    if (this.countryNameObj[country]) {
+      return this.countryNameObj[country].flag;
+    } else {
+      // if it doesn't find the name we can set up some defaults
+      switch (country) {
+        case 'USA':
+          return this.countryNameObj['United States of America'].flag;
+        case 'South Korea':
+          return this.countryNameObj['Korea (Republic of)'].flag;
+        case 'UK':
+          return this.countryNameObj['United Kingdom of Great Britain and Northern Ireland'].flag;
+        case 'Bolivia':
+        default:
+          return '';
+      }
+    }
   }
 }

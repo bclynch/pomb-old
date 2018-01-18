@@ -4,30 +4,19 @@
 
 ### Top Priorities
 
-#### FOCUS ON TRIP / JUNCTURE / DIARY EXPERIENCE
 - Finish juncture creation modal
     - gpx upload component is uploading every time user adds something. Should ONLY be when they save
-- Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
     - Component for toggle imperial / metric
     - Need to add posts, photos, description
-- Starting pin for trip
-    - Maybe just have a similar map interface to juncture where you can set the starting point + update db model. - check
-    - Need to put start marker on trip + trip map page + put account for in bounds
 - Linode Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.
-    - Lonely planet would actually be a nice template for this... Already done some work on the format too - check
-    - Dont use default nav  - keep at top - check
-    - Use LP top menu fixed - check
-    - map - check
-		- Nice to have visited countries on the trip banner as flags - Can take flags from polarsteps like this https://s3-eu-west-1.amazonaws.com/polarsteps/assets/img/flags/sz.svg
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
         - Need banner img for timeline page
     - gallery + all photos page w/ infinite scroll
     - couple stats (countries, distance, w/e)
-    - posts + all posts page (looks like blog list view) - in progress
 - Place newsletter component around (one of the nav shades, blog posts, w/e)
 - Can probably pare down the nav to just the following: -- in progress
     - Community
@@ -54,29 +43,16 @@
 - Google Analytics
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
+- Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
 - Favorites / 'add to pack' for posts, images, trips
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
     - uber eats, stripe, fresh desk
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
-- Think about sub trips ? i.e. a trek in the middle of a longer trip
+- Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
 - Password Retrieval + mailing on new account
 - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
-
-#### Trip report page
-
-- Maybe a vertical progress bar like polar steps horizontal one
-- Map is drawing polylines willy nilly when panning around (nixing)
-- Best to make the checkpoints simply clickable markers. Data layer should not be clickable.
-- Use geoJSON data layers for drawing lines. Can use strava app and this chrome extension to export GPX 
-    - https://chrome.google.com/webstore/detail/strava-export-gpx-track/kdemfmhkoncmbcphejembfngiihppkei?hl=en
-- Use this library to build something into the chrome server to run the conversion
-    - https://mapbox.github.io/togeojson/
-    - Lots of cool charting than can be done.
-        - Use this for speed, bounds, distance: https://github.com/manuelbieh/Geolib
-        - http://utrack.crempa.net/ - Use this to see whats possible
-        - Props could include climbing, descending, or flat so that it can be accounted for in stats/charting.
 
 #### Create/edit post dash
 
@@ -98,7 +74,6 @@
 - Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
 - Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
     - Google analytics required as well https://github.com/angulartics/angulartics2
-- Would like to mod the categories a bit. Similar to bikepacking.com in that you can have broader features for topics. Probably backpacking, biking, travel, join, etc. Gear would be a subset for ea category.
 
 #### Analytics
 

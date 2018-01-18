@@ -3,6 +3,7 @@
       [data]="carouselImages" 
       [style.width]="'100vw'" 
       [title]="trip"
+      [flags]="countryFlags"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
       <div class="subnavContainer" [ngClass]="tripService.displayTripNav ? 'fixed' : ''">
@@ -16,7 +17,7 @@
         <div class="widthWrapper">
           <div class="section glance" id="Highlights">
             <div class="glanceHeader">Explore {{trip}}</div>
-            Throw some stats in right here (miles, days, w/e)
+            Throw some stats in right here (miles, days, countries visited, w/e)
             <div class="glanceSubsection">{{glanceSubsection}}</div>
             <div 
               class="toggleBtn" 
@@ -60,8 +61,12 @@
           <div class="section" id="Junctures">
             <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Junctures</div>
           </div>
-          <div class="section" id="Posts">
-            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Posts</div>
+          <div class="section posts" id="Posts">
+            <div class="sectionHeader">Posts</div>
+            <div class="postsContainer">
+              <PostCard [data]="post" *ngFor="let post of tripPosts"></PostCard>
+            </div>
+            <div class="postsLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Check out all of this trips posts</div>
           </div>
           <div class="section" id="Photos">
             <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Photos</div>

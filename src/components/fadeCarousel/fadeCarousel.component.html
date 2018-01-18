@@ -7,6 +7,11 @@
   >
     <div class="slideTitle">{{title}}</div>
     <div class="slideTagline">{{slide.tagline}}</div>
+    <div class="flagsContainer" *ngIf="flags.length">
+      <div *ngFor="let flag of flags;">
+        <img [src]="flag.url" [title]="flag.name" />
+      </div>
+    </div>
     <div 
       class="modalLauncherBtn boldFont" 
       *ngIf="btnLabel" 

@@ -10,6 +10,7 @@ export class FadeCarousel {
   @Input() data: string[] = [];
   @Input() title: string;
   @Input() btnLabel: string;
+  @Input() flags: { url: string; name: string; }[] = [];
   @Output() btnClick = new EventEmitter<any>();
 
   displayedIndex = 0;

@@ -12,8 +12,9 @@ import { RouterService } from '../../services/router.service';
 import { GeoService } from '../../services/geo.service';
 import { TripService } from '../../services/trip.service';
 import { AlertService } from '../../services/alert.service';
+import { ExploreService } from '../../services/explore.service';
 
-const self = this;
+import { Post } from '../../models/Post.model';
 
 @Component({
   selector: 'page-trip',
@@ -51,6 +52,10 @@ export class TripPage implements AfterViewInit {
   mapStyle;
   boundedZoom: number;
 
+  countryFlags: { url: string; name: string; }[] = [];
+
+  tripPosts: Post[] = [];
+
   constructor(
     private apiService: APIService,
     private router: Router,
@@ -64,7 +69,8 @@ export class TripPage implements AfterViewInit {
     private alertService: AlertService,
     private tripService: TripService,
     private sanitizer: DomSanitizer,
-    private mapsAPILoader: MapsAPILoader
+    private mapsAPILoader: MapsAPILoader,
+    private exploreService: ExploreService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.id;
@@ -73,6 +79,8 @@ export class TripPage implements AfterViewInit {
   }
 
   init() {
+    this.countryFlags = [];
+
     this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
@@ -86,7 +94,8 @@ export class TripPage implements AfterViewInit {
         // else add its manual marker coords
         return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
       });
-      console.log(junctureArr);
+      // push starting trip marker to front of arr
+      junctureArr.unshift([{ lat: this.tripData.startLat, lon: this.tripData.startLon, elevation: 0, coordTime: new Date(+this.tripData.startDate).toString() }]);
       this.geoJsonObject = this.geoService.generateGeoJSON(junctureArr);
       const junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
 
@@ -95,6 +104,32 @@ export class TripPage implements AfterViewInit {
         strokeColor: this.settingsService.secondaryColor,
         strokeWeight: 3
       };
+
+      // populate flags array
+      this.tripData.tripToJuncturesByTripId.nodes.forEach((juncture) => {
+        if (this.countryFlags.indexOf(juncture.junctureByJunctureId.country) === -1) {
+          this.countryFlags.push({ url: this.exploreService.getCountryFlag(juncture.junctureByJunctureId.country), name: juncture.junctureByJunctureId.country});
+        }
+      });
+      // if it doesn't have url filter it out
+      this.countryFlags = this.countryFlags.filter(obj => obj.url);
+
+      // populate posts arr
+      this.apiService.getPostsByTrip(this.tripData.id).subscribe(
+        data => {
+          const tripPosts = [];
+          console.log(data);
+          const tripData = <any>data;
+          const junctures = tripData.data.tripById.tripToJuncturesByTripId.nodes;
+          junctures.forEach((juncture) => {
+            const juncturePosts = juncture.junctureByJunctureId.junctureToPostsByJunctureId.nodes;
+            if (juncturePosts.length) juncturePosts.forEach((post) => {
+              tripPosts.push(post.postByPostId);
+            });
+          });
+          this.tripPosts = tripPosts.slice(0, 5);
+        }
+      );
 
       // fitting the map to the markers
       this.mapsAPILoader.load().then(() => {

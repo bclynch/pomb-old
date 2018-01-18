@@ -26,8 +26,8 @@ export class JunctureService {
         this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
           result => {
             // console.log(result);
-            const city = result.formatted_address.split(',')[1];
-            const country = result.formatted_address.split(',').slice(-1);
+            const city = result.formatted_address.split(',')[1].trim();
+            const country = result.formatted_address.split(',').slice(-1)[0].trim();
 
             this.apiService.updateJuncture(data.junctureId, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
               (result: any) => {

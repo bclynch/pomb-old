@@ -22,18 +22,18 @@ export class HomePage {
     private apiService: APIService,
     private settingsService: SettingsService,
     private broadcastService: BroadcastService
-  ) {  
+  ) {
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
 
   init() {
-    this.apiService.getAllPublishedPosts().subscribe(({ data }) => { 
+    this.apiService.getAllPublishedPosts().subscribe(({ data }) => {
       console.log('got data: ', data.allPosts.nodes);
       this.posts = data.allPosts.nodes;
-      this.gridPosts = this.posts.slice(0,this.gridConfiguration.length);
+      this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
       this.compactHeroPost = this.posts.slice(this.gridConfiguration.length, this.gridConfiguration.length + 1)[0];
       this.otherPosts = this.posts.slice(this.gridConfiguration.length + 1);
-    },(error) => {
+    }, (error) => {
       console.log('there was an error sending the query', error);
     });
   }
