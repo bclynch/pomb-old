@@ -59,6 +59,7 @@ import { ShareBtns } from '../components/shareBtns/shareBtns.component';
 import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
 import { ChartComponent } from '../components/chart/chart.component';
 import { Newsletter } from '../components/newsletter/newsletter.component';
+import { UnitToggle } from '../components/unitToggle/unitToggle.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -198,7 +199,8 @@ import { GeoService } from '../services/geo.service';
     ChartComponent,
     Newsletter,
     TripTimelinePage,
-    TruncatePipe
+    TruncatePipe,
+    UnitToggle
   ],
   imports: [
     BrowserModule,

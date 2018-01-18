@@ -1,13 +1,28 @@
 import { Injectable } from '@angular/core';
-import geolib from 'geolib';
+import geolib, { PositionInTime } from 'geolib';
 
 import { GeoJSON } from '../models/Geo.model';
+import { UtilService } from '../services/util.service';
+import { SettingsService } from '../services/settings.service';
 
 @Injectable()
 export class GeoService {
 
-  constructor(
+  private measures = {
+    'm' : {value: 1},
+    'km': {value: 0.001},
+    'cm': {value: 100},
+    'mm': {value: 1000},
+    'mi': {value: (1 / 1609.344)},
+    'sm': {value: (1 / 1852.216)},
+    'ft': {value: (100 / 30.48)},
+    'in': {value: (100 / 2.54)},
+    'yd': {value: (1 / 0.9144)}
+  };
 
+  constructor(
+    private utilService: UtilService,
+    private settingsService: SettingsService
   ) {
 
   }
@@ -64,10 +79,11 @@ export class GeoService {
       if (i < geoArr.length - 1) {
         const timeToMs = Date.parse(timeArr[i]);
         convertedTimeArr.push(timeToMs);
-        // there's an error in the d.ts typing file so casting as any to ignore
-        speedsArr.push(geolib.getSpeed(
+        // there's an error in the d.ts typing file so created own function
+        speedsArr.push(this.getSpeed(
           { lat: geoArr[i][1], lng: geoArr[i][0], time: timeToMs } as any,
-          { lat: geoArr[i + 1][1], lng: geoArr[i + 1][0], time: Date.parse(timeArr[i + 1]) } as any
+          { lat: geoArr[i + 1][1], lng: geoArr[i + 1][0], time: Date.parse(timeArr[i + 1]) },
+          { unit: this.settingsService.unitOfMeasure === 'metric' ? 'kph' : 'mph' }
         ));
       }
     }
@@ -90,7 +106,7 @@ export class GeoService {
           { latitude: arr[i + 1][1], longitude: arr[i + 1][0] }
         );
 
-        totalDistance += distance;
+        totalDistance += this.settingsService.unitOfMeasure === 'metric' ? distance : this.utilService.metersToMiles(distance);
         distanceArr.push(totalDistance);
       }
     }
@@ -125,5 +141,22 @@ export class GeoService {
     statsObj.descent = descent;
 
     return statsObj;
+  }
+
+  private getSpeed(start, end, options: { unit: 'mph' | 'kph' }) {
+
+    let unit = options && options.unit || 'km';
+
+    if (unit === 'mph') {
+        unit = 'mi';
+    } else if (unit === 'kph') {
+        unit = 'km';
+    }
+
+    const distance = geolib.getDistance(start, end);
+    const time = ((end.time * 1) / 1000) - ((start.time * 1) / 1000);
+    const mPerHr = (distance / time) * 3600;
+    const speed = Math.round(mPerHr * this.measures[unit].value * 10000) / 10000;
+    return speed;
   }
 }

@@ -1,0 +1,6 @@
+<div class="derp" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+  <div class="toggleContainer">
+    <div [ngClass]="selected === 'imperial' ? 'selected' : ''" (click)="onToggleChange('imperial')">Imperial</div>
+    <div [ngClass]="selected === 'metric' ? 'selected' : ''" (click)="onToggleChange('metric')">Metric</div>
+  </div>
+</div>

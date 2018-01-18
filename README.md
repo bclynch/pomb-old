@@ -7,8 +7,6 @@
 - Finish juncture creation modal
     - gpx upload component is uploading every time user adds something. Should ONLY be when they save
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-    - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
-    - Component for toggle imperial / metric
     - Need to add posts, photos, description
 - Linode Hosting
 - Mobile usage!

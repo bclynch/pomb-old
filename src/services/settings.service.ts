@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Rx';
+
 import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
+import { LocalStorageService } from './localStorage.service';
 
 @Injectable()
 
@@ -11,7 +15,10 @@ export class SettingsService {
   secondaryColor: string;
   tagline: string;
   heroBanner: string;
-  unitOfMeasure: 'imperial' | 'metric' = 'imperial';
+
+  private unitOfMeasureSubject: BehaviorSubject<void>;
+  public unitOfMeasure$: Observable<void>;
+  public unitOfMeasure: 'imperial' | 'metric';
 
   siteSections: any = {
     'Community': { description: '' },
@@ -23,11 +30,24 @@ export class SettingsService {
 
   constructor(
     private apiService: APIService,
-    private exploreService: ExploreService
-  ) {   }
+    private exploreService: ExploreService,
+    private localStorageService: LocalStorageService
+  ) {
+    this.unitOfMeasureSubject = new BehaviorSubject(null);
+    this.unitOfMeasure$ = this.unitOfMeasureSubject.asObservable();
+    this.unitOfMeasure = 'imperial';
+  }
 
   appInit() {
     const promises = [];
+
+    // check local storage for unit of measure
+    const unitType = this.localStorageService.get('unitOfMeasure');
+    if (unitType) {
+      this.changeUnitOfMeasure(unitType);
+    } else {
+      this.localStorageService.set('unitOfMeasure', this.unitOfMeasure);
+    }
 
     // countries data
     promises.push(this.exploreService.init());
@@ -49,5 +69,10 @@ export class SettingsService {
     promises.push(promise2);
 
     return Promise.all(promises);
+  }
+
+  changeUnitOfMeasure(unitType: 'imperial' | 'metric') {
+    this.unitOfMeasure = unitType;
+    this.unitOfMeasureSubject.next(null);
   }
 }

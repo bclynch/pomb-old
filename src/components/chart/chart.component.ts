@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter,  ViewChild, ElementRef, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter,  ViewChild, ElementRef, OnChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import Chart from 'chart.js';
@@ -8,7 +8,7 @@ import Chart from 'chart.js';
   templateUrl: 'chart.component.html'
 })
 
-export class ChartComponent implements AfterViewInit {
+export class ChartComponent implements OnChanges {
   @ViewChild('chart') chart: any;
   @Input() chartData: any;
   @Input() chartOptions: any;
@@ -22,7 +22,7 @@ export class ChartComponent implements AfterViewInit {
     private sanitizer: DomSanitizer
   ) { }
 
-  ngAfterViewInit() {
+  renderCharts() {
     const chartCtx = this.chart.nativeElement.getContext('2d');
 
     const chart = new Chart(chartCtx, {
@@ -31,6 +31,10 @@ export class ChartComponent implements AfterViewInit {
       options: this.chartOptions
     });
 
-    this.dataURL.emit( chart.legend.ctx.canvas.toDataURL('image/png') ); // handy for PDF output
+    // this.dataURL.emit( chart.legend.ctx.canvas.toDataURL('image/png') ); // handy for PDF output
+  }
+
+  ngOnChanges() {
+    this.renderCharts();
   }
 }

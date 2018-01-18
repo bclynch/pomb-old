@@ -86,6 +86,11 @@ export class JuncturePage {
       this.junctureId = params.id;
       this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     });
+
+    // subscribing to UoM changes so we can modify data
+    this.settingsService.unitOfMeasure$.subscribe(() => {
+      if (this.inited) this.createLineCharts();
+    });
   }
 
   init() {
@@ -168,7 +173,7 @@ export class JuncturePage {
         icon: 'ios-walk-outline',
         iconColor: 'purple',
         label: 'Distance',
-        value: this.settingsService.unitOfMeasure === 'metric' ? (gpxData.totalDistance / 1000).toFixed(2) : this.utilService.metersToMiles(gpxData.totalDistance).toFixed(2),
+        value: this.settingsService.unitOfMeasure === 'metric' ? (gpxData.totalDistance / 1000).toFixed(2) : (gpxData.totalDistance).toFixed(2),
         unitOfMeasure: this.settingsService.unitOfMeasure === 'metric' ? 'kms' : 'miles'
       },
       {
@@ -196,23 +201,23 @@ export class JuncturePage {
         icon: 'md-trending-up',
         iconColor: 'teal',
         label: 'Climbing Distance',
-        value: this.settingsService.unitOfMeasure === 'metric' ? gpxData.stats.climb.toFixed(2) : this.utilService.metersToFeet(gpxData.stats.climb).toFixed(2),
+        value: this.settingsService.unitOfMeasure === 'metric' ? Math.round(gpxData.stats.climb) : Math.round(this.utilService.metersToFeet(gpxData.stats.climb)),
         unitOfMeasure: this.settingsService.unitOfMeasure === 'metric' ? 'm' : 'ft'
       },
       {
         icon: 'md-trending-down',
         iconColor: 'blue',
         label: 'Descent Distance',
-        value: this.settingsService.unitOfMeasure === 'metric' ? gpxData.stats.descent.toFixed(2) : this.utilService.metersToFeet(gpxData.stats.descent).toFixed(2),
+        value: this.settingsService.unitOfMeasure === 'metric' ? Math.round(gpxData.stats.descent) : Math.round(this.utilService.metersToFeet(gpxData.stats.descent)),
         unitOfMeasure: this.settingsService.unitOfMeasure === 'metric' ? 'm' : 'ft'
       },
     ];
 
     // creating x and y coords for our various graohs and filtering down to our deemed appropriate number of data points
-    const elevationTimeData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: gpxData.timeArr[i], y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
+    const elevationTimeData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: gpxData.timeArr[i], y: this.settingsService.unitOfMeasure === 'metric' ? coord[2] : this.utilService.metersToFeet(coord[2]) } ) ).filter((_, i) => i % filterDivisor === 0);
     const speedTimeData = gpxData.speedsArr.map((speed, i) => ( { x: gpxData.timeArr[i], y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
-    const elevationDistanceData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: gpxData.distanceArr[i] / 1000, y: coord[2] } ) ).filter((_, i) => i % filterDivisor === 0);
-    const speedDistanceData = gpxData.speedsArr.map((speed, i) => ( { x: gpxData.distanceArr[i] / 1000, y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
+    const elevationDistanceData = this.geoJsonObject.geometry.coordinates.map((coord, i) => ( { x: this.settingsService.unitOfMeasure === 'metric' ? gpxData.distanceArr[i] / 1000 : gpxData.distanceArr[i], y: this.settingsService.unitOfMeasure === 'metric' ? coord[2] : this.utilService.metersToFeet(coord[2]) } ) ).filter((_, i) => i % filterDivisor === 0);
+    const speedDistanceData = gpxData.speedsArr.map((speed, i) => ( { x: this.settingsService.unitOfMeasure === 'metric' ? gpxData.distanceArr[i] / 1000 : gpxData.distanceArr[i], y: speed } ) ).filter((_, i) => i % filterDivisor === 0);
 
     this.distanceChartData = {
       'datasets': [
@@ -241,7 +246,7 @@ export class JuncturePage {
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Distance (kms)'
+            labelString: `Distance (${this.settingsService.unitOfMeasure === 'metric' ? 'kms' : 'miles' })`
           },
           type: 'linear'
         }],
@@ -251,7 +256,7 @@ export class JuncturePage {
           position: 'left',
           scaleLabel: {
             display: true,
-            labelString: 'Elevation (m)'
+            labelString: `Elevation (${this.settingsService.unitOfMeasure === 'metric' ? 'm' : 'ft' })`
           }
         }, {
           id: 'B',
@@ -259,7 +264,7 @@ export class JuncturePage {
           position: 'right',
           scaleLabel: {
             display: true,
-            labelString: 'Speed (km/h)'
+            labelString: `Speed (${this.settingsService.unitOfMeasure === 'metric' ? 'km/h' : 'mi/h' })`
           }
         }]
       },
@@ -316,7 +321,7 @@ export class JuncturePage {
           position: 'left',
           scaleLabel: {
             display: true,
-            labelString: 'Elevation (m)'
+            labelString: `Elevation (${this.settingsService.unitOfMeasure === 'metric' ? 'm' : 'ft' })`
           }
         }, {
           id: 'B',
@@ -324,7 +329,7 @@ export class JuncturePage {
           position: 'right',
           scaleLabel: {
             display: true,
-            labelString: 'Speed (km/h)'
+            labelString: `Speed (${this.settingsService.unitOfMeasure === 'metric' ? 'km/h' : 'mi/h' })`
           }
         }]
       },

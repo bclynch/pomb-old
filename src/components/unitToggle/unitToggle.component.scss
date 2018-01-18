@@ -1,0 +1,41 @@
+unittoggle {
+
+  .derp {
+    width: 150px;
+  }
+  .toggleContainer {
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    border: solid 1px black;
+
+    > div {
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      background: #ddd;
+      padding: 5px 0;
+      transition: .2s;
+
+      &.selected {
+        color: var(--secondary);
+        font-weight: bold;
+        background: black;
+      }
+    }
+    > div:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    > div:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+
+  @include respond-to(small) {
+
+  }
+}
