@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { SettingsService } from '../../../services/settings.service';
 import { UtilService } from '../../../services/util.service';
 import { AlertService } from '../../../services/alert.service';
+import { JunctureService } from '../../../services/juncture.service';
 
 import { DatePickerModal } from '../datepickerModal/datepickerModal';
 import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
@@ -19,6 +20,11 @@ export class TripModal {
 
   tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerPath: null};
 
+  inited = false;
+  coords = { lat: null, lon: null };
+  mapStyle;
+  zoomLevel = 12;
+
   constructor(
     public viewCtrl: ViewController,
     private apiService: APIService,
@@ -30,9 +36,22 @@ export class TripModal {
     private popoverCtrl: PopoverController,
     private alertService: AlertService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private junctureService: JunctureService
   ) {
-
+    // grab location for map
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location: any) => {
+        console.log(location.coords);
+        this.coords.lat = location.coords.latitude;
+        this.coords.lon = location.coords.longitude;
+        // grab map style
+        this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
+          this.mapStyle = data;
+          this.inited = true;
+        });
+      });
+    }
   }
 
   presentDatepickerModal(e: Event, isStart) {
@@ -59,6 +78,8 @@ export class TripModal {
       timeStart: this.tripModel.timeStart,
       timeEnd: this.tripModel.timeEnd,
       bannerPath: this.tripModel.bannerPath,
+      startLat: this.coords.lat,
+      startLon: this.coords.lon
     });
   }
 
@@ -70,5 +91,10 @@ export class TripModal {
         this.tripModel.bannerPath = data[0].url;
       }
     });
+  }
+
+  moveCenter(e) {
+    this.coords.lat = e.lat;
+    this.coords.lon = e.lng;
   }
 }

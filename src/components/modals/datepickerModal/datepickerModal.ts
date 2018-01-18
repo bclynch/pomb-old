@@ -1,6 +1,9 @@
 
 import { Component, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Modal, ModalController, ViewController, NavParams } from 'ionic-angular';
+
+import { SettingsService } from '../../../services/settings.service';
 
 import moment from 'moment';
 
@@ -27,7 +30,9 @@ export class DatePickerModal {
   constructor(
     public modalCtrl: ModalController,
     public viewCtrl: ViewController,
-    private params: NavParams
+    private params: NavParams,
+    private sanitizer: DomSanitizer,
+    private settingsService: SettingsService
   ) {
     this.currentMoment = moment(this.params.data.date);
     this.renderCalender();

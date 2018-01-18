@@ -321,6 +321,8 @@ const getTripById = gql`
       startDate,
       endDate,
       bannerPhoto,
+      startLat,
+      startLon
       tripToJuncturesByTripId {
         nodes {
           junctureByJunctureId {
@@ -892,13 +894,15 @@ const createJuncture = gql`
 `;
 
 const createTrip = gql`
-  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $bannerPhoto: String) {
+  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $bannerPhoto: String, $startLat: Float!, $startLon: Float!) {
     createTrip(input:{
       trip:{
         name: $name,
         startDate: $startDate,
         endDate: $endDate,
-        bannerPhoto: $bannerPhoto
+        bannerPhoto: $bannerPhoto,
+        startLat: $startLat,
+        startLon: $startLon
       }
     }) {
       trip {
@@ -1437,14 +1441,16 @@ export class APIService {
     });
   }
 
-  createTrip(name: string, startDate: number, endDate: number, bannerPhoto: string) {
+  createTrip(name: string, startDate: number, endDate: number, bannerPhoto: string, startLat: number, startLon: number) {
     return this.apollo.mutate({
       mutation: createTrip,
       variables: {
         name,
         startDate,
         endDate,
-        bannerPhoto
+        bannerPhoto,
+        startLat,
+        startLon
       }
     });
   }

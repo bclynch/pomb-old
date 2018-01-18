@@ -5,104 +5,150 @@ tripmodal {
     width: 100%;
     position: relative;
 
-    .header {
-      background: mapGet($basecolor, black);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      color: mapGet($basecolor, white);
+    .initWrapper {
+      height: 100%;
+      overflow: scroll;
 
-      > * {
-        flex: 1;
-      }
-      ion-icon {
+      .header {
+        background: mapGet($basecolor, black);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
         color: mapGet($basecolor, white);
-        padding: 5px;
-        font-size: 24px;
-        cursor: pointer;
-      }
-      .headerTitle {
-        font-size: 18px;
-        text-align: center;
-      }
-      .saveContainer {
-        font-size: 18px;
-        text-align: right;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
 
-        > span {
+        > * {
+          flex: 1;
+        }
+        ion-icon {
+          color: mapGet($basecolor, white);
+          padding: 5px;
+          font-size: 24px;
           cursor: pointer;
         }
-      }
-    }
-    .tripLabel {
-      display: block;
-      font-size: 10px;
-    }
-    .tripTextInput {
-      border: none;
-      border-bottom: solid 1px mapGet($basecolor, border);
-      width: 100%;
-      line-height: 24px;
-      font-size: 18px;
-    }
-    .tripTextInput:focus {
-      &.valid {
-        border-bottom: solid 1px green;
-      }
-      &.invalid {
-        border-bottom: solid 1px red;
-      }
-    }
-    .modalSection {
-      width: 80%;
-      margin: 25px auto;
-    }
-    .timeContainer {
-      display: flex;
-      justify-content: space-between;
+        .headerTitle {
+          font-size: 18px;
+          text-align: center;
+        }
+        .saveContainer {
+          font-size: 18px;
+          text-align: right;
 
-      .timeDisplay {
-        width: 40%;
-
-        .dateWrapper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: solid 1px mapGet($basecolor, border);
-          cursor: pointer;
-          height: 25px;
-
-          .input {
-            line-height: 24px;
-            font-size: 18px;
+          > span {
+            cursor: pointer;
           }
         }
       }
-    }
-    .imgLoadWrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 15px;
-      height: 300px;
-      background-position: center;
-      background-size: cover;
-      cursor: pointer;
+      .contentWrapper {
+        height: 100%;
+        margin-top: 54px;
 
-      > div {
-        text-align: center;
-        opacity: 0;
-        transition: .5s;
-
-        ion-icon {
-          font-size: 36px;
+        .tripLabel {
+          display: block;
+          font-size: 10px;
         }
-      }
-    }
-    .imgLoadWrapper:hover {
-      > div {
-        opacity: 1;
+        .tripTextInput {
+          border: none;
+          border-bottom: solid 1px mapGet($basecolor, border);
+          width: 100%;
+          line-height: 24px;
+          font-size: 18px;
+        }
+        .tripTextInput:focus {
+          &.valid {
+            border-bottom: solid 1px green;
+          }
+          &.invalid {
+            border-bottom: solid 1px red;
+          }
+        }
+        .mapContainer {
+          height: 35%;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .mapInited {
+            height: 100%;
+            width: 100%;
+
+            agm-map {
+              height: 100%;
+              width: 100%;
+            }
+            .target {
+              height: 30px;
+              width: 30px;
+              background-position: center;
+              background-size: contain;
+              position: absolute;
+              top: calc(50% - (30px / 2));
+              left: calc(50% - (30px / 2));
+            }
+            .directions {
+              position: absolute;
+              top: 5px;
+              right: 5px;
+              opacity: .7;
+              font-size: 16px;
+            }
+          }
+        }
+        .modalSection {
+          width: 80%;
+          margin: 25px auto;
+        }
+        .timeContainer {
+          display: flex;
+          justify-content: space-between;
+
+          .timeDisplay {
+            width: 40%;
+
+            .dateWrapper {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: solid 1px mapGet($basecolor, border);
+              cursor: pointer;
+              height: 25px;
+
+              .input {
+                line-height: 24px;
+                font-size: 18px;
+              }
+            }
+          }
+        }
+        .imgLoadWrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 300px;
+          background-position: center;
+          background-size: cover;
+          cursor: pointer;
+
+          > div {
+            text-align: center;
+            opacity: 0;
+            transition: .5s;
+
+            ion-icon {
+              font-size: 36px;
+            }
+          }
+        }
+        .imgLoadWrapper:hover {
+          > div {
+            opacity: 1;
+          }
+        }
       }
     }
   }

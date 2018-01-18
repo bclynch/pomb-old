@@ -12,8 +12,9 @@
     - Need metric / imperial conversion for graphs / data (total distance, elevation climbed / descended / flat) -- Did the stats on juncture page. Need to hold this info in settings based on local storage and have toggles around where required. Need to do for chart data
     - Component for toggle imperial / metric
     - Need to add posts, photos, description
-- Starting pin for trip - Maybe just have a similar map interface to juncture where you can set the starting point.
-- BUG - date picker jacked up
+- Starting pin for trip
+    - Maybe just have a similar map interface to juncture where you can set the starting point + update db model. - check
+    - Need to put start marker on trip + trip map page + put account for in bounds
 - Linode Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.

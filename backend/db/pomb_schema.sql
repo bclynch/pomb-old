@@ -314,13 +314,15 @@ create table pomb.trip (
   start_date          bigint not null,
   end_date            bigint,
   banner_photo        text,
+  start_lat           decimal not null,
+  start_lon           decimal not null,
   created_at          bigint default (extract(epoch from now()) * 1000),
   updated_at          timestamp default now()
 );
 
-insert into pomb.trip (name, start_date, end_date, banner_photo) values
-  ('Cool Trip', 1508274574542, 1548282774542, 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg'),
-  ('Neat Trip', 1408274574542, 1448274574542, null);
+insert into pomb.trip (name, start_date, end_date, banner_photo, start_lat, start_lon) values
+  ('Cool Trip', 1508274574542, 1548282774542, 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg', 37.7749, 122.4194),
+  ('Neat Trip', 1408274574542, 1448274574542, null, 6.2442, 75.5812);
 
 comment on table pomb.trip is 'Table with POMB trips';
 comment on column pomb.trip.id is 'Primary id for trip';
@@ -328,6 +330,8 @@ comment on column pomb.trip.name is 'Name of trip';
 comment on column pomb.trip.start_date is 'Start date of trip';
 comment on column pomb.trip.end_date is 'End date of trip';
 comment on column pomb.trip.banner_photo is 'Banner photo of trip';
+comment on column pomb.trip.start_lat is 'Starting point latitude of trip';
+comment on column pomb.trip.start_lon is 'Starting poiht longitude of trip';
 comment on column pomb.trip.created_at is 'When trip created';
 comment on column pomb.trip.updated_at is 'When trip last updated';
 

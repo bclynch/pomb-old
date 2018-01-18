@@ -96,8 +96,8 @@ export class TripMapPage {
         this.junctureMarkers.forEach((juncture) => {
           this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.junctureByJunctureId.lat, juncture.junctureByJunctureId.lon));
         });
-        // making sure to check first coord of first juncture to compensate for it
-        if (junctureArr.length) this.latlngBounds.extend(new window['google'].maps.LatLng(this.geoJsonObject.geometry.coordinates[0][1], this.geoJsonObject.geometry.coordinates[0][0]));
+        // making sure to check trip start point to compensate for it
+        this.latlngBounds.extend(new window['google'].maps.LatLng(this.tripData.startLat, this.tripData.startLon));
 
         // grab map style
         this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe( (data) => {

@@ -1,4 +1,8 @@
-<div class="layout-col horizontal-center" style="background-color:white;height:100%">
+<div 
+  class="layout-col horizontal-center" 
+  style="background-color:white;height:100%;overflow:scroll" 
+  [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+>
   <div class="layout-col horizontal-center top-banner">
     <div class="dayofweek padding-5">{{currentMoment.format('dddd')}}</div>
     <div class="text-center padding-10">

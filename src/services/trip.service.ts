@@ -21,7 +21,7 @@ export class TripService {
     const modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       if (data) {
-        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.bannerPath).subscribe(
+        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.bannerPath, data.startLat, data.startLon).subscribe(
           (result: any) => {
             this.apiService.createUserToTrip(this.userService.user.id, result.data.createTrip.trip.id).subscribe(
               () => {

@@ -11,6 +11,7 @@ export class JunctureService {
 
   displayTripNav: boolean;
   defaultMarkerImg = 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png';
+  defaultStartImg = 'https://pttaviation.com/wp-content/uploads/2014/07/PPT-Plane-Icon-220x220.png';
 
   constructor(
     private modalCtrl: ModalController,
@@ -19,7 +20,7 @@ export class JunctureService {
   ) { }
 
   createJuncture() {
-    const modal = this.modalCtrl.create(JunctureModal, {}, {cssClass: 'junctureModal', enableBackdropDismiss: false});
+    const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg }, {cssClass: 'junctureModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       if (data) {
         this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(

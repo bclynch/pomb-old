@@ -33,6 +33,7 @@ export class JunctureModal {
 
   galleryPhotos: GalleryPhoto[] = [];
   markerURL: string = null;
+  startMarkerURL: string;
 
   coords = { lat: null, lon: null };
   mapStyle;
@@ -81,6 +82,8 @@ export class JunctureModal {
       strokeColor: this.settingsService.secondaryColor,
       strokeWeight: 3
     };
+
+    this.markerURL = this.params.data.markerImg;
 
     // grab location for map
     if (navigator.geolocation) {
@@ -138,7 +141,7 @@ export class JunctureModal {
   presentDatepickerModal(e: Event) {
     e.stopPropagation();
 
-    const modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, {});
+    const modal = this.modalCtrl.create(DatePickerModal, { date: this.junctureModel.time }, { cssClass: 'datepickerModal' });
     modal.present({
       ev: e
     });
