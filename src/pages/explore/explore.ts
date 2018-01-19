@@ -36,30 +36,30 @@ export class ExplorePage {
     private exploreService: ExploreService,
     private broadcastService: BroadcastService,
     private modalController: ModalController
-  ) {  
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
+  ) {
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
 
   init() {
     this.countryCodes = this.exploreService.requestCountryCodes('all');
 
-    //grab flickr images for the carousel
+    // grab flickr images for the carousel
     this.apiService.getFlickrPhotos('travel', 'landscape', 5).subscribe(
       result => {
         console.log(result.photos.photo);
         const photos = result.photos.photo.slice(0, 5);
         this.carouselImages = photos.map((photo) => {
-          //_b is 'large' img request so 1024 x 768. We'll go with this for now
-          //_o is 'original' which is 2400 x 1800
+          // _b is 'large' img request so 1024 x 768. We'll go with this for now
+          // _o is 'original' which is 2400 x 1800
           return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
         });
         this.inited = true;
       }
-    )
+    );
   }
 
   presentModal() {
-    let modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
+    const modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
     modal.present();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController, Content } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -25,7 +25,7 @@ interface CityMarker {
   selector: 'page-explore-country',
   templateUrl: 'explore.country.html'
 })
-export class ExploreCountryPage {
+export class ExploreCountryPage implements AfterViewInit {
 
   carouselImages;
 
@@ -50,7 +50,7 @@ export class ExploreCountryPage {
 
   latlngBounds;
   mapStyle;
-  mapInited: boolean = false;
+  mapInited = false;
   cityMarkers: CityMarker[] = [];
 
   constructor(
@@ -71,7 +71,7 @@ export class ExploreCountryPage {
       // grab country name
       this.country = this.utilService.formatURLString(params.country);
 
-      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     });
   }
 
@@ -96,7 +96,7 @@ export class ExploreCountryPage {
         this.apiService.geocodeCoords(this.country).subscribe(
           result => {
             const viewport = result.geometry.viewport;
-            const viewportBounds = [{lat: viewport.f.b, lon: viewport.b.b}, {lat: viewport.f.f, lon: viewport.b.f}]
+            const viewportBounds = [{lat: viewport.f.b, lon: viewport.b.b}, {lat: viewport.f.f, lon: viewport.b.f}];
             console.log(viewportBounds);
 
             this.latlngBounds = result.geometry.viewport;
@@ -107,7 +107,7 @@ export class ExploreCountryPage {
               this.mapInited = true;
             });
 
-            //grab cities for modal
+            // grab cities for modal
             this.modalData[0].items = [];
             this.apiService.getCities(this.exploreService.countryNameObj[this.country].alpha2Code).subscribe(
               result => {
@@ -123,7 +123,7 @@ export class ExploreCountryPage {
                 });
                 console.log(this.cityMarkers);
               }, err => console.log(err)
-            )
+            );
           }
         );
       });
@@ -144,14 +144,14 @@ export class ExploreCountryPage {
   }
 
   presentModal() {
-    let modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
+    const modal = this.modalController.create(ExploreModal, { data: this.modalData }, { cssClass: 'exploreModal' });
     modal.onDidDismiss((data) => {
-      if(data) this.goToCity(data);
+      if (data) this.goToCity(data);
     });
     modal.present();
   }
 
   goToCity(city: string) {
-    this.routerService.navigateToPage(`/explore/country/${this.utilService.formatForURLString(this.country)}/${this.utilService.formatForURLString(city)}`)
+    this.routerService.navigateToPage(`/explore/country/${this.utilService.formatForURLString(this.country)}/${this.utilService.formatForURLString(city)}`);
   }
 }

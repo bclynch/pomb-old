@@ -24,8 +24,8 @@ export class UserAdminConfigPage {
     private apiService: APIService,
     private toastCtrl: ToastController,
     private userService: UserService
-  ) {  
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
+  ) {
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
 
   init() {
@@ -37,12 +37,12 @@ export class UserAdminConfigPage {
   }
 
   presentGradientPopover(e: Event) {
-    let popover = this.popoverCtrl.create(GradientPopover, {}, { cssClass: 'gradientPopover' });
+    const popover = this.popoverCtrl.create(GradientPopover, {}, { cssClass: 'gradientPopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) {
+      if (data) {
         this.configModel.primaryColor = data.primaryColor;
         this.configModel.secondaryColor = data.secondaryColor;
       }
@@ -50,10 +50,10 @@ export class UserAdminConfigPage {
   }
 
   presentImageUploaderPopover(type: string) {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if(data) type === 'banner' ? this.configModel.heroBanner = data.url : this.configModel.userPhoto = data.url;
+      if (data) type === 'banner' ? this.configModel.heroBanner = data.url : this.configModel.userPhoto = data.url;
     });
   }
 
@@ -65,22 +65,21 @@ export class UserAdminConfigPage {
       this.settingsService.tagline = this.configModel.tagline;
       this.settingsService.heroBanner = this.configModel.heroBanner;
 
-      //probably need to put this in a settings menu eventually...
+      // probably need to put this in a settings menu eventually...
       const user = this.userService.user;
       this.apiService.updateAccountById(user.id, user.firstName, user.lastName, user.heroPhoto, this.configModel.userPhoto).subscribe(
         (result: any) => {
-          //set user service to new returned user
+          // set user service to new returned user
           this.userService.user = result.data.updateAccountById.account;
 
-          let toast = this.toastCtrl.create({
+          const toast = this.toastCtrl.create({
             message: `New site settings saved`,
             duration: 3000,
             position: 'top'
-          }); 
-      
+          });
           toast.present();
         }
-      )
+      );
     });
   }
 }

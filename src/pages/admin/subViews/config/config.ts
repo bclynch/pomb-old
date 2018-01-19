@@ -22,8 +22,8 @@ export class AdminConfigPage {
     private popoverCtrl: PopoverController,
     private apiService: APIService,
     private toastCtrl: ToastController,
-  ) {  
-    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init()); 
+  ) {
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
 
   init() {
@@ -34,12 +34,12 @@ export class AdminConfigPage {
   }
 
   presentGradientPopover(e: Event) {
-    let popover = this.popoverCtrl.create(GradientPopover, {}, { cssClass: 'gradientPopover' });
+    const popover = this.popoverCtrl.create(GradientPopover, {}, { cssClass: 'gradientPopover' });
     popover.present({
       ev: e
     });
     popover.onDidDismiss((data) => {
-      if(data) {
+      if (data) {
         this.configModel.primaryColor = data.primaryColor;
         this.configModel.secondaryColor = data.secondaryColor;
       }
@@ -47,10 +47,10 @@ export class AdminConfigPage {
   }
 
   presentImageUploaderPopover() {
-    let popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if(data) this.configModel.heroBanner = data.url;
+      if (data) this.configModel.heroBanner = data.url;
     });
   }
 
@@ -62,12 +62,12 @@ export class AdminConfigPage {
       this.settingsService.tagline = this.configModel.tagline;
       this.settingsService.heroBanner = this.configModel.heroBanner;
 
-      let toast = this.toastCtrl.create({
+      const toast = this.toastCtrl.create({
         message: `New site settings saved`,
         duration: 3000,
         position: 'top'
-      }); 
-  
+      });
+
       toast.present();
     });
   }

@@ -27,9 +27,9 @@ export class ArchivePage {
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
     private routerService: RouterService
-  ) {  
+  ) {
     this.currentArchive = this.routerService.params.tag;
-    
+
     this.apiService.getTagByName(this.currentArchive).subscribe(
       ({ data }) => {
         console.log(data);
@@ -37,12 +37,12 @@ export class ArchivePage {
         this.apiService.getPostsByTag(data.allPostTags.nodes[0].id).subscribe(({ data }) => {
           console.log('got tag posts: ', data);
           this.posts = data.postsByTag.nodes;
-          this.gridPosts = this.posts.slice(0,this.gridConfiguration.length);
+          this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
           this.otherPosts = this.posts.slice(this.gridConfiguration.length);
-        },(error) => {
+        }, (error) => {
           console.log('there was an error sending the query', error);
         });
       }
-    )
+    );
   }
 }

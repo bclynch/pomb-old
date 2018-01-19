@@ -27,23 +27,23 @@ export class ExploreModal {
     this.modalData = this.params.data.data.map((section) => {
       return {
         label: section.label,
-        top: section.items.slice(0, 3).map((place) => { return { label: place, img: null }}),
+        top: section.items.slice(0, 3).map((place) => ({ label: place, img: null })),
         other: section.items.slice(3)
-      }
+      };
     });
 
-    //fetch imgs for 'top' content
+    // fetch imgs for 'top' content
     this.modalData.forEach((section, sectionIndex) => {
       section.top.forEach((place, placeIndex) => {
-        //grab flickr images for the modal
+        // grab flickr images for the modal
         this.apiService.getFlickrPhotos(this.utilService.formatURLString(place.label), 'landscape', 1).subscribe(
           result => {
             console.log(result.photos.photo);
             const photo = result.photos.photo[0];
-            //using square photo size 75 x 75
-            this.modalData[sectionIndex].top[placeIndex].img = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`
+            // using square photo size 75 x 75
+            this.modalData[sectionIndex].top[placeIndex].img = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`;
           }
-        )
+        );
       });
     });
   }
@@ -53,7 +53,7 @@ export class ExploreModal {
   }
 
   navigate(place: string, type: string) {
-    switch(type) {
+    switch (type) {
       case 'Popular Regions':
         this.routerService.navigateToPage(`/explore/region/${this.utilService.formatForURLString(place)}`);
         break;

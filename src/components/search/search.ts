@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, SimpleChange, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, SimpleChange, ViewChild, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime.js';
@@ -15,7 +15,7 @@ interface Category {
   selector: 'Search',
   templateUrl: 'search.html'
 })
-export class Search {
+export class Search implements OnChanges {
   @ViewChild('searchInput') searchInput;
   @Input() isActive: boolean;
 

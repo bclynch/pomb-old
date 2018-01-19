@@ -27,7 +27,7 @@ networkInterface.use([{
       user = JSON.parse(user);
       if (user.token) {
         jwt = `Bearer ${user.token}`;
-        req.options.headers.Authorization = jwt
+        req.options.headers.Authorization = jwt;
       }
     }
     next();

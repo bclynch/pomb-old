@@ -4,11 +4,14 @@
 
 ### Top Priorities
 
+- Currently trying to get application online
+    - ionic app up and running
+    - Need to get the server up and stable + RDS (maybe just to test then delete)
 - Finish juncture creation modal
     - gpx upload component is uploading every time user adds something. Should ONLY be when they save
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, photos, description
-- Linode Hosting
+- Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
@@ -145,119 +148,103 @@ $ postgraphql  --schema pomb,pomb_private --secret some_secret -t pomb.jwt_token
     - Run `$ psql -f schema_drop.sql`
     - Run the above setup again
 
-## Linode
+## Digital Ocean
+
+### Server Setup
+
+- Linux terminal basics series https://www.digitalocean.com/community/tutorials/an-introduction-to-the-linux-terminal
+- Create droplet
+- Setup SSH https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets
+- Inital server setup (user + firewall) https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04
+    - Common firewall rules / commands https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands
+- Setup hostname https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean
+    - Create 'A' records
+    - Point nameservers from registrar to DO https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars#registrar-namecheap
+- Install nginx https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+- Create server blocks for multiple domains https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04
+- Secure nginx with SSL https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04#step-4-%E2%80%94-obtaining-an-ssl-certificate
+    - Issue as of writing https://github.com/certbot/certbot/issues/5405#issuecomment-356498627
+    - Webroot aka path is how its set up in nginx. Example would be /var/www/bclynch.com/html
+- Get node app rolling https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
+    - Install node
+    - Setup pm2
+    - Setup reverse proxy for nginx
+- Setup SFTP https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server
+- Setup mail https://www.digitalocean.com/community/tutorials/how-to-set-up-zoho-mail-with-a-custom-domain-managed-by-digitalocean-dns
+
+
+### Logging Into Server
+
+- SSH into server
+    - `$ ssh <user>@<ip_address>`
+    - `$ ssh bclynch@138.68.63.87`
+- Switch user
+    - `$ su - bclynch`
+- Go to root
+    - `$ exit`
+
+#### Add New Key To Existing Server
+
+- Suppose you have a new computer you want to log in with and need to setup ssh. Our server does not allow for password login so we need a workaround
+- Login to digital ocean and head to the access console. Login to root
+- `$ sudo nano /etc/ssh/sshd_config`
+    - Change the line PasswordAuthentication from no to yes
+- Save and exit the file and run `$ sudo systemctl reload sshd.service` and `sudo systemctl reload ssh` for config to take effect
+- We can now login to root from our own terminal via password (where copy / paste actually works)
+- `$ cd ~/.ssh`
+- `$ nano authorized_keys`
+- Copy the pub key from the local computer and paste in here
+    - `$ cat ~/.ssh/id_rsa.pub` will display the pub key so we can copy
+- Now we should be able to access root via ssh. Go ahead and revert the PasswordAuthentication from yes to no
+- Save and exit the file and run `$ sudo systemctl reload sshd.service` and `sudo systemctl reload ssh` for config to take effect
+- Do the same for any users you have to login as well so we can directly login through them
+
+### Putting code on server
+
+- First we want to build our code to minify and all. With Ionic we can do this with the following command
+    - `$ npm run ionic:build -- --prod`
 
 ### Updating Servers
 
 - Server should be updated frequently with the following:
     - `$ apt-get update && apt-get upgrade`
 
-### Getting Started
-
-- https://www.linode.com/docs/getting-started
-    - Follow the above instructions for setting up + adding security measures
-        - Make sure to reboot for hostname to take effect
-    - When setting up the hostname it must be edited correct in the /etc/hosts file. To check run the following:
-        - `$ cat /etc/hosts`
-    - If it just says local host you need to edit it. Enter in with `$ sudo nano /etc/hosts`
-    - To make sure it works run `$ sudo true` and you shouldn't get an error
-
-### Connect Via Terminal
-
-- Go to remote access page https://manager.linode.com/linodes/remote_access/linode4207486
-- Take four numbers up to the slash in the first of the public ips
-- Enter `$ ssh bclynch@50.116.9.92` in your terminal
-
-### Setup Instructions
-
-#### Create Server
-
-- Setup Ubuntu 16.04LTS server with appropriate security measures per directions in the getting started section above
-
 ### nginx
 
-#### Installation
-
-https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
-
-`$ sudo apt-get install nginx`
-
-- Before we can test Nginx, we need to reconfigure our firewall software to allow access to the service. Nginx registers itself as a service with ufw, our firewall, upon installation.
-
-`$ sudo ufw app list`
-
-- It is recommended that you enable the most restrictive profile that will still allow the traffic you've configured. Since we haven't configured SSL for our server yet, in this guide, we will only need to allow traffic on port 80.
-
-`$ sudo ufw allow 'Nginx HTTP'`
-
-- At the end of the installation process, Ubuntu 16.04 starts Nginx. The web server should already be up and running.
-
-`$ systemctl status nginx`
-
-- See if the server is up and running at your ipaddress http://50.116.9.92/
-
-#### Commands
-
 - To stop your web server, you can type:
-
 `$ sudo systemctl stop nginx`
+
 - To start the web server when it is stopped, type:
-
 `$ sudo systemctl start nginx`
+
 - To stop and then start the service again, type:
-
 `$ sudo systemctl restart nginx`
+
 - If you are simply making configuration changes, Nginx can often reload without dropping connections. To do this, this command can be used:
-
 `$ sudo systemctl reload nginx`
+
 - By default, Nginx is configured to start automatically when the server boots. If this is not what you want, you can disable this behavior by typing:
-
 `$ sudo systemctl disable nginx`
-- To re-enable the service to start up at boot, you can type:
 
+- To re-enable the service to start up at boot, you can type:
 `$ sudo systemctl enable nginx`
 
-#### Files + Directories
+### SFTP 
 
-**Content**
+- Login: `$ sftp username@remote_hostname_or_IP`
+- Current directory: `$ pwd`
+- Get files: `$ get remoteFile`
+- Get directory and all its contents: `$ get -r someDirectory`
+- Transfer to remote: `$ put localFile`
+- Transfer entire directory: `$ put -r localDirectory`
+- End session: `$ bye`
 
-/var/www/html: The actual web content, which by default only consists of the default Nginx page you saw earlier, is served out of the /var/www/html directory. This can be changed by altering Nginx configuration files.
+Also cyberduck makes this easier.....
 
-To change the directory being served:
+### Bash
 
-`$ sudo nano /etc/nginx/sites-enabled/default`
+#### Handy Commands
 
-- Change the 'root' path to wherever your dist/www folder is
-- Will need to restart nginx with `$ sudo systemctl restart nginx`
-
-**Server Configuration**
-
-/etc/nginx: The nginx configuration directory. All of the Nginx configuration files reside here.
-
-/etc/nginx/nginx.conf: The main Nginx configuration file. This can be modified to make changes to the Nginx global configuration.
-
-/etc/nginx/sites-available/: The directory where per-site "server blocks" can be stored. Nginx will not use the configuration files found in this directory unless they are linked to the sites-enabled directory (see below). Typically, all server block configuration is done in this directory, and then enabled by linking to the other directory.
-
-/etc/nginx/sites-enabled/: The directory where enabled per-site "server blocks" are stored. Typically, these are created by linking to configuration files found in the sites-available directory.
-
-/etc/nginx/snippets: This directory contains configuration fragments that can be included elsewhere in the Nginx configuration. Potentially repeatable configuration segments are good candidates for refactoring into snippets.
-
-**Server Logs**
-
-/var/log/nginx/access.log: Every request to your web server is recorded in this log file unless Nginx is configured to do otherwise.
-
-/var/log/nginx/error.log: Any Nginx errors will be recorded in this log.
-
-#### SSL Registration
-- https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04
-
-#### Configuring multiple domains on one server
-
-- https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04
-
-## Bash
-
-### Handy Commands:
 - Open file in editor
     - `$ sudo nano <path>`
     - ^x to quit then y to save
@@ -268,13 +255,12 @@ To change the directory being served:
 - Create file
     - `$ touch <name>`
 
-## PM2
+### PM2
 
-- https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04
 - PM2 provides an easy way to manage and daemonize applications (run them in the background as a service).
 - Applications that are running under PM2 will be restarted automatically if the application crashes or is killed, but an additional step needs to be taken to get the application to launch on system startup (boot or reboot).
 
-### Start App
+#### Start App
 
 - `$ pm2 start <file>`
 
@@ -288,7 +274,7 @@ To change the directory being served:
 
 - `$ systemctl status pm2-bclynch`
 
-### Sub Commands
+#### Sub Commands
 
 PM2 provides many subcommands that allow you to manage or look up information about your applications. Note that running pm2 without any arguments will display a help page, including example usage, that covers PM2 usage in more detail than this section of the tutorial.
 

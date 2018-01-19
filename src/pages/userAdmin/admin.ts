@@ -10,9 +10,9 @@ import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 
 interface ListOption {
-  label: string,
-  icon: string,
-  path: string
+  label: string;
+  icon: string;
+  path: string;
 }
 
 @Component({
@@ -30,8 +30,8 @@ export class UserAdminPage {
   ];
   activeDashView: string;
   storeId: number;
-  displayMenuToggle: boolean = true;
-  dataReady: boolean = false;
+  displayMenuToggle = true;
+  dataReady = false;
 
   constructor(
     private menuCtrl: MenuController,
@@ -41,10 +41,10 @@ export class UserAdminPage {
     private broadcastService: BroadcastService,
     private settingsService: SettingsService,
     private routerService: RouterService
-  ) { 
+  ) {
     this.activeDashView = this.routerService.fragment || 'dashboard';
     this.dataReady = true;
-    this.settingsService.appInited ? console.log('fuck off') : this.broadcastService.on('appIsReady', () => console.log('fuck off')); 
+    this.settingsService.appInited ? console.log('fuck off') : this.broadcastService.on('appIsReady', () => console.log('fuck off'));
   }
 
   openMenu() {
@@ -52,13 +52,13 @@ export class UserAdminPage {
   }
 
   navigate(path) {
-    if(path) {
+    if (path) {
       this.routerService.modifyFragment(path);
-      this.activeDashView = path; 
+      this.activeDashView = path;
       this.menuCtrl.close();
     } else {
       this.userService.signedIn = false;
-      //reset apollo cache and refetch queries
+      // reset apollo cache and refetch queries
       this.apollo.getClient().resetStore();
       localStorage.removeItem('pomb-user');
       this.router.navigateByUrl(`/`);
