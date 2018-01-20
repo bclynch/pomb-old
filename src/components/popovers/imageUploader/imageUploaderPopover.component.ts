@@ -36,7 +36,7 @@ export class ImageUploaderPopover {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
 
-    for (let file of files) {
+    for (const file of files) {
       console.log(file);
       formData.append('uploads[]', file, file.name);
     }

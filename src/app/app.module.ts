@@ -1,13 +1,16 @@
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { getClient } from './client';
+// import { getClient } from './client';
 import { MyHammerConfig } from './touchConfig';
 
 // 3rd Party Libraries
-import { ApolloModule } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { setContext } from 'apollo-link-context';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
@@ -207,7 +210,9 @@ import { GeoService } from '../services/geo.service';
     HttpModule,
     AppRoutingModule,
     IonicModule.forRoot(MyApp),
-    ApolloModule.withClient(getClient),
+    HttpClientModule,
+    HttpLinkModule,
+    ApolloModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', // this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
     }),
@@ -215,8 +220,7 @@ import { GeoService } from '../services/geo.service';
     AgmSnazzyInfoWindowModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    ShareButtonsModule.forRoot(),
-    HttpClientModule
+    ShareButtonsModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -274,4 +278,29 @@ import { GeoService } from '../services/geo.service';
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    apollo: Apollo,
+    httpLink: HttpLink
+  ) {
+    const http = httpLink.create({ uri: 'http://localhost:8080/graphql' }); // prod --> /graphql dev --> http://localhost:5000/graphql node dev --> http://localhost:8080/graphql
+
+    let link;
+    let user: any = localStorage.getItem('pomb-user');
+    if (user && user !== 'null') {
+      user = JSON.parse(user);
+      const middleware = setContext(() => ({
+        headers: new HttpHeaders().set('Authorization', user.token ? `Bearer ${user.token}` : null)
+      }));
+
+      link = middleware.concat(http);
+    } else {
+      link = http;
+    }
+
+    apollo.create({
+      link,
+      cache: new InMemoryCache()
+    });
+  }
+}

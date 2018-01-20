@@ -30,11 +30,11 @@ export class ArchivePage {
   ) {
     this.currentArchive = this.routerService.params.tag;
 
-    this.apiService.getTagByName(this.currentArchive).subscribe(
+    this.apiService.getTagByName(this.currentArchive).valueChanges.subscribe(
       ({ data }) => {
         console.log(data);
         this.archiveDescription = data.allPostTags.nodes[0].tagDescription;
-        this.apiService.getPostsByTag(data.allPostTags.nodes[0].id).subscribe(({ data }) => {
+        this.apiService.getPostsByTag(data.allPostTags.nodes[0].id).valueChanges.subscribe(({ data }) => {
           console.log('got tag posts: ', data);
           this.posts = data.postsByTag.nodes;
           this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);

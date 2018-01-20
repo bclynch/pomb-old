@@ -39,7 +39,7 @@ export class ProfilePage {
 
   init() {
     // check if this is an actual user + grab data
-    this.apiService.getAccountByUsername(this.username).subscribe(({ data }) => {
+    this.apiService.getAccountByUsername(this.username).valueChanges.subscribe(({ data }) => {
       this.user = data.accountByUsername;
       console.log('got user data: ', this.user);
       if (this.user) {

@@ -29,6 +29,7 @@ export class UserService {
 
       // save user to local storage
       this.localStorageService.set('pomb-user', userObj);
+      console.log(this.localStorageService.get('pomb-user'));
 
       // reload window to update db role
       window.location.reload();

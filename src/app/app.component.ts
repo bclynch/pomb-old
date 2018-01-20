@@ -17,6 +17,7 @@ declare let ga: Function;
 export class MyApp implements OnInit, OnDestroy {
 
   subscription: Subscription;
+  firstTry = true;
 
   constructor(
     private apiService: APIService,
@@ -31,7 +32,7 @@ export class MyApp implements OnInit, OnDestroy {
     this.settingsService.appInit().then(() => {
       this.settingsService.appInited = true;
 
-      this.apiService.getCurrentAccount().subscribe(({ data }) => {
+      this.apiService.getCurrentAccount().valueChanges.subscribe(({ data }) => {
         // checking in to snag user data
         console.log('got user data', data);
         if (data.currentAccount) {
@@ -40,18 +41,20 @@ export class MyApp implements OnInit, OnDestroy {
           this.emitReady();
         } else {
           // if it doesnt exist dump the token
-          this.localStorageService.set('pomb-user', '');
+          if (this.firstTry) this.localStorageService.set('pomb-user', null);
+          this.firstTry = false;
           this.emitReady();
         }
       }, (error) => {
         console.log('there was an error sending the query', error);
-        this.localStorageService.set('pomb-user', '');
+        this.localStorageService.set('pomb-user', null);
         alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
         this.emitReady();
       });
     }, error => {
+      console.log(error);
       // JWT expired so get rid of it in local storage
-      this.localStorageService.set('pomb-user', '');
+      this.localStorageService.set('pomb-user', null);
       window.location.reload();
     });
   }

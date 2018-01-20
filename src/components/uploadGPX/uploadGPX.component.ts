@@ -41,7 +41,7 @@ export class UploadGPX {
     const formData: FormData = new FormData();
     const files: Array<File> = this.filesToUpload;
 
-    for (let file of files) {
+    for (const file of files) {
       formData.append('uploads[]', file, file.name);
     }
 

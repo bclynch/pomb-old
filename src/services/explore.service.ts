@@ -94,7 +94,7 @@ export class ExploreService {
   private processRegions() {
     const self = this;
     Object.keys(this.regions).forEach((region) => {
-      let formattedArr = Object.keys(this.regions[region]).map((subregion) => {
+      const formattedArr = Object.keys(this.regions[region]).map((subregion) => {
         return subregion.split('_').join(' ');
       });
       self.regionsArr.push({ region, subregions: formattedArr});
@@ -106,7 +106,7 @@ export class ExploreService {
     let countryCode: string;
 
     Object.keys(this.googleRegionCodes).forEach((code) => {
-      if(this.googleRegionCodes[code] === name) countryCode = code;
+      if (this.googleRegionCodes[code] === name) countryCode = code;
     });
     return countryCode;
   }

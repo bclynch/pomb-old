@@ -19,7 +19,7 @@ export class PostPage implements OnInit {
   ngOnInit() {
     const postId = +this.router.url.split('/')[2];
     console.log(postId);
-    this.apiService.getPostById(postId).subscribe(
+    this.apiService.getPostById(postId).valueChanges.subscribe(
       data => {
         this.post = data.data.postById;
         console.log(this.post);

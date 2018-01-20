@@ -81,7 +81,7 @@ export class TripPage implements AfterViewInit {
   init() {
     this.countryFlags = [];
 
-    this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.trip = this.tripData.name;
@@ -115,7 +115,7 @@ export class TripPage implements AfterViewInit {
       this.countryFlags = this.countryFlags.filter(obj => obj.url);
 
       // populate posts arr
-      this.apiService.getPostsByTrip(this.tripData.id).subscribe(
+      this.apiService.getPostsByTrip(this.tripData.id).valueChanges.subscribe(
         data => {
           const tripPosts = [];
           console.log(data);

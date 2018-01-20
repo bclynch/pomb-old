@@ -23,7 +23,7 @@ export class TagSearch {
       .subscribe(query => {
         if (query) {
           console.log(query);
-          this.apiService.searchTags(query).subscribe(
+          this.apiService.searchTags(query).valueChanges.subscribe(
             result => {
               // limiting to 5 results
               this.searchResults = result.data.searchTags.nodes.slice(0, 5);

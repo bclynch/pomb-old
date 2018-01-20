@@ -27,7 +27,7 @@ export class HomePage {
   }
 
   init() {
-    this.apiService.getAllPublishedPosts().subscribe(({ data }) => {
+    this.apiService.getAllPublishedPosts().valueChanges.subscribe(({ data }) => {
       console.log('got data: ', data.allPosts.nodes);
       this.posts = data.allPosts.nodes;
       this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);

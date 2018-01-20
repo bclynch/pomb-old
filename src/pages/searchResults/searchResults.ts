@@ -13,17 +13,17 @@ import { Post } from '../../models/Post.model';
 export class SearchResultsPage implements OnInit {
 
   posts: Post[] = [];
-  query: string
+  query: string;
 
   constructor(
     private apiService: APIService,
     private router: Router,
     private routerService: RouterService
-  ) {  
-    //subscribe to param change to update results
+  ) {
+    // subscribe to param change to update results
     this.router.events.subscribe(e => {
-      if(e.constructor.name === "RoutesRecognized") {
-        let navData = <any> e;
+      if (e.constructor.name === 'RoutesRecognized') {
+        const navData = <any> e;
         this.query = navData.url.split('=')[1];
         this.runSearch();
       }
@@ -32,13 +32,13 @@ export class SearchResultsPage implements OnInit {
 
   ngOnInit() {
     console.log(this.routerService.params);
-    this.query = this.routerService.params.q
+    this.query = this.routerService.params.q;
     this.runSearch();
   }
 
   runSearch(): void {
-    //using :* to it'll be an open ended search
-    this.apiService.searchPosts(`${this.query}:*`).subscribe(
+    // using :* to it'll be an open ended search
+    this.apiService.searchPosts(`${this.query}:*`).valueChanges.subscribe(
       data => {
         this.posts = data.data.searchPosts.nodes;
         console.log(this.posts);

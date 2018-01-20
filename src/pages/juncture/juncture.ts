@@ -94,7 +94,7 @@ export class JuncturePage {
   }
 
   init() {
-    this.apiService.getFullJunctureById(this.junctureId).subscribe(({ data }) => {
+    this.apiService.getFullJunctureById(this.junctureId).valueChanges.subscribe(({ data }) => {
       console.log(data.junctureById);
       this.junctureData = data.junctureById;
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;

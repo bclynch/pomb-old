@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
@@ -53,7 +53,7 @@ export class SettingsService {
     promises.push(this.exploreService.init());
 
     const promise2 = new Promise<string>((resolve, reject) => {
-      this.apiService.getConfig().subscribe(
+      this.apiService.getConfig().valueChanges.subscribe(
         data => {
           const appSettings = data.data.allConfigs.nodes[0];
           console.log(appSettings);

@@ -34,7 +34,7 @@ export class TripTimelinePage {
   }
 
   init() {
-    this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
     });

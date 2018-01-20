@@ -45,7 +45,7 @@ export class HubPage {
     //   console.log('there was an error sending the query', error);
     // });
     if (this.isTripPosts) {
-      this.apiService.getPostsByTrip(+this.router.url.split('/')[2]).subscribe(
+      this.apiService.getPostsByTrip(+this.router.url.split('/')[2]).valueChanges.subscribe(
         data => {
           const tripPosts = [];
           console.log(data);

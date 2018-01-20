@@ -65,7 +65,7 @@ export class TripMapPage {
     this.junctureMarkers = [];
     this.junctureContentArr = [];
 
-    this.apiService.getTripById(this.tripId).subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
 
@@ -153,7 +153,7 @@ export class TripMapPage {
 
       // make sure it doesn't already exist
       if (!this.junctureContentArr[index]) {
-        this.apiService.getPartialJunctureById(id).subscribe(({ data }) => {
+        this.apiService.getPartialJunctureById(id).valueChanges.subscribe(({ data }) => {
           const junctureData = this.processPosts(data.junctureById);
           if (!this.junctureContentArr[index]) {
             this.junctureContentArr.splice(index, 1, junctureData);

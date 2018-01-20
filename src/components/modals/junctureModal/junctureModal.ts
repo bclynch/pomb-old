@@ -69,7 +69,7 @@ export class JunctureModal {
     );
 
     // grab trips to populate select
-    this.apiService.tripsByUserId(this.userService.user.id).subscribe(
+    this.apiService.tripsByUserId(this.userService.user.id).valueChanges.subscribe(
       (data: any) => {
         console.log(data);
         this.tripOptions = data.data.allUserToTrips.nodes;

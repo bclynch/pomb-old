@@ -18,10 +18,10 @@ import { Post } from '../../models/Post.model';
 export class DashboardPage {
 
   tabOptions: string[] = ['all', 'drafts', 'scheduled', 'published'];
-  activeTab: number = 0;
-  isExpanded: boolean = false;
+  activeTab = 0;
+  isExpanded = false;
   postsData: any;
-  posts: Post[] = []; 
+  posts: Post[] = [];
   activePost: number = null;
 
   constructor(
@@ -33,16 +33,16 @@ export class DashboardPage {
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
     private userService: UserService
-  ) {  
+  ) {
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
 
   init() {
-    //splitting this out to be able to refetch later
+    // splitting this out to be able to refetch later
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id);
     this.postsData.subscribe(
       ({data}) => {
-        console.log(data); 
+        console.log(data);
         this.posts = data.allPosts.nodes;
       });
   }
@@ -51,68 +51,68 @@ export class DashboardPage {
     this.activeTab = index;
     this.activePost = null;
 
-    switch(index) {
+    switch (index) {
       case 0:
-        this.apiService.getAllPostsByUser(this.userService.user.id).subscribe(
+        this.apiService.getAllPostsByUser(this.userService.user.id).valueChanges.subscribe(
           ({data}) => {
             this.posts = data.allPosts.nodes;
           });
         break;
       case 1:
-        this.apiService.getPostsByStatus(true, false, false, this.userService.user.id).subscribe(
+        this.apiService.getPostsByStatus(true, false, false, this.userService.user.id).valueChanges.subscribe(
           ({data}) => {
             this.posts = data.allPosts.nodes;
           }
-        )
+        );
         break;
       case 2:
-        this.apiService.getPostsByStatus(false, true, false, this.userService.user.id).subscribe(
+        this.apiService.getPostsByStatus(false, true, false, this.userService.user.id).valueChanges.subscribe(
           ({data}) => {
             this.posts = data.allPosts.nodes;
           }
-        )
+        );
         break;
       case 3:
-        this.apiService.getPostsByStatus(false, false, true, this.userService.user.id).subscribe(
+        this.apiService.getPostsByStatus(false, false, true, this.userService.user.id).valueChanges.subscribe(
           ({data}) => {
             this.posts = data.allPosts.nodes;
           }
-        )
+        );
         break;
     }
   }
 
   launchPostEditor(post?: Post) {
-    let modal = this.modalCtrl.create(CreatePostModal, {post}, { cssClass: 'createPostModal', enableBackdropDismiss: false });
+    const modal = this.modalCtrl.create(CreatePostModal, {post}, { cssClass: 'createPostModal', enableBackdropDismiss: false });
     modal.onDidDismiss(data => {
-      if(data === 'delete') this.deletePost(post);
-      if(data === 'refresh') this.postsData.refetch();
+      if (data === 'delete') this.deletePost(post);
+      if (data === 'refresh') this.postsData.refetch();
     });
-    modal.present(); 
+    modal.present();
   }
 
   deletePost(post: Post) {
-    //if not post passed in it means it wasn't saved yet anyway no need for api call
-    if(post) {
+    // if not post passed in it means it wasn't saved yet anyway no need for api call
+    if (post) {
       this.apiService.deletePostById(post.id).subscribe(
         result => {
           const deleteData = <any>result;
-          let toast = this.toastCtrl.create({
+          const toast = this.toastCtrl.create({
             message: `Post "${deleteData.data.deletePostById.post.title}" successfully deleted`,
             duration: 3000,
             position: 'top'
-          }); 
-      
+          });
+
           toast.present();
-  
+
           this.postsData.refetch();
         }
-      )
+      );
     }
   }
 
   deleteConfirm(post: Post) {
-    let alert = this.alertCtrl.create({
+    const alert = this.alertCtrl.create({
       title: 'Discard Post',
       subTitle: 'Are you sure you want to discard this post?',
       cssClass: 'confirmAlert',
