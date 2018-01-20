@@ -8,6 +8,137 @@ mypacknavsection {
       width: 100%;
       display: flex;
       justify-content: space-around;
+
+      ion-icon {
+        height: 32px;
+        width: 32px;
+        font-size: 32px;
+        margin: 15px 0;
+        transition: .3s;
+      }
+    }
+    .paneSectionBtn {
+      font-size: 16px;
+      font-weight: bold;
+      transition: .3s;
+      cursor: pointer;
+    }
+    .paneSectionBtn:hover {
+      color: var(--secondary);
+    }
+    .paneSectionHeader {
+      margin-bottom: 30px;
+    }
+    .signedOutContainer {
+      line-height: 20px;
+
+      > div:first-child {
+        flex: 1;
+        text-align: center;
+
+        .paneSectionContent {
+          cursor: pointer;
+
+          .loginDescription {
+            padding: 0 20px 20px;
+            max-width: 400px;
+          }
+          .paneSectionBtn {
+            margin-top: 20px;
+          }
+        }
+        .paneSectionContent:hover {
+          .paneSectionBtn {
+            color: var(--secondary);
+          }
+        }
+      }
+      > div:last-child {
+        flex: 3;
+        display: none !important;
+
+        .paneSectionContent {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+
+          > .benefitWrapper {
+            width: 45%;
+            text-align: center;
+
+            .benefitDescription {
+              padding: 0 10px 10px;
+            }
+            ion-icon {
+              cursor: auto;
+            }
+          }
+        }
+      }
+    }
+    .signedInContainer {
+
+      .profile {
+        flex: 1;
+      }
+      .quickLinks {
+        flex: 1.5;
+
+        .paneOptionWrapper {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+
+          > div {
+            width: 45%;
+
+            .linkLabel {
+              transition: .3s;
+            }
+          }
+          > div:hover {
+
+            ion-icon, .linkLabel {
+              color: var(--secondary);
+            }
+          }
+        }
+      }
+      .recent {
+        flex: 3;
+        display: none !important;
+      }
+      .profilePhotoContainer {
+        height: 125px;
+        width: 125px;
+        border: 3px solid mapGet($basecolor, white);
+        border-radius: 5px;
+        background-position: center;
+        background-size: contain;
+      }
+    }
+  }
+  @include respond-to(medium) {
+    ion-icon {
+      height: 48px !important;
+      width: 48px !important;
+      font-size: 48px !important;
+    }
+    .paneContainer {
+      .signedInContainer {
+        .recent {
+          display: flex !important;
+        }
+      }
+    }
+  }
+  @include respond-to(small) {
+    .paneContainer {
+      .signedOutContainer {
+        > div:last-child {
+          display: flex !important;
+        }
+      }
     }
   }
 }

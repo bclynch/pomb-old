@@ -37,7 +37,7 @@ navBar {
         padding: 0 10px;
 
         ion-icon:hover {
-          opacity: .7;
+          color: var(--secondary);
         }
         .sectionsWrapper {
           color: mapGet($basecolor, white);
@@ -54,9 +54,13 @@ navBar {
             display: flex;
             justify-content: center;
             align-items: center;
+
+            &.active {
+              color: var(--secondary);
+            }
           }
           > div:hover {
-            opacity: .7;
+            color: var(--secondary);
           }
         }
         .logoWrapper {
@@ -87,6 +91,8 @@ navBar {
         display: flex;
         justify-content: space-around;
         padding: 25px;
+        max-width: 1400px;
+        margin: 0 auto;
 
         .paneSection {
           display: flex;

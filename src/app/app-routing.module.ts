@@ -47,6 +47,8 @@ const appRoutes: Routes = [
   { path: 'culture', component: HubPage},
   { path: 'travel', component: HubPage},
   { path: 'gear', component: HubPage},
+  { path: 'stories', component: HomePage },
+  { path: 'community', component: HomePage }, // don't have one
   { path: 'explore',
     children: [
       {

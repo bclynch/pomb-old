@@ -4,7 +4,7 @@
   [style.height]="isExpanded ? '60vh' : '40px'"
   (mouseleave)="navHover($event)"
 >
-  <div class="navBarWrapper">
+  <div class="navBarWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
     <div class="barWrapper">
       <div class="logoWrapper">
         <div 
@@ -19,6 +19,7 @@
           class="boldFont sectionOption"
           (click)="navigate(option.value)"
           (mouseenter)="navHover($event, i)"
+          [ngClass]="option.value === activeSection?.value ? 'active' : ''"
         >{{option.label}}</div>
       </div>
       <div class="searchWrapper" (click)="openSearch()">

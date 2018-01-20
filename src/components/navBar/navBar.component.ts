@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from 'ionic-angular';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { RegistrationModal } from '../modals/registrationModal/registrationModal';
 import { MobileNavModal } from '../modals/mobileNavModal/mobileNavModal';
@@ -36,7 +37,7 @@ export class NavBar {
   ];
 
   sectionOptions: Section[] = [];
-  isExpanded = false;
+  isExpanded = false; // set to true for testing
   activeSection: Section;
 
   searchActive = false;
@@ -50,7 +51,8 @@ export class NavBar {
     private modalCtrl: ModalController,
     private broadcastService: BroadcastService,
     private exploreService: ExploreService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private sanitizer: DomSanitizer
   ) {
     this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories());
   }
@@ -59,10 +61,11 @@ export class NavBar {
     Object.keys(this.settingsService.siteSections).forEach((category) => {
       this.sectionOptions.push({ label: category, value: category.toLowerCase() });
     });
+    // this.activeSection = this.sectionOptions[2];
   }
 
   navigate(path: string) {
-    path === 'profile' ? this.routerService.navigateToPage(`/${this.userService.user.username}`) : this.routerService.navigateToPage(`/${path}`);
+    path === 'my pack' ? this.routerService.navigateToPage(`/${this.userService.user.username}`) : this.routerService.navigateToPage(`/${path}`);
   }
 
   signinUser() {

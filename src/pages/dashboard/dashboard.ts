@@ -40,7 +40,7 @@ export class DashboardPage {
   init() {
     // splitting this out to be able to refetch later
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id);
-    this.postsData.subscribe(
+    this.postsData.valueChanges.subscribe(
       ({data}) => {
         console.log(data);
         this.posts = data.allPosts.nodes;

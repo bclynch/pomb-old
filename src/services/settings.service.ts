@@ -6,6 +6,13 @@ import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
 import { LocalStorageService } from './localStorage.service';
 
+interface FeaturedStory {
+  id: number;
+  title: string;
+  subtitle: string;
+  imgURL: string;
+}
+
 @Injectable()
 
 export class SettingsService {
@@ -15,6 +22,7 @@ export class SettingsService {
   secondaryColor: string;
   tagline: string;
   heroBanner: string;
+  featuredStories: FeaturedStory[];
 
   private unitOfMeasureSubject: BehaviorSubject<void>;
   public unitOfMeasure$: Observable<void>;
@@ -61,6 +69,7 @@ export class SettingsService {
           this.secondaryColor = appSettings.secondaryColor;
           this.tagline = appSettings.tagline;
           this.heroBanner = appSettings.heroBanner;
+          this.addFeaturedStory([appSettings.postByFeaturedStory1, appSettings.postByFeaturedStory2, appSettings.postByFeaturedStory3]);
           resolve();
         },
         err => reject(err)
@@ -74,5 +83,11 @@ export class SettingsService {
   changeUnitOfMeasure(unitType: 'imperial' | 'metric') {
     this.unitOfMeasure = unitType;
     this.unitOfMeasureSubject.next(null);
+  }
+
+  addFeaturedStory(stories: any[]) {
+    this.featuredStories = stories.map((story) => {
+      return { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url };
+    });
   }
 }

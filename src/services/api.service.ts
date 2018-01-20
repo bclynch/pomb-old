@@ -262,7 +262,49 @@ query allConfigs {
       primaryColor,
       secondaryColor,
       tagline,
-      heroBanner
+      heroBanner,
+      postByFeaturedStory1 {
+        id,
+        title,
+        subtitle,
+        postLeadPhotosByPostId {
+          nodes {
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url
+              }
+            }
+          }
+        }
+      }
+      postByFeaturedStory2 {
+        id,
+        title,
+        subtitle,
+        postLeadPhotosByPostId {
+          nodes {
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url
+              }
+            }
+          }
+        }
+      }
+      postByFeaturedStory3 {
+        id,
+        title,
+        subtitle,
+        postLeadPhotosByPostId {
+          nodes {
+            leadPhotoLinksByLeadPhotoId {
+              nodes {
+                url
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

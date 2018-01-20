@@ -1,45 +1,52 @@
-<div class="paneContainer">
-  <div *ngIf="!userService.signedIn">
+<div class="paneContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+  <div *ngIf="!userService.signedIn" class="signedOutContainer">
     <div class="paneSection">
       <div class="paneSectionHeader">Sign Up</div>
-      <div class="paneSectionContent">
-        Looks like you aren't signed into an account yet. Login or signup to become a POMB member and start chronicling your journey.
+      <div class="paneSectionContent" (click)="signinUser()">
+        <div><ion-icon name="md-person"></ion-icon></div>
+        <div class="loginDescription">Looks like you aren't signed into an account yet. Login or signup to become a POMB member and start chronicling your journey.</div>
+        <div class="paneSectionBtn">Get Started</div>
       </div>
-      <div class="paneSectionBtn" (click)="signinUser()">Get Started</div>
     </div>
-    <div class="paneSection">
+    <div class="paneSection benefits">
       <div class="paneSectionHeader">Benefits</div>
       <div class="paneSectionContent">
-        With a POMB account you will have the capability at your fingertips to archive your trip through stylish blog posts, an informative map of where you've been and where you're going, and share the moments you care about with loved ones. Signup is quick and unlocks all these features and more.
+        <div class="benefitWrapper" *ngFor="let benefit of benefits;">
+          <div><ion-icon name="{{benefit.icon}}"></ion-icon></div>
+          <div class="benefitDescription">{{benefit.description}}</div>
+        </div>
       </div>
     </div>
   </div>
-  <div *ngIf="userService.signedIn">
-      <div class="paneSection">
+  <div *ngIf="userService.signedIn" class="signedInContainer">
+      <div class="paneSection profile">
         <div class="paneSectionHeader">Profile</div>
         <div>Welcome Back {{userService.user.firstName || userService.user.username}}</div>
-        <div (click)="navigate('userAdmin')">User Admin</div>
+        <div 
+          class="profilePhotoContainer" 
+          [ngStyle]="userService.user ? { 'background': 'url(' + userService.user.currentAccount?.profilePhoto + ')'} : { 'background': 'black'}"
+        ></div>
         <div (click)="navigate('admin')">Admin</div>
-        <div (click)="logout()">Logout</div>
+        <div (click)="logout()" class="paneSectionBtn">Logout</div>
       </div>
-      <div class="paneSection">
+      <div class="paneSection quickLinks">
         <div class="paneSectionHeader">Quick Links</div>
         <div class="paneOptionWrapper">
           <div 
             *ngFor="let option of quickLinks;" 
             class="paneOption boldFont" 
-            [style.color]="settingsService.secondaryColor"
+            (click)="navigate(option.value)"
           >
-            <span (click)="navigate(option.value)">{{option.label}}</span>
+            <ion-icon [name]="option.icon"></ion-icon>
+            <div class="linkLabel">{{option.label}}</div>
           </div>
         </div>
       </div>
-      <div class="paneSection">
-        <div class="paneSectionHeader">Settings</div>
+      <div class="paneSection recent">
+        <div class="paneSectionHeader">Recent Activity</div>
         <div class="paneSectionContent">
           
         </div>
-        <div class="paneSectionBtn" (click)="navigate('settings')">Go To Settings</div>
       </div>
     </div>
 </div>

@@ -5,12 +5,15 @@
 ### Top Priorities
 
 - Currently trying to get application online
-    - ionic app up and running
-    - Need to get the server up and stable + RDS (maybe just to test then delete)
+    - test ionic app up and running
+    - pomb builds in prod flag so should be ready
+    - Server is running MINUS the postgraphql setup. Need to spin up rds to test
+        - AWS config being wonky. Would be preferred to fix. 
 - Finish juncture creation modal
     - gpx upload component is uploading every time user adds something. Should ONLY be when they save
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, photos, description
+    - Fix flickr banner algorithm. It sucks
 - Hosting
 - Mobile usage!
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.
@@ -23,15 +26,8 @@
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
-    - Stories
-        - Shade would have link + icon to main blog page (current main page), featured posts, categories links
-        - Blog itself would be curated list of posts
-        - Route would be /stories and /stories?tag=some-tag and /stories/postId
     - Profile
         - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
-        - Profile page would be like facebook in that what you see is what a vistor would see, but you have the ability to edit some stuff. Posts, pics, trips assembled nicely
-        - Route for trips should user/trip/name-of-trip
-        - Juncture could be user/trip/name-of-trip/juncture/name-of-juncture
 - Footer needs a pick me up
 - Context dependent search (blog posts, trip info, users)
 - Better error handling
@@ -41,6 +37,7 @@
 
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - DB security
+- Disqus comments??
 - Google Analytics
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes

@@ -1,25 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
+import { BroadcastService } from '../../services/broadcast.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'page-post',
   templateUrl: 'post.html'
 })
-export class PostPage implements OnInit {
+export class PostPage {
 
   post;
+  postId: number;
 
   constructor(
     private apiService: APIService,
-    private router: Router
-  ) {  }
+    private router: Router,
+    private route: ActivatedRoute,
+    private broadcastService: BroadcastService,
+    private settingsService: SettingsService
+  ) {
+    this.route.params.subscribe((params) => {
+      this.postId = params.id;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
+  }
 
-  ngOnInit() {
-    const postId = +this.router.url.split('/')[2];
-    console.log(postId);
-    this.apiService.getPostById(postId).valueChanges.subscribe(
+  init() {
+    this.apiService.getPostById(this.postId).valueChanges.subscribe(
       data => {
         this.post = data.data.postById;
         console.log(this.post);
