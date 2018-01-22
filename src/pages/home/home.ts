@@ -27,6 +27,7 @@ export class HomePage {
   }
 
   init() {
+    this.settingsService.modPageTitle('Home');
     this.apiService.getAllPublishedPosts().valueChanges.subscribe(({ data }) => {
       console.log('got data: ', data.allPosts.nodes);
       this.posts = data.allPosts.nodes;

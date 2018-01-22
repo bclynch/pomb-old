@@ -1,4 +1,4 @@
-import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
@@ -274,6 +274,7 @@ import { GeoService } from '../services/geo.service';
     JunctureService,
     TripService,
     GeoService,
+    Title,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

@@ -68,6 +68,7 @@ export class TripMapPage {
     this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
+      this.settingsService.modPageTitle(`${this.tripData.name} Map`);
 
       // fill up arr with a bunch of empty values so our styling works properly
       for (let i = 0; i < this.tripData.tripToJuncturesByTripId.nodes.length; i++) {

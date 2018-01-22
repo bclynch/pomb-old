@@ -44,6 +44,7 @@ export class HubPage {
     // },(error) => {
     //   console.log('there was an error sending the query', error);
     // });
+    this.settingsService.modPageTitle(this.currentHub);
     if (this.isTripPosts) {
       this.apiService.getPostsByTrip(+this.router.url.split('/')[2]).valueChanges.subscribe(
         data => {
@@ -51,6 +52,7 @@ export class HubPage {
           console.log(data);
           const tripData = <any>data;
           this.currentHub = `${tripData.data.tripById.name} Posts`;
+          this.settingsService.modPageTitle(this.currentHub);
           const junctures = tripData.data.tripById.tripToJuncturesByTripId.nodes;
           junctures.forEach((juncture) => {
             const juncturePosts = juncture.junctureByJunctureId.junctureToPostsByJunctureId.nodes;

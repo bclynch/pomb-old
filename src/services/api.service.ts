@@ -1077,7 +1077,6 @@ export class APIService {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    console.log(isJuncture);
     return this.http.post(`http://localhost:8080/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
       .map(
         (response: Response) => {

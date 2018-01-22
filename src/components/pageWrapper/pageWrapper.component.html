@@ -1,9 +1,10 @@
 <div 
   class="pageWrapperContainer" 
   [style.background]="backgroundColor" 
-  [style.padding-bottom]="displayFooter ? '130px' : 0"
+  [style.padding-bottom]="displayFooter ? '275px' : 0"
   scrollDirective
 >
+<!-- On the display footer thing above making 275 for 25px of margin over the footer height 250 -->
   <HeroBanner *ngIf="displayHeroBanner"></HeroBanner>
   <NavBar 
     *ngIf="displayNav"

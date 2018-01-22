@@ -1,4 +1,4 @@
-<div class="heroBannerContainer" [ngStyle]="{ 'background-image': 'url(' + settingsService.heroBanner + ')'}">
+<div class="heroBannerContainer" [ngStyle]="{ 'background-image': 'url(' + settingsService.heroBanner + ')'}" *ngIf="settingsService.heroBanner">
   <div class="overlay">
     <div class="siteTitle gradientText" [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" >Pack On My Back</div> 
     <div class="subHeader boldFont">

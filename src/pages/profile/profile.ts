@@ -38,6 +38,7 @@ export class ProfilePage {
   }
 
   init() {
+    this.settingsService.modPageTitle(`${this.username}'s profile`);
     // check if this is an actual user + grab data
     this.apiService.getAccountByUsername(this.username).valueChanges.subscribe(({ data }) => {
       this.user = data.accountByUsername;

@@ -5,12 +5,6 @@ import 'rxjs/add/operator/filter';
 // Services
 import { APIService } from '../services/api.service';
 
-interface UrlData {
-  segmentId: string;
-  folderId: string;
-  assetId: string;
-}
-
 @Injectable()
 export class RouterService {
 

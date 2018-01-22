@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Title } from '@angular/platform-browser';
 
 import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
@@ -39,7 +40,8 @@ export class SettingsService {
   constructor(
     private apiService: APIService,
     private exploreService: ExploreService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private titleService: Title
   ) {
     this.unitOfMeasureSubject = new BehaviorSubject(null);
     this.unitOfMeasure$ = this.unitOfMeasureSubject.asObservable();
@@ -89,5 +91,9 @@ export class SettingsService {
     this.featuredStories = stories.map((story) => {
       return { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url };
     });
+  }
+
+  modPageTitle(title: string) {
+    this.titleService.setTitle(`POMB - ${title}`);
   }
 }

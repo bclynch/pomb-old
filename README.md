@@ -16,6 +16,7 @@
     - Fix flickr banner algorithm. It sucks
 - Hosting
 - Mobile usage!
+    - All those quick links in nav pane don't work since they're on hover... 
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, posts, photos, stats in some nice way.
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
         - Need banner img for timeline page
@@ -28,8 +29,8 @@
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
     - Profile
         - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
-- Footer needs a pick me up
-- Context dependent search (blog posts, trip info, users)
+- Context dependent search (blog posts, trip info, users) + revamp search results page to make more minimal since data coming back isn't great
+    - To always give the user options maybe nice to have radio options on the search box to declare what they want to search
 - Better error handling
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 

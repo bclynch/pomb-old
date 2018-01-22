@@ -37,6 +37,7 @@ export class TripTimelinePage {
     this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
+      this.settingsService.modPageTitle(`${this.tripData.name} Timeline`);
     });
   }
 

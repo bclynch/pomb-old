@@ -44,7 +44,11 @@ export class AdminPage {
   ) {
     this.activeDashView = this.routerService.fragment || 'dashboard';
     this.dataReady = true;
-    this.settingsService.appInited ? console.log('fuck off') : this.broadcastService.on('appIsReady', () => console.log('fuck off'));
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
+
+  init() {
+    this.settingsService.modPageTitle('Admin Dashboard');
   }
 
   openMenu() {

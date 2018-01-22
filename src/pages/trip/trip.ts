@@ -85,6 +85,7 @@ export class TripPage implements AfterViewInit {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.trip = this.tripData.name;
+      this.settingsService.modPageTitle(this.tripData.name);
 
       // trip coords
       const junctureArr = this.tripData.tripToJuncturesByTripId.nodes.map((juncture) => {

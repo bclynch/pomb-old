@@ -173,6 +173,8 @@ const appRoutes: Routes = [
       }
     ]
   },
+  { path: 'search', component: SearchResultsPage },
+  { path: 'community', component: CommunityPage },
   {
     path: ':username',
     children: [
@@ -198,11 +200,9 @@ const appRoutes: Routes = [
       },
     ]
   },
-  { path: 'community', component: CommunityPage },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
   { path: 'settings', component: SettingsPage },
-  { path: 'search', component: SearchResultsPage },
   { path: '',   component: HomePage },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -96,6 +96,7 @@ export class JuncturePage {
   init() {
     this.apiService.getFullJunctureById(this.junctureId).valueChanges.subscribe(({ data }) => {
       console.log(data.junctureById);
+      this.settingsService.modPageTitle(data.junctureById.name);
       this.junctureData = data.junctureById;
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
 

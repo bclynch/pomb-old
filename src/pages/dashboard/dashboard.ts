@@ -38,6 +38,7 @@ export class DashboardPage {
   }
 
   init() {
+    this.settingsService.modPageTitle('Blog Dashboard');
     // splitting this out to be able to refetch later
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id);
     this.postsData.valueChanges.subscribe(

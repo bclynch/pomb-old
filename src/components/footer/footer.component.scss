@@ -6,11 +6,20 @@ footer {
 
   .footerContainer {
     background: mapGet($basecolor, black);
-    padding: 10px 0;
+    padding: 40px 0;
     display: flex;
     justify-content: center;
-    border-top: solid 1px mapGet($basecolor, border-light); 
+    border-top: solid 1px mapGet($basecolor, border-light);
+    height: 250px;
 
+    .hover {
+      transition: .3s;
+      cursor: pointer;
+      color: white;
+    }
+    .hover:hover {
+      color: var(--secondary);
+    }
     .footerWrapper {
       display: flex;
       align-items: center;
@@ -18,25 +27,45 @@ footer {
       max-width: 80%;
       color: mapGet($basecolor, white);
       min-width: 320px;
+      text-align: center;
 
-      .logo {
-        width: 100%;
+      .logoWrapper {
         font-size: 32px;
-        text-align: center;
+      }
+      .socialWrapper {
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        width: 150px;
+
+        > div { flex: 1; }
+        a {
+          text-decoration: none;
+          margin: 0 10px;
+
+          ion-icon {
+            font-size: 32px;
+          }
+        }
       }
       .linksWrapper {
         display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin: 10px 0;
-      }
-      .infoWrapper {
-        text-align: center;
+        margin: 10px 10px 30px;
 
-        > a {
-          color: mapGet($basecolor, white);
-          text-decoration: none;
-          cursor: pointer;
+        > div {
+          text-align: center;
+          font-size: 16px;
+          font-weight: bold;
+        }
+        > div:after {
+          content: "\2022";
+          display: inline-block;
+          margin: 0 16px;
+        }
+        > div:last-child {
+          &:after {
+            display: none;
+          }
         }
       }
     }

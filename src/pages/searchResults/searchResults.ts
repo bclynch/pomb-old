@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { RouterService } from '../../services/router.service';
+import { SettingsService } from '../../services/settings.service';
 
 import { Post } from '../../models/Post.model';
 
@@ -18,8 +19,13 @@ export class SearchResultsPage implements OnInit {
   constructor(
     private apiService: APIService,
     private router: Router,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private settingsService: SettingsService,
+    private route: ActivatedRoute
   ) {
+    this.route.params.subscribe((params) => {
+      console.log(params);
+    });
     // subscribe to param change to update results
     this.router.events.subscribe(e => {
       if (e.constructor.name === 'RoutesRecognized') {
@@ -31,6 +37,7 @@ export class SearchResultsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.settingsService.modPageTitle('Search Results');
     console.log(this.routerService.params);
     this.query = this.routerService.params.q;
     this.runSearch();
