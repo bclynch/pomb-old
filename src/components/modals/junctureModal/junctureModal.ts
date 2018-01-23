@@ -237,7 +237,8 @@ export class JunctureModal {
       time: this.junctureModel.time,
       location: this.coords,
       selectedTrip: this.junctureModel.selectedTrip,
-      markerImg: this.markerURL
+      markerImg: this.markerURL,
+      geoJSON: this.geoJsonObject
     });
   }
 

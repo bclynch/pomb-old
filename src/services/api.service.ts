@@ -1110,9 +1110,25 @@ export class APIService {
       );
   }
 
+  // process gpx information
+  processGPX(formData: FormData) {
+    return this.http.post(`http://localhost:8080/process-gpx`, formData)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
   // upload gpx information
-  uploadGPX(formData: FormData, junctureId: number) {
-    return this.http.post(`http://localhost:8080/upload-gpx?juncture=${junctureId}`, formData)
+  uploadGPX(geoJSON, junctureId: number) {
+    return this.http.post(`http://localhost:8080/process-gpx/upload?juncture=${junctureId}`, geoJSON)
       .map(
         (response: Response) => {
           const data = response.json();

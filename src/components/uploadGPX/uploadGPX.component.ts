@@ -27,7 +27,7 @@ export class UploadGPX {
     this.filesToUpload = <Array<File>>fileInput.target.files;
     const processedData = this.processFormData();
 
-    this.apiService.uploadGPX(processedData, this.junctureId).subscribe(
+    this.apiService.processGPX(processedData).subscribe(
         result => {
           console.log(result);
           this.gpxUploaded.emit(result.data.geoJSON);

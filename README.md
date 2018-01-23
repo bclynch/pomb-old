@@ -9,8 +9,6 @@
     - pomb builds in prod flag so should be ready
     - Server is running MINUS the postgraphql setup. Need to spin up rds to test
         - AWS config being wonky. Would be preferred to fix. 
-- Finish juncture creation modal
-    - gpx upload component is uploading every time user adds something. Should ONLY be when they save
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, photos, description
     - Fix flickr banner algorithm. It sucks
@@ -24,6 +22,8 @@
     - couple stats (countries, distance, w/e)
 - Place newsletter component around (one of the nav shades, blog posts, w/e)
 - Can probably pare down the nav to just the following: -- in progress
+    - Stories
+        - Add column on right with popular tags (food, travel, etc)
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
@@ -33,13 +33,14 @@
     - To always give the user options maybe nice to have radio options on the search box to declare what they want to search
 - Better error handling
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
+- AWS domain email for S3 + RDS
 
 *AFTER ONLINE*
 
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - DB security
 - Disqus comments??
-- Google Analytics
+- Google Analytics - Page views working at least (on pomb gmail... Make domain email)
 - Share buttons for posts / trips / junctures - in progress
 - Add to data model for views / likes
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider

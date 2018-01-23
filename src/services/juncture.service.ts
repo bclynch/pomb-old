@@ -20,7 +20,7 @@ export class JunctureService {
   ) { }
 
   createJuncture() {
-    const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg }, {cssClass: 'junctureModal', enableBackdropDismiss: false});
+    const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg }, { cssClass: 'junctureModal', enableBackdropDismiss: false });
     modal.onDidDismiss(data => {
       if (data) {
         this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
@@ -41,6 +41,13 @@ export class JunctureService {
                 });
               }
             );
+          }
+        );
+
+        // upload gpx data
+        this.apiService.uploadGPX(data.geoJSON, data.junctureId).subscribe(
+          result => {
+            console.log(result);
           }
         );
       }
