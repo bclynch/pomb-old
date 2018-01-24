@@ -39,11 +39,12 @@ export class MyApp implements OnInit, OnDestroy {
           this.userService.signedIn = true;
           this.userService.user = data.currentAccount;
           this.emitReady();
+          this.firstTry = false;
         } else {
           // if it doesnt exist dump the token
           if (this.firstTry) this.localStorageService.set('pomb-user', null);
-          this.firstTry = false;
           this.emitReady();
+          this.firstTry = false;
         }
       }, (error) => {
         console.log('there was an error sending the query', error);

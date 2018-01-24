@@ -3,7 +3,7 @@
 </div>
 <div class="paneContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div 
-    class="paneSection" 
+    class="paneSection story" 
     *ngFor="let story of settingsService.featuredStories; let i = index" 
     (click)="navigateToPost(story)"
     [ngClass]="'story' + i"
@@ -11,5 +11,11 @@
     <div class="paneSectionHeader">{{story.title}}</div>
     <div [ngStyle]="{ 'background-image': 'url(' + story.imgURL + ')'}" class="storyImage"></div>
     <div class="storyDescription">{{story.subtitle | truncate:[200, '...']}}</div>
+  </div>
+  <div class="paneSection">
+    <div class="paneSectionHeader">Popular Categories</div>
+    <div *ngFor="let category of categories;" class="category" (click)="routerService.navigateToPage('/stories/' + category)">
+      {{category | uppercase}}
+    </div>
   </div>
 </div>

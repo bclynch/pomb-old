@@ -10,6 +10,8 @@ import { RouterService } from '../../../../services/router.service';
 })
 export class StoriesNavSection {
 
+  categories = ['trekking', 'biking', 'travel', 'culture', 'gear', 'food'];
+
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,

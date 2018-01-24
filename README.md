@@ -4,6 +4,7 @@
 
 ### Top Priorities
 
+- FIX THE REST OF THE VIEWS FOR IMGS YOU HAVENT YET (JUNCTURE, TRIP MAP, ETC)
 - Currently trying to get application online
     - test ionic app up and running
     - pomb builds in prod flag so should be ready
@@ -21,6 +22,11 @@
     - gallery + all photos page w/ infinite scroll
     - couple stats (countries, distance, w/e)
 - Place newsletter component around (one of the nav shades, blog posts, w/e)
+- Blog Dash
+    - Still a little jacked up with the img model change. Updating posts needs work
+    - Need to add way to wire up to juncture + trip
+    - Lead img title broken
+- Probably get rid of post categories and just use all tags. Need to mod hub page for this
 - Can probably pare down the nav to just the following: -- in progress
     - Stories
         - Add column on right with popular tags (food, travel, etc)
@@ -31,6 +37,7 @@
         - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
 - Context dependent search (blog posts, trip info, users) + revamp search results page to make more minimal since data coming back isn't great
     - To always give the user options maybe nice to have radio options on the search box to declare what they want to search
+- Trip modal fix how to display trip photos + way to add subtitle
 - Better error handling
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS

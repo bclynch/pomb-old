@@ -197,7 +197,7 @@ export class JunctureModal {
             { label: 'Delete', handler: () =>  {
               // if photo has already been saved to db
               if (this.galleryPhotos[index].id) {
-                this.apiService.deletePostToGalleryPhotoById(this.galleryPhotos[index].id).subscribe(
+                this.apiService.deleteImageById(this.galleryPhotos[index].id).subscribe(
                   result => {
                     this.galleryPhotos.splice(index, 1);
                     toastDelete();

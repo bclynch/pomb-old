@@ -5,6 +5,8 @@ import { TripModal } from '../components/modals/tripModal/tripModal';
 import { APIService } from './api.service';
 import { UserService } from './user.service';
 
+import { ImageType } from '../models/Image.model';
+
 @Injectable()
 export class TripService {
 
@@ -21,11 +23,17 @@ export class TripService {
     const modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       if (data) {
-        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.bannerPath, data.startLat, data.startLon).subscribe(
+        console.log(data);
+        // creat trip
+        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
           (result: any) => {
+            // create link to user
             this.apiService.createUserToTrip(this.userService.user.id, result.data.createTrip.trip.id).subscribe(
               () => {
-                this.toast(`New trip '${data.name}' successfully created`);
+                // save banner photos
+                this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(
+                  () => this.toast(`New trip '${data.name}' successfully created`)
+                );
               }
             );
           }
@@ -43,5 +51,31 @@ export class TripService {
     });
 
     toast.present();
+  }
+
+  saveBannerPhotos(bannerPhotos: { url: string; title: string; }[], tripId: number) {
+    return new Promise((resolve, reject) => {
+      // then bulk add links to post
+      let query = `mutation {`;
+      bannerPhotos.forEach((photo, i) => {
+        query += `a${i}: createImage(
+          input: {
+            image: {
+              tripId: ${tripId},
+              type: ${ImageType['banner']},
+              url: "${photo.url}",
+              ${photo.title ? 'title: + photo.title + ' : ''}
+            }
+          }) {
+            clientMutationId
+          }`;
+      });
+      query += `}`;
+
+      this.apiService.genericCall(query).subscribe(
+        result => resolve(result),
+        err => console.log(err)
+      );
+    });
   }
 }

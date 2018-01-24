@@ -19,25 +19,22 @@ export class Post {
   postToTagsByPostId: {
     nodes: { id: number, postTagByPostTagId: Tag }[]
   };
-  postLeadPhotosByPostId: {
+  imagesByPostId: {
     nodes: {
-      id: number,
-      title: string,
-      leadPhotoLinksByLeadPhotoId: {
-        nodes: { id: number, url: string, size: number }[]
-      }
+      id: number;
+      description: string;
+      title: string;
+      type: string;
+      url: string;
     }[]
-  };
-  postToGalleryPhotosByPostId: {
-    nodes: GalleryPhoto[]
   };
 }
 
-// export type PostCategory = 'Trekking' | 'Biking' | 'Travel' | 'Culture' | 'Gear';
 export enum PostCategory {
-  TREKKING = <any>'Trekking',
-  BIKING = <any>'Biking',
-  CULTURE = <any>'Culture',
-  TRAVEL = <any>'Travel',
-  GEAR = <any>'Gear',
+  TREKKING = <any>'trekking',
+  BIKING = <any>'biking',
+  CULTURE = <any>'culture',
+  TRAVEL = <any>'travel',
+  GEAR = <any>'gear',
+  FOOD = <any>'food',
 }

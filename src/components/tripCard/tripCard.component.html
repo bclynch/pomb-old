@@ -1,6 +1,6 @@
 <div 
   class="tripCardContainer"
-  [ngStyle]="trip.bannerPhoto ? { 'background-image': 'url(' + trip.bannerPhoto + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
+  [ngStyle]="trip.imagesByTripId.nodes.length ? { 'background-image': 'url(' + trip.imagesByTripId.nodes[0].url + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
   (click)="navigateToTrip()"  
 >
   <div class="overlay">

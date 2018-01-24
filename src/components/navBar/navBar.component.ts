@@ -61,7 +61,7 @@ export class NavBar {
     Object.keys(this.settingsService.siteSections).forEach((category) => {
       this.sectionOptions.push({ label: category, value: category.toLowerCase() });
     });
-    // this.activeSection = this.sectionOptions[2];
+    // this.activeSection = this.sectionOptions[1];
   }
 
   navigate(path: string) {

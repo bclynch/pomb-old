@@ -25,8 +25,8 @@ export class ImageUploaderPopover {
     private apiService: APIService,
     private alertService: AlertService
   ) {
-    this.allowMultiple = params.get('type') === 'gallery' || params.get('type') === 'juncture';
     this.type = params.get('type');
+    this.allowMultiple = this.type === 'gallery' || this.type === 'juncture' || this.type === 'banner';
     this.maxImgs = params.get('max');
     this.capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
     this.imgSize = params.get('size');
@@ -86,9 +86,9 @@ export class ImageUploaderPopover {
 
     switch (this.type) {
       case 'banner':
-        this.uploadImages([{ width: 1200, height: 300 }], 80);
+        this.uploadImages([this.imgSize], 80);
         break;
-      case 'primary':
+      case 'lead':
         this.uploadImages([{ width: 320, height: 213 }, { width: 1220, height: 813 }], 80);
         break;
       case 'gallery':

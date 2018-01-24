@@ -22,17 +22,13 @@ import { Post } from '../../models/Post.model';
 })
 export class TripPage implements AfterViewInit {
 
-  carouselImages = [
-    { imgURL: 'https://lonelyplanetimages.imgix.net/a/g/hi/t/4ad86c274b7e632de388dcaca5236ca8-asia.jpg', tagline: 'Wow' },
-    { imgURL: 'https://lonelyplanetimages.imgix.net/a/g/hi/t/1dd17a448edb6c7ced392c6a7ea1c0ac-asia.jpg', tagline: 'Cool' },
-    { imgURL: 'https://lonelyplanetimages.imgix.net/a/g/hi/t/b3960ccbee8a59ce113d0cce9f53f283-asia.jpg', tagline: 'Dang' }
-  ];
+  carouselImages: { imgURL: string; tagline: string; }[];
 
   subnavOptions = ['Highlights', 'Map', 'Junctures', 'Posts', 'Photos'];
 
   tripId: number;
   tripData;
-  trip = 'Dat Trip';
+  trip: number;
 
   dataLayerStyle;
 
@@ -73,7 +69,7 @@ export class TripPage implements AfterViewInit {
     private exploreService: ExploreService
   ) {
     this.route.params.subscribe((params) => {
-      this.tripId = params.id;
+      this.tripId = params.tripId;
       this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     });
   }
@@ -86,6 +82,11 @@ export class TripPage implements AfterViewInit {
       console.log('got trip data: ', this.tripData);
       this.trip = this.tripData.name;
       this.settingsService.modPageTitle(this.tripData.name);
+
+      // populate carousel
+      this.carouselImages = this.tripData.imagesByTripId.nodes.map((img) => {
+        return { imgURL: img.url, tagline: img.title };
+      });
 
       // trip coords
       const junctureArr = this.tripData.tripToJuncturesByTripId.nodes.map((juncture) => {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { SettingsService } from '../../../services/settings.service';
 import { RouterService } from '../../../services/router.service';
@@ -9,15 +9,21 @@ import { Post } from '../../../models/Post.model';
   selector: 'GridCard',
   templateUrl: 'gridCard.component.html'
 })
-export class GridCard {
+export class GridCard implements OnInit {
   @Input() data: Post;
   @Input() size: number;
+
+  thumbnailImage: string;
 
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService
-  ) {
+  ) { }
 
+  ngOnInit() {
+    this.data.imagesByPostId.nodes.forEach((img) => {
+      if (img.type === 'LEAD_LARGE') this.thumbnailImage = img.url;
+    });
   }
 
   navigateToPost() {

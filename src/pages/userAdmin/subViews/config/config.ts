@@ -50,7 +50,8 @@ export class UserAdminConfigPage {
   }
 
   presentImageUploaderPopover(type: string) {
-    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const size = type === 'banner' ? { width: 1200, height: 300 } : null;
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type, size }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) type === 'banner' ? this.configModel.heroBanner = data.url : this.configModel.userPhoto = data.url;

@@ -14,18 +14,21 @@ storiesnavsection {
     padding-top: 0 !important;
 
     .paneSection {
-      flex: 1;
-      cursor: pointer;
+      width: 25%;
 
+      &.story {
+        cursor: pointer;
+      }
       .paneSectionHeader {
         transition: .3s;
+        text-align: center;
+        margin-bottom: 25px;
       }
       .storyImage {
         width: 90%;
-        height: 200px;
+        height: 125px;
         background-size: cover;
         background-position: center;
-        margin-top: 25px;
       }
       .storyDescription {
         background: #212121;
@@ -37,7 +40,7 @@ storiesnavsection {
         line-height: 20px;
       }
     }
-    .paneSection:hover {
+    .story:hover {
 
       .paneSectionHeader {
         color: var(--secondary) !important;
@@ -45,6 +48,19 @@ storiesnavsection {
     }
     .story2 {
       display: none !important;
+    }
+    .paneSection:last-child {
+
+      .category {
+        transition: .3s;
+        cursor: pointer;
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .category:hover {
+        color: var(--secondary) !important;
+      }
     }
   }
   @include respond-to(medium) {

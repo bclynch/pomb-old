@@ -86,7 +86,6 @@ import { PostPage } from '../pages/post/post';
 import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
-import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
 import { ArchivePage } from '../pages/archive/archive';
@@ -134,7 +133,6 @@ import { GeoService } from '../services/geo.service';
     HubPage,
     ProfilePage,
     FavoritesPage,
-    SettingsPage,
     DashboardPage,
     SearchResultsPage,
     ArchivePage,
@@ -230,7 +228,6 @@ import { GeoService } from '../services/geo.service';
     HubPage,
     ProfilePage,
     FavoritesPage,
-    SettingsPage,
     DashboardPage,
     SearchResultsPage,
     ArchivePage,

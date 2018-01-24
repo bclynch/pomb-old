@@ -89,7 +89,7 @@ export class SettingsService {
 
   addFeaturedStory(stories: any[]) {
     this.featuredStories = stories.map((story) => {
-      return { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url };
+      return { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.imagesByPostId.nodes[0].url };
     });
   }
 

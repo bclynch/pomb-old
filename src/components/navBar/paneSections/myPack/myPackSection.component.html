@@ -24,7 +24,7 @@
         <div>Welcome Back {{userService.user.firstName || userService.user.username}}</div>
         <div 
           class="profilePhotoContainer" 
-          [ngStyle]="userService.user ? { 'background': 'url(' + userService.user.currentAccount?.profilePhoto + ')'} : { 'background': 'black'}"
+          [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
         ></div>
         <div (click)="navigate('admin')">Admin</div>
         <div (click)="logout()" class="paneSectionBtn">Logout</div>

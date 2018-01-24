@@ -10,6 +10,7 @@ import gql from 'graphql-tag';
 import { AlertService } from './alert.service';
 
 import { PostCategory } from '../models/Post.model';
+import { ImageType } from '../models/Image.model';
 
 // needs to be an env var
 const flickrKey = '691be9c5a38900c0249854a28a319e2c';
@@ -77,23 +78,10 @@ const getAllPublishedPosts = gql`
             }
           }
         },
-        postLeadPhotosByPostId {
+        imagesByPostId {
           nodes {
-            id,
-            title,
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                id,
-                url,
-                size
-              }
-            }
-          }
-        },
-        postToGalleryPhotosByPostId {
-          nodes {
-            id,
-            photoUrl,
+            type,
+            url,
             description
           }
         }
@@ -140,30 +128,17 @@ query allPosts($author: Int!) {
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName
+              firstName
             },
             content,
             createdAt
           }
         }
       },
-      postLeadPhotosByPostId {
+      imagesByPostId {
         nodes {
-          id,
-          title,
-          leadPhotoLinksByLeadPhotoId {
-            nodes {
-              id,
-              url,
-              size
-            }
-          }
-        }
-      },
-      postToGalleryPhotosByPostId {
-        nodes {
-          id,
-          photoUrl,
+          type,
+          url,
           description
         }
       }
@@ -218,23 +193,10 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
           }
         }
       },
-      postLeadPhotosByPostId {
+      imagesByPostId {
         nodes {
-          id,
-          title,
-          leadPhotoLinksByLeadPhotoId {
-            nodes {
-              id,
-              url,
-              size
-            }
-          }
-        }
-      },
-      postToGalleryPhotosByPostId {
-        nodes {
-          id,
-          photoUrl,
+          type,
+          url,
           description
         }
       }
@@ -267,13 +229,11 @@ query allConfigs {
         id,
         title,
         subtitle,
-        postLeadPhotosByPostId {
+        imagesByPostId(condition: {
+          type: LEAD_SMALL
+        }) {
           nodes {
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                url
-              }
-            }
+            url
           }
         }
       }
@@ -281,13 +241,11 @@ query allConfigs {
         id,
         title,
         subtitle,
-        postLeadPhotosByPostId {
+        imagesByPostId(condition: {
+          type: LEAD_SMALL
+        }) {
           nodes {
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                url
-              }
-            }
+            url
           }
         }
       }
@@ -295,13 +253,11 @@ query allConfigs {
         id,
         title,
         subtitle,
-        postLeadPhotosByPostId {
+        imagesByPostId(condition: {
+          type: LEAD_SMALL
+        }) {
           nodes {
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                url
-              }
-            }
+            url
           }
         }
       }
@@ -329,13 +285,12 @@ const getAccountByUsername = gql`
             lastName,
             username
           },
-          postLeadPhotosByPostId {
+          imagesByPostId(condition:{
+            type: LEAD_LARGE
+          }) {
             nodes {
-              leadPhotoLinksByLeadPhotoId {
-                nodes {
-                  url
-                }
-              }
+              url,
+              type
             }
           }
         }
@@ -345,9 +300,18 @@ const getAccountByUsername = gql`
           tripByTripId {
             id,
             name,
-            bannerPhoto,
             startDate,
-            endDate
+            endDate,
+            imagesByTripId(
+              condition: {
+                type: BANNER,
+              },
+              first: 1
+            ) {
+              nodes {
+                url
+              }
+            }
           }
         }
       }
@@ -362,7 +326,6 @@ const getTripById = gql`
       name,
       startDate,
       endDate,
-      bannerPhoto,
       startLat,
       startLon
       tripToJuncturesByTripId {
@@ -397,6 +360,14 @@ const getTripById = gql`
             profilePhoto
           }
         }
+      },
+      imagesByTripId(condition: {
+        type: BANNER
+      }) {
+        nodes {
+          url,
+          title
+        }
       }
     }
   }
@@ -422,22 +393,14 @@ const getPartialJunctureById = gql`
               username
             },
             createdAt
-            postLeadPhotosByPostId {
-              nodes {
-                leadPhotoLinksByLeadPhotoId {
-                  nodes {
-                    url
-                  }
-                }
-              }
-            }
           }
         }
       },
-      junctureToPhotosByJunctureId {
+      imagesByJunctureId {
         nodes {
-          id,
-          photoUrl,
+          postId,
+          type,
+          url,
           description
         }
       }
@@ -457,13 +420,6 @@ const getFullJunctureById = gql`
       city,
       country,
       markerImg,
-      junctureToPhotosByJunctureId {
-        nodes {
-          id,
-          photoUrl,
-          description
-        }
-      },
       junctureToPostsByJunctureId {
         nodes {
           postByPostId {
@@ -472,17 +428,6 @@ const getFullJunctureById = gql`
             accountByAuthor {
               id
             },
-            postLeadPhotosByPostId {
-              nodes {
-                description,
-                title,
-                leadPhotoLinksByLeadPhotoId {
-                  nodes {
-                    url
-                  }
-                }
-              }
-            }
           }
         }
       },
@@ -492,6 +437,14 @@ const getFullJunctureById = gql`
           lon,
           elevation,
           coordTime
+        }
+      },
+      imagesByJunctureId {
+        nodes {
+          postId,
+          type,
+          url,
+          description
         }
       }
     }
@@ -534,24 +487,13 @@ const getPostById = gql`
           }
         }
       },
-      postLeadPhotosByPostId {
+      imagesByPostId {
         nodes {
           id,
-          title,
-          leadPhotoLinksByLeadPhotoId {
-            nodes {
-              id,
-              url,
-              size
-            }
-          }
-        }
-      },
-      postToGalleryPhotosByPostId {
-        nodes {
-          id,
-          photoUrl,
-          description
+          type,
+          url,
+          description,
+          title
         }
       }
     }
@@ -570,17 +512,11 @@ const getPostsByTag = gql`
         }
         subtitle,
         createdAt,
-        postLeadPhotosByPostId {
+        imagesByPostId {
           nodes {
-            id,
-            title,
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                id,
-                url,
-                size
-              }
-            }
+            type,
+            url,
+            title
           }
         }
       }
@@ -603,17 +539,11 @@ const getPostsByCategory = gql`
         }
         subtitle,
         createdAt,
-        postLeadPhotosByPostId {
+        imagesByPostId {
           nodes {
-            id,
-            title,
-            leadPhotoLinksByLeadPhotoId {
-              nodes {
-                id,
-                url,
-                size
-              }
-            }
+            type,
+            url,
+            title
           }
         }
       }
@@ -641,17 +571,10 @@ const getPostsByTrip = gql`
                   }
                   subtitle,
                   createdAt,
-                  postLeadPhotosByPostId {
+                  imagesByPostId {
                     nodes {
-                      id,
-                      title,
-                      leadPhotoLinksByLeadPhotoId {
-                        nodes {
-                          id,
-                          url,
-                          size
-                        }
-                      }
+                      url,
+                      type
                     }
                   }
                 }
@@ -837,26 +760,32 @@ const deletePostToTagById = gql`
   }
 `;
 
-const deletePostToGalleryPhotoById = gql`
-  mutation deletePostToGalleryPhotoById($id: Int!) {
-    deletePostToGalleryPhotoById(input:{
+const deleteImageById = gql`
+  mutation deleteImageById($id: Int!) {
+    deleteImageById(input:{
       id: $id
     }) {
       clientMutationId
     }
   }
 `;
-const createPostLeadPhoto = gql`
-  mutation createPostLeadPhoto($postId: Int!, $photoTitle: String!) {
-    createPostLeadPhoto(input: {
-      postLeadPhoto: {
-        postId: $postId,
-        title: $photoTitle
+
+const createImage = gql`
+  mutation createImage($tripId: Int, $junctureId: Int, $postId: Int, $type: ImageType!, $url: String!, $title: String, $description: String) {
+    createImage(
+      input: {
+        image:{
+          tripId: $tripId,
+          junctureId: $junctureId,
+          postId: $postId,
+          type: $type,
+          url: $url,
+          title: $title,
+          description: $description
+        }
       }
-    }) {
-      postLeadPhoto {
-        id
-      }
+    ) {
+      clientMutationId
     }
   }
 `;
@@ -900,19 +829,6 @@ const updatePostById = gql`
   }
 `;
 
-const updateLeadPhotoInfo = gql`
-  mutation updatePostLeadPhotoById($id: Int!, $title: String) {
-    updatePostLeadPhotoById(input:{
-      id: $id,
-      postLeadPhotoPatch:{
-        title: $title
-      }
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
 const createJuncture = gql`
   mutation($name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     createJuncture(input:{
@@ -936,13 +852,12 @@ const createJuncture = gql`
 `;
 
 const createTrip = gql`
-  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $bannerPhoto: String, $startLat: Float!, $startLon: Float!) {
+  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
     createTrip(input:{
       trip:{
         name: $name,
         startDate: $startDate,
         endDate: $endDate,
-        bannerPhoto: $bannerPhoto,
         startLat: $startLat,
         startLon: $startLon
       }
@@ -1422,21 +1337,26 @@ export class APIService {
     });
   }
 
-  deletePostToGalleryPhotoById(id: number) {
+  deleteImageById(id: number) {
     return this.apollo.mutate({
-      mutation: deletePostToGalleryPhotoById,
+      mutation: deleteImageById,
       variables: {
         id
       }
     });
   }
 
-  createPostLeadPhoto(postId: number, photoTitle: string) {
+  createImage(tripId: number, junctureId: number, postId: number, type: ImageType, url: string, title: string, description: string) {
     return this.apollo.mutate({
-      mutation: createPostLeadPhoto,
+      mutation: createImage,
       variables: {
+        tripId,
+        junctureId,
         postId,
-        photoTitle
+        type,
+        url,
+        title,
+        description
       }
     });
   }
@@ -1471,16 +1391,6 @@ export class APIService {
     });
   }
 
-  updateLeadPhotoInfo(id: number, title: string) {
-    return this.apollo.mutate({
-      mutation: updateLeadPhotoInfo,
-      variables: {
-        id,
-        title
-      }
-    });
-  }
-
   createJuncture(name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
       mutation: createJuncture,
@@ -1498,14 +1408,13 @@ export class APIService {
     });
   }
 
-  createTrip(name: string, startDate: number, endDate: number, bannerPhoto: string, startLat: number, startLon: number) {
+  createTrip(name: string, startDate: number, endDate: number, startLat: number, startLon: number) {
     return this.apollo.mutate({
       mutation: createTrip,
       variables: {
         name,
         startDate,
         endDate,
-        bannerPhoto,
         startLat,
         startLon
       }

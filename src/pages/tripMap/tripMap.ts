@@ -55,7 +55,7 @@ export class TripMapPage {
     private junctureService: JunctureService
   ) {
     this.route.params.subscribe((params) => {
-      this.tripId = params.id;
+      this.tripId = params.tripId;
       this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     });
   }

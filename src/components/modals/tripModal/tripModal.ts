@@ -18,7 +18,7 @@ import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploader
 })
 export class TripModal {
 
-  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerPath: null};
+  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerImages: null};
 
   inited = false;
   coords = { lat: null, lon: null };
@@ -77,18 +77,21 @@ export class TripModal {
       name: this.tripModel.name,
       timeStart: this.tripModel.timeStart,
       timeEnd: this.tripModel.timeEnd,
-      bannerPath: this.tripModel.bannerPath,
+      bannerImages: this.tripModel.bannerImages,
       startLat: this.coords.lat,
       startLon: this.coords.lon
     });
   }
 
   presentBannerUploaderPopover() {
-    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'custom', size: { width: 800, height: 533 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner', max: 5, size: { width: 3200, height: 2132 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) {
-        this.tripModel.bannerPath = data[0].url;
+        console.log(data);
+        this.tripModel.bannerImages = data.map((img) => {
+          return { url: img.url, title: null };
+        });
       }
     });
   }

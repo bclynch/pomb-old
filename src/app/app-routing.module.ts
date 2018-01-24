@@ -10,7 +10,6 @@ import { PostPage } from '../pages/post/post';
 import { HubPage } from '../pages/hub/hub';
 import { ProfilePage } from '../pages/profile/profile';
 import { FavoritesPage } from '../pages/favorites/favorites';
-import { SettingsPage } from '../pages/settings/settings';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { SearchResultsPage } from '../pages/searchResults/searchResults';
 import { ArchivePage } from '../pages/archive/archive';
@@ -41,13 +40,24 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'settings', component: SettingsPage },
-  { path: 'trekking', component: HubPage},
-  { path: 'biking', component: HubPage},
-  { path: 'culture', component: HubPage},
-  { path: 'travel', component: HubPage},
-  { path: 'gear', component: HubPage},
-  { path: 'stories', component: HomePage },
+  {
+    path: 'stories',
+    children: [
+      {
+        path: ':tag',
+        children: [
+          {
+            path: '',
+            component: HubPage
+          }
+        ]
+      },
+      {
+        path: '',
+        component: HomePage
+      }
+    ]
+  },
   { path: 'community', component: HomePage }, // don't have one
   { path: 'explore',
     children: [
@@ -138,7 +148,7 @@ const appRoutes: Routes = [
     path: 'trip',
     children: [
       {
-        path: ':id',
+        path: ':tripId',
         children: [
           {
             path: '',
@@ -202,7 +212,6 @@ const appRoutes: Routes = [
   },
   { path: 'profile', component: ProfilePage },
   { path: 'favorites', component: FavoritesPage },
-  { path: 'settings', component: SettingsPage },
   { path: '',   component: HomePage },
   { path: '**', component: PageNotFoundComponent }
 ];

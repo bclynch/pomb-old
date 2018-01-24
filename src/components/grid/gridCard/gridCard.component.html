@@ -1,7 +1,7 @@
 <div class="gridCardContainer" [ngClass]="size < 6 ? 'smallCard' : 'largeCard'">
   <div 
     class="cardThumb" 
-    [ngStyle]="{ 'background-image': 'url(' + data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes[0].url + ')'}"
+    [ngStyle]="{ 'background-image': 'url(' + thumbnailImage + ')'}"
     (click)="navigateToPost()"
   ></div>
   <div class="contentContainer">
