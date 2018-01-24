@@ -158,6 +158,7 @@ export class TripMapPage {
           const junctureData = this.processPosts(data.junctureById);
           if (!this.junctureContentArr[index]) {
             this.junctureContentArr.splice(index, 1, junctureData);
+            console.log(this.junctureContentArr);
             resolve();
           }
         });
@@ -197,7 +198,7 @@ export class TripMapPage {
       country: juncture.country,
       description: juncture.description,
       id: juncture.id,
-      junctureToPhotosByJunctureId: juncture.junctureToPhotosByJunctureId,
+      junctureToPhotosByJunctureId: juncture.imagesByJunctureId,
       junctureToPostsByJunctureId: { nodes : null },
       name: juncture.name
     };

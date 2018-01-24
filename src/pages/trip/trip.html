@@ -1,4 +1,4 @@
-<PageWrapper [collapsibleNav]="false">
+<PageWrapper [collapsibleNav]="false" [topo]="true">
     <FadeCarousel 
       [data]="carouselImages" 
       [style.width]="'100vw'" 
@@ -58,7 +58,7 @@
               <div class="mapBtn" (click)="routerService.navigateToPage('/trip/' + tripId + '/map')"><ion-icon name="md-trending-up"></ion-icon>Launch Map Explorer</div>
             </div>
           </div>
-          <div class="section" id="Junctures">
+          <div class="section junctures" id="Junctures">
             <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Junctures</div>
           </div>
           <div class="section posts" id="Posts" *ngIf="tripPosts.length">
@@ -66,10 +66,12 @@
             <div class="postsContainer">
               <PostCard [data]="post" *ngFor="let post of tripPosts"></PostCard>
             </div>
-            <div class="postsLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Check out all of this trips posts</div>
+            <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Check out all of this trip's posts</div>
           </div>
-          <div class="section" id="Photos">
-            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Photos</div>
+          <div class="section photos" id="Photos">
+            <div class="sectionHeader">Photos</div>
+            <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
+            <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Check out all of this trip's photos</div>
           </div>
         </div>
       </div>

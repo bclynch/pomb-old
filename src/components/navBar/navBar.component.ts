@@ -11,6 +11,7 @@ import { UserService } from '../../services/user.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { ExploreService } from '../../services/explore.service';
 import { UtilService } from '../../services/util.service';
+import { AlertService } from '../../services/alert.service';
 
 interface Social {
   icon: string;
@@ -52,7 +53,8 @@ export class NavBar {
     private broadcastService: BroadcastService,
     private exploreService: ExploreService,
     private utilService: UtilService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private alertService: AlertService
   ) {
     this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories());
   }
@@ -65,7 +67,15 @@ export class NavBar {
   }
 
   navigate(path: string) {
-    path === 'my pack' ? this.routerService.navigateToPage(`/${this.userService.user.username}`) : this.routerService.navigateToPage(`/${path}`);
+    if (path === 'my pack') {
+      if (this.userService.user) {
+        this.routerService.navigateToPage(`/${this.userService.user.username}`);
+      } else {
+        this.alertService.alert('Notification', 'Must login or create an account before vising your profile page');
+      }
+    } else {
+      this.routerService.navigateToPage(`/${path}`);
+    }
   }
 
   signinUser() {

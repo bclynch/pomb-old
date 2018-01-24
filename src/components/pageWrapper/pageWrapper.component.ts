@@ -13,6 +13,7 @@ export class PageWrapper {
   @Input() displayFooter = true;
   @Input() displayNav = true;
   @Input() collapsibleNav = true;
+  @Input() topo = false;
 
   constructor(
     private utilService: UtilService

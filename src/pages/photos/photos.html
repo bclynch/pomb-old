@@ -1,0 +1,8 @@
+<PageWrapper [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)" [topo]="true" >
+  <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
+  <div class="infiniteScrollContainer" *ngIf="utilService.infiniteActive">
+    <ion-spinner name="dots" [style.fill]="settingsService.secondaryColor"></ion-spinner>
+    <div>Loading more photos...</div>
+  </div>
+</PageWrapper>
+

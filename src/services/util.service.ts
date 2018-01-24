@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UtilService {
 
   scrollDirection: 'up' | 'down' = 'up';
+  checkScrollInfinite = false;
+  allFetched = false;
   displayExploreNav = false;
+
+  private infiniteActiveSubject: BehaviorSubject<void>;
+  public infiniteActive$: Observable<void>;
+  public infiniteActive: boolean;
 
   constructor(
     private http: Http
   ) {
-
+    this.infiniteActiveSubject = new BehaviorSubject(null);
+    this.infiniteActive$ = this.infiniteActiveSubject.asObservable();
+    this.infiniteActive = false;
   }
 
   formatURLString(data: string): string {
@@ -56,5 +66,10 @@ export class UtilService {
 
   metersToFeet(meters: number): number {
     return meters * 3.28084;
+  }
+
+  toggleInfiniteActive(state: boolean) {
+    this.infiniteActive = state;
+    this.infiniteActiveSubject.next(null);
   }
 }

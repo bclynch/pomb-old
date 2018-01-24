@@ -329,6 +329,7 @@ export class CreatePostModal {
                 ${this.tripId ? 'tripId: + this.tripId + ' : ''},
                 ${this.junctureId ? 'junctureId: + this.junctureId + ' : ''},
                 postId: ${postId},
+                userId: ${this.userService.user.id},
                 type: ${i === 0 ? ImageType['leadSmall'] : ImageType['leadLarge']},
                 url: "${this.leadPhotoLinks[i].url}",
                 title: "${title}"
@@ -362,6 +363,7 @@ export class CreatePostModal {
               ${this.tripId ? 'tripId: + this.tripId + ' : ''},
               ${this.junctureId ? 'junctureId: + this.junctureId + ' : ''},
               postId: ${postId},
+              userId: ${this.userService.user.id},
               type: ${ImageType['gallery']},
               url: "${photo.photoUrl}",
               description: "${photo.description}"

@@ -105,5 +105,12 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
           });
         }
       }
+      if (this.utilService.checkScrollInfinite && !this.utilService.allFetched) {
+        // console.log(e);
+        const heightFromBottom = e.target.scrollHeight - (e.target.scrollTop + e.target.offsetHeight);
+        if (heightFromBottom < 150 && this.scrollDirection === 'down' && !this.utilService.infiniteActive) {
+          this.utilService.toggleInfiniteActive(true);
+        }
+      }
     }
   }

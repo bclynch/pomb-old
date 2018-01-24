@@ -1,0 +1,15 @@
+page-photos {
+
+  gallery {
+    width: 100%;
+    max-width: 1200px;
+  }
+  .infiniteScrollContainer {
+    text-align: center;
+    color: white;
+
+    ion-spinner * {
+      fill: var(--secondary) !important;
+    }
+  }
+}

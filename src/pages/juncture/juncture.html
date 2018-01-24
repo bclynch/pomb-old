@@ -1,4 +1,4 @@
-<PageWrapper>
+<PageWrapper [topo]="true">
   <div class="junctureBannerContainer">
     <div class="banner" [ngStyle]="{ 'background-image': 'url(' + bannerImg + ')'}">
       <div class="bannerTitle">{{junctureData?.name}}</div>
@@ -74,6 +74,6 @@
         ></chart>
       </div>
     </div>
-    <Gallery [data]="junctureData?.junctureToPhotosByJunctureId.nodes" gutterWidth="2px"></Gallery>
+    <Gallery [data]="junctureData?.imagesByJunctureId.nodes" gutterWidth="2px"></Gallery>
   </div>
 </PageWrapper>

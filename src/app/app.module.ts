@@ -108,6 +108,7 @@ import { TripPage } from '../pages/trip/trip';
 import { TripMapPage } from '../pages/tripMap/tripMap';
 import { JuncturePage } from '../pages/juncture/juncture';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
+import { PhotosPage } from '../pages/photos/photos';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -201,7 +202,8 @@ import { GeoService } from '../services/geo.service';
     Newsletter,
     TripTimelinePage,
     TruncatePipe,
-    UnitToggle
+    UnitToggle,
+    PhotosPage
   ],
   imports: [
     BrowserModule,
@@ -255,7 +257,8 @@ import { GeoService } from '../services/geo.service';
     MobileNavModal,
     JuncturePage,
     TripMapPage,
-    TripTimelinePage
+    TripTimelinePage,
+    PhotosPage
   ],
   providers: [
     APIService,

@@ -15,5 +15,10 @@ pagewrapper {
     min-height: 100vh;
     margin-top: 40px; //for area displaced by navbar
     position: relative;
+
+    &.topo {
+      background: url('../../assets/images/topo.png') top center repeat-y !important;
+      background-color: mapGet($basecolor, background) !important;
+    }
   }
 }

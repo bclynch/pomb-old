@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart, NavigationExtras } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
 // Services
 import { APIService } from '../services/api.service';
+import { UtilService } from '../services/util.service';
 
 @Injectable()
 export class RouterService {
 
   params;
   fragment;
-  baseURL: string = this.router.url.split('?')[0];
-  activeRoute: string; // used by nav component
 
   constructor(
     private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute,
+    private utilService: UtilService
   ) {
     this.route.queryParams.subscribe((params) => {
       this.params = params;
@@ -25,11 +25,9 @@ export class RouterService {
       this.fragment = fragment;
     });
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
+      .filter((event) => event instanceof NavigationStart)
       .subscribe((event) => {
-        const eventData = <any>event;
-        this.baseURL = eventData.url.split('?')[0];
-        this.activeRoute = this.baseURL.split('/')[1];
+        this.utilService.checkScrollInfinite = false;
       });
   }
 

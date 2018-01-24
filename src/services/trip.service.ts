@@ -62,6 +62,7 @@ export class TripService {
           input: {
             image: {
               tripId: ${tripId},
+              userId: ${this.userService.user.id},
               type: ${ImageType['banner']},
               url: "${photo.url}",
               ${photo.title ? 'title: + photo.title + ' : ''}

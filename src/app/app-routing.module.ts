@@ -24,6 +24,7 @@ import { TripPage } from '../pages/trip/trip';
 import { TripMapPage } from '../pages/tripMap/tripMap';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { JuncturePage } from '../pages/juncture/juncture';
+import { PhotosPage } from '../pages/photos/photos';
 
 const appRoutes: Routes = [
   {
@@ -168,7 +169,7 @@ const appRoutes: Routes = [
           },
           {
             path: 'photos',
-            component: HubPage // needs actual page
+            component: PhotosPage
           },
         ]
       }
@@ -191,6 +192,10 @@ const appRoutes: Routes = [
       {
         path: '',
         component: ProfilePage
+      },
+      {
+        path: 'photos',
+        component: PhotosPage
       },
       {
         path: 'admin',

@@ -147,6 +147,42 @@ query allPosts($author: Int!) {
 }
 `;
 
+const getAllImagesByUser = gql`
+  query allImages($userId: Int, $first: Int, $offset: Int) {
+    allImages(
+      condition:{
+        userId: $userId
+      },
+      first: $first,
+      offset: $offset
+    ) {
+      nodes {
+        url,
+        description,
+        title
+      }
+    }
+  }
+`;
+
+const getAllImagesByTrip = gql`
+  query allImages($tripId: Int!, $first: Int, $offset: Int) {
+    allImages(
+      condition: {
+        tripId: $tripId
+      },
+      first: $first,
+      offset: $offset
+    ) {
+      nodes {
+        url,
+        description,
+        title
+      }
+    }
+  }
+`;
+
 const getPostsByStatus = gql`
 query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $author: Int!) {
   allPosts(condition: {
@@ -361,12 +397,12 @@ const getTripById = gql`
           }
         }
       },
-      imagesByTripId(condition: {
-        type: BANNER
-      }) {
+      imagesByTripId {
         nodes {
           url,
-          title
+          title,
+          type,
+          description
         }
       }
     }
@@ -392,11 +428,21 @@ const getPartialJunctureById = gql`
               lastName,
               username
             },
-            createdAt
+            createdAt,
+            imagesByPostId {
+              nodes {
+                url,
+                type
+              }
+            }
           }
         }
       },
-      imagesByJunctureId {
+      imagesByJunctureId(
+        condition:{
+          type: GALLERY
+        }
+      ) {
         nodes {
           postId,
           type,
@@ -439,7 +485,11 @@ const getFullJunctureById = gql`
           coordTime
         }
       },
-      imagesByJunctureId {
+      imagesByJunctureId(
+        condition:{
+          type: GALLERY
+        }
+      ) {
         nodes {
           postId,
           type,
@@ -771,13 +821,14 @@ const deleteImageById = gql`
 `;
 
 const createImage = gql`
-  mutation createImage($tripId: Int, $junctureId: Int, $postId: Int, $type: ImageType!, $url: String!, $title: String, $description: String) {
+  mutation createImage($tripId: Int, $junctureId: Int, $postId: Int, $userId: Int!, $type: ImageType!, $url: String!, $title: String, $description: String) {
     createImage(
       input: {
         image:{
           tripId: $tripId,
           junctureId: $junctureId,
           postId: $postId,
+          userId: $userId,
           type: $type,
           url: $url,
           title: $title,
@@ -1116,6 +1167,28 @@ export class APIService {
     });
   }
 
+  getAllImagesByUser(userId: number, first: number, offset: number) {
+    return this.apollo.watchQuery<any>({
+      query: getAllImagesByUser,
+      variables: {
+        userId,
+        first,
+        offset
+      }
+    });
+  }
+
+  getAllImagesByTrip(tripId: number, first: number, offset: number) {
+    return this.apollo.watchQuery<any>({
+      query: getAllImagesByTrip,
+      variables: {
+        tripId,
+        first,
+        offset
+      }
+    });
+  }
+
   getPostsByStatus(isDraft: boolean, isScheduled: boolean, isPublished: boolean, author: number) {
     return this.apollo.watchQuery<any>({
       query: getPostsByStatus,
@@ -1346,13 +1419,14 @@ export class APIService {
     });
   }
 
-  createImage(tripId: number, junctureId: number, postId: number, type: ImageType, url: string, title: string, description: string) {
+  createImage(tripId: number, junctureId: number, postId: number, userId: number, type: ImageType, url: string, title: string, description: string) {
     return this.apollo.mutate({
       mutation: createImage,
       variables: {
         tripId,
         junctureId,
         postId,
+        userId,
         type,
         url,
         title,

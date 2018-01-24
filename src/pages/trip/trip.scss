@@ -66,6 +66,16 @@ page-trip {
           flex-direction: column;
           align-items: center;
   
+          .navLink {
+            transition: .3s;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 20px;
+            margin: 15px 0 30px;
+          }
+          .navLink:hover {
+            color: var(--secondary);
+          }
           .sectionHeader {
             font-size: 32px;
             text-align: center;
@@ -181,15 +191,12 @@ page-trip {
                 }
               }
             }
-            .postsLink {
-              transition: .3s;
-              cursor: pointer;
-              text-decoration: underline;
-              font-size: 20px;
-              margin: 15px 0 30px;
-            }
-            .postsLink:hover {
-              color: var(--secondary);
+          }
+          &.photos {
+
+            gallery {
+              margin-top: 20px;
+              width: 100%;
             }
           }
         }
