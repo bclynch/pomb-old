@@ -11,7 +11,7 @@ import { AlertService } from '../../services/alert.service';
 })
 export class UploadGPX {
   @Input() junctureId: number;
-  @Output() gpxUploaded: EventEmitter<any> = new EventEmitter<any>();
+  @Output() gpxProcessed: EventEmitter<any> = new EventEmitter<any>();
 
   isProcessing = false;
   filesToUpload: Array<File> = [];
@@ -30,7 +30,7 @@ export class UploadGPX {
     this.apiService.processGPX(processedData).subscribe(
         result => {
           console.log(result);
-          this.gpxUploaded.emit(result.data.geoJSON);
+          this.gpxProcessed.emit(result.data.geoJSON);
 
           this.isProcessing = false;
         }

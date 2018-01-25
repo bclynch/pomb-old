@@ -21,12 +21,14 @@
   <div *ngIf="userService.signedIn" class="signedInContainer">
       <div class="paneSection profile">
         <div class="paneSectionHeader">Profile</div>
-        <div>Welcome Back {{userService.user.firstName || userService.user.username}}</div>
-        <div 
-          class="profilePhotoContainer" 
-          [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
-        ></div>
-        <div (click)="navigate('admin')">Admin</div>
+        <div class="profileWrapper" (click)="routerService.navigateToPage('/' + userService.user.username)">
+          <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
+          <div 
+            class="profilePhotoContainer" 
+            [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
+          ></div>
+        </div>
+        <div (click)="routerService.navigateToPage('/admin')">Admin</div>
         <div (click)="logout()" class="paneSectionBtn">Logout</div>
       </div>
       <div class="paneSection quickLinks">
@@ -45,7 +47,23 @@
       <div class="paneSection recent">
         <div class="paneSectionHeader">Recent Activity</div>
         <div class="paneSectionContent">
-          
+          <div class="leftContainer" *ngIf="userService.recentTrip">
+            <div class="tripContainer">
+              <div class="miniSectionLabel">Recent Trip</div>
+              <TripCard [trip]="userService.recentTrip"></TripCard>
+            </div>
+            <div class="juncturesContainer" *ngIf="userService.recentJunctures.length">
+              <div class="miniSectionLabel">Recent Junctures</div>
+              <div *ngFor="let juncture of userService.recentJunctures;">{{juncture.name}}</div>
+              <!-- WHatever our juncture bubbles / card looks like -->
+            </div>
+          </div>
+          <div class="rightContainer" *ngIf="userService.recentPosts.length">
+            <div class="postsContainer">
+              <div class="miniSectionLabel">Recent Posts</div>
+              <PostCard *ngFor="let post of userService.recentPosts;" [data]="post" [displayAuthor]="false"></PostCard>
+            </div>
+          </div>
         </div>
       </div>
     </div>

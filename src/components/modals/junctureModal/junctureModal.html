@@ -23,7 +23,7 @@
         >{{btn}}</div>
       </div>
       <div class="uploadContainer" *ngIf="selectedIndex === 0">
-        <uploadGPX [junctureId]="junctureId" (gpxUploaded)="onGPXUploaded($event)"></uploadGPX>
+        <uploadGPX [junctureId]="junctureId" (gpxProcessed)="onGPXProcessed($event)"></uploadGPX>
         <div class="mapContainer" *ngIf="gpxLoaded">
           <div class="mapInited">
             <agm-map
@@ -69,7 +69,7 @@
             *ngFor="let trip of tripOptions; let i = index;" 
             [selected]="i === 0"
             [value]="trip.id"
-          >{{trip.tripByTripId.name}}</option>
+          >{{trip.name}}</option>
         </select>
       </div>
       <div class="modalSection">

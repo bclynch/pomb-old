@@ -1,6 +1,10 @@
 <div class="postContentWrapper" *ngIf="post">
   <h1>{{post.title}}</h1>
   <h3>{{post.subtitle}}</h3>
+  <div class="authorWrapper" (click)="routerService.navigateToPage('/' + post.accountByAuthor.username)">by
+    <span [style.color]="settingsService.secondaryColor" *ngIf="post.accountByAuthor.firstName">{{post.accountByAuthor.firstName}} {{post.accountByAuthor.lastName}}</span>
+    <span [style.color]="settingsService.secondaryColor" *ngIf="!post.accountByAuthor.firstName">{{post.accountByAuthor.username}}</span>
+  </div>
   <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>

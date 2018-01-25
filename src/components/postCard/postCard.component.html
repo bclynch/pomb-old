@@ -1,4 +1,4 @@
-<div class="postCardContainer">
+<div class="postCardContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="imgWrapper" (click)="navigateToPost()">
     <!-- First url in the arr should be the small version so no need for further filtering on the below card img -->
     <div  
@@ -9,11 +9,11 @@
   <div class="cardWrapper">
     <div class="cardTitle" (click)="navigateToPost()">{{data.title}}</div>
     <div class="bottomWrapper">
-      <div class="authorWrapper" (click)="routerService.navigateToPage('/' + data.accountByAuthor.username)">by
+      <div class="authorWrapper" (click)="routerService.navigateToPage('/' + data.accountByAuthor.username)" *ngIf="displayAuthor">by
         <span [style.color]="settingsService.secondaryColor" *ngIf="data.accountByAuthor.firstName">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span>
         <span [style.color]="settingsService.secondaryColor" *ngIf="!data.accountByAuthor.firstName">{{data.accountByAuthor.username}}</span>
       </div>
-      <span class="pipeDivider"> | </span>
+      <span class="pipeDivider" *ngIf="displayAuthor"> | </span>
       <div>{{data.createdAt | date:'mediumDate'}}</div>
     </div>
   </div>

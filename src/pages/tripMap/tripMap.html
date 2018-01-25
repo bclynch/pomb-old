@@ -17,10 +17,10 @@
       >
         <agm-marker 
           *ngFor= "let marker of junctureMarkers; let i = index;"
-          [latitude]= "marker.junctureByJunctureId.lat" 
-          [longitude]= "marker.junctureByJunctureId.lon" 
+          [latitude]= "marker.lat" 
+          [longitude]= "marker.lon" 
           [iconUrl]= "{
-            url: marker.junctureByJunctureId.markerImg || 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png',
+            url: marker.markerImg || 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png',
             anchor: {x: 18, y: 18},
             size: {width: 40, height: 40},
             scaledSize: {width: 40, height: 40}
@@ -61,17 +61,17 @@
     <div class="juncturePane">
       <div class="paneHeader">
         <BackpackIcon color="white" title="Add To Pack"></BackpackIcon>
-        <div class="userWrapper" (click)="routerService.navigateToPage('/' + tripData.userToTripsByTripId.nodes[0].accountByUserId.username)">
+        <div class="userWrapper" (click)="routerService.navigateToPage('/' + tripData.accountByUserId.username)">
           <div 
             class="profilePhoto" 
-            *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.profilePhoto" 
-            [ngStyle]="{ 'background-image': 'url(' + tripData.userToTripsByTripId.nodes[0].accountByUserId.profilePhoto + ')'}"
+            *ngIf="tripData.accountByUserId.profilePhoto" 
+            [ngStyle]="{ 'background-image': 'url(' + tripData.accountByUserId.profilePhoto + ')'}"
           ></div>
-          <div *ngIf="tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">
-            {{tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName}} {{tripData.userToTripsByTripId.nodes[0].accountByUserId.lastName}}
+          <div *ngIf="tripData.accountByUserId.firstName">
+            {{tripData.accountByUserId.firstName}} {{tripData.accountByUserId.lastName}}
           </div>
-          <div *ngIf="!tripData.userToTripsByTripId.nodes[0].accountByUserId.firstName">
-            {{tripData.userToTripsByTripId.nodes[0].accountByUserId.username}}
+          <div *ngIf="!tripData.accountByUserId.firstName">
+            {{tripData.accountByUserId.username}}
           </div>
         </div>
       </div>
@@ -90,12 +90,12 @@
             <!-- width is 100 (% of parent to be) * number of junctures + 2 (to account for static first and last) / 3 (number junctures in view) -->
             <div 
               class="trackerWrapper" 
-              [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length + 2) / 3 + '%'"
+              [style.width]="100 * (tripData.juncturesByTripId.nodes.length + 2) / 3 + '%'"
               [style.left]="junctureIndex * (100 / 3) * -1 + '%'"
             >
               <div><ion-icon name="md-home"></ion-icon></div>
-              <div class="junctureContainer" *ngFor="let juncture of tripData.tripToJuncturesByTripId.nodes; let i = index;" (click)="changeIndex(i)">
-                <div>{{juncture.junctureByJunctureId.name}}</div>
+              <div class="junctureContainer" *ngFor="let juncture of tripData.juncturesByTripId.nodes; let i = index;" (click)="changeIndex(i)">
+                <div>{{juncture.name}}</div>
               </div>
               <div class="endBlock"><ion-icon name="md-flag"></ion-icon></div>
             </div>
@@ -104,7 +104,7 @@
             <div 
               class="contentWrapper" 
               [style.left]="junctureIndex * -100 + '%'"
-              [style.width]="100 * (tripData.tripToJuncturesByTripId.nodes.length) + '%'"
+              [style.width]="100 * (tripData.juncturesByTripId.nodes.length) + '%'"
             >
               <div class="junctureContentContainer" *ngFor="let juncture of junctureContentArr; let i = index;">
                 <div class="headerWrapper">

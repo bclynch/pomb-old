@@ -93,17 +93,17 @@ export class TripPage implements AfterViewInit {
       });
 
       // trip coords
-      const junctureArr = this.tripData.tripToJuncturesByTripId.nodes.map((juncture) => {
+      const junctureArr = this.tripData.juncturesByTripId.nodes.map((juncture) => {
         // if its got gpx coords add them
-        if (juncture.junctureByJunctureId.coordsByJunctureId.nodes.length) return juncture.junctureByJunctureId.coordsByJunctureId.nodes;
+        if (juncture.coordsByJunctureId.nodes.length) return juncture.coordsByJunctureId.nodes;
 
         // else add its manual marker coords
-        return [{ lat: juncture.junctureByJunctureId.lat, lon: juncture.junctureByJunctureId.lon, elevation: 0, coordTime: new Date(+juncture.junctureByJunctureId.arrivalDate).toString() }];
+        return [{ lat: juncture.lat, lon: juncture.lon, elevation: 0, coordTime: new Date(+juncture.arrivalDate).toString() }];
       });
       // push starting trip marker to front of arr
       junctureArr.unshift([{ lat: this.tripData.startLat, lon: this.tripData.startLon, elevation: 0, coordTime: new Date(+this.tripData.startDate).toString() }]);
       this.geoJsonObject = this.geoService.generateGeoJSON(junctureArr);
-      const junctureMarkers = this.tripData.tripToJuncturesByTripId.nodes;
+      const junctureMarkers = this.tripData.juncturesByTripId.nodes;
 
       this.dataLayerStyle = {
         clickable: false,
@@ -112,9 +112,9 @@ export class TripPage implements AfterViewInit {
       };
 
       // populate flags array
-      this.tripData.tripToJuncturesByTripId.nodes.forEach((juncture) => {
-        if (this.countryFlags.indexOf(juncture.junctureByJunctureId.country) === -1) {
-          this.countryFlags.push({ url: this.exploreService.getCountryFlag(juncture.junctureByJunctureId.country), name: juncture.junctureByJunctureId.country});
+      this.tripData.juncturesByTripId.nodes.forEach((juncture) => {
+        if (this.countryFlags.indexOf(juncture.country) === -1) {
+          this.countryFlags.push({ url: this.exploreService.getCountryFlag(juncture.country), name: juncture.country});
         }
       });
       // if it doesn't have url filter it out
@@ -126,9 +126,9 @@ export class TripPage implements AfterViewInit {
           const tripPosts = [];
           console.log(data);
           const tripData = <any>data;
-          const junctures = tripData.data.tripById.tripToJuncturesByTripId.nodes;
+          const junctures = tripData.data.tripById.juncturesByTripId.nodes;
           junctures.forEach((juncture) => {
-            const juncturePosts = juncture.junctureByJunctureId.junctureToPostsByJunctureId.nodes;
+            const juncturePosts = juncture.junctureToPostsByJunctureId.nodes;
             if (juncturePosts.length) juncturePosts.forEach((post) => {
               tripPosts.push(post.postByPostId);
             });
@@ -141,7 +141,7 @@ export class TripPage implements AfterViewInit {
       this.mapsAPILoader.load().then(() => {
         this.latlngBounds = new window['google'].maps.LatLngBounds();
         junctureMarkers.forEach((juncture) => {
-          this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.junctureByJunctureId.lat, juncture.junctureByJunctureId.lon));
+          this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.lat, juncture.lon));
         });
         // making sure to check trip start point to compensate for it
         this.latlngBounds.extend(new window['google'].maps.LatLng(this.tripData.startLat, this.tripData.startLon));

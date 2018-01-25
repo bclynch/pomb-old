@@ -14,12 +14,31 @@ export class UserService {
   signedIn = false;
   user: User;
 
+  // for use in our nav panel
+  recentTrip;
+  recentJunctures;
+  recentPosts;
+
   constructor(
     private apiService: APIService,
     private apollo: Apollo,
     private localStorageService: LocalStorageService,
     private alertService: AlertService
   ) { }
+
+  init() {
+    return new Promise<string>((resolve, reject) => {
+      this.apiService.getRecentUserActivity(this.user.username).valueChanges.subscribe(
+        result => {
+          console.log(result);
+          this.recentTrip = result.data.accountByUsername.tripsByUserId.nodes[0];
+          this.recentJunctures = result.data.accountByUsername.juncturesByUserId.nodes;
+          this.recentPosts = result.data.accountByUsername.postsByAuthor.nodes;
+          resolve();
+        }, err => reject()
+      );
+    });
+  }
 
   loginUser(model) {
     this.authAccount({email: model.email, password: model.password}).then((token) => {

@@ -331,24 +331,75 @@ const getAccountByUsername = gql`
           }
         }
       },
-      userToTripsByUserId {
+      tripsByUserId {
         nodes {
-          tripByTripId {
-            id,
-            name,
-            startDate,
-            endDate,
-            imagesByTripId(
-              condition: {
-                type: BANNER,
-              },
-              first: 1
-            ) {
-              nodes {
-                url
-              }
+          id,
+          name,
+          startDate,
+          endDate,
+          imagesByTripId(
+            condition: {
+              type: BANNER,
+            },
+            first: 1
+          ) {
+            nodes {
+              url
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+const getRecentUserActivity = gql`
+  query accountByUsername($username: String!) {
+    accountByUsername(username: $username) {
+      tripsByUserId(last: 1) {
+        nodes {
+          id,
+          name,
+          startDate,
+          endDate,
+          imagesByTripId(
+            condition: {
+              type: BANNER,
+            },
+            first: 1
+          ) {
+            nodes {
+              url
+            }
+          }
+        }
+      },
+      juncturesByUserId(last: 2) {
+        nodes {
+          id,
+          name,
+          markerImg
+        }
+      },
+      postsByAuthor(
+        last: 3,
+        condition: {
+          isPublished: true
+        }
+      ) {
+        nodes {
+          title,
+          id,
+          imagesByPostId(
+            condition: {
+              type: LEAD_SMALL
+            }
+          ) {
+            nodes {
+              url
+            }
+          },
+          createdAt
         }
       }
     }
@@ -364,38 +415,32 @@ const getTripById = gql`
       endDate,
       startLat,
       startLon
-      tripToJuncturesByTripId {
+      juncturesByTripId {
         nodes {
-          junctureByJunctureId {
-            name,
-            lat,
-            lon,
-            arrivalDate,
-            id,
-            markerImg,
-            description,
-            city,
-            country,
-            coordsByJunctureId {
-              nodes {
-                lat,
-                lon,
-                elevation,
-                coordTime
-              }
+          name,
+          lat,
+          lon,
+          arrivalDate,
+          id,
+          markerImg,
+          description,
+          city,
+          country,
+          coordsByJunctureId {
+            nodes {
+              lat,
+              lon,
+              elevation,
+              coordTime
             }
           }
         }
       },
-      userToTripsByTripId {
-        nodes {
-          accountByUserId {
-            username,
-            firstName,
-            lastName,
-            profilePhoto
-          }
-        }
+      accountByUserId {
+        username,
+        firstName,
+        lastName,
+        profilePhoto
       },
       imagesByTripId {
         nodes {
@@ -515,7 +560,8 @@ const getPostById = gql`
       publishedDate,
       accountByAuthor {
         firstName,
-        lastName
+        lastName,
+        username
       },
       postToTagsByPostId {
         nodes {
@@ -606,26 +652,24 @@ const getPostsByTrip = gql`
     tripById(id: $id) {
       id,
       name,
-      tripToJuncturesByTripId {
+      juncturesByTripId {
         nodes {
-          junctureByJunctureId {
-            id,
-            junctureToPostsByJunctureId {
-              nodes {
-                postByPostId {
-                  id,
-                  title,
-                  accountByAuthor {
-                    firstName,
-                    lastName
-                  }
-                  subtitle,
-                  createdAt,
-                  imagesByPostId {
-                    nodes {
-                      url,
-                      type
-                    }
+          id,
+          junctureToPostsByJunctureId {
+            nodes {
+              postByPostId {
+                id,
+                title,
+                accountByAuthor {
+                  firstName,
+                  lastName
+                }
+                subtitle,
+                createdAt,
+                imagesByPostId {
+                  nodes {
+                    url,
+                    type
                   }
                 }
               }
@@ -677,16 +721,15 @@ const searchTags = gql`
 
 const tripsByUserId = gql`
   query tripsByUserId($userId: Int!) {
-    allUserToTrips(condition: {
-      userId: $userId,
-    },
-    orderBy: PRIMARY_KEY_DESC
+    allTrips(
+      condition: {
+        userId: $userId
+      },
+      orderBy: PRIMARY_KEY_DESC
     ) {
       nodes {
         id,
-        tripByTripId {
-          name
-        }
+        name
       }
     }
   }
@@ -881,9 +924,11 @@ const updatePostById = gql`
 `;
 
 const createJuncture = gql`
-  mutation($name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($userId: Int!, $tripId: Int!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: Float!, $lon: Float!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     createJuncture(input:{
       juncture: {
+        userId: $userId,
+        tripId: $tripId,
         name: $name,
         arrivalDate: $arrivalDate,
         description: $description,
@@ -903,9 +948,10 @@ const createJuncture = gql`
 `;
 
 const createTrip = gql`
-  mutation($name: String!, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
+  mutation($userId: Int!, $name: String!, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
     createTrip(input:{
       trip:{
+        userId: $userId,
         name: $name,
         startDate: $startDate,
         endDate: $endDate,
@@ -916,32 +962,6 @@ const createTrip = gql`
       trip {
         id
       }
-    }
-  }
-`;
-
-const createUserToTrip = gql`
-  mutation($userId: Int!, $tripId: Int!) {
-    createUserToTrip(input:{
-      userToTrip:{
-        userId: $userId,
-        tripId: $tripId
-      }
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const createTripToJuncture = gql`
-  mutation($tripId: Int!, $junctureId: Int!) {
-    createTripToJuncture(input:{
-      tripToJuncture: {
-        tripId: $tripId,
-        junctureId: $junctureId
-      }
-    }) {
-      clientMutationId
     }
   }
 `;
@@ -959,10 +979,12 @@ const createEmailListEntry = gql`
 `;
 
 const updateJuncture = gql`
-  mutation($junctureId: Int!, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     updateJunctureById(input:{
       id: $junctureId,
       juncturePatch: {
+        userId: $userId,
+        tripId: $tripId,
         name: $name,
         arrivalDate: $arrivalDate,
         description: $description,
@@ -1285,6 +1307,15 @@ export class APIService {
     });
   }
 
+  getRecentUserActivity(username: string) {
+    return this.apollo.watchQuery<any>({
+      query: getRecentUserActivity,
+      variables: {
+        username
+      }
+    });
+  }
+
   getTagByName(tagName: string) {
     return this.apollo.watchQuery<any>({
       query: getTagByName,
@@ -1465,13 +1496,15 @@ export class APIService {
     });
   }
 
-  createJuncture(name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
+  createJuncture(userId: number, tripId: number, name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean, markerImg: string) {
     return this.apollo.mutate({
       mutation: createJuncture,
       variables: {
+        userId,
+        tripId,
         name,
-        arrivalDate: arrivalDate ? arrivalDate : null,
-        description: description ? description : null,
+        arrivalDate,
+        description,
         lat,
         lon,
         city,
@@ -1482,35 +1515,16 @@ export class APIService {
     });
   }
 
-  createTrip(name: string, startDate: number, endDate: number, startLat: number, startLon: number) {
+  createTrip(userId: number, name: string, startDate: number, endDate: number, startLat: number, startLon: number) {
     return this.apollo.mutate({
       mutation: createTrip,
       variables: {
+        userId,
         name,
         startDate,
         endDate,
         startLat,
         startLon
-      }
-    });
-  }
-
-  createUserToTrip(userId: number, tripId: number) {
-    return this.apollo.mutate({
-      mutation: createUserToTrip,
-      variables: {
-        userId,
-        tripId
-      }
-    });
-  }
-
-  createTripToJuncture(tripId: number, junctureId: number) {
-    return this.apollo.mutate({
-      mutation: createTripToJuncture,
-      variables: {
-        tripId,
-        junctureId
       }
     });
   }
@@ -1524,11 +1538,13 @@ export class APIService {
     });
   }
 
-  updateJuncture(junctureId: number, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
+  updateJuncture(junctureId: number, userId: number, tripId, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
       mutation: updateJuncture,
       variables: {
         junctureId,
+        userId,
+        tripId,
         name,
         arrivalDate,
         description,

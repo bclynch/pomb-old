@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
@@ -11,10 +12,12 @@ import { Post } from '../../models/Post.model';
 })
 export class PostCard {
   @Input() data: Post;
+  @Input() displayAuthor = true;
 
   constructor(
     private settingsService: SettingsService,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private sanitizer: DomSanitizer,
   ) {
 
   }

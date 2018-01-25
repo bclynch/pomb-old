@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
+import { RouterService } from '../../services/router.service';
+import { SettingsService } from '../../services/settings.service';
 import { Post } from '../../models/Post.model';
 
 @Component({
@@ -12,7 +14,8 @@ export class PostWrapper implements OnChanges {
   galleryImages = [];
 
   constructor(
-
+    private routerService: RouterService,
+    private settingsService: SettingsService
   ) { }
 
   ngOnChanges() {

@@ -35,7 +35,7 @@ export class SettingsService {
     // 'Explore': { description: '' },
     'My Pack': { description: '' },
   };
-  categoryOptions: string[] = ['Trekking', 'Biking', 'Travel', 'Culture', 'Gear'];
+  categoryOptions: string[] = ['trekking', 'biking', 'travel', 'culture', 'gear'];
 
   constructor(
     private apiService: APIService,

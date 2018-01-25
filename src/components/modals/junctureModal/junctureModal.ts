@@ -24,7 +24,6 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class JunctureModal {
 
-  junctureId: number;
   junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
   junctureSaveType = 'Publish';
@@ -60,20 +59,11 @@ export class JunctureModal {
     private toastCtrl: ToastController,
     private sanitizer: DomSanitizer
   ) {
-    // create juncture so we have an ID for gpx upload
-    this.apiService.createJuncture().subscribe(
-      (data: any) => {
-        console.log('NEW JUNCTURE ID: ', data.data.createJuncture.juncture.id);
-        this.junctureId = data.data.createJuncture.juncture.id;
-      }
-    );
-
     // grab trips to populate select
     this.apiService.tripsByUserId(this.userService.user.id).valueChanges.subscribe(
       (data: any) => {
-        console.log(data);
-        this.tripOptions = data.data.allUserToTrips.nodes;
-        if (data.data.allUserToTrips.nodes[0]) this.junctureModel.selectedTrip = data.data.allUserToTrips.nodes[0].id;
+        this.tripOptions = data.data.allTrips.nodes;
+        if (this.tripOptions[0]) this.junctureModel.selectedTrip = this.tripOptions[0].id;
       }
     );
 
@@ -104,7 +94,7 @@ export class JunctureModal {
     this.viewCtrl.dismiss();
   }
 
-  onGPXUploaded(gpxData) {
+  onGPXProcessed(gpxData) {
     this.gpxLoaded = false;
     console.log('GPX Data: ', gpxData);
 
@@ -229,7 +219,6 @@ export class JunctureModal {
 
   saveJuncture() {
     this.viewCtrl.dismiss({
-      junctureId: this.junctureId,
       saveType: this.junctureSaveType,
       name: this.junctureModel.name,
       description: this.junctureModel.description,

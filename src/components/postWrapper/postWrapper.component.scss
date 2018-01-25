@@ -6,6 +6,14 @@ postwrapper {
     width: 100%;
     margin: 0 auto;
 
+    h3 {
+      margin-bottom: 0;
+    }
+    .authorWrapper {
+      cursor: pointer;
+      margin: 5px 0 15px;
+      font-size: 16px;
+    }
     .postSandbox {
       img {
         width: 100%!important;

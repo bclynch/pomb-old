@@ -50,6 +50,6 @@ export class TripTimelinePage {
   }
 
   junctureImage(juncture) {
-    return juncture.junctureByJunctureId.markerImg || this.junctureService.defaultMarkerImg;
+    return juncture.markerImg || this.junctureService.defaultMarkerImg;
   }
 }

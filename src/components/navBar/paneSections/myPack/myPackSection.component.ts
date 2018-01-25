@@ -17,10 +17,10 @@ import { TripService } from '../../../../services/trip.service';
 export class MyPackNavSection {
 
   quickLinks = [
-    { label: 'Blog Dashboard', value: 'blog', icon: 'md-filing' },
-    { label: 'User Dashboard', value: 'settings', icon: 'md-settings' },
     { label: 'Create Trip', value: 'trip', icon: 'md-plane' },
-    { label: 'Juncture Check-In', value: 'checkIn', icon: 'md-git-merge' }
+    { label: 'Juncture Check-In', value: 'checkIn', icon: 'md-git-merge' },
+    { label: 'Blog Dashboard', value: 'blog', icon: 'md-filing' },
+    { label: 'User Dashboard', value: 'settings', icon: 'md-settings' }
   ];
 
   benefits = [

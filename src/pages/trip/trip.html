@@ -61,7 +61,7 @@
           <div class="section junctures" id="Junctures">
             <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Junctures</div>
           </div>
-          <div class="section posts" id="Posts" *ngIf="tripPosts.length">
+          <div class="section posts" id="Posts">
             <div class="sectionHeader">Posts</div>
             <div class="postsContainer">
               <PostCard [data]="post" *ngFor="let post of tripPosts"></PostCard>

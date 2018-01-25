@@ -50,9 +50,9 @@ export class HubPage {
           const tripData = <any>data;
           this.currentHub = `${tripData.data.tripById.name} Posts`;
           this.settingsService.modPageTitle(this.currentHub);
-          const junctures = tripData.data.tripById.tripToJuncturesByTripId.nodes;
+          const junctures = tripData.data.tripById.juncturesByTripId.nodes;
           junctures.forEach((juncture) => {
-            const juncturePosts = juncture.junctureByJunctureId.junctureToPostsByJunctureId.nodes;
+            const juncturePosts = juncture.junctureToPostsByJunctureId.nodes;
             if (juncturePosts.length) juncturePosts.forEach((post) => {
               tripPosts.push(post.postByPostId);
             });

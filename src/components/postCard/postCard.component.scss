@@ -15,6 +15,11 @@ postcard {
         background-size: cover;
       }
     }
+    .imgWrapper:hover + .cardWrapper {
+      .cardTitle {
+        color: var(--secondary);
+      }
+    }
     .cardWrapper {
       flex: 1;
       padding: 8px;
@@ -23,9 +28,10 @@ postcard {
         font-size: 18px;
         cursor: pointer;
         font-weight: bold;
+        transition: .3s;
       }
       .cardTitle:hover {
-        opacity: .7;
+        color: var(--secondary);
       }
       .bottomWrapper {
 

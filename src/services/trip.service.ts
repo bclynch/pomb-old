@@ -25,16 +25,11 @@ export class TripService {
       if (data) {
         console.log(data);
         // creat trip
-        this.apiService.createTrip(data.name, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
+        this.apiService.createTrip(this.userService.user.id, data.name, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
           (result: any) => {
-            // create link to user
-            this.apiService.createUserToTrip(this.userService.user.id, result.data.createTrip.trip.id).subscribe(
-              () => {
-                // save banner photos
-                this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(
-                  () => this.toast(`New trip '${data.name}' successfully created`)
-                );
-              }
+            // save banner photos
+            this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(
+              () => this.toast(`New trip '${data.name}' successfully created`)
             );
           }
         );
@@ -55,6 +50,8 @@ export class TripService {
 
   saveBannerPhotos(bannerPhotos: { url: string; title: string; }[], tripId: number) {
     return new Promise((resolve, reject) => {
+      if (!bannerPhotos) resolve();
+
       // then bulk add links to post
       let query = `mutation {`;
       bannerPhotos.forEach((photo, i) => {
@@ -65,7 +62,7 @@ export class TripService {
               userId: ${this.userService.user.id},
               type: ${ImageType['banner']},
               url: "${photo.url}",
-              ${photo.title ? 'title: + photo.title + ' : ''}
+              ${photo.title ? 'title: "' + photo.title + '"' : ''}
             }
           }) {
             clientMutationId

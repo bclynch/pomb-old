@@ -5,13 +5,14 @@
 ### Top Priorities
 
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-    - Need to add posts, photos, description
+    - Need to add posts, description
     - Fix flickr banner algorithm. It sucks
     - All those quick links in nav pane don't work since they're on hover... 
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, stats in some nice way.
-    - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)(also have an 'all junctures' page that displays chronological in a nice vertical timeline look)
+    - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)
         - Need banner img for timeline page
     - couple stats (countries, distance, w/e)
+    - Dynamically populate sub nav and sections IF they have data
 - Place newsletter component around (one of the nav shades, blog posts, w/e)
 - Blog Dash
     - Still a little jacked up with the img model change. Updating posts needs work
@@ -22,11 +23,10 @@
     - Community
         - Shade would have social links for POMB, link / design to community hub, featured members/trips?
         - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
-    - Profile
-        - Shade would have nice layout to get to settings, some quick links/btns for trips/junctures, etc
 - Context dependent search (blog posts, trip info, users) + revamp search results page to make more minimal since data coming back isn't great
     - To always give the user options maybe nice to have radio options on the search box to declare what they want to search
 - Trip modal fix how to display trip photos + way to add subtitle
+ - Need way to edit trips and junctures!
 - Better error handling
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
@@ -40,7 +40,7 @@
 
 *AFTER ONLINE*
 
-- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+ - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - DB security
 - Disqus comments??
 - Google Analytics - Page views working at least (on pomb gmail... Make domain email)

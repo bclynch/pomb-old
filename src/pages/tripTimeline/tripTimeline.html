@@ -1,43 +1,41 @@
 <PageWrapper [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)" [collapsibleNav]="false" [topo]="true">
-  <div>
-    <div class="contentWrapper">
-      <div class="header">
-        <div>{{tripData?.name}} Timeline</div>
+  <div class="contentWrapper">
+    <div class="header">
+      <div>{{tripData?.name}} Timeline</div>
+    </div>
+    <div class="rangeContainer" [style.position]="junctureService.displayTripNav ? 'fixed' : 'static'">
+      <div class="rangeWrapper">
+        <ion-range 
+          min="0" 
+          [max]="tripData?.juncturesByTripId.nodes.length" 
+          [(ngModel)]="saturation" 
+          [pin]="true"
+          (ionChange)="rangeChange($event)"
+        ></ion-range>
+        <div class="startCircle"></div>
+        <div class="endCircle"></div>
       </div>
-      <div class="rangeContainer" [style.position]="junctureService.displayTripNav ? 'fixed' : 'static'">
-        <div class="rangeWrapper">
-          <ion-range 
-            min="0" 
-            [max]="tripData?.tripToJuncturesByTripId.nodes.length" 
-            [(ngModel)]="saturation" 
-            [pin]="true"
-            (ionChange)="rangeChange($event)"
-          ></ion-range>
-          <div class="startCircle"></div>
-          <div class="endCircle"></div>
+    </div>
+    <div class="timelineContainer">
+      <div 
+        class="junctureContainer" 
+        *ngFor="let juncture of tripData?.juncturesByTripId.nodes; let i = index; let last=last" 
+        [id]="'juncture' + i" 
+        [ngClass]="i % 2 === 0 ? 'even' : 'odd'"
+      >
+        <div class="imgGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">
+          <div class="junctureDate">{{juncture.arrivalDate | date:'mediumDate'}}</div>
+          <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}"></div>
+          <div class="connector"></div>
         </div>
-      </div>
-      <div class="timelineContainer">
-        <div 
-          class="junctureContainer" 
-          *ngFor="let juncture of tripData?.tripToJuncturesByTripId.nodes; let i = index; let last=last" 
-          [id]="'juncture' + i" 
-          [ngClass]="i % 2 === 0 ? 'even' : 'odd'"
-        >
-          <div class="imgGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.junctureByJunctureId.id)">
-            <div class="junctureDate">{{juncture.junctureByJunctureId.arrivalDate | date:'mediumDate'}}</div>
-            <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}"></div>
-            <div class="connector"></div>
-          </div>
-          <div class="dataGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.junctureByJunctureId.id)">
-            <div class="junctureTitle">{{juncture.junctureByJunctureId.name}}</div>
-            <div class="junctureLocation">{{juncture.junctureByJunctureId.city}}, {{juncture.junctureByJunctureId.country}}</div>
-            <div class="junctureDescription">{{juncture.junctureByJunctureId.description | truncate:[200, '...']}}</div>
-          </div>
-          <div class="mobileConnector" *ngIf="!last"></div>
+        <div class="dataGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">
+          <div class="junctureTitle">{{juncture.name}}</div>
+          <div class="junctureLocation">{{juncture.city}}, {{juncture.country}}</div>
+          <div class="junctureDescription">{{juncture.description | truncate:[200, '...']}}</div>
         </div>
-        <div class="timelinePipe"></div>
+        <div class="mobileConnector" *ngIf="!last"></div>
       </div>
+      <div class="timelinePipe"></div>
     </div>
   </div>
 </PageWrapper>

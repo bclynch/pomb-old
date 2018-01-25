@@ -1,7 +1,7 @@
 <PageWrapper *ngIf="ready" backgroundColor="black">
   <ProfileHeroBanner [user]="user"></ProfileHeroBanner>
   <div class="tripCardContainer">
-    <TripCard *ngFor="let trip of user.userToTripsByUserId.nodes;" [trip]="trip.tripByTripId"></TripCard>
+    <TripCard *ngFor="let trip of user.tripsByUserId.nodes;" [trip]="trip"></TripCard>
   </div>
   <Grid *ngIf="gridPosts" [posts]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
 </PageWrapper>
