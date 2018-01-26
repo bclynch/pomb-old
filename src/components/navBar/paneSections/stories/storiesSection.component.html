@@ -14,7 +14,11 @@
   </div>
   <div class="paneSection categories">
     <div class="paneSectionHeader">Popular Categories</div>
-    <div *ngFor="let category of categories;" class="category" (click)="routerService.navigateToPage('/stories/' + category)">
+    <div 
+      *ngFor="let category of settingsService.siteSections.Stories.subSections;" 
+      class="category" 
+      (click)="routerService.navigateToPage('/stories/' + category)"
+    >
       {{category | uppercase}}
     </div>
   </div>

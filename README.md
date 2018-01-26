@@ -7,7 +7,6 @@
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, description
     - Fix flickr banner algorithm. It sucks
-    - All those quick links in nav pane don't work since they're on hover... 
 - Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, stats in some nice way.
     - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)
         - Need banner img for timeline page
@@ -21,7 +20,9 @@
 - Probably get rid of post categories and just use all tags. Need to mod hub page for this
 - Trip modal fix how to display trip photos + way to add subtitle
     - Need way to edit trips and junctures!
+- Add name of user with link on gallery modal
 - Mobile usage!
+    - On mobile nav would like to show logged in user otherwise have login button and make the logout tn dynamic
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
 - Currently trying to get application online

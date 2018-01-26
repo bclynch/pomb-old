@@ -31,11 +31,10 @@ export class SettingsService {
   public unitOfMeasure$: Observable<void>;
   public unitOfMeasure: 'imperial' | 'metric';
 
-  siteSections: any = {
-    'Community': { description: '' },
-    'Stories': { description: '' },
-    // 'Explore': { description: '' },
-    'My Pack': { description: '' },
+  siteSections = {
+    'Community': { subSections: ['Community Hub', 'Featured Trip'] },
+    'Stories': { subSections: ['trekking', 'biking', 'travel', 'culture', 'gear', 'food'] },
+    'My Pack': { subSections: ['Profile', 'Create Trip', 'Create Juncture', 'Blog Dashboard', 'User Dashboard', 'Logout'] }
   };
   categoryOptions: string[] = ['trekking', 'biking', 'travel', 'culture', 'gear'];
 

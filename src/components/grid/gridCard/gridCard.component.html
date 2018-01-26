@@ -6,7 +6,7 @@
   ></div>
   <div class="contentContainer">
     <div class="contentTitle" (click)="navigateToPost()">{{data.title}}</div>
-    <div class="boldFont authorContainer" (click)="routerService.navigateToPage('/' + data.accountByAuthor.username)">By 
+    <div class="boldFont authorContainer" (click)="routerService.navigateToPage('/user/' + data.accountByAuthor.username)">By 
       <span [style.color]="settingsService.secondaryColor" *ngIf="data.accountByAuthor.firstName">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span>
       <span [style.color]="settingsService.secondaryColor" *ngIf="!data.accountByAuthor.firstName">{{data.accountByAuthor.username}}</span>
     </div>

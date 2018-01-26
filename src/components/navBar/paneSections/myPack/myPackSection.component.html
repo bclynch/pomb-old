@@ -18,7 +18,7 @@
   <div *ngIf="userService.signedIn" class="signedInContainer">
       <div class="paneSection profile">
         <div class="paneSectionHeader">Profile</div>
-        <div class="profileWrapper" (click)="routerService.navigateToPage('/user' + userService.user.username)">
+        <div class="profileWrapper" (click)="routerService.navigateToPage('/user/' + userService.user.username)">
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
           <div 
             class="profilePhotoContainer" 

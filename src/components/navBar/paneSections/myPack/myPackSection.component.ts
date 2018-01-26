@@ -45,10 +45,10 @@ export class MyPackNavSection {
   navigate(path: string) {
     switch (path) {
       case 'blog':
-        this.routerService.navigateToPage(`/user${this.userService.user.username}/post-dashboard`);
+        this.routerService.navigateToPage(`/user/${this.userService.user.username}/post-dashboard`);
         break;
       case 'settings':
-        this.routerService.navigateToPage(`/user${this.userService.user.username}/admin`);
+        this.routerService.navigateToPage(`/user/${this.userService.user.username}/admin`);
         break;
       case 'checkIn':
         this.junctureService.createJuncture();

@@ -43,7 +43,7 @@ export class HubPage {
   init() {
     this.settingsService.modPageTitle(this.currentHub);
     if (this.isTripPosts) {
-      this.apiService.getPostsByTrip(+this.router.url.split('/')[2]).valueChanges.subscribe(
+      this.apiService.getPostsByTrip(+this.currentHub).valueChanges.subscribe(
         data => {
           const tripPosts = [];
           console.log(data);

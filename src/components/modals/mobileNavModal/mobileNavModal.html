@@ -1,4 +1,4 @@
-<div class="modalContainer">
+<div class="modalContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="mockNav">
     <div class="logoWrapper">
       <span 
@@ -13,6 +13,18 @@
   </div>
   <div class="contentWrapper">
     <Search (searchSubmit)="viewCtrl.dismiss()" [hasBorder]="true"></Search>
-    <div class="section" *ngFor="let option of sectionOptions;" (click)="dismiss(option.value)">{{option.label}}</div>
+    <div class="section" *ngFor="let option of sectionOptions; let i = index;" [ngClass]="activeSection === i ? 'active' : ''">
+      <div class="sectionHeader" (click)="activeSection === i ? activeSection = null : activeSection = i">
+        <div class="sectionName">{{option.label}}</div>
+        <div class="arrowWrapper">
+          <ion-icon name="ios-arrow-forward"></ion-icon>
+        </div>
+      </div>
+      <div class="subSectionsWrapper">
+        <div *ngFor="let subSection of subSections[option.label];" class="subSection" (click)="viewCtrl.dismiss(subSection)">
+          {{subSection}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -9,7 +9,7 @@
   <div class="cardWrapper">
     <div class="cardTitle" (click)="navigateToPost()">{{data.title}}</div>
     <div class="bottomWrapper">
-      <div class="authorWrapper" (click)="routerService.navigateToPage('/' + data.accountByAuthor.username)" *ngIf="displayAuthor">by
+      <div class="authorWrapper" (click)="routerService.navigateToPage('/user/' + data.accountByAuthor.username)" *ngIf="displayAuthor">by
         <span [style.color]="settingsService.secondaryColor" *ngIf="data.accountByAuthor.firstName">{{data.accountByAuthor.firstName}} {{data.accountByAuthor.lastName}}</span>
         <span [style.color]="settingsService.secondaryColor" *ngIf="!data.accountByAuthor.firstName">{{data.accountByAuthor.username}}</span>
       </div>

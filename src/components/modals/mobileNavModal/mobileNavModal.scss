@@ -15,7 +15,7 @@ $navbarHeight: 40px;
   }
   mobilenavmodal {
     .modalContainer {
-      background: rgba(255,255,255,.95);
+      background: rgba(51, 51, 51, .95);
       height: 100%;
       width: 100%;
       position: relative;
@@ -50,11 +50,67 @@ $navbarHeight: 40px;
           
           .searchContainer {
             margin: 50px 0 20px;
+
+            input {
+              color: white;
+            }
           }
         }
         .section {
-          padding: 25px 10px;
+          padding: 15px 10px;
           border-bottom: solid 1px #ddd;
+          color: white;
+
+          &.active {
+
+            .sectionHeader {
+              color: var(--secondary);
+
+              ion-icon {
+                transform: rotate(90deg);
+              }
+            }
+            .subSectionsWrapper {
+              padding: 0 20px;
+
+              .subSection {
+                height: 20px;
+                opacity: 1;
+                margin-bottom: 10px;
+              }
+              .subSection:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+          .sectionHeader {
+            display: flex;
+            font-size: 24px;
+            padding: 10px 0;
+
+            .arrowWrapper {
+              width: 25%;
+              text-align: right;
+
+              ion-icon {
+                transition: .5s;
+              }
+            }
+            .sectionName {
+              flex: 1;
+            }
+          }
+          .subSectionsWrapper {
+            overflow: hidden;
+            transition: .5s;
+
+            .subSection {
+              transition: .5s;
+              font-size: 16px;
+              height: 0;
+              opacity: 0;
+            }
+          }
         }
       }
     }

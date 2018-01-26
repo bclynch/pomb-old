@@ -12,6 +12,8 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { ExploreService } from '../../services/explore.service';
 import { UtilService } from '../../services/util.service';
 import { AlertService } from '../../services/alert.service';
+import { TripService } from '../../services/trip.service';
+import { JunctureService } from '../../services/juncture.service';
 
 interface Social {
   icon: string;
@@ -54,7 +56,9 @@ export class NavBar {
     private exploreService: ExploreService,
     private utilService: UtilService,
     private sanitizer: DomSanitizer,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private tripService: TripService,
+    private junctureService: JunctureService
   ) {
     this.settingsService.appInited ? this.snagCategories() : this.broadcastService.on('appIsReady', () => this.snagCategories());
   }
@@ -101,10 +105,37 @@ export class NavBar {
     const modal = this.modalCtrl.create(MobileNavModal, {}, {cssClass: 'mobileNavModal', enableBackdropDismiss: false});
     modal.onDidDismiss(data => {
       if (data) {
-        if (data === 'home') {
-          this.routerService.navigateToPage('/');
-        } else {
-          this.routerService.navigateToPage(`/${data}`);
+        switch (data.toLowerCase()) {
+          case 'community hub':
+            this.routerService.navigateToPage('/community');
+            break;
+          case 'featured trip':
+            this.routerService.navigateToPage(`/trip/${this.settingsService.featuredTrip.id}`);
+            break;
+          case 'stories hub':
+            this.routerService.navigateToPage('/stories');
+            break;
+          case 'profile':
+            this.routerService.navigateToPage(`/user/${this.userService.user.username}`);
+            break;
+          case 'create trip':
+            this.tripService.createTrip();
+            break;
+          case 'create juncture':
+            this.junctureService.createJuncture();
+            break;
+          case 'blog dashboard':
+            this.routerService.navigateToPage(`/user/${this.userService.user.username}/post-dashboard`);
+            break;
+          case 'user dashboard':
+            this.routerService.navigateToPage(`/user/${this.userService.user.username}/admin`);
+            break;
+          case 'logout':
+            this.userService.logoutUser();
+            break;
+          default:
+            this.routerService.navigateToPage(`/stories/${data}`);
+            break;
         }
       }
     });
