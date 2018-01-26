@@ -36,10 +36,11 @@ navBar {
         height: $navbarHeight;
         padding: 0 10px;
 
-        ion-icon:hover {
-          color: var(--secondary);
+        > div {
+          flex: 1;
         }
-        .sectionsWrapper {
+        > .sectionsWrapper {
+          flex: 2;
           color: mapGet($basecolor, white);
           display: flex;
           justify-content: space-around;
@@ -54,6 +55,7 @@ navBar {
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: .3s;
 
             &.active {
               color: var(--secondary);
@@ -67,12 +69,45 @@ navBar {
           font-size: 24px;
         }
         .searchWrapper {
-          width: 48px;
           display: none;
           justify-content: center;
+          align-items: center;
+
+          .searchBtn {
+            transition: .3s;
+          }
+          .searchBtn:hover {
+            color: var(--secondary);
+          }
+          search {
+            width: 0;
+            transition: .5s;
+
+            .searchContainer {
+              height: 25px;
+              border-radius: 5px;
+
+              ion-icon {
+                cursor: pointer;
+                transition: .3s;
+              }
+              ion-icon:hover {
+                color: var(--secondary);
+              }
+            }
+          }
+          &.active {
+            search {
+              width: 100%;
+            }
+            > div {
+              display: none;
+            }
+          }
         }
         .mobilePrompt {
           width: 24px;
+          text-align: right;
 
           ion-icon {
             font-size: 28px;
@@ -138,7 +173,7 @@ navBar {
       }
     }
   }
-  @include respond-to(tiny) {
+  @include respond-to(small) {
     .navBarContainer {
       display: flex;
       justify-content: center;
@@ -157,6 +192,7 @@ navBar {
       }
       .sectionsWrapper {
         display: flex!important;
+        width: 50% !important;
         
         > div {
           padding: 0 12px;
@@ -166,11 +202,6 @@ navBar {
       .mobilePrompt {
         display: none;
       }
-    }
-  }
-  @include respond-to(small) {
-    .sectionsWrapper {
-      width: 50% !important;
     }
   }
 }

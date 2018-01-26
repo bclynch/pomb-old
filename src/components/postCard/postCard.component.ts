@@ -13,6 +13,7 @@ import { Post } from '../../models/Post.model';
 export class PostCard {
   @Input() data: Post;
   @Input() displayAuthor = true;
+  @Input() displayImage = true;
 
   constructor(
     private settingsService: SettingsService,

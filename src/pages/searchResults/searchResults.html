@@ -1,9 +1,53 @@
-<PageWrapper>
-  <div class="boldFont headerTitle">{{posts.length}} Results for "{{query}}"</div>
-  <PostList [data]="posts" *ngIf="posts.length"></PostList>
-  <div class="noResultsContainer" *ngIf="!posts.length">
-    <ion-icon name="md-document"></ion-icon>
-    <div>No results mactching <span [style.font-style]="'italic'">{{query}}</span>. Try another term!</div>
+<PageWrapper [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)" [topo]="true">
+  <div class="contentWrapper">
+    <div class="searchComponentContainer">
+      <div>Search</div>
+      <Search [searchValue]="query" [hasBorder]="true"></Search>
+    </div>
+    <div class="resultsContainer">
+      <div class="leftContainer">
+        <div class="accountsContainer">
+          <div class="resultsContainerHeader">Users</div>
+          <div class="accountsWrapper">
+            <div class="accountWrapper" *ngFor="let account of accountResults;" (click)="routerService.navigateToPage('/' + account.username)">
+              <div class="profilePhotoContainer" [ngStyle]="account.profilePhoto ? { 'background-image': 'url(' + account.profilePhoto + ')'} : { 'background': 'black'}"></div>
+              <div class="accountUser">{{account.username}}</div>
+            </div>
+            <div class="noResultsContainer" *ngIf="!accountResults.length">
+              <ion-icon name="md-person"></ion-icon>
+              <div>Looks like there aren't any results</div>
+            </div>
+          </div>
+        </div>
+        <div class="tripsContainer">
+          <div class="resultsContainerHeader">Trips</div>
+          <div class="tripsWrapper">
+            <div class="tripCardWrapper" *ngFor="let trip of tripResults;" (click)="routerService.navigateToPage('/trip/' + trip.id)">
+              <div class="tripName">{{trip.name}}</div>
+            </div>
+          </div>
+          <div class="noResultsContainer" *ngIf="!tripResults.length">
+            <ion-icon name="md-globe"></ion-icon>
+            <div>Looks like there aren't any results</div>
+          </div>
+        </div>
+      </div>
+      <div class="rightContainer">
+        <div class="postsContainer">
+          <div class="resultsContainerHeader">Posts</div>
+          <PostCard 
+            *ngFor="let post of postResults;" 
+            [data]="post" 
+            [displayImage]="false" 
+            [displayAuthor]="false"
+          ></PostCard>
+          <div class="noResultsContainer" *ngIf="!postResults.length">
+            <ion-icon name="md-albums"></ion-icon>
+            <div>Looks like there aren't any results</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </PageWrapper>
 

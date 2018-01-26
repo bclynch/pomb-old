@@ -1,4 +1,8 @@
-<div class="searchContainer" [style.height]="isActive ? '46px' : 0">
+<div 
+  class="searchContainer" 
+  [ngClass]="hasBorder ? 'searchBorder' : ''" 
+  [style.border]="hasBorder ? isFocused ? 'solid 1px ' + settingsService.secondaryColor : 'solid 1px #bbb' : 'none'"
+>
   <form 
     class="searchWrapper" 
     (submit)="submitQuery($event)"
@@ -6,20 +10,21 @@
     <ion-icon 
       class="searchIcon" 
       name="search"
+      (click)="closeSearch()"
     ></ion-icon>
     <input
       type="text"
       placeholder="Search"
       [(ngModel)]="value"
+      (focus)="isFocused = true"
+      (focusout)="isFocused = false"
       name="search"
       #searchInput
     />
     <ion-icon 
-      *ngIf="searchActive" 
       class="closeIcon" 
       name="close"
-      (click)="onClose()"
-      #closeBtn
+      (click)="emptySearch()"
     ></ion-icon>
   </form>
 </div>

@@ -12,6 +12,7 @@
     </div>
   </div>
   <div class="contentWrapper">
+    <Search (searchSubmit)="viewCtrl.dismiss()" [hasBorder]="true"></Search>
     <div class="section" *ngFor="let option of sectionOptions;" (click)="dismiss(option.value)">{{option.label}}</div>
   </div>
 </div>

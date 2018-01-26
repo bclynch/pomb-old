@@ -46,6 +46,12 @@ $navbarHeight: 40px;
       .contentWrapper {
         padding: 0 20px;
 
+        search {
+          
+          .searchContainer {
+            margin: 50px 0 20px;
+          }
+        }
         .section {
           padding: 25px 10px;
           border-bottom: solid 1px #ddd;

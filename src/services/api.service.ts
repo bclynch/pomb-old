@@ -694,15 +694,38 @@ query allPostTags($tagName: String!) {
 }
 `;
 
-const searchPostsQuery = gql`
-  query searchPosts($query: String!) {
-    searchPosts(query: $query) {
+const searchSite = gql`
+  query searchSite($query: String!) {
+    searchTrips(
+      query: $query,
+      first: 5
+    ) {
+      nodes {
+        id,
+        name
+      }
+    },
+    searchPosts(
+      query: $query,
+      first: 10
+    ) {
       nodes {
         id,
         title,
         subtitle,
-        createdAt,
-        updatedAt
+        createdAt
+      }
+    }
+    searchAccounts(
+      query: $query,
+      first: 10
+    ) {
+      nodes {
+        id,
+        username,
+        firstName,
+        lastName,
+        profilePhoto
       }
     }
   }
@@ -1325,9 +1348,9 @@ export class APIService {
     });
   }
 
-  searchPosts(query: string) {
+  searchSite(query: string) {
     return this.apollo.watchQuery<any>({
-      query: searchPostsQuery,
+      query: searchSite,
       variables: {
         query
       }

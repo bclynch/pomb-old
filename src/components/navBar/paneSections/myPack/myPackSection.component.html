@@ -25,7 +25,7 @@
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
           <div 
             class="profilePhotoContainer" 
-            [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
+            [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background-image': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
           ></div>
         </div>
         <div (click)="routerService.navigateToPage('/admin')">Admin</div>
@@ -63,6 +63,10 @@
               <div class="miniSectionLabel">Recent Posts</div>
               <PostCard *ngFor="let post of userService.recentPosts;" [data]="post" [displayAuthor]="false"></PostCard>
             </div>
+          </div>
+          <div class="emptyContainer" *ngIf="!userService.recentPosts.length && !userService.recentTrip">
+            <ion-icon name="md-images"></ion-icon>
+            <div>Looks like you don't have any recent activity yet. Spin up a trip or post a story to start seeing content here!</div>
           </div>
         </div>
       </div>

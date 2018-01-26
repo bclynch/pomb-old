@@ -23,8 +23,9 @@
           [ngClass]="option.value === activeSection?.value ? 'active' : ''"
         >{{option.label}}</div>
       </div>
-      <div class="searchWrapper" (click)="openSearch()">
-        <div><ion-icon name="ios-search"></ion-icon></div>
+      <div class="searchWrapper" [ngClass]="searchActive ? 'active' : ''">
+        <div (click)="openSearch()"><ion-icon class="searchBtn" name="ios-search"></ion-icon></div>
+        <Search [isActive]="searchActive" (close)="searchActive = false" [canToggle]="true"></Search>
       </div>
       <div class="mobilePrompt" (click)="openMobileNav()">
         <div><ion-icon name="md-menu"></ion-icon></div>
@@ -38,4 +39,3 @@
     <MyPackNavSection *ngIf="activeSection?.label === 'My Pack'"></MyPackNavSection>    
   </div>
 </div>
-<Search [isActive]="searchActive && !isExpanded"></Search>

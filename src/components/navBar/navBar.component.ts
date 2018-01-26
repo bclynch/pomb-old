@@ -85,7 +85,6 @@ export class NavBar {
 
   openSearch() {
     this.searchActive = !this.searchActive;
-    this.isExpanded = false;
   }
 
   navHover(e, i: number) {

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { APIService } from '../../services/api.service';
 import { RouterService } from '../../services/router.service';
@@ -11,9 +12,11 @@ import { Post } from '../../models/Post.model';
   selector: 'page-search-results',
   templateUrl: 'searchResults.html'
 })
-export class SearchResultsPage implements OnInit {
+export class SearchResultsPage {
 
-  posts: Post[] = [];
+  postResults: Post[] = [];
+  tripResults = [];
+  accountResults = [];
   query: string;
 
   constructor(
@@ -21,34 +24,27 @@ export class SearchResultsPage implements OnInit {
     private router: Router,
     private routerService: RouterService,
     private settingsService: SettingsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
   ) {
-    this.route.params.subscribe((params) => {
-      console.log(params);
+    this.route.queryParams.subscribe((params) => {
+      this.query = params.q;
+      this.runSearch();
     });
-    // subscribe to param change to update results
-    this.router.events.subscribe(e => {
-      if (e.constructor.name === 'RoutesRecognized') {
-        const navData = <any> e;
-        this.query = navData.url.split('=')[1];
-        this.runSearch();
-      }
-    });
-  }
 
-  ngOnInit() {
     this.settingsService.modPageTitle('Search Results');
-    console.log(this.routerService.params);
-    this.query = this.routerService.params.q;
-    this.runSearch();
   }
 
   runSearch(): void {
     // using :* to it'll be an open ended search
-    this.apiService.searchPosts(`${this.query}:*`).valueChanges.subscribe(
-      data => {
-        this.posts = data.data.searchPosts.nodes;
-        console.log(this.posts);
+    this.apiService.searchSite(`${this.query}:*`).valueChanges.subscribe(
+      results => {
+        console.log('SEARCH RESULTS: ', results.data);
+        this.postResults = results.data.searchPosts.nodes;
+        this.tripResults = results.data.searchTrips.nodes;
+        this.accountResults = results.data.searchAccounts.nodes;
+
+        // maybe we run followup query for the missing data we need aka post img, post author, trip img, etc
       }
     );
   }

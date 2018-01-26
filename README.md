@@ -35,7 +35,7 @@
     - test ionic app up and running
     - pomb builds in prod flag so should be ready
     - Server is running MINUS the postgraphql setup. Need to spin up rds to test
-        - AWS config being wonky. Would be preferred to fix. 
+        - AWS config being wonky. Would be preferred to fix.
 - Hosting
 
 *AFTER ONLINE*
@@ -52,6 +52,7 @@
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
     - uber eats, stripe, fresh desk
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
+- Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
 - Password Retrieval + mailing on new account
 - Map view of trips users have posted + some kind of way to explore various places

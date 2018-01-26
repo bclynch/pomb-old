@@ -1,5 +1,5 @@
 <div class="postCardContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
-  <div class="imgWrapper" (click)="navigateToPost()">
+  <div class="imgWrapper" (click)="navigateToPost()" *ngIf="displayImage">
     <!-- First url in the arr should be the small version so no need for further filtering on the below card img -->
     <div  
       class="cardImg"
