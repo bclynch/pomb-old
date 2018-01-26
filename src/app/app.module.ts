@@ -22,6 +22,7 @@ import { ShareButtonsModule } from 'ngx-sharebuttons';
 // App
 import { MyApp } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { GlobalErrorHandler } from './app.globalErrorHandler';
 
 // Directives
 import { WindowScrollDirective } from '../directives/scroll.directive';
@@ -30,7 +31,6 @@ import { WindowScrollDirective } from '../directives/scroll.directive';
 import { TruncatePipe } from '../pipes/truncate.pipe';
 
 // Components
-import { PageNotFoundComponent } from './not-found.component';
 import { Grid } from '../components/grid/grid.component';
 import { GridCard } from '../components/grid/gridCard/gridCard.component';
 import { HeroBanner } from '../components/heroBanner/heroBanner.component';
@@ -109,6 +109,9 @@ import { TripMapPage } from '../pages/tripMap/tripMap';
 import { JuncturePage } from '../pages/juncture/juncture';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { PhotosPage } from '../pages/photos/photos';
+import { SplashPage } from '../pages/splash/splash';
+import { NotFoundPage } from '../pages/error/404/404';
+import { GeneralErrorPage } from '../pages/error/general/general';
 
 // Services
 import { APIService } from '../services/api.service';
@@ -125,6 +128,7 @@ import { UtilService } from '../services/util.service';
 import { JunctureService } from '../services/juncture.service';
 import { TripService } from '../services/trip.service';
 import { GeoService } from '../services/geo.service';
+import { ErrorService } from '../services/error.service';
 
 @NgModule({
   declarations: [
@@ -139,7 +143,6 @@ import { GeoService } from '../services/geo.service';
     ArchivePage,
     AdminPage,
     UserAdminPage,
-    PageNotFoundComponent,
     Grid,
     GridCard,
     HeroBanner,
@@ -203,7 +206,10 @@ import { GeoService } from '../services/geo.service';
     TripTimelinePage,
     TruncatePipe,
     UnitToggle,
-    PhotosPage
+    PhotosPage,
+    SplashPage,
+    NotFoundPage,
+    GeneralErrorPage
   ],
   imports: [
     BrowserModule,
@@ -235,7 +241,6 @@ import { GeoService } from '../services/geo.service';
     ArchivePage,
     AdminPage,
     UserAdminPage,
-    PageNotFoundComponent,
     RegistrationModal,
     CreatePostModal,
     PostTypePopover,
@@ -258,7 +263,10 @@ import { GeoService } from '../services/geo.service';
     JuncturePage,
     TripMapPage,
     TripTimelinePage,
-    PhotosPage
+    PhotosPage,
+    SplashPage,
+    NotFoundPage,
+    GeneralErrorPage
   ],
   providers: [
     APIService,
@@ -275,6 +283,7 @@ import { GeoService } from '../services/geo.service';
     TripService,
     GeoService,
     Title,
+    ErrorService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

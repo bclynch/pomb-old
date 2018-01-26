@@ -1,9 +1,21 @@
-<div class="gridContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'">
-  <GridCard 
-    *ngFor="let post of posts; let i = index" 
-    [data]="post"
-    [size]="gridConfig[i]"
-    [ngClass]="gridConfig[i] > 5 ? 'largeCard' : gridConfig[i] === 5 ? 'mediumCard' : gridConfig[i] > 3 ? 'smallCard' : 'tinyCard'"
-    [attr.style]="sanitizer.bypassSecurityTrustStyle('--primary:' + settingsService.primaryColor +';--secondary:' + settingsService.secondaryColor)"
-  ></GridCard>
+<div [attr.style]="sanitizer.bypassSecurityTrustStyle('--primary:' + settingsService.primaryColor +';--secondary:' + settingsService.secondaryColor)">
+  <div class="gridContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" *ngIf="isPost">
+    <GridCard 
+      *ngFor="let post of elements; let i = index" 
+      [data]="post"
+      [size]="gridConfig[i]"
+      [ngClass]="gridConfig[i] > 5 ? 'largeCard' : gridConfig[i] === 5 ? 'mediumCard' : gridConfig[i] > 3 ? 'smallCard' : 'tinyCard'"
+      class="card"
+    ></GridCard>
+  </div>
+  <div class="gridContainer" [style.background]="'linear-gradient(90deg, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" *ngIf="!isPost">
+    <!-- Can use the below for image grid -->
+    <div
+      *ngFor="let element of elements; let i = index"
+      [ngStyle]="{ 'background-image': 'url(' + element.url + ')'}"
+      [ngClass]="gridConfig[i] > 5 ? 'largeCard' : gridConfig[i] === 5 ? 'mediumCard' : gridConfig[i] > 3 ? 'smallCard' : 'tinyCard'"
+      class="card img"
+      (click)="openCarousel(i)"
+    ></div>
+  </div>
 </div>

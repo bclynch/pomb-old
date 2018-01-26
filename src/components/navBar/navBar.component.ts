@@ -69,7 +69,7 @@ export class NavBar {
   navigate(path: string) {
     if (path === 'my pack') {
       if (this.userService.user) {
-        this.routerService.navigateToPage(`/${this.userService.user.username}`);
+        this.routerService.navigateToPage(`/user/${this.userService.user.username}`);
       } else {
         this.alertService.alert('Notification', 'Must login or create an account before vising your profile page');
       }

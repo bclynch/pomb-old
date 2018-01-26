@@ -12,7 +12,7 @@
     <div [ngStyle]="{ 'background-image': 'url(' + story.imgURL + ')'}" class="storyImage"></div>
     <div class="storyDescription">{{story.subtitle | truncate:[200, '...']}}</div>
   </div>
-  <div class="paneSection">
+  <div class="paneSection categories">
     <div class="paneSectionHeader">Popular Categories</div>
     <div *ngFor="let category of categories;" class="category" (click)="routerService.navigateToPage('/stories/' + category)">
       {{category | uppercase}}

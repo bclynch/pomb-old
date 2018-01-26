@@ -12,9 +12,15 @@ storiesnavsection {
   }
   .paneContainer {
     padding-top: 0 !important;
+    height: calc(60vh - 40px - 79px); // info pane height - 50px which is the height of the header
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 
     .paneSection {
       width: 25%;
+      height: 305px;
 
       &.story {
         cursor: pointer;

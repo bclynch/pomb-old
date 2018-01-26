@@ -24,6 +24,8 @@ export class SettingsService {
   tagline: string;
   heroBanner: string;
   featuredStories: FeaturedStory[];
+  featuredTrip;
+  recentPhotos;
 
   private unitOfMeasureSubject: BehaviorSubject<void>;
   public unitOfMeasure$: Observable<void>;
@@ -71,8 +73,16 @@ export class SettingsService {
           this.secondaryColor = appSettings.secondaryColor;
           this.tagline = appSettings.tagline;
           this.heroBanner = appSettings.heroBanner;
+          this.featuredTrip = appSettings.tripByFeaturedTrip1;
           this.addFeaturedStory([appSettings.postByFeaturedStory1, appSettings.postByFeaturedStory2, appSettings.postByFeaturedStory3]);
-          resolve();
+
+          // get photos for nav
+          this.apiService.getRecentImages(5).valueChanges.subscribe(
+            result => {
+              this.recentPhotos = result.data.allImages.nodes;
+              resolve();
+            }
+          );
         },
         err => reject(err)
       );

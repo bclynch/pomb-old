@@ -8,11 +8,11 @@
   <div class="navBarWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
     <div class="barWrapper">
       <div class="logoWrapper">
-        <div 
+        <span 
           class="boldFont gradientText" 
           [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" 
           (click)="routerService.navigateToPage('/')"
-        >POMB</div>
+        >POMB</span>
       </div>
       <div class="sectionsWrapper">
         <div 

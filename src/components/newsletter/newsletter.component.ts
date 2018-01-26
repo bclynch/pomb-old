@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
@@ -10,6 +10,7 @@ import { APIService } from '../../services/api.service';
   templateUrl: 'newsletter.component.html'
 })
 export class Newsletter {
+  @Input() callout = 'Want POMB\'s email newsletter?';
 
   emailAddress: string;
   isValid = true;

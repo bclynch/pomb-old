@@ -13,21 +13,14 @@
         - Need banner img for timeline page
     - couple stats (countries, distance, w/e)
     - Dynamically populate sub nav and sections IF they have data
-- Place newsletter component around (one of the nav shades, blog posts, w/e)
+- Place newsletter component around (blog posts, w/e)
 - Blog Dash
     - Still a little jacked up with the img model change. Updating posts needs work
     - Need to add way to wire up to juncture + trip
     - Lead img title broken
 - Probably get rid of post categories and just use all tags. Need to mod hub page for this
-- Can probably pare down the nav to just the following: -- in progress
-    - Community
-        - Shade would have social links for POMB, link / design to community hub, featured members/trips?
-        - Community hub would have featured or recent trips, nice map with curated trips on it, suggested people
-- Context dependent search (blog posts, trip info, users) + revamp search results page to make more minimal since data coming back isn't great
-    - To always give the user options maybe nice to have radio options on the search box to declare what they want to search
 - Trip modal fix how to display trip photos + way to add subtitle
- - Need way to edit trips and junctures!
-- Better error handling
+    - Need way to edit trips and junctures!
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
@@ -50,7 +43,7 @@
 - Admin panels
 - Favorites / 'add to pack' for posts, images, trips
 - Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
-    - uber eats, stripe, fresh desk
+    - digital ocean, uber eats, stripe, fresh desk
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!

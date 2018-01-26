@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './not-found.component';
 
 import { RoleGuardService as RoleGuard } from '../services/roleGuard.service';
 
@@ -25,6 +24,8 @@ import { TripMapPage } from '../pages/tripMap/tripMap';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { JuncturePage } from '../pages/juncture/juncture';
 import { PhotosPage } from '../pages/photos/photos';
+import { NotFoundPage } from '../pages/error/404/404';
+import { GeneralErrorPage } from '../pages/error/general/general';
 
 const appRoutes: Routes = [
   {
@@ -187,38 +188,42 @@ const appRoutes: Routes = [
   { path: 'search', component: SearchResultsPage },
   { path: 'community', component: CommunityPage },
   {
-    path: ':username',
+    path: 'user',
     children: [
       {
-        path: '',
-        component: ProfilePage
-      },
-      {
-        path: 'photos',
-        component: PhotosPage
-      },
-      {
-        path: 'admin',
-        canActivate: [RoleGuard],
-        data: {
-          expectedRole: 'pomb_account'
-        },
-        component: UserAdminPage
-      },
-      {
-        path: 'post-dashboard',
-        canActivate: [RoleGuard],
-        data: {
-          expectedRole: 'pomb_account'
-        },
-        component: DashboardPage
+        path: ':username',
+        children: [
+          {
+            path: '',
+            component: ProfilePage
+          },
+          {
+            path: 'photos',
+            component: PhotosPage
+          },
+          {
+            path: 'admin',
+            canActivate: [RoleGuard],
+            data: {
+              expectedRole: 'pomb_account'
+            },
+            component: UserAdminPage
+          },
+          {
+            path: 'post-dashboard',
+            canActivate: [RoleGuard],
+            data: {
+              expectedRole: 'pomb_account'
+            },
+            component: DashboardPage
+          },
+        ]
       },
     ]
   },
-  { path: 'profile', component: ProfilePage },
-  { path: 'favorites', component: FavoritesPage },
   { path: '',   component: HomePage },
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'error', component: GeneralErrorPage },
+  { path: '**', component: NotFoundPage }
 ];
 @NgModule({
   imports: [

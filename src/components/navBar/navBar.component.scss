@@ -144,22 +144,6 @@ navBar {
           .paneOptionWrapper {
             text-align: center;
 
-            &.socialOptions {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-
-              a {
-                text-decoration: none;
-                display: block;
-                display: flex;
-                align-items: center;
-
-                ion-icon {
-                  margin-right: 10px;
-                }
-              }
-            }
             .paneOption {
               cursor: pointer;
               padding: 15px 0;
@@ -178,15 +162,15 @@ navBar {
       display: flex;
       justify-content: center;
 
-      .socialWrapper, .searchWrapper {
+      .searchWrapper {
         display: flex!important;
       }
       .logoWrapper {
 
-        > div {
+        > span {
           cursor: pointer;
         }
-        > div:hover {
+        > span:hover {
           opacity: .7;
         }
       }

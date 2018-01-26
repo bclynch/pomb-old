@@ -14,6 +14,8 @@ interface Social {
 export class CommunityNavSection {
   @Input() socialOptions: Social;
 
+  gridConfiguration: number[] = [ 6.5, 3.5, 3, 3, 3 ];
+
   constructor(
     private settingsService: SettingsService
   ) {}

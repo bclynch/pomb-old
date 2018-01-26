@@ -1,6 +1,6 @@
 <div class="newsletterContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <span class="boldFont gradientText" [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'" >POMB</span>
-  <div class="callout">Want POMB's email newsletter?</div>
+  <div class="callout">{{callout}}</div>
   <form (submit)="onFormSubmit($event)">
     <input 
       placeholder="Your email address" 

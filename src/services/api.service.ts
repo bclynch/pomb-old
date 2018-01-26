@@ -82,7 +82,10 @@ const getAllPublishedPosts = gql`
           nodes {
             type,
             url,
-            description
+            description,
+            accountByUserId {
+              id
+            }
           }
         }
       }
@@ -139,7 +142,10 @@ query allPosts($author: Int!) {
         nodes {
           type,
           url,
-          description
+          description,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -159,7 +165,10 @@ const getAllImagesByUser = gql`
       nodes {
         url,
         description,
-        title
+        title,
+        accountByUserId {
+          id
+        }
       }
     }
   }
@@ -177,7 +186,29 @@ const getAllImagesByTrip = gql`
       nodes {
         url,
         description,
-        title
+        title,
+        accountByUserId {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const getRecentImages = gql`
+  query allImages($last: Int) {
+    allImages(
+      condition: {
+        type: GALLERY
+      },
+      last: $last,
+    ) {
+      nodes {
+        url,
+        description,
+        accountByUserId {
+          id
+        }
       }
     }
   }
@@ -233,7 +264,10 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
         nodes {
           type,
           url,
-          description
+          description,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -296,6 +330,22 @@ query allConfigs {
             url
           }
         }
+      },
+      tripByFeaturedTrip1 {
+        id,
+        name,
+        startDate,
+        endDate,
+        imagesByTripId(
+          condition:{
+            type: BANNER
+          },
+          first: 1
+        ) {
+          nodes {
+            url
+          }
+        }
       }
     }
   }
@@ -306,6 +356,7 @@ const getAccountByUsername = gql`
   query accountByUsername($username: String!) {
     accountByUsername(username: $username) {
       id,
+      username,
       firstName,
       lastName,
       profilePhoto,
@@ -447,7 +498,10 @@ const getTripById = gql`
           url,
           title,
           type,
-          description
+          description,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -492,7 +546,10 @@ const getPartialJunctureById = gql`
           postId,
           type,
           url,
-          description
+          description,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -539,7 +596,10 @@ const getFullJunctureById = gql`
           postId,
           type,
           url,
-          description
+          description,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -589,7 +649,10 @@ const getPostById = gql`
           type,
           url,
           description,
-          title
+          title,
+          accountByUserId {
+            id
+          }
         }
       }
     }
@@ -612,7 +675,10 @@ const getPostsByTag = gql`
           nodes {
             type,
             url,
-            title
+            title,
+            accountByUserId {
+              id
+            }
           }
         }
       }
@@ -639,7 +705,10 @@ const getPostsByCategory = gql`
           nodes {
             type,
             url,
-            title
+            title,
+            accountByUserId {
+              id
+            }
           }
         }
       }
@@ -669,7 +738,10 @@ const getPostsByTrip = gql`
                 imagesByPostId {
                   nodes {
                     url,
-                    type
+                    type,
+                    accountByUserId {
+                      id
+                    }
                   }
                 }
               }
@@ -1230,6 +1302,15 @@ export class APIService {
         tripId,
         first,
         offset
+      }
+    });
+  }
+
+  getRecentImages(amount: number) {
+    return this.apollo.watchQuery<any>({
+      query: getRecentImages,
+      variables: {
+        last: amount
       }
     });
   }

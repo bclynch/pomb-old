@@ -2,5 +2,72 @@ communitynavsection {
 
   .paneContainer {
 
+    .paneSection {
+      flex: 1;
+
+      &.images {
+        flex: 5;
+        display: none !important;
+      }
+      .paneContent {
+        height: calc(60vh - 40px - 50px); // info pane height - 50px which is the height of the header
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        min-width: 350px;
+
+        grid {
+          width: 80%;
+
+          .card {
+            height: 175px;
+          }
+        }
+        .tripWrapper {
+          margin-top: 40px;
+          width: 100%;
+        }
+        .socialWrapper {
+          flex: 1;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+
+          .socialOptions {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            max-width: 400px;
+
+            a {
+              text-decoration: none;
+              display: block;
+              display: flex;
+              align-items: center;
+
+              ion-icon {
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @include respond-to(medium) {
+    .paneContainer {
+      .paneSection {
+        &.images {
+          display: flex !important;
+        }
+      }
+    }
   }
 }

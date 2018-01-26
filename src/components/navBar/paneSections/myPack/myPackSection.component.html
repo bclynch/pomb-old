@@ -8,20 +8,17 @@
         <div class="paneSectionBtn">Get Started</div>
       </div>
     </div>
-    <div class="paneSection benefits">
-      <div class="paneSectionHeader">Benefits</div>
+    <div class="paneSection">
+      <div class="paneSectionHeader">Newsletter</div>
       <div class="paneSectionContent">
-        <div class="benefitWrapper" *ngFor="let benefit of benefits;">
-          <div><ion-icon name="{{benefit.icon}}"></ion-icon></div>
-          <div class="benefitDescription">{{benefit.description}}</div>
-        </div>
+        <Newsletter callout="Stay up to date with the latest happenings without registering"></Newsletter>
       </div>
     </div>
   </div>
   <div *ngIf="userService.signedIn" class="signedInContainer">
       <div class="paneSection profile">
         <div class="paneSectionHeader">Profile</div>
-        <div class="profileWrapper" (click)="routerService.navigateToPage('/' + userService.user.username)">
+        <div class="profileWrapper" (click)="routerService.navigateToPage('/user' + userService.user.username)">
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
           <div 
             class="profilePhotoContainer" 

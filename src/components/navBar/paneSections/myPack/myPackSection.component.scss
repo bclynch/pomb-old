@@ -2,7 +2,6 @@ mypacknavsection {
 
   .paneContainer {
     width: 100%;
-    padding: 25px;
 
     > div {
       width: 100%;
@@ -31,6 +30,7 @@ mypacknavsection {
     }
     .signedOutContainer {
       line-height: 20px;
+      margin-top: 75px;
 
       > div:first-child {
         flex: 1;
@@ -54,25 +54,11 @@ mypacknavsection {
         }
       }
       > div:last-child {
-        flex: 3;
-        display: none !important;
+        flex: 1;
+        display: flex;
 
         .paneSectionContent {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-around;
-
-          > .benefitWrapper {
-            width: 45%;
-            text-align: center;
-
-            .benefitDescription {
-              padding: 0 10px 10px;
-            }
-            ion-icon {
-              cursor: auto;
-            }
-          }
+          margin-top: 15px;
         }
       }
     }
@@ -186,12 +172,6 @@ mypacknavsection {
     }
   }
   @include respond-to(small) {
-    .paneContainer {
-      .signedOutContainer {
-        > div:last-child {
-          display: flex !important;
-        }
-      }
-    }
+
   }
 }

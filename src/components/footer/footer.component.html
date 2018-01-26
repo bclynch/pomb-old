@@ -1,10 +1,10 @@
 <div class="footerContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="footerWrapper">
     <div class="logoWrapper">
-      <div 
+      <span 
         class="boldFont gradientText" 
         [style.background-image]="'linear-gradient(to right, ' + settingsService.primaryColor + ', ' + settingsService.secondaryColor + ')'"
-      >POMB</div>
+      >POMB</span>
     </div>
     <div class="socialWrapper">
       <div *ngFor="let option of socialOptions;">

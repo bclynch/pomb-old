@@ -1,0 +1,12 @@
+<PageWrapper>
+  <div class="paneSection benefits">
+    <div class="paneSectionHeader">Benefits</div>
+    <div class="paneSectionContent">
+      <div class="benefitWrapper" *ngFor="let benefit of benefits;">
+        <div><ion-icon name="{{benefit.icon}}"></ion-icon></div>
+        <div class="benefitDescription">{{benefit.description}}</div>
+      </div>
+    </div>
+  </div>
+</PageWrapper>
+

@@ -5,6 +5,57 @@ grid {
   .gridContainer {
     width: 100%;
     padding: 1px;
+
+    .card {
+      height: 110px;
+      padding: 8px;
+      margin: 1px;
+      background-position: center;
+      background-size: cover;
+
+      &.img {
+        cursor: pointer;
+      }
+    }
+    
+    @include respond-to(tiny) {
+      .card {
+        margin: 1px;
+        height: 375px;
+        padding: 0; 
+  
+        &.smallCard {
+          flex-direction: column;
+  
+          .cardThumb {
+            flex: 7;
+          }
+          .contentContainer {
+            flex: 3;
+            padding: 16px;
+  
+            .contentTitle {
+              font-size: 22px;
+            }
+          }
+        }
+        &.largeCard {
+          
+          .cardThumb {
+            flex: 1;
+          }
+          .contentContainer {
+            flex: 1;
+            padding: 32px;
+            text-transform: uppercase;
+  
+            .contentTitle {
+              font-size: 56px;
+            }
+          }
+        }
+      }
+    }
   }
 
   //Made custom classes for our cards to size them appropriately. 
@@ -14,7 +65,7 @@ grid {
       flex-wrap: wrap;
       flex-direction: row;
       
-      > gridcard {
+      > .card {
         align-items: stretch;
         flex-grow: 1;
         flex-shrink: 1;
@@ -33,7 +84,7 @@ grid {
           flex-basis: calc(30% - 2px);
         }
       }
-      > gridcard:nth-child(1)::before {
+      > .card:nth-child(1)::before {
         background-color: var(--primary);
         bottom: 30px;
         content: "";
@@ -43,7 +94,7 @@ grid {
         width: 40%;
         z-index: 4;
       }
-      > gridcard:nth-child(1)::after {
+      > .card:nth-child(1)::after {
         background-color: var(--primary);
         bottom: 0;
         content: "";
@@ -57,7 +108,7 @@ grid {
         width: 38px;
         z-index: 4;
       }
-      > gridcard:nth-child(4)::before {
+      > .card:nth-child(4)::before {
         background-color: var(--secondary);
         bottom: 30px;
         content: "";
@@ -67,7 +118,7 @@ grid {
         width: 40%;
         z-index: 4;
       }
-      > gridcard:nth-child(4)::after {
+      > .card:nth-child(4)::after {
         background-color: var(--secondary);
         bottom: 0;
         content: "";
@@ -86,7 +137,7 @@ grid {
   @include respond-to(medium) {
     .gridContainer {
       
-      > gridcard {
+      > .card {
 
         &.largeCard {
           flex-basis: calc(65% - 2px);

@@ -1,0 +1,8 @@
+<PageWrapper>
+  <div class="generalErrPageWrapper" style="min-height: 100%;">
+    <img src="../../../assets/images/sad.svg" />
+    <h1>Something went wrong, sorry about that!</h1> 
+    <h3 *ngIf="errorService.errorStatus">Status Code: {{errorService.errorStatus}}</h3>
+    <p *ngIf="errorService.errorStatusText">Error Response: {{errorService.errorStatusText}}</p>
+  </div>
+</PageWrapper>
