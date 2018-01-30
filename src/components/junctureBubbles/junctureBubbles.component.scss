@@ -1,0 +1,133 @@
+juncturebubbles {
+
+  .juncturesContainer {
+    display: flex;
+    height: 200px;
+    position: relative;
+    width: 100vw;
+    max-width: 1000px;
+    overflow: hidden;
+
+    juncturebubble {
+
+      .bubbleContainer {
+  
+        .junctureImg {
+          height: 75px;
+          width: 75px;
+        }
+        .infoWrapper {
+          display: none;
+        }
+      }
+      &.animate {
+        @include animation('scroll 50000ms infinite', 'bob 10000ms infinite');
+        position: absolute;
+        left: -200px;
+        animation-timing-function: linear;
+
+        &:nth-child(1),
+        &:nth-child(2) {
+          animation-delay: 0;
+        }
+        &:nth-child(3),
+        &:nth-child(4) {
+          animation-delay: 10000ms;
+        }
+        &:nth-child(5),
+        &:nth-child(6) {
+          animation-delay: 20000ms;
+        }
+        &:nth-child(7),
+        &:nth-child(8) {
+          animation-delay: 30000ms;
+        }
+        &:nth-child(9),
+        &:nth-child(10) {
+          animation-delay: 40000ms;
+        }
+      }
+      &.static {
+        @include animation('bob 10000ms infinite');
+      }
+      &:nth-child(odd) {
+        .bubbleContainer {
+          flex-direction: column-reverse;
+        }
+      }
+      &:nth-child(even) {
+        align-self: flex-end;
+        left: -275px;
+      }
+    }
+  }
+
+  @include keyframes(bob) {
+    0%,100%{
+      transform: scale(1);
+    }
+    50%{
+      transform: scale(.95);
+    }
+  }
+  @include keyframes(reverse-bob) {
+    0%,100%{
+      transform: translateY(0px);
+    }
+    50%{
+      transform: translateY(20px);
+    }
+  }
+
+  @include keyframes(scroll) {
+    0% {
+      margin-left: 0%;
+    }
+    100% {
+      margin-left: 150%;
+    }
+  }
+
+
+  @include respond-to(tiny) {
+    .juncturesContainer {
+      height: 325px;
+
+      juncturebubble {
+
+        .bubbleContainer {
+  
+          .junctureImg {
+            height: 125px;
+            width: 125px;
+          }
+        }
+        &:nth-child(even) {
+          left: -325px;
+        }
+      }
+    }
+  }
+  @include respond-to(small) {
+    .juncturesContainer {
+      height: 400px;
+
+      juncturebubble {
+
+        .bubbleContainer {
+  
+          .junctureImg {
+            height: 150px;
+            width: 150px;
+          }
+          .infoWrapper {
+            display: block;
+          }
+        }
+        &:nth-child(even) {
+          left: -350px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+juncturebubble {
+
+  .bubbleContainer {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: .3s;
+
+    .junctureImg {
+      height: 150px;
+      width: 150px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
+      margin: 20px auto;
+    }
+    .infoWrapper {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  .bubbleContainer:hover {
+    color: var(--secondary);
+  }
+
+  @include respond-to(small) {
+
+  }
+}

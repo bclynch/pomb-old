@@ -6,6 +6,7 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { GeoService } from '../../services/geo.service';
 import { UtilService } from '../../services/util.service';
+import { Juncture } from '../../models/Juncture.model';
 
 @Component({
  selector: 'page-juncture',
@@ -17,7 +18,7 @@ export class JuncturePage {
 
   inited = false;
   junctureId: number;
-  junctureData;
+  junctureData: Juncture;
   bannerImg: string;
 
   isProcessing = false;

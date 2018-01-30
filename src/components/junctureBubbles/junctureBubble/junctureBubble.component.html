@@ -1,0 +1,11 @@
+<div 
+  class="bubbleContainer" 
+  [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+  (click)="routerService.navigateToPage('/juncture/' + juncture.id)"
+>
+  <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}"></div>
+  <div class="infoWrapper">
+    <div class="junctureName">{{juncture.name}}</div>
+    <div class="junctureLocation">{{juncture.city}}, {{juncture.country}}</div>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import { GeoService } from '../../services/geo.service';
 import { RouterService } from '../../services/router.service';
 import { JunctureService } from '../../services/juncture.service';
 
+import { Trip } from '../../models/Trip.model';
+
 @Component({
   selector: 'page-trip-map',
   templateUrl: 'tripMap.html'
@@ -22,7 +24,7 @@ export class TripMapPage {
   @ViewChildren(AgmSnazzyInfoWindow) snazzyWindowChildren: QueryList<any>;
 
   tripId: number;
-  tripData;
+  tripData: Trip;
   junctureMarkers = [];
   inited = false;
   defaultPhoto = '../../assets/images/trip-default.jpg';

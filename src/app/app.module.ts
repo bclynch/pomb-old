@@ -64,6 +64,8 @@ import { ChartComponent } from '../components/chart/chart.component';
 import { Newsletter } from '../components/newsletter/newsletter.component';
 import { UnitToggle } from '../components/unitToggle/unitToggle.component';
 import { Tags } from '../components/tags/tags.component';
+import { JunctureBubbles } from '../components/junctureBubbles/junctureBubbles.component';
+import { JunctureBubble } from '../components/junctureBubbles/junctureBubble/junctureBubble.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -211,7 +213,9 @@ import { ErrorService } from '../services/error.service';
     SplashPage,
     NotFoundPage,
     GeneralErrorPage,
-    Tags
+    Tags,
+    JunctureBubbles,
+    JunctureBubble
   ],
   imports: [
     BrowserModule,

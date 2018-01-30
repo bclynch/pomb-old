@@ -67,7 +67,7 @@ export class JunctureService {
               tripId: ${tripId},
               junctureId: ${junctureId}
               userId: ${this.userService.user.id},
-              type: ${ImageType['gallery']},
+              type: ${ImageType['GALLERY']},
               url: "${photo.photoUrl}",
               ${photo.description ? 'description: "' + photo.description + '"' : ''}
             }

@@ -50,7 +50,7 @@ export class TripService {
 
   saveBannerPhotos(bannerPhotos: { url: string; title: string; }[], tripId: number) {
     return new Promise((resolve, reject) => {
-      if (!bannerPhotos) resolve();
+      if (!bannerPhotos.length) resolve();
 
       // then bulk add links to post
       let query = `mutation {`;
@@ -60,7 +60,7 @@ export class TripService {
             image: {
               tripId: ${tripId},
               userId: ${this.userService.user.id},
-              type: ${ImageType['banner']},
+              type: ${ImageType['BANNER']},
               url: "${photo.url}",
               ${photo.title ? 'title: "' + photo.title + '"' : ''}
             }

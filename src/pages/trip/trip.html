@@ -2,7 +2,7 @@
     <FadeCarousel 
       [data]="carouselImages" 
       [style.width]="'100vw'" 
-      [title]="trip"
+      [title]="tripData?.name"
       [flags]="countryFlags"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
@@ -16,7 +16,7 @@
       <div class="sectionsWrapper">
         <div class="widthWrapper">
           <div class="section glance" id="Highlights">
-            <div class="glanceHeader">Explore {{trip}}</div>
+            <div class="glanceHeader">Explore {{tripData?.name}}</div>
             Throw some stats in right here (miles, days, countries visited, w/e)
             <div class="glanceSubsection">{{glanceSubsection}}</div>
             <div 
@@ -59,19 +59,39 @@
             </div>
           </div>
           <div class="section junctures" id="Junctures">
-            <div class="sectionHeader" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Junctures</div>
+            <div class="sectionHeader">Junctures</div>
+            <div class="sectionContent" *ngIf="tripData?.juncturesByTripId.nodes.length">
+              <JunctureBubbles [junctures]="tripData?.juncturesByTripId.nodes"></JunctureBubbles>
+              <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/junctures')">Check out all of this trip's junctures</div>
+            </div>
+            <div class="noResultsContainer" *ngIf="!tripData?.juncturesByTripId.nodes.length">
+              <ion-icon name="md-git-merge"></ion-icon>
+              <div>Looks like there junctures for this trip quite yet</div>
+            </div>
           </div>
           <div class="section posts" id="Posts">
             <div class="sectionHeader">Posts</div>
-            <div class="postsContainer">
-              <PostCard [data]="post" *ngFor="let post of tripPosts"></PostCard>
+            <div class="sectionContent" *ngIf="tripPosts.length">
+              <div class="postsContainer">
+                <PostCard [data]="post" *ngFor="let post of tripPosts"></PostCard>
+              </div>
+              <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Check out all of this trip's posts</div>
             </div>
-            <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/posts')">Check out all of this trip's posts</div>
+            <div class="noResultsContainer" *ngIf="!tripPosts.length">
+              <ion-icon name="md-albums"></ion-icon>
+              <div>Looks like there aren't any posts for this trip quite yet</div>
+            </div>
           </div>
           <div class="section photos" id="Photos">
             <div class="sectionHeader">Photos</div>
-            <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
-            <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Check out all of this trip's photos</div>
+            <div class="sectionContent" *ngIf="gallery.length">
+              <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
+              <div class="navLink" (click)="routerService.navigateToPage('/trip/' + tripId + '/photos')">Check out all of this trip's photos</div>
+            </div>
+            <div class="noResultsContainer" *ngIf="!gallery.length">
+              <ion-icon name="md-images"></ion-icon>
+              <div>Looks like there aren't any images for this trip quite yet</div>
+            </div>
           </div>
         </div>
       </div>

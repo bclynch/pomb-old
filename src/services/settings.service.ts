@@ -7,6 +7,9 @@ import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
 import { LocalStorageService } from './localStorage.service';
 
+import { Trip } from '../models/Trip.model';
+import { Image } from '../models/Image.model';
+
 interface FeaturedStory {
   id: number;
   title: string;
@@ -24,8 +27,8 @@ export class SettingsService {
   tagline: string;
   heroBanner: string;
   featuredStories: FeaturedStory[];
-  featuredTrip;
-  recentPhotos;
+  featuredTrip: Trip;
+  recentPhotos: Image[];
 
   private unitOfMeasureSubject: BehaviorSubject<void>;
   public unitOfMeasure$: Observable<void>;

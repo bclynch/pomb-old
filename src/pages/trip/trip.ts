@@ -15,6 +15,8 @@ import { AlertService } from '../../services/alert.service';
 import { ExploreService } from '../../services/explore.service';
 
 import { Post } from '../../models/Post.model';
+import { Trip } from '../../models/Trip.model';
+import { ImageType } from '../../models/Image.model';
 
 @Component({
   selector: 'page-trip',
@@ -28,8 +30,7 @@ export class TripPage implements AfterViewInit {
   subnavOptions = ['Highlights', 'Map', 'Junctures', 'Posts', 'Photos'];
 
   tripId: number;
-  tripData;
-  trip: number;
+  tripData: Trip;
 
   dataLayerStyle;
 
@@ -49,7 +50,8 @@ export class TripPage implements AfterViewInit {
   mapStyle;
   boundedZoom: number;
 
-  countryFlags: { url: string; name: string; }[] = [];
+  // countryFlags: { url: string; name: string; }[] = [];
+  countryFlags: any[] = [];
 
   tripPosts: Post[] = [];
 
@@ -81,15 +83,14 @@ export class TripPage implements AfterViewInit {
     this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
-      this.trip = this.tripData.name;
       this.settingsService.modPageTitle(this.tripData.name);
 
       this.carouselImages = [];
       this.gallery = [];
       // populate img arrays
       this.tripData.imagesByTripId.nodes.forEach((img) => {
-        if (img.type === 'BANNER') this.carouselImages.push({ imgURL: img.url, tagline: img.title });
-        if (img.type === 'GALLERY' && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description });
+        if (img.type === ImageType['BANNER']) this.carouselImages.push({ imgURL: img.url, tagline: img.title });
+        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description });
       });
 
       // trip coords
@@ -121,6 +122,7 @@ export class TripPage implements AfterViewInit {
       this.countryFlags = this.countryFlags.filter(obj => obj.url);
 
       // populate posts arr
+      // Separated it out so we don't make the posts call for other pages that use this endpoint
       this.apiService.getPostsByTrip(this.tripData.id).valueChanges.subscribe(
         data => {
           const tripPosts = [];

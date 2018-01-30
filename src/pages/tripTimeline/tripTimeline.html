@@ -20,8 +20,7 @@
       <div 
         class="junctureContainer" 
         *ngFor="let juncture of tripData?.juncturesByTripId.nodes; let i = index; let last=last" 
-        [id]="'juncture' + i" 
-        [ngClass]="i % 2 === 0 ? 'even' : 'odd'"
+        [id]="'juncture' + i"
       >
         <div class="imgGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">
           <div class="junctureDate">{{juncture.arrivalDate | date:'mediumDate'}}</div>

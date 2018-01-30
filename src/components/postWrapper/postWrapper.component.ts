@@ -3,6 +3,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { RouterService } from '../../services/router.service';
 import { SettingsService } from '../../services/settings.service';
 import { Post } from '../../models/Post.model';
+import { ImageType } from '../../models/Image.model';
 
 @Component({
   selector: 'PostWrapper',
@@ -22,7 +23,7 @@ export class PostWrapper implements OnChanges {
   ngOnChanges() {
     if (this.post) {
       this.post.imagesByPostId.nodes.forEach((image) => {
-        if (image.type === 'GALLERY') this.galleryImages.push(image);
+        if (image.type === ImageType['GALLERY']) this.galleryImages.push(image);
       });
       this.tags = this.post.postToTagsByPostId.nodes.map((tag) => tag.postTagByPostTagId.name);
     }

@@ -8,6 +8,9 @@ import { AlertService } from './alert.service';
 import { Registration } from '../models/Registration.model';
 import { Login } from '../models/Login.model';
 import { User } from '../models/User.model';
+import { Trip } from '../models/Trip.model';
+import { Juncture } from '../models/Juncture.model';
+import { Post } from '../models/Post.model';
 
 @Injectable()
 export class UserService {
@@ -15,9 +18,9 @@ export class UserService {
   user: User;
 
   // for use in our nav panel
-  recentTrip;
-  recentJunctures;
-  recentPosts;
+  recentTrip: Trip;
+  recentJunctures: Juncture[];
+  recentPosts: Post[];
 
   constructor(
     private apiService: APIService,

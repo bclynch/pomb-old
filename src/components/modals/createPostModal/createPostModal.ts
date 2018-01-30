@@ -122,7 +122,7 @@ export class CreatePostModal {
           this.leadPhotoLinks = [];
           this.galleryPhotos = [];
           this.data.imagesByPostId.nodes.forEach((img) => {
-            if (img.type === 'GALLERY') {
+            if (img.type === ImageType['GALLERY']) {
               this.galleryPhotos.push({ id: img.id, photoUrl: img.url, description: img.description });
             } else {
               this.leadPhotoLinks.push({ url: img.url, size: null });
@@ -331,7 +331,7 @@ export class CreatePostModal {
                   ${this.postModel.junctureId ? 'junctureId: ' + this.postModel.junctureId : ''},
                   postId: ${postId},
                   userId: ${this.userService.user.id},
-                  type: ${i === 0 ? ImageType['leadSmall'] : ImageType['leadLarge']},
+                  type: ${i === 0 ? ImageType['LEAD_SMALL'] : ImageType['LEAD_LARGE']},
                   url: "${this.leadPhotoLinks[i].url}",
                   title: "${title}"
                 }
@@ -367,7 +367,7 @@ export class CreatePostModal {
               ${this.postModel.junctureId ? 'junctureId: ' + this.postModel.junctureId : ''},
               postId: ${postId},
               userId: ${this.userService.user.id},
-              type: ${ImageType['gallery']},
+              type: ${ImageType['GALLERY']},
               url: "${photo.photoUrl}",
               description: "${photo.description}"
             }

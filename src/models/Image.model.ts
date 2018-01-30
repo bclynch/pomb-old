@@ -1,6 +1,17 @@
+import { User } from './User.model';
+
 export enum ImageType {
-  LEAD_LARGE = <any>'leadLarge',
-  LEAD_SMALL = <any>'leadSmall',
-  GALLERY = <any>'gallery',
-  BANNER = <any>'banner',
+  LEAD_LARGE = 'LEAD_LARGE',
+  LEAD_SMALL = 'LEAD_SMALL',
+  GALLERY = 'GALLERY',
+  BANNER = 'BANNER',
+}
+
+export class Image {
+  id: number;
+  accountByUserId: User;
+  description: string;
+  title: string;
+  type: ImageType;
+  url: string;
 }

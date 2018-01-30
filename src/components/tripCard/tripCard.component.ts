@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 
+import { Trip } from '../../models/Trip.model';
+
 @Component({
   selector: 'TripCard',
   templateUrl: 'tripCard.component.html'
 })
 export class TripCard {
-  @Input() trip;
+  @Input() trip: Trip;
 
   defaultPhoto = '../../assets/images/trip-default.jpg';
 

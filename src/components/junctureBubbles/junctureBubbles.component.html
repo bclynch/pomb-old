@@ -1,0 +1,7 @@
+<div class="juncturesContainer">
+  <JunctureBubble 
+    *ngFor="let juncture of junctures;" 
+    [juncture]="juncture" 
+    [ngClass]="junctures.length > 8 ? 'animate' : 'static'"
+  ></JunctureBubble>
+</div>

@@ -7,12 +7,10 @@
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, description
     - Fix flickr banner algorithm. It sucks
-- Would be nice to have a trip page thats a little more static, but graphical. Shows all junctures, stats in some nice way.
-    - junctures (bubble looking things and maybe they animate / scroll if there are enough of them)
-        - Need banner img for timeline page
-    - couple stats (countries, distance, w/e)
-    - Dynamically populate sub nav and sections IF they have data
+- Would be nice to have a trip page thats a little more static, but graphical. Show stats in some nice way (countries, distance, w/e)
+- Need banner img for timeline page
 - Place newsletter component around (blog posts, w/e)
+- Add trip description to trip modal
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal

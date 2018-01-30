@@ -8,6 +8,8 @@ import { APIService } from '../../services/api.service';
 import { JunctureService } from '../../services/juncture.service';
 import { RouterService } from '../../services/router.service';
 
+import { Trip } from '../../models/Trip.model';
+
 @Component({
  selector: 'page-trip-timeline',
  templateUrl: 'tripTimeline.html'
@@ -15,7 +17,7 @@ import { RouterService } from '../../services/router.service';
 export class TripTimelinePage {
 
   tripId: number;
-  tripData;
+  tripData: Trip;
 
   constructor(
     private settingsService: SettingsService,

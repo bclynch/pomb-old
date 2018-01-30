@@ -4,6 +4,7 @@ import { SettingsService } from '../../../services/settings.service';
 import { RouterService } from '../../../services/router.service';
 
 import { Post } from '../../../models/Post.model';
+import { ImageType } from '../../../models/Image.model';
 
 @Component({
   selector: 'GridCard',
@@ -22,7 +23,7 @@ export class GridCard implements OnInit {
 
   ngOnInit() {
     this.data.imagesByPostId.nodes.forEach((img) => {
-      if (img.type === 'LEAD_LARGE') this.thumbnailImage = img.url;
+      if (img.type === ImageType['LEAD_LARGE']) this.thumbnailImage = img.url;
     });
   }
 

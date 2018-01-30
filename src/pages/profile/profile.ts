@@ -7,6 +7,7 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { RouterService } from '../../services/router.service';
 
 import { Post } from '../../models/Post.model';
+import { User } from '../../models/User.model';
 
 @Component({
   selector: 'page-profile',
@@ -20,7 +21,7 @@ export class ProfilePage {
   otherPosts: Post[] = [];
   gridConfiguration: number[] = [ 6.5, 3.5, 3.5, 6.5, 3, 3, 3 ];
   username: string;
-  user;
+  user: User;
   ready = false;
 
   constructor(
