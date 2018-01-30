@@ -13,16 +13,10 @@
     - couple stats (countries, distance, w/e)
     - Dynamically populate sub nav and sections IF they have data
 - Place newsletter component around (blog posts, w/e)
-- Blog Dash
-    - Still a little jacked up with the img model change. Updating posts needs work
-    - Need to add way to wire up to juncture + trip
-    - Lead img title broken
-- Probably get rid of post categories and just use all tags. Need to mod hub page for this
-- Trip modal fix how to display trip photos + way to add subtitle
-    - Need way to edit trips and junctures!
+- Need way to edit trips and junctures!
+    - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal
 - Mobile usage!
-    - On mobile nav would like to show logged in user otherwise have login button and make the logout tn dynamic
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
 - Currently trying to get application online

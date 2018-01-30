@@ -11,7 +11,7 @@
       <div (click)="postSize = 'large'" [ngClass]="postSize === 'large' ? 'selected' : null">Large</div>
     </div>
   </div>
-  <div *ngIf="type === 'gallery' || type === 'juncture'">(max {{maxImgs}} images per gallery)</div>
+  <div *ngIf="type === 'gallery' || type === 'juncture' || type === 'banner'">(max {{maxImgs}} images)</div>
   <label for="file">
     <input 
       type="file" 

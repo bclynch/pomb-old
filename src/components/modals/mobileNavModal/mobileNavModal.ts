@@ -3,6 +3,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../../services/settings.service';
+import { UserService } from '../../../services/user.service';
 
 interface Section {
   label: string;
@@ -25,6 +26,7 @@ export class MobileNavModal {
     private params: NavParams,
     private settingsService: SettingsService,
     private sanitizer: DomSanitizer,
+    private userService: UserService
   ) {
     this.snagCategories();
   }

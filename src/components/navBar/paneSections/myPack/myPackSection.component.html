@@ -22,7 +22,7 @@
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
           <div 
             class="profilePhotoContainer" 
-            [ngStyle]="userService.user && userService.user.currentAccount?.profilePhoto ? { 'background-image': 'url(' + userService.user.currentAccount.profilePhoto + ')'} : { 'background': 'black'}"
+            [ngStyle]="userService.user && userService.user ? { 'background-image': 'url(' + userService.user.profilePhoto + ')'} : { 'background': 'black'}"
           ></div>
         </div>
         <div (click)="routerService.navigateToPage('/admin')">Admin</div>

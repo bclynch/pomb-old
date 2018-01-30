@@ -10,12 +10,27 @@
     <div class="contentWrapper">
       <div 
         class="imgLoadWrapper" 
-        [ngStyle]="tripModel.bannerPath ? { 'background-image': 'url(' + tripModel.bannerPath + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
+        [ngStyle]="tripModel.bannerImages.length ? { 'background-image': 'url(' + tripModel.bannerImages[0].url + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
         (click)="presentBannerUploaderPopover()"
       >
         <div>
           <ion-icon name="md-cloud-upload"></ion-icon>
           <div>Upload image</div>
+          <ion-icon 
+            class="editBtn" 
+            name="md-create" 
+            title="Edit banner photo" 
+            (click)="presentEditPopover($event, 0)" 
+            *ngIf="tripModel.bannerImages.length"
+          ></ion-icon> 
+        </div>
+      </div>
+      <div class="gridWrapper" *ngIf="tripModel.bannerImages.length > 1">
+        <div class="gridUnitWrapper" *ngFor="let image of tripModel.bannerImages | slice:1; let i = index">
+          <div class="imgWrapper">
+            <div [ngStyle]="{ 'background-image': 'url(' + image.url + ')'}"></div>
+            <ion-icon name="md-create" title="Edit banner photo" (click)="presentEditPopover($event, i + 1)"></ion-icon> 
+          </div>
         </div>
       </div>
       <div class="mapContainer">

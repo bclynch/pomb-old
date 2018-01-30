@@ -116,9 +116,6 @@ export class NavBar {
           case 'stories hub':
             this.routerService.navigateToPage('/stories');
             break;
-          case 'profile':
-            this.routerService.navigateToPage(`/user/${this.userService.user.username}`);
-            break;
           case 'create trip':
             this.tripService.createTrip();
             break;
@@ -133,6 +130,12 @@ export class NavBar {
             break;
           case 'logout':
             this.userService.logoutUser();
+            break;
+          case 'register':
+            this.signinUser();
+            break;
+          case 'profile':
+            this.routerService.navigateToPage(`/user/${this.userService.user.username}`);
             break;
           default:
             this.routerService.navigateToPage(`/stories/${data}`);

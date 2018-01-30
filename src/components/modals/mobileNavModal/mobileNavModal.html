@@ -12,6 +12,22 @@
     </div>
   </div>
   <div class="contentWrapper">
+    <div 
+      class="profileWrapper" 
+      (click)="viewCtrl.dismiss('profile')"
+    >
+      <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
+      <div 
+        class="profilePhotoContainer" 
+        [ngStyle]="userService.user && userService.user ? { 'background-image': 'url(' + userService.user.profilePhoto + ')'} : { 'background': 'black'}"
+      ></div>
+      <div class="logoutBtn">Logout</div>
+    </div>
+    <div class="paneSectionContent" (click)="viewCtrl.dismiss('register')" *ngIf="!userService.signedIn">
+      <div><ion-icon name="md-person"></ion-icon></div>
+      <div class="loginDescription">Looks like you aren't signed into an account yet. Login or signup to become a POMB member and start chronicling your journey.</div>
+      <div class="paneSectionBtn">Get Started</div>
+    </div>
     <Search (searchSubmit)="viewCtrl.dismiss()" [hasBorder]="true"></Search>
     <div class="section" *ngFor="let option of sectionOptions; let i = index;" [ngClass]="activeSection === i ? 'active' : ''">
       <div class="sectionHeader" (click)="activeSection === i ? activeSection = null : activeSection = i">

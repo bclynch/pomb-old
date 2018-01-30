@@ -11,6 +11,7 @@ import { JunctureService } from '../../../services/juncture.service';
 
 import { DatePickerModal } from '../datepickerModal/datepickerModal';
 import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
+import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/galleryImgActionPopover.component';
 
 @Component({
   selector: 'TripModal',
@@ -18,7 +19,7 @@ import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploader
 })
 export class TripModal {
 
-  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerImages: null};
+  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerImages: []};
 
   inited = false;
   coords = { lat: null, lon: null };
@@ -99,5 +100,55 @@ export class TripModal {
   moveCenter(e) {
     this.coords.lat = e.lat;
     this.coords.lon = e.lng;
+  }
+
+  presentEditPopover(e, index: number) {
+    console.log(index);
+    e.stopPropagation();
+
+    const self = this;
+    const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.tripModel.bannerImages[index] }, { cssClass: 'galleryImgActionPopover' });
+    popover.present({
+      ev: e
+    });
+    popover.onDidDismiss((data) => {
+      console.log(data);
+      if (data) {
+        if (data.action === 'delete') {
+          this.alertService.confirm(
+            'Delete Banner Image',
+            'Are you sure you want to delete permanently delete this image?',
+            { label: 'Delete', handler: () =>  {
+              // if photo has already been saved to db
+              if (this.tripModel.bannerImages[index].id) {
+                this.apiService.deleteImageById(this.tripModel.bannerImages[index].id).subscribe(
+                  result => {
+                    this.tripModel.bannerImages.splice(index, 1);
+                    toastDelete();
+                  }
+                );
+              } else {
+                this.tripModel.bannerImages.splice(index, 1);
+                toastDelete();
+              }
+            }}
+          );
+        } else {
+          // update photo
+          this.tripModel.bannerImages[index].url = data.data.url;
+          this.tripModel.bannerImages[index].title = data.data.description;
+          this.tripModel.bannerImages[index].description = data.data.description;
+        }
+      }
+    });
+
+    function toastDelete() {
+      const toast = self.toastCtrl.create({
+        message: `Banner image deleted`,
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+    }
   }
 }

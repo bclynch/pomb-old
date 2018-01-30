@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 
 
@@ -11,7 +13,9 @@ export class Tags {
   @Input() tags: string[];
 
   constructor(
-    private routerService: RouterService
+    private routerService: RouterService,
+    private sanitizer: DomSanitizer,
+    private settingsService: SettingsService,
   ) {
 
   }

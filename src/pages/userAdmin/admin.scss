@@ -64,6 +64,7 @@ page-useradmin {
   .dashboardContent {
     position: relative;
     height: 100%;
+    overflow: scroll;
 
     .menuToggleBtn {
       position: absolute;

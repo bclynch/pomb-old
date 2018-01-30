@@ -54,7 +54,9 @@ export class UserAdminConfigPage {
     const popover = this.popoverCtrl.create(ImageUploaderPopover, { type, size }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if (data) type === 'banner' ? this.configModel.heroBanner = data.url : this.configModel.userPhoto = data.url;
+      if (data) {
+        type === 'banner' ? this.configModel.heroBanner = data[0].url : this.configModel.userPhoto = data[0].url;
+      }
     });
   }
 
