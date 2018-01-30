@@ -5,7 +5,7 @@ import { APIService } from '../../services/api.service';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 
-import { Post, PostCategory } from '../../models/Post.model';
+import { Post } from '../../models/Post.model';
 
 @Component({
   selector: 'page-hub',
@@ -42,6 +42,7 @@ export class HubPage {
 
   init() {
     this.settingsService.modPageTitle(this.currentHub);
+    // if it's a trip get posts by trip id otherwise by post tag
     if (this.isTripPosts) {
       this.apiService.getPostsByTrip(+this.currentHub).valueChanges.subscribe(
         data => {
@@ -63,9 +64,9 @@ export class HubPage {
         }
       );
     } else {
-      this.apiService.getPostsByCategory(PostCategory[this.currentHub]).valueChanges.subscribe(({ data }) => {
-        console.log('got category posts: ', data.allPosts.nodes);
-        this.posts = data.allPosts.nodes;
+      this.apiService.getPostsByTag(this.currentHub).valueChanges.subscribe(({ data }) => {
+        console.log('got tag posts: ', data.allPostToTags.nodes);
+        this.posts = data.allPostToTags.nodes.map((node) => node.postByPostId);
         this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
         this.otherPosts = this.posts.slice(this.gridConfiguration.length);
       }, (error) => {

@@ -128,9 +128,9 @@ export class TripPage implements AfterViewInit {
           const tripData = <any>data;
           const junctures = tripData.data.tripById.juncturesByTripId.nodes;
           junctures.forEach((juncture) => {
-            const juncturePosts = juncture.junctureToPostsByJunctureId.nodes;
+            const juncturePosts = juncture.postsByJunctureId.nodes;
             if (juncturePosts.length) juncturePosts.forEach((post) => {
-              tripPosts.push(post.postByPostId);
+              tripPosts.push(post);
             });
           });
           this.tripPosts = tripPosts.slice(0, 5);

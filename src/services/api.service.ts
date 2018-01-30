@@ -9,7 +9,6 @@ import gql from 'graphql-tag';
 
 import { AlertService } from './alert.service';
 
-import { PostCategory } from '../models/Post.model';
 import { ImageType } from '../models/Image.model';
 
 // needs to be an env var
@@ -45,44 +44,18 @@ const getAllPublishedPosts = gql`
         title,
         subtitle,
         content,
-        category,
         createdAt,
         updatedAt,
-        isDraft,
-        isScheduled,
-        isPublished,
-        scheduledDate,
-        publishedDate,
         accountByAuthor {
           firstName,
           lastName,
           username
         },
-        postToTagsByPostId {
-          nodes {
-            id,
-            postTagByPostTagId {
-              name,
-              id
-            }
-          }
-        },
-        postToCommentsByPostId {
-          nodes {
-            postCommentByCommentId {
-              accountByAuthor {
-              firstName
-              },
-              content,
-              createdAt
-            }
-          }
-        },
         imagesByPostId {
           nodes {
             type,
             url,
-            description,
+            title,
             accountByUserId {
               id
             }
@@ -106,7 +79,6 @@ query allPosts($author: Int!) {
       title,
       subtitle,
       content,
-      category,
       createdAt,
       updatedAt,
       isDraft,
@@ -114,6 +86,8 @@ query allPosts($author: Int!) {
       isPublished,
       scheduledDate,
       publishedDate,
+      junctureId,
+      tripId,
       accountByAuthor {
         firstName,
         lastName
@@ -122,8 +96,7 @@ query allPosts($author: Int!) {
         nodes {
           id,
           postTagByPostTagId {
-            name,
-            id
+            name
           }
         }
       },
@@ -140,9 +113,11 @@ query allPosts($author: Int!) {
       },
       imagesByPostId {
         nodes {
+          id,
           type,
           url,
           description,
+          title,
           accountByUserId {
             id
           }
@@ -228,7 +203,6 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       title,
       subtitle,
       content,
-      category,
       createdAt,
       updatedAt,
       isDraft,
@@ -242,10 +216,8 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       },
       postToTagsByPostId {
         nodes {
-          id,
           postTagByPostTagId {
-            name,
-            id
+            name
           }
         }
       },
@@ -436,7 +408,8 @@ const getRecentUserActivity = gql`
         last: 3,
         condition: {
           isPublished: true
-        }
+        },
+        orderBy: ID_DESC
       ) {
         nodes {
           title,
@@ -508,6 +481,27 @@ const getTripById = gql`
   }
 `;
 
+const getTripsByUser = gql`
+  query allTrips($id: Int!) {
+    allTrips(
+      condition:{
+        userId: $id
+      }
+    ) {
+      nodes {
+        id,
+        name,
+        juncturesByTripId {
+          nodes {
+            name,
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 const getPartialJunctureById = gql`
   query junctureById($id: Int!) {
     junctureById(id: $id) {
@@ -517,22 +511,20 @@ const getPartialJunctureById = gql`
       description,
       city,
       country,
-      junctureToPostsByJunctureId {
+      postsByJunctureId {
         nodes {
-          postByPostId {
-            id,
-            title,
-            accountByAuthor {
-              firstName,
-              lastName,
-              username
-            },
-            createdAt,
-            imagesByPostId {
-              nodes {
-                url,
-                type
-              }
+          id,
+          title,
+          accountByAuthor {
+            firstName,
+            lastName,
+            username
+          },
+          createdAt,
+          imagesByPostId {
+            nodes {
+              url,
+              type
             }
           }
         }
@@ -568,14 +560,12 @@ const getFullJunctureById = gql`
       city,
       country,
       markerImg,
-      junctureToPostsByJunctureId {
+      postsByJunctureId {
         nodes {
-          postByPostId {
-             id,
-            author,
-            accountByAuthor {
-              id
-            },
+          id,
+          author,
+          accountByAuthor {
+            id
           }
         }
       },
@@ -613,7 +603,6 @@ const getPostById = gql`
       title,
       subtitle,
       content,
-      category,
       createdAt,
       updatedAt,
       scheduledDate,
@@ -625,10 +614,8 @@ const getPostById = gql`
       },
       postToTagsByPostId {
         nodes {
-          id,
           postTagByPostTagId {
-            name,
-            id
+            name
           }
         }
       },
@@ -660,54 +647,30 @@ const getPostById = gql`
 `;
 
 const getPostsByTag = gql`
-  query postsByTag($tagId: Int!) {
-    postsByTag(tagId: $tagId) {
-      nodes {
-        id,
-        title,
-        accountByAuthor {
-          firstName,
-          lastName
-        }
-        subtitle,
-        createdAt,
-        imagesByPostId {
-          nodes {
-            type,
-            url,
-            title,
-            accountByUserId {
-              id
-            }
-          }
-        }
+  query allPostToTags($tagId: String) {
+    allPostToTags(
+      condition: {
+        postTagId: $tagId
       }
-    }
-  }
-`;
-
-const getPostsByCategory = gql`
-  query allPosts($category: PostCategory) {
-    allPosts(condition:{
-      category: $category
-    },
-    orderBy: PRIMARY_KEY_DESC) {
+    ) {
       nodes {
-        id,
-        title,
-        accountByAuthor {
-          firstName,
-          lastName
-        }
-        subtitle,
-        createdAt,
-        imagesByPostId {
-          nodes {
-            type,
-            url,
-            title,
-            accountByUserId {
-              id
+        postByPostId {
+          id,
+          title,
+          accountByAuthor {
+            firstName,
+            lastName
+          }
+          subtitle,
+          createdAt,
+          imagesByPostId {
+            nodes {
+              type,
+              url,
+              title,
+              accountByUserId {
+                id
+              }
             }
           }
         }
@@ -724,24 +687,22 @@ const getPostsByTrip = gql`
       juncturesByTripId {
         nodes {
           id,
-          junctureToPostsByJunctureId {
+          postsByJunctureId {
             nodes {
-              postByPostId {
-                id,
-                title,
-                accountByAuthor {
-                  firstName,
-                  lastName
-                }
-                subtitle,
-                createdAt,
-                imagesByPostId {
-                  nodes {
-                    url,
-                    type,
-                    accountByUserId {
-                      id
-                    }
+              id,
+              title,
+              accountByAuthor {
+                firstName,
+                lastName
+              }
+              subtitle,
+              createdAt,
+              imagesByPostId {
+                nodes {
+                  url,
+                  type,
+                  accountByUserId {
+                    id
                   }
                 }
               }
@@ -807,7 +768,6 @@ const searchTags = gql`
   query searchTags($query: String!) {
     searchTags(query: $query) {
       nodes {
-        id,
         name
       }
     }
@@ -900,17 +860,18 @@ const deletePostById = gql`
 `;
 
 const createPost = gql`
-  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $category: PostCategory, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $tripId: Int, $junctureId: Int, $scheduledDate: BigInt, $publishedDate: BigInt) {
     createPost(input: {
       post: {
         author: $author,
         title: $title,
         subtitle: $subtitle,
         content: $content,
-        category: $category,
         isDraft: $isDraft,
         isScheduled: $isScheduled,
         isPublished: $isPublished,
+        tripId: $tripId,
+        junctureId: $junctureId,
         scheduledDate: $scheduledDate,
         publishedDate: $publishedDate
       }
@@ -931,7 +892,6 @@ const createPostTag = gql`
       }
     }) {
       postTag {
-        id,
         name
       }
     }
@@ -996,15 +956,16 @@ const updateConfig = gql`
 `;
 
 const updatePostById = gql`
-  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $category: PostCategory, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $tripId: Int, $junctureId: Int, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
     updatePostById(input:{
       id: $postId,
       postPatch:{
         title: $title,
         subtitle: $subtitle,
         content: $content,
+        tripId: $tripId,
+        junctureId: $junctureId,
         isDraft: $isDraft,
-        category: $category,
         isScheduled: $isScheduled,
         isPublished: $isPublished,
         scheduledDate: $scheduledDate,
@@ -1336,6 +1297,15 @@ export class APIService {
     });
   }
 
+  getTripsByUser(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getTripsByUser,
+      variables: {
+          id
+      }
+    });
+  }
+
   getPartialJunctureById(id: number) {
     return this.apollo.watchQuery<any>({
       query: getPartialJunctureById,
@@ -1363,20 +1333,11 @@ export class APIService {
     });
   }
 
-  getPostsByTag(tagId: number) {
+  getPostsByTag(tagId: string) {
     return this.apollo.watchQuery<any>({
       query: getPostsByTag,
       variables: {
         tagId
-      }
-    });
-  }
-
-  getPostsByCategory(category: PostCategory) {
-    return this.apollo.watchQuery<any>({
-      query: getPostsByCategory,
-      variables: {
-        category
       }
     });
   }
@@ -1502,7 +1463,7 @@ export class APIService {
     });
   }
 
-  createPost(author: number, title: string, subtitle: string, content: string, category: PostCategory, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, tripId: number, junctureId: number, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: createPost,
       variables: {
@@ -1510,10 +1471,11 @@ export class APIService {
         title,
         subtitle,
         content,
-        category,
         isDraft,
         isScheduled,
         isPublished,
+        tripId,
+        junctureId,
         scheduledDate: scheduledDate ? scheduledDate : null,
         publishedDate: publishedDate ? publishedDate : null
       }
@@ -1582,7 +1544,7 @@ export class APIService {
     });
   }
 
-  updatePostById(postId: number, title: string, subtitle: string, content: string, category: PostCategory, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  updatePostById(postId: number, title: string, subtitle: string, content: string, tripId: number, junctureId: number, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: updatePostById,
       variables: {
@@ -1590,7 +1552,8 @@ export class APIService {
         title,
         subtitle,
         content,
-        category,
+        tripId,
+        junctureId,
         isDraft,
         isScheduled,
         isPublished,

@@ -5,6 +5,7 @@
     <span [style.color]="settingsService.secondaryColor" *ngIf="post.accountByAuthor.firstName">{{post.accountByAuthor.firstName}} {{post.accountByAuthor.lastName}}</span>
     <span [style.color]="settingsService.secondaryColor" *ngIf="!post.accountByAuthor.firstName">{{post.accountByAuthor.username}}</span>
   </div>
+  <Tags [tags]="tags"></Tags>
   <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>

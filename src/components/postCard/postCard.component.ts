@@ -24,6 +24,6 @@ export class PostCard {
   }
 
   navigateToPost() {
-    this.routerService.navigateToPage(`/post/${this.data.id}/${this.data.title.split(' ').join('-')}`);
+    this.routerService.navigateToPage(`/stories/post/${this.data.id}/${this.data.title.split(' ').join('-')}`);
   }
 }

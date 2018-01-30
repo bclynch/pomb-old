@@ -9,9 +9,8 @@ import { SettingsService } from '../../../services/settings.service';
 import { AlertService } from '../../../services/alert.service';
 import { UserService } from '../../../services/user.service';
 
-import { Post, PostCategory } from '../../../models/Post.model';
+import { Post } from '../../../models/Post.model';
 import { ImageType } from '../../../models/Image.model';
-import { Tag } from '../../../models/Tag.model';
 import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 
 import { PostTypePopover } from '../../popovers/postType/postTypePopover.component';
@@ -32,12 +31,19 @@ interface RelativeTime {
   value: number;
 }
 
+interface Tag {
+  name: string;
+  exists: boolean;
+  postToTagId?: number;
+}
+
 interface PostModel {
   postTitle: string;
   postSubtitle: string;
   content: string;
-  category: PostCategory;
   leadPhotoTitle: string;
+  tripId: any;
+  junctureId: number;
 }
 
 interface LeadPhoto {
@@ -54,7 +60,7 @@ export class CreatePostModal {
   containerOptions: string[] = ['Content', 'Options', 'Gallery'];
   activeContainerOption = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
-  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', category: null, leadPhotoTitle: '' };
+  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', leadPhotoTitle: '', tripId: null, junctureId: null };
   data: Post;
 
   // https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
@@ -70,8 +76,6 @@ export class CreatePostModal {
   scheduledModel: RelativeTime = { label: 'now', value: Date.now() };
   publishModel: RelativeTime = { label: 'now', value: Date.now() };
 
-  categoryOptions: string[] = this.settingsService.categoryOptions;
-
   tagOptions: Tag[] = [];
 
   galleryPhotos: GalleryPhoto[] = [];
@@ -79,8 +83,8 @@ export class CreatePostModal {
   leadPhotoLinks: LeadPhoto[] = [];
   displayedLeadPhoto: LeadPhoto;
 
-  tripId: number = null;
-  junctureId: number = null;
+  tripOptions;
+  junctureOptions = [];
 
   constructor(
     public viewCtrl: ViewController,
@@ -97,37 +101,48 @@ export class CreatePostModal {
   ) {
     this.data = params.get('post');
     console.log(this.data);
-    if (this.data) {
-      this.postModel.postTitle = this.data.title;
-      this.postModel.postSubtitle = this.data.subtitle;
-      this.postModel.content = this.data.content;
-      this.postModel.category = this.data.category;
-      this.data.postToTagsByPostId.nodes.forEach((tag) => {
-        this.tagOptions.push(tag.postTagByPostTagId);
-      });
-      this.data.imagesByPostId.nodes.forEach((img) => {
-        if (img.type === 'GALLERY') {
-          this.galleryPhotos = [];
-          this.galleryPhotos.push({ id: img.id, photoUrl: img.url, description: img.description });
-        } else {
-          this.leadPhotoLinks = [];
-          this.leadPhotoLinks.push({ url: img.url, size: null });
-          this.postModel.leadPhotoTitle = img.title;
-        }
-      });
-      console.log(this.leadPhotoLinks);
-      this.displayedLeadPhoto = this.leadPhotoLinks[0];
-      if (this.data.scheduledDate) {
-        this.scheduledModel.value = +this.data.scheduledDate;
-        this.scheduledModel.label = moment(+this.data.scheduledDate).fromNow();
-      }
-      if (this.data.publishedDate) {
-        this.publishModel.value = +this.data.publishedDate;
-        this.publishModel.label = moment(+this.data.publishedDate).fromNow();
-      }
+    // get options to populate trip + juncture selects
+    this.apiService.getTripsByUser(this.userService.user.id).valueChanges.subscribe(
+      result => {
+        console.log(result);
+        this.tripOptions = result.data.allTrips.nodes;
 
-      this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
-    }
+        if (this.data) {
+          this.postModel.postTitle = this.data.title;
+          this.postModel.postSubtitle = this.data.subtitle;
+          this.postModel.content = this.data.content;
+          this.postModel.tripId = this.data.tripId;
+          if (this.postModel.tripId) {
+            this.populateJunctures();
+          }
+          this.postModel.junctureId = this.data.junctureId;
+          this.data.postToTagsByPostId.nodes.forEach((tag) => {
+            this.tagOptions.push({ name: tag.postTagByPostTagId.name, exists: true, postToTagId: tag.id });
+          });
+          this.leadPhotoLinks = [];
+          this.galleryPhotos = [];
+          this.data.imagesByPostId.nodes.forEach((img) => {
+            if (img.type === 'GALLERY') {
+              this.galleryPhotos.push({ id: img.id, photoUrl: img.url, description: img.description });
+            } else {
+              this.leadPhotoLinks.push({ url: img.url, size: null });
+              this.postModel.leadPhotoTitle = img.title;
+            }
+          });
+          this.displayedLeadPhoto = this.leadPhotoLinks[0];
+          if (this.data.scheduledDate) {
+            this.scheduledModel.value = +this.data.scheduledDate;
+            this.scheduledModel.label = moment(+this.data.scheduledDate).fromNow();
+          }
+          if (this.data.publishedDate) {
+            this.publishModel.value = +this.data.publishedDate;
+            this.publishModel.label = moment(+this.data.publishedDate).fromNow();
+          }
+
+          this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
+        }
+      }
+    );
 
     // creating custom image uploader
     $.FroalaEditor.DefineIcon('myImageUploader', { NAME: 'image' });
@@ -145,7 +160,7 @@ export class CreatePostModal {
     });
 
     this.editorOptions = {
-      // placeholderText: 'Write something insightful...',
+      placeholderText: 'Write something insightful...',
       heightMin: '300px',
       heightMax: '525px',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
@@ -172,14 +187,6 @@ export class CreatePostModal {
         this.savePost();
         break;
     }
-  }
-
-  selectCategory(category: string) {
-    this.postModel.category = PostCategory[category];
-  }
-
-  categoryActive(category: string) {
-    return category === PostCategory[this.postModel.category];
   }
 
   cancelConfirm() {
@@ -237,7 +244,6 @@ export class CreatePostModal {
         { field: this.postModel.postTitle, label: 'post title' },
         { field: this.postModel.postSubtitle, label: 'post subtitle' },
         { field: this.postModel.content, label: 'post content' },
-        { field: this.postModel.category, label: 'category' },
         { field: this.postModel.leadPhotoTitle, label: 'primary image title' },
         { field: this.displayedLeadPhoto, label: 'primary image' }
       ];
@@ -256,21 +262,16 @@ export class CreatePostModal {
   updatePost() {
     // this.data is the original data passed in and shouldn't be mutated
     // We can use this as a ref to know if we need to pass in new edits/changes
-    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           const updatePromises = [];
-          // check if photo title has changed. If so update postLeadPhoto
-          // updatePromises.push(this.comparePhoto());
 
-          // check if leadPhotoLink url has changed. If so update leadPhotoLinks
-          // updatePromises.push(this.comparePhotoLinks());
-
-          // check for new + edited gallery photos to update
-          updatePromises.push(this.compareGalleryPhotos(this.data.id));
+          // check if photos on the post have changed
+          updatePromises.push(this.comparePhotos());
 
           // check if tags have changed. If so update post tags and or post to tags as required
-          updatePromises.push(this.compareTags(this.data.postToTagsByPostId.nodes));
+          updatePromises.push(this.compareTags());
 
           // when all the above have resolved dismiss the modal
           Promise.all(updatePromises).then(() => {
@@ -283,7 +284,7 @@ export class CreatePostModal {
   createPost() {
     const self = this;
     // Add most of the model to our post table
-    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.category, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           console.log(result);
@@ -298,9 +299,8 @@ export class CreatePostModal {
 
                   // create tags + save as required
                   this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
-                    result => {
-                      this.viewCtrl.dismiss('refresh');
-                    }, err => createPostErrorHandler(err)
+                    result => this.viewCtrl.dismiss('refresh'),
+                    err => createPostErrorHandler(err)
                   );
                 }, err => createPostErrorHandler(err)
               );
@@ -323,20 +323,23 @@ export class CreatePostModal {
         let query = `mutation {`;
         console.log(this.leadPhotoLinks);
         this.leadPhotoLinks.forEach((photo, i) => {
-          query += `a${i}: createImage(
-            input: {
-              image:{
-                ${this.tripId ? 'tripId: + this.tripId + ' : ''},
-                ${this.junctureId ? 'junctureId: + this.junctureId + ' : ''},
-                postId: ${postId},
-                userId: ${this.userService.user.id},
-                type: ${i === 0 ? ImageType['leadSmall'] : ImageType['leadLarge']},
-                url: "${this.leadPhotoLinks[i].url}",
-                title: "${title}"
+          query += `
+            a${i}: createImage(
+              input: {
+                image: {
+                  ${this.postModel.tripId ? 'tripId: ' + this.postModel.tripId : ''},
+                  ${this.postModel.junctureId ? 'junctureId: ' + this.postModel.junctureId : ''},
+                  postId: ${postId},
+                  userId: ${this.userService.user.id},
+                  type: ${i === 0 ? ImageType['leadSmall'] : ImageType['leadLarge']},
+                  url: "${this.leadPhotoLinks[i].url}",
+                  title: "${title}"
+                }
               }
-            }) {
+            ) {
               clientMutationId
-            }`;
+            }
+          `;
         });
         query += `}`;
 
@@ -360,8 +363,8 @@ export class CreatePostModal {
         query += `a${i}: createImage(
           input: {
             image:{
-              ${this.tripId ? 'tripId: + this.tripId + ' : ''},
-              ${this.junctureId ? 'junctureId: + this.junctureId + ' : ''},
+              ${this.postModel.tripId ? 'tripId: ' + this.postModel.tripId : ''},
+              ${this.postModel.junctureId ? 'junctureId: ' + this.postModel.junctureId : ''},
               postId: ${postId},
               userId: ${this.userService.user.id},
               type: ${ImageType['gallery']},
@@ -388,12 +391,13 @@ export class CreatePostModal {
       const promiseArr = [];
       if (tagsArr.length) {
         tagsArr.forEach((tag, i) => {
-          if (!tag.id) {
+          if (!tag.exists) {
             const promise = new Promise((resolve, reject) => {
-              this.apiService.createPostTag(tag.name).subscribe(
+              this.apiService.createPostTag(tag.name, null).subscribe(
                 data => {
                   const tagData = <any>data;
-                  finalTags.push(tagData.data.createPostTag.postTag);
+                  console.log(tagData);
+                  finalTags.push({name: tagData.data.createPostTag.postTag.name, exists: true});
                   resolve();
                 }
               );
@@ -411,14 +415,17 @@ export class CreatePostModal {
             // then bulk add tag to post
             let query = `mutation {`;
             finalTags.forEach((tag, i) => {
-              query += `a${i}: createPostToTag(input: {
-                postToTag:{
-                  postId: ${postId},
-                  postTagId: ${tag.id}
+              query += `a${i}: createPostToTag(
+                input: {
+                  postToTag:{
+                    postId: ${postId},
+                    postTagId: "${tag.name}"
+                  }
                 }
-              }) {
+              ) {
                 clientMutationId
-              }`;
+              }
+            `;
             });
             query += `}`;
 
@@ -436,13 +443,14 @@ export class CreatePostModal {
     });
   }
 
-  compareTags(existingTags: { id: number, postTagByPostTagId: Tag }[]): Promise<{}> {
+  compareTags(): Promise<{}> {
     return new Promise((resolve, reject) => {
+      const promiseArr = [];
       // checking for dif between arrays
-      const diffExisting = existingTags.filter(x => this.tagOptions.indexOf(x.postTagByPostTagId) < 0);
+      const diffExisting = this.data.postToTagsByPostId.nodes.filter(x => this.tagOptions.map((optionToSave) => optionToSave.name).indexOf(x.postTagByPostTagId.name) < 0);
       console.log(diffExisting); // remove post to tag
-      const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => value.postTagByPostTagId );
-      const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x) < 0);
+      const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => value.postTagByPostTagId.name );
+      const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x.name) < 0);
       console.log(diffNew); // create tag + post to tag
 
       // if no changes resolve
@@ -450,125 +458,128 @@ export class CreatePostModal {
 
       // If no diff existing
       // send these off to create tags mutation
-      if (!diffExisting.length) {
-        this.createTagsMutation(this.data.id, diffNew).then(
-          result => resolve()
-        );
-      }
+      const promise1 = new Promise((resolve, reject) => {
+        if (!diffExisting.length) {
+          this.createTagsMutation(this.data.id, diffNew).then(
+            result => resolve()
+          );
+        } else {
+          resolve();
+        }
+      });
+      promiseArr.push(promise1);
 
       // Has diff existing so run a for each and delete
-      diffExisting.forEach((tag, i) => {
-        const tagData = <any>tag;
-        this.apiService.deletePostToTagById(tagData.id).subscribe(
-          result => {
-            console.log(result);
+      if (diffExisting.length) {
+        const promise2 = new Promise((resolve, reject) => {
+          diffExisting.forEach((tag, i) => {
+            const tagData = <any>tag;
+            this.apiService.deletePostToTagById(tagData.id).subscribe(
+              result => {
+                console.log(result);
 
-            // if the last tag deleted then cont
-            if (i === diffExisting.length - 1) {
-              // send these off to create tags mutation
-              this.createTagsMutation(this.data.id, diffNew).then(
-                result => resolve()
-              );
-            }
-          }
-        );
+                // if the last tag deleted then cont
+                if (i === diffExisting.length - 1) {
+                  // send these off to create tags mutation
+                  this.createTagsMutation(this.data.id, diffNew).then(
+                    result => resolve()
+                  );
+                }
+              }
+            );
+          });
+        });
+        promiseArr.push(promise2);
+      }
+
+      Promise.all(promiseArr).then(() => {
+        resolve();
       });
     });
   }
 
-  // comparePhoto(): Promise<{}> {
-  //   return new Promise((resolve, reject) => {
-  //     if (this.data.postLeadPhotosByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) {
-  //       // api call to update then resolve
-  //       this.apiService.updateLeadPhotoInfo(this.data.postLeadPhotosByPostId.nodes[0].id, this.postModel.leadPhotoTitle).subscribe(
-  //         result => resolve()
-  //       );
-  //     } else {
-  //       resolve();
-  //     }
-  //   });
-  // }
-
-  // comparePhotoLinks(): Promise<{}> {
-  //   return new Promise((resolve, reject) => {
-  //     // check to see if there is a lead img at all
-  //     if (this.leadPhotoLinks.length) {
-
-  //       // check to see if there was formerly a lead img
-  //       if (this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.length) {
-
-  //         // compare old vs new
-  //         if (this.selectSmallLeadPhoto(this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes).url !== this.selectSmallLeadPhoto(this.leadPhotoLinks).url) {
-  //           // snag ids of original links + size for ref
-  //           const idRefs: {} = {};
-  //           this.data.postLeadPhotosByPostId.nodes[0].leadPhotoLinksByLeadPhotoId.nodes.forEach((link) => {
-  //             idRefs[`w${link.size}`] = link.id;
-  //           });
-
-  //           // then bulk links to post
-  //           let query = `mutation {`;
-  //           this.leadPhotoLinks.forEach((link, i) => {
-  //             query += `a${i}: updateLeadPhotoLinkById(input: {
-  //               id: ${idRefs[`w${link.size}`]},
-  //               leadPhotoLinkPatch:{
-  //                 url: "${link.url}"
-  //               }
-  //             }) {
-  //               clientMutationId
-  //             }`;
-  //           });
-  //           query += `}`;
-
-  //           this.apiService.genericCall(query).subscribe(
-  //             result => resolve(result),
-  //             err => console.log(err)
-  //           );
-  //         } else {
-  //           resolve();
-  //         }
-  //       } else {
-  //         // if old links didn't exist need to create new ones
-  //         // this.createLeadPhotoLinks(this.data.postLeadPhotosByPostId.nodes[0].id).then(() => resolve());
-  //       }
-  //     } else {
-  //       resolve();
-  //     }
-  //   });
-  // }
-
-  compareGalleryPhotos(postId: number) {
+  comparePhotos() {
     return new Promise((resolve, reject) => {
-      // add newly created photos
-      const newPhotoArr: GalleryPhoto[] = this.galleryPhotos.filter((img) => !img.id );
-      this.createGalleryPhotoLinks(postId, newPhotoArr).then(
-        result => {
-          // update edited gallery photos
-          // make sure 'new' photos not on 'edited' arr
-          const filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
-          // then bulk update imgs
-          if (filteredEditedArr.length) {
-            let query = `mutation {`;
-            filteredEditedArr.forEach((img, i) => {
-              query += `a${i}: updatePostToGalleryPhotoById(input:{
-                id: ${img.id},
-                postToGalleryPhotoPatch:{
-                  description: "${img.description}"
-                }
-              }) {
-                clientMutationId
-              }`;
-            });
-            query += `}`;
+      const promiseArr = [];
 
-            this.apiService.genericCall(query).subscribe(
-              result => resolve(result),
-              err => console.log(err)
-            );
-          } else {
-            resolve();
+      // first see if lead photos title or url changed
+      let leadTitleChanged = false;
+      let leadURLChanged = false;
+
+      if (this.data.imagesByPostId.nodes[0].title !== this.postModel.leadPhotoTitle) leadTitleChanged = true;
+      if (this.data.imagesByPostId.nodes[0].url !== this.leadPhotoLinks[0].url) leadURLChanged = true;
+
+      if (leadTitleChanged || leadURLChanged) {
+        // update both large and small image
+        let query = `mutation {`;
+        this.leadPhotoLinks.forEach((link, i) => {
+          query += `a${i}: updateImageById(
+            input: {
+              id: ${this.data.imagesByPostId.nodes[i].id},
+              imagePatch:{
+                url: "${link.url}",
+                title: "${this.postModel.leadPhotoTitle}"
+              }
+            }
+          ) {
+            clientMutationId
           }
-        }
-      );
+        `;
+        });
+        query += `}`;
+
+        const promise = new Promise((resolve, reject) => {
+          this.apiService.genericCall(query).subscribe(
+            result => resolve(result),
+            err => console.log(err)
+          );
+        });
+        promiseArr.push(promise);
+      }
+
+      // next check out if gallery photos are different
+      const newPhotoArr: GalleryPhoto[] = this.galleryPhotos.filter((img) => !img.id );
+      const promise = new Promise((resolve, reject) => {
+        this.createGalleryPhotoLinks(this.data.id, newPhotoArr).then(
+          result => {
+            // update edited gallery photos
+            // make sure 'new' photos not on 'edited' arr
+            const filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
+            console.log(filteredEditedArr);
+            // then bulk update imgs
+            if (filteredEditedArr.length) {
+              let query = `mutation {`;
+              filteredEditedArr.forEach((img, i) => {
+                query += `a${i}: updateImageById(
+                  input: {
+                    id: ${img.id},
+                    imagePatch:{
+                      url: "${img.photoUrl}",
+                      description: "${img.description}"
+                    }
+                  }
+                ) {
+                  clientMutationId
+                }
+              `;
+              });
+              query += `}`;
+
+              this.apiService.genericCall(query).subscribe(
+                result => resolve(result),
+                err => console.log(err)
+              );
+            } else {
+              resolve();
+            }
+          }
+        );
+      });
+      promiseArr.push(promise);
+
+      Promise.all(promiseArr).then(() => {
+        resolve();
+      });
     });
   }
 
@@ -708,5 +719,16 @@ export class CreatePostModal {
 
   removeTag(i: number) {
     this.tagOptions.splice(i, 1);
+  }
+
+  populateJunctures() {
+    if (this.postModel.tripId !== 'null') {
+      this.junctureOptions = this.tripOptions.filter((option) => {
+        return option.id === +this.postModel.tripId;
+      })[0].juncturesByTripId.nodes;
+    } else {
+      this.postModel.junctureId = null;
+      this.junctureOptions = [];
+    }
   }
 }

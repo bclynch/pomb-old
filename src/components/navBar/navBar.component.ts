@@ -64,6 +64,7 @@ export class NavBar {
   }
 
   snagCategories() {
+    this.sectionOptions = [];
     Object.keys(this.settingsService.siteSections).forEach((category) => {
       this.sectionOptions.push({ label: category, value: category.toLowerCase() });
     });

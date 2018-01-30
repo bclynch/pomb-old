@@ -18,7 +18,7 @@ export class CompactHero {
   ) { }
 
   navigateToPost() {
-    this.routerService.navigateToPage(`/post/${this.post.id}/${this.post.title.split(' ').join('-')}`);
+    this.routerService.navigateToPage(`stories/post/${this.post.id}/${this.post.title.split(' ').join('-')}`);
   }
 
 }

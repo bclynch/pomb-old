@@ -4,6 +4,7 @@
     <div  
       class="cardImg"
       [ngStyle]="{ 'background-image': 'url(' + data.imagesByPostId.nodes[0].url + ')'}"
+      *ngIf="data.imagesByPostId.nodes.length"
     ></div>
   </div>
   <div class="cardWrapper">

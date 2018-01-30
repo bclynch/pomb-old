@@ -1,9 +1,13 @@
 <PageWrapper backgroundColor="black">
-  <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
+  <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration" *ngIf="gridPosts.length"></Grid>
   <div class="hubHeader">
     <div>{{currentHub | uppercase}}</div>
     <div class="hubDescription">{{hubDescription}}</div>
   </div>
   <PostList [data]="otherPosts"></PostList>
+  <div class="noPosts" *ngIf="!gridPosts.length">
+    <ion-icon name="md-albums"></ion-icon>
+    <div>Doesn't look like there are any posts related to this {{isTripPosts ? 'trip' : 'tag'}}. Try another one!</div>
+  </div>
 </PageWrapper>
 

@@ -116,6 +116,8 @@ export class TripMapPage {
           this.mapStyle = data;
           this.inited = true;
         });
+
+        console.log(this.junctureContentArr);
       });
     }, (error) => {
       console.log('there was an error sending the query', error);
@@ -155,7 +157,8 @@ export class TripMapPage {
       // make sure it doesn't already exist
       if (!this.junctureContentArr[index]) {
         this.apiService.getPartialJunctureById(id).valueChanges.subscribe(({ data }) => {
-          const junctureData = this.processPosts(data.junctureById);
+          console.log(data);
+          const junctureData = data.junctureById;
           if (!this.junctureContentArr[index]) {
             this.junctureContentArr.splice(index, 1, junctureData);
             console.log(this.junctureContentArr);
@@ -187,26 +190,6 @@ export class TripMapPage {
     // programmatically close info window
     const livewindow = this.snazzyWindowChildren.find((window, index) => ( index === i - 1 ));
     livewindow._closeInfoWindow();
-  }
-
-  processPosts(juncture) {
-    // some read only bullshit happening so doing manual copy of the obj...
-    // this is gross AF
-    const copy = {
-      arrivalDate: juncture.arrivalDate,
-      city: juncture.city,
-      country: juncture.country,
-      description: juncture.description,
-      id: juncture.id,
-      junctureToPhotosByJunctureId: juncture.imagesByJunctureId,
-      junctureToPostsByJunctureId: { nodes : null },
-      name: juncture.name
-    };
-    const abc = juncture.junctureToPostsByJunctureId.nodes.map((post) => {
-      return post.postByPostId;
-    });
-    copy.junctureToPostsByJunctureId = abc;
-    return copy;
   }
 
   panToCoords(lat: number, lon: number) {

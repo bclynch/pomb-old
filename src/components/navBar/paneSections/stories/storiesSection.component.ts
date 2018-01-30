@@ -17,6 +17,6 @@ export class StoriesNavSection {
   ) {}
 
   navigateToPost(story) {
-    this.routerService.navigateToPage(`/post/${story.id}/${story.title.split(' ').join('-')}`);
+    this.routerService.navigateToPage(`/stories/post/${story.id}/${story.title.split(' ').join('-')}`);
   }
 }

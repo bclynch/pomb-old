@@ -117,9 +117,9 @@
                   <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
                 </div>
                 <div class="junctureDescription">{{juncture?.description}}</div>
-                <Gallery [isSquare]="true" perRow="2" [data]="juncture?.junctureToPhotosByJunctureId.nodes" gutterWidth="2px"></Gallery>
+                <Gallery [isSquare]="true" perRow="2" [data]="juncture?.imagesByJunctureId.nodes" gutterWidth="2px"></Gallery>
                 <div class="juncturePosts">
-                  <PostCard [data]="post" *ngFor="let post of juncture?.junctureToPostsByJunctureId"></PostCard>
+                  <PostCard [data]="post" *ngFor="let post of juncture?.postsByJunctureId.nodes"></PostCard>
                 </div>
               </div>
             </div>

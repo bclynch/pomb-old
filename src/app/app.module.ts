@@ -63,6 +63,7 @@ import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
 import { ChartComponent } from '../components/chart/chart.component';
 import { Newsletter } from '../components/newsletter/newsletter.component';
 import { UnitToggle } from '../components/unitToggle/unitToggle.component';
+import { Tags } from '../components/tags/tags.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -209,7 +210,8 @@ import { ErrorService } from '../services/error.service';
     PhotosPage,
     SplashPage,
     NotFoundPage,
-    GeneralErrorPage
+    GeneralErrorPage,
+    Tags
   ],
   imports: [
     BrowserModule,

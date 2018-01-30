@@ -29,22 +29,22 @@ import { GeneralErrorPage } from '../pages/error/general/general';
 
 const appRoutes: Routes = [
   {
-    path: 'post',
-    children: [
-      {
-        path: ':id',
-        children: [
-          {
-            path: ':title',
-            component: PostPage
-          }
-        ]
-      }
-    ]
-  },
-  {
     path: 'stories',
     children: [
+      {
+        path: 'post',
+        children: [
+          {
+            path: ':id',
+            children: [
+              {
+                path: ':title',
+                component: PostPage
+              }
+            ]
+          }
+        ]
+      },
       {
         path: ':tag',
         children: [

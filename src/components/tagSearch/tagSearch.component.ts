@@ -2,7 +2,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { APIService } from '../../services/api.service';
-import { Tag } from '../../models/Tag.model';
+
+interface Tag {
+  name: string;
+  exists: boolean;
+}
 
 @Component({
   selector: 'TagSearch',
@@ -13,7 +17,7 @@ export class TagSearch {
 
   search = new FormControl();
   value = '';
-  searchResults: Tag[] = [];
+  searchResults: string[] = [];
 
   constructor(
     private apiService: APIService
@@ -25,8 +29,9 @@ export class TagSearch {
           console.log(query);
           this.apiService.searchTags(query).valueChanges.subscribe(
             result => {
+              console.log(result);
               // limiting to 5 results
-              this.searchResults = result.data.searchTags.nodes.slice(0, 5);
+              this.searchResults = result.data.searchTags.nodes.slice(0, 5).map((result) => result.name);
               console.log(this.searchResults);
             }
           );
@@ -40,18 +45,18 @@ export class TagSearch {
     // debouncing a second so search results have a sec to catch up
     setTimeout(() => {
       // if it equals the name of the search result we will use this to not add to db again because it already exists
-      if (this.searchResults.length && this.value.toLowerCase() === this.searchResults[0].name) {
-        this.selectTag.emit(this.searchResults[0]);
+      if (this.searchResults.length && this.value.toLowerCase() === this.searchResults[0]) {
+        this.selectTag.emit({ name: this.searchResults[0], exists: true });
       } else {
-        this.selectTag.emit({ id: null, name: this.value.toLowerCase() });
+        this.selectTag.emit({ name: this.value.toLowerCase(), exists: false });
       }
       this.value = '';
       this.searchResults = [];
     }, 400);
   }
 
-  onSelectTag(id: number, name: string) {
-    this.selectTag.emit({id, name: name.toLowerCase()});
+  onSelectTag(name: string) {
+    this.selectTag.emit({ name: name.toLowerCase(), exists: true });
     this.value = '';
     this.searchResults = [];
   }

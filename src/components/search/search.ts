@@ -7,11 +7,6 @@ import { APIService } from '../../services/api.service';
 import { RouterService } from '../../services/router.service';
 import { SettingsService } from '../../services/settings.service';
 
-interface Category {
-  name: string;
-  imgUrl: string;
-}
-
 @Component({
   selector: 'Search',
   templateUrl: 'search.html'

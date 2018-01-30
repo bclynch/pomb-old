@@ -1,4 +1,3 @@
-import { Tag } from './Tag.model';
 import { GalleryPhoto } from './GalleryPhoto.model';
 
 export class Post {
@@ -9,7 +8,8 @@ export class Post {
   title: string;
   subtitle: string;
   content: string;
-  category: PostCategory;
+  tripId: number;
+  junctureId: number;
   userByAuthor: string;
   isDraft: boolean;
   isScheduled: boolean;
@@ -17,7 +17,7 @@ export class Post {
   scheduledDate: number;
   publishedDate: number;
   postToTagsByPostId: {
-    nodes: { id: number, postTagByPostTagId: Tag }[]
+    nodes: { id: number, postTagByPostTagId: any }[]
   };
   imagesByPostId: {
     nodes: {
@@ -28,13 +28,4 @@ export class Post {
       url: string;
     }[]
   };
-}
-
-export enum PostCategory {
-  TREKKING = <any>'trekking',
-  BIKING = <any>'biking',
-  CULTURE = <any>'culture',
-  TRAVEL = <any>'travel',
-  GEAR = <any>'gear',
-  FOOD = <any>'food',
 }
