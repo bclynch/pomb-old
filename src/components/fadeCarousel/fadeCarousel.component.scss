@@ -49,6 +49,39 @@ fadecarousel {
           }
         }
       }
+      .statsContainer {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background: rgba(0,0,0,.85);
+        color: white;
+        padding: 10px 5px;
+
+        .innerWrapper {
+          max-width: 650px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0 auto;
+
+          .statWrapper {
+            text-align: center;
+  
+            ion-icon {
+              font-size: 36px;
+            }
+            .statLabel {
+  
+            }
+            .statValue {
+              margin: 5px 0;
+              font-size: 18px;
+              font-weight: bold;
+              color: var(--secondary);
+            }
+          }
+        }
+      }
       .modalLauncherBtn {
         margin-top: 30px;
         padding: 15px 20px;

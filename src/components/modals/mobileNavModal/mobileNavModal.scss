@@ -45,6 +45,8 @@ $navbarHeight: 40px;
       }
       .contentWrapper {
         padding: 0 20px;
+        overflow: scroll;
+        height: calc(100% - 40px);
 
         .profileWrapper {
           text-align: center;

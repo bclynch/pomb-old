@@ -137,6 +137,9 @@ export class NavBar {
           case 'profile':
             this.routerService.navigateToPage(`/user/${this.userService.user.username}`);
             break;
+          case 'home':
+            this.routerService.navigateToPage('/');
+            break;
           default:
             this.routerService.navigateToPage(`/stories/${data}`);
             break;

@@ -4,6 +4,7 @@
       [style.width]="'100vw'" 
       [title]="tripData?.name"
       [flags]="countryFlags"
+      [stats]="stats"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
       <div class="subnavContainer" [ngClass]="tripService.displayTripNav ? 'fixed' : ''">
@@ -17,19 +18,18 @@
         <div class="widthWrapper">
           <div class="section glance" id="Highlights">
             <div class="glanceHeader">Explore {{tripData?.name}}</div>
-            Throw some stats in right here (miles, days, countries visited, w/e)
-            <div class="glanceSubsection">{{glanceSubsection}}</div>
+            <div class="glanceContent" [froalaView]="tripData?.description"></div>
             <div 
               class="toggleBtn" 
               (click)="glanceExpanded = !glanceExpanded" 
               *ngIf="!glanceExpanded"
             >More <ion-icon name="ios-arrow-down"></ion-icon></div>
-            <div *ngIf="glanceExpanded">
+            <!-- <div *ngIf="glanceExpanded">
               <div class="glanceContent" *ngFor="let section of glanceContent">
                 <h2>{{section.title}}</h2>
                 <div class="content">{{section.content}}</div>
               </div>
-            </div>
+            </div> -->
             <div 
               class="toggleBtn" 
               (click)="glanceExpanded = !glanceExpanded" 

@@ -19,7 +19,13 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class TripModal {
 
-  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, bannerImages: []};
+  editorOptions = {
+    placeholderText: 'Write something insightful...',
+    heightMin: '300px',
+    heightMax: '525px',
+    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
+  };
+  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, description: '', bannerImages: []};
 
   inited = false;
   coords = { lat: null, lon: null };
@@ -58,7 +64,7 @@ export class TripModal {
   presentDatepickerModal(e: Event, isStart) {
     e.stopPropagation();
 
-    const modal = this.modalCtrl.create(DatePickerModal, { date: isStart ? this.tripModel.timeStart : this.tripModel.timeEnd || Date.now() }, {});
+    const modal = this.modalCtrl.create(DatePickerModal, { date: isStart ? this.tripModel.timeStart : this.tripModel.timeEnd || Date.now() }, { cssClass: 'datepickerModal' });
     modal.present({
       ev: e
     });
@@ -80,7 +86,8 @@ export class TripModal {
       timeEnd: this.tripModel.timeEnd,
       bannerImages: this.tripModel.bannerImages,
       startLat: this.coords.lat,
-      startLon: this.coords.lon
+      startLon: this.coords.lon,
+      description: this.tripModel.description
     });
   }
 

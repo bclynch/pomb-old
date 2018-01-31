@@ -34,13 +34,9 @@ export class TripPage implements AfterViewInit {
 
   dataLayerStyle;
 
-  glanceSubsection = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet pharetra magna. Nulla pretium, ligula eu ullamcorper volutpat, libero diam malesuada est, vel euismod sapien turpis bibendum nulla. Donec tincidunt sed mauris et auctor. Curabitur malesuada lectus id elit vehicula efficitur.';
-  glanceContent = [
-    { title: 'Section 1', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet pharetra magna. Nulla pretium, ligula eu ullamcorper volutpat, libero diam malesuada est, vel euismod sapien turpis bibendum nulla. Donec tincidunt sed mauris et auctor. Curabitur malesuada lectus id elit vehicula efficitur.' },
-    { title: 'Section 2', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet pharetra magna. Nulla pretium, ligula eu ullamcorper volutpat, libero diam malesuada est, vel euismod sapien turpis bibendum nulla. Donec tincidunt sed mauris et auctor. Curabitur malesuada lectus id elit vehicula efficitur.' },
-    { title: 'Section 3', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet pharetra magna. Nulla pretium, ligula eu ullamcorper volutpat, libero diam malesuada est, vel euismod sapien turpis bibendum nulla. Donec tincidunt sed mauris et auctor. Curabitur malesuada lectus id elit vehicula efficitur.' },
-  ];
   glanceExpanded = false;
+
+  stats: { icon: string; label: string; value: number }[] = [];
 
   // map props
   coords: { lat: number; lon: number; } = { lat: null, lon: null };
@@ -54,6 +50,7 @@ export class TripPage implements AfterViewInit {
   countryFlags: any[] = [];
 
   tripPosts: Post[] = [];
+  postCount: number;
 
   constructor(
     private apiService: APIService,
@@ -124,18 +121,12 @@ export class TripPage implements AfterViewInit {
       // populate posts arr
       // Separated it out so we don't make the posts call for other pages that use this endpoint
       this.apiService.getPostsByTrip(this.tripData.id).valueChanges.subscribe(
-        data => {
-          const tripPosts = [];
-          console.log(data);
-          const tripData = <any>data;
-          const junctures = tripData.data.tripById.juncturesByTripId.nodes;
-          junctures.forEach((juncture) => {
-            const juncturePosts = juncture.postsByJunctureId.nodes;
-            if (juncturePosts.length) juncturePosts.forEach((post) => {
-              tripPosts.push(post);
-            });
-          });
-          this.tripPosts = tripPosts.slice(0, 5);
+        result => {
+          console.log(result);
+          this.postCount = result.data.tripById.postsByTripId.totalCount;
+          this.tripPosts = result.data.tripById.postsByTripId.nodes.slice(0, 5);
+
+          this.populateStats();
         }
       );
 
@@ -164,7 +155,20 @@ export class TripPage implements AfterViewInit {
     } catch (e) { }
   }
 
-  scrollTo(option: string) {
+  scrollTo(option: string): void {
     document.getElementById(option).scrollIntoView({behavior: 'smooth'});
+  }
+
+  populateStats(): void {
+    // populate stats
+    const stats = [];
+    stats.push({ icon: 'md-git-merge', label: 'Junctures', value: this.tripData.juncturesByTripId.totalCount });
+    stats.push({ icon: 'md-globe', label: 'Countries', value: this.countryFlags.length || 1 });
+    stats.push({ icon: 'md-images', label: 'Photos', value: this.tripData.imagesByTripId.totalCount });
+    stats.push({ icon: 'md-albums', label: 'Posts', value: this.postCount });
+    stats.push({ icon: 'md-eye', label: 'Views', value: null || 0 });
+    stats.push({ icon: 'md-calendar', label: 'Days', value: this.utilService.differenceDays(this.tripData.startDate, this.tripData.endDate) });
+
+    this.stats = stats;
   }
 }

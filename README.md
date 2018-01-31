@@ -7,13 +7,12 @@
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
     - Need to add posts, description
     - Fix flickr banner algorithm. It sucks
-- Would be nice to have a trip page thats a little more static, but graphical. Show stats in some nice way (countries, distance, w/e)
-- Need banner img for timeline page
 - Place newsletter component around (blog posts, w/e)
-- Add trip description to trip modal
+- Move to postgraphile 4
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal
+- infinite scroll hub page
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
@@ -26,8 +25,9 @@
 
 *AFTER ONLINE*
 
- - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - DB security
+- Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - Disqus comments??
 - Google Analytics - Page views working at least (on pomb gmail... Make domain email)
 - Share buttons for posts / trips / junctures - in progress

@@ -438,8 +438,10 @@ const getTripById = gql`
       startDate,
       endDate,
       startLat,
-      startLon
+      startLon,
+      description,
       juncturesByTripId {
+        totalCount,
         nodes {
           name,
           lat,
@@ -467,6 +469,7 @@ const getTripById = gql`
         profilePhoto
       },
       imagesByTripId {
+        totalCount,
         nodes {
           url,
           title,
@@ -682,29 +685,26 @@ const getPostsByTag = gql`
 const getPostsByTrip = gql`
   query getPostsByTrip($id: Int!) {
     tripById(id: $id) {
-      id,
-      name,
-      juncturesByTripId {
+      postsByTripId(
+        last: 10,
+        orderBy: ID_ASC
+      ) {
+        totalCount,
         nodes {
           id,
-          postsByJunctureId {
+          title,
+          accountByAuthor {
+            firstName,
+            lastName
+          }
+          subtitle,
+          createdAt,
+          imagesByPostId {
             nodes {
-              id,
-              title,
-              accountByAuthor {
-                firstName,
-                lastName
-              }
-              subtitle,
-              createdAt,
-              imagesByPostId {
-                nodes {
-                  url,
-                  type,
-                  accountByUserId {
-                    id
-                  }
-                }
+              url,
+              type,
+              accountByUserId {
+                id
               }
             }
           }
@@ -1004,11 +1004,12 @@ const createJuncture = gql`
 `;
 
 const createTrip = gql`
-  mutation($userId: Int!, $name: String!, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
+  mutation($userId: Int!, $name: String!, $description: String, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
     createTrip(input:{
       trip:{
         userId: $userId,
         name: $name,
+        description: $description,
         startDate: $startDate,
         endDate: $endDate,
         startLat: $startLat,
@@ -1582,12 +1583,13 @@ export class APIService {
     });
   }
 
-  createTrip(userId: number, name: string, startDate: number, endDate: number, startLat: number, startLon: number) {
+  createTrip(userId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number) {
     return this.apollo.mutate({
       mutation: createTrip,
       variables: {
         userId,
         name,
+        description,
         startDate,
         endDate,
         startLat,

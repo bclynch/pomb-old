@@ -1,4 +1,4 @@
-<div class="carouselContainer">
+<div class="carouselContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div
     class="slide" 
     *ngFor="let slide of data; let i = index;" 
@@ -10,6 +10,15 @@
     <div class="flagsContainer" *ngIf="flags.length">
       <div *ngFor="let flag of flags;">
         <img [src]="flag.url" [title]="flag.name" />
+      </div>
+    </div>
+    <div class="statsContainer" *ngIf="stats.length">
+      <div class="innerWrapper">
+        <div class="statWrapper" *ngFor="let stat of stats;">
+          <ion-icon [name]="stat.icon"></ion-icon>
+          <div class="statValue">{{stat.value}}</div>
+          <div class="statLabel">{{stat.label}}</div>
+        </div>
       </div>
     </div>
     <div 

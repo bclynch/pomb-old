@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
+import { UtilService } from '../../services/util.service';
 
 import { Trip } from '../../models/Trip.model';
 
@@ -18,7 +19,8 @@ export class TripCard {
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
-    private router: Router
+    private router: Router,
+    private utilService: UtilService
   ) { }
 
   navigateToTrip() {
@@ -26,13 +28,7 @@ export class TripCard {
   }
 
   daysTraveling() {
-    let timeDiff: number;
-    if (this.trip.endDate) {
-      timeDiff = this.trip.endDate - this.trip.startDate;
-    } else {
-      timeDiff = Date.now() - this.trip.startDate;
-    }
-    const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    const days = this.utilService.differenceDays(this.trip.startDate, this.trip.endDate);
     return days === 1 ? `${days} day` : `${days} days`;
   }
 }

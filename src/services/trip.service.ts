@@ -25,7 +25,7 @@ export class TripService {
       if (data) {
         console.log(data);
         // creat trip
-        this.apiService.createTrip(this.userService.user.id, data.name, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
+        this.apiService.createTrip(this.userService.user.id, data.name, data.description, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
           (result: any) => {
             // save banner photos
             this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(

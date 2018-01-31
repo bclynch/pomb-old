@@ -35,6 +35,16 @@ export class UtilService {
     return data.split(' ').join('-').toLowerCase();
   }
 
+  differenceDays(start: number, end: number): number {
+    let timeDiff: number;
+    if (end) {
+      timeDiff = end - start;
+    } else {
+      timeDiff = Date.now() - start;
+    }
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  }
+
   getJSON(path: string) {
     return this.http.get(path).map((res: Response) => res.json());
   }

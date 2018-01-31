@@ -76,6 +76,12 @@
           </div>
         </div>
       </div>
+      <div class="descriptionContainer modalSection">
+        <div class="tripLabel">Trip Description</div>
+        <div class="textEditorWrapper">
+          <div [froalaEditor]="editorOptions" [(froalaModel)]="tripModel.description"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

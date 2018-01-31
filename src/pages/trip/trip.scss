@@ -44,6 +44,7 @@ page-trip {
             padding: 30px 0;
             text-align: center;
             text-transform: uppercase;
+            font-weight: 400;
           }
           > div:hover {
             color: var(--secondary);
@@ -55,6 +56,7 @@ page-trip {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0 5px;
 
       .widthWrapper {
         width: 100%;
@@ -116,21 +118,9 @@ page-trip {
               font-size: 45px;
               margin-bottom: 10px;
               align-self: flex-start;
-  
-              &.facts {
-                font-size: 36px;
-              }
-            }
-            .glanceSubsection {
-              font-style: italic;
-              line-height: 42px;
-              font-size: 28px;
             }
             .glanceContent {
-              .content {
-                font-size: 20px;
-                line-height: 36px;
-              }
+
             }
             .toggleBtn {
               display: flex;
@@ -215,7 +205,7 @@ page-trip {
             juncturebubbles {
 
               .juncturesContainer {
-                margin: 100px 0; 
+                margin: 100px 0;
               }
             }
           }
