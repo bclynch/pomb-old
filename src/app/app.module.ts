@@ -66,6 +66,7 @@ import { UnitToggle } from '../components/unitToggle/unitToggle.component';
 import { Tags } from '../components/tags/tags.component';
 import { JunctureBubbles } from '../components/junctureBubbles/junctureBubbles.component';
 import { JunctureBubble } from '../components/junctureBubbles/junctureBubble/junctureBubble.component';
+import { ProfilePicture } from '../components/profilePicture/profilePicture.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -215,7 +216,8 @@ import { ErrorService } from '../services/error.service';
     GeneralErrorPage,
     Tags,
     JunctureBubbles,
-    JunctureBubble
+    JunctureBubble,
+    ProfilePicture
   ],
   imports: [
     BrowserModule,

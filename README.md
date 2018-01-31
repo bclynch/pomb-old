@@ -8,7 +8,6 @@
     - Need to add posts, description
     - Fix flickr banner algorithm. It sucks
 - Place newsletter component around (blog posts, w/e)
-- Move to postgraphile 4
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal

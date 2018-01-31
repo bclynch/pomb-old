@@ -17,10 +17,7 @@
       (click)="viewCtrl.dismiss('profile')"
     >
       <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
-      <div 
-        class="profilePhotoContainer" 
-        [ngStyle]="userService.user && userService.user ? { 'background-image': 'url(' + userService.user.profilePhoto + ')'} : { 'background': 'black'}"
-      ></div>
+      <ProfilePicture [photo]="userService.user?.profilePhoto"></ProfilePicture>
       <div class="logoutBtn">Logout</div>
     </div>
     <div class="paneSectionContent" (click)="viewCtrl.dismiss('register')" *ngIf="!userService.signedIn">

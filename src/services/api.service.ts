@@ -980,7 +980,7 @@ const updatePostById = gql`
 `;
 
 const createJuncture = gql`
-  mutation($userId: Int!, $tripId: Int!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: Float!, $lon: Float!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($userId: Int!, $tripId: Int!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: BigFloat!, $lon: BigFloat!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     createJuncture(input:{
       juncture: {
         userId: $userId,
@@ -1004,7 +1004,7 @@ const createJuncture = gql`
 `;
 
 const createTrip = gql`
-  mutation($userId: Int!, $name: String!, $description: String, $startDate: BigInt!, $endDate: BigInt, $startLat: Float!, $startLon: Float!) {
+  mutation($userId: Int!, $name: String!, $description: String, $startDate: BigInt!, $endDate: BigInt, $startLat: BigFloat!, $startLon: BigFloat!) {
     createTrip(input:{
       trip:{
         userId: $userId,
@@ -1036,7 +1036,7 @@ const createEmailListEntry = gql`
 `;
 
 const updateJuncture = gql`
-  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: Float, $lon: Float, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     updateJunctureById(input:{
       id: $junctureId,
       juncturePatch: {

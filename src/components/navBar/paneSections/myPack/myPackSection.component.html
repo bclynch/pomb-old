@@ -20,10 +20,7 @@
         <div class="paneSectionHeader">Profile</div>
         <div class="profileWrapper" (click)="routerService.navigateToPage('/user/' + userService.user.username)">
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
-          <div 
-            class="profilePhotoContainer" 
-            [ngStyle]="userService.user && userService.user ? { 'background-image': 'url(' + userService.user.profilePhoto + ')'} : { 'background': 'black'}"
-          ></div>
+          <ProfilePicture [photo]="userService.user?.profilePhoto"></ProfilePicture>
         </div>
         <div (click)="routerService.navigateToPage('/admin')">Admin</div>
         <div (click)="logout()" class="paneSectionBtn">Logout</div>

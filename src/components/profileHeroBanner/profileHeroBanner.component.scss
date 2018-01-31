@@ -18,13 +18,10 @@ profileherobanner {
       justify-content: flex-end;
       align-items: center;
 
-      .profilePhotoContainer {
-        height: 125px;
-        width: 125px;
-        border: 3px solid mapGet($basecolor, white);
-        border-radius: 5px;
-        background-position: center!important;
-        background-size: contain!important;
+      profilePicture {
+        .photo {
+          border: 3px solid mapGet($basecolor, white);
+        }
       }
       .name {
         font-weight: bold;

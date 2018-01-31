@@ -9,8 +9,8 @@
         <div class="accountsContainer">
           <div class="resultsContainerHeader">Users</div>
           <div class="accountsWrapper">
-            <div class="accountWrapper" *ngFor="let account of accountResults;" (click)="routerService.navigateToPage('/' + account.username)">
-              <div class="profilePhotoContainer" [ngStyle]="account.profilePhoto ? { 'background-image': 'url(' + account.profilePhoto + ')'} : { 'background': 'black'}"></div>
+            <div class="accountWrapper" *ngFor="let account of accountResults;" (click)="routerService.navigateToPage('/user/' + account.username)">
+              <ProfilePicture [photo]="account.profilePhoto"></ProfilePicture>
               <div class="accountUser">{{account.username}}</div>
             </div>
             <div class="noResultsContainer" *ngIf="!accountResults.length">

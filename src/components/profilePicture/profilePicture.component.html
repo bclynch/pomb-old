@@ -1,0 +1,10 @@
+<div class="profileContainer">
+  <div 
+    class="profilePhoto photo"
+    *ngIf="photo" 
+    [ngStyle]="{ 'background-image': 'url(' + photo + ')'}"
+  ></div>
+  <div class="defaultPhoto photo" *ngIf="!photo">
+    <BackpackIcon [color]="settingsService.secondaryColor"></BackpackIcon>
+  </div>
+</div>

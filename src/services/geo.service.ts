@@ -42,7 +42,8 @@ export class GeoService {
     // WILL NEED TO FIGURE OUT ORDERING PROPERLY
     data.forEach((juncture) => {
       juncture.forEach((coords, i) => {
-        geoJSON.geometry.coordinates.push([ coords.lon, coords.lat, coords.elevation ]);
+        // need to coerce these intonumbers since the db has them coming back strings
+        geoJSON.geometry.coordinates.push([ +coords.lon, +coords.lat, +coords.elevation ]);
         geoJSON.properties.coordTimes.push(coords.coordTime);
       });
     });

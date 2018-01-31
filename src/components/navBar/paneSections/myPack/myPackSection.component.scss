@@ -147,13 +147,10 @@ mypacknavsection {
           }
         }
       }
-      .profilePhotoContainer {
-        height: 125px;
-        width: 125px;
-        border: 3px solid mapGet($basecolor, white);
-        border-radius: 5px;
-        background-position: center;
-        background-size: contain;
+      profilepicture {
+        .profileContainer {
+          margin: 15px 0;
+        }
       }
     }
   }
