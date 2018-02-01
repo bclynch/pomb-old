@@ -72,17 +72,16 @@ export class TripMapPage {
       console.log('got trip data: ', this.tripData);
       this.settingsService.modPageTitle(`${this.tripData.name} Map`);
 
-      // fill up arr with a bunch of empty values so our styling works properly
+      // fill up arr with a bunch of empty values so our styling works properly + create arr with copies so we can mod values
       for (let i = 0; i < this.tripData.juncturesByTripId.nodes.length; i++) {
+        this.junctureMarkers.push({...this.tripData.juncturesByTripId.nodes[i]});
         this.junctureContentArr.push(null);
       }
       // populate first bit of our content for the pane
       if (this.tripData.juncturesByTripId.nodes[0]) this.modJunctureContentArr(0, this.tripData.juncturesByTripId.nodes[0].id);
       if (this.tripData.juncturesByTripId.nodes[1]) this.modJunctureContentArr(1, this.tripData.juncturesByTripId.nodes[1].id);
-
-      this.junctureMarkers = this.tripData.juncturesByTripId.nodes.slice(0);
       // adding start trip marker
-      this.junctureMarkers.unshift({ lat: this.tripData.startLat, lon: this.tripData.startLon, name: 'Trip Start', markerImg: this.junctureService.defaultStartImg, arrivalDate: this.tripData.startDate, city: '', country: '', coordsByJunctureId: { nodes: [] }, description: '' });
+      this.junctureMarkers.unshift({ lat: +this.tripData.startLat, lon: +this.tripData.startLon, name: 'Trip Start', markerImg: this.junctureService.defaultStartImg, arrivalDate: this.tripData.startDate, city: '', country: '', coordsByJunctureId: { nodes: [] }, description: '' });
       console.log('JUNCTURE MARKERS: ', this.junctureMarkers);
 
       // trip coords
@@ -108,10 +107,13 @@ export class TripMapPage {
       this.mapsAPILoader.load().then(() => {
         this.latlngBounds = new window['google'].maps.LatLngBounds();
         this.junctureMarkers.forEach((juncture) => {
+          // coerce to number
+          juncture.lat = +juncture.lat;
+          juncture.lon = +juncture.lon;
           this.latlngBounds.extend(new window['google'].maps.LatLng(juncture.lat, juncture.lon));
         });
         // making sure to check trip start point to compensate for it
-        this.latlngBounds.extend(new window['google'].maps.LatLng(this.tripData.startLat, this.tripData.startLon));
+        this.latlngBounds.extend(new window['google'].maps.LatLng(+this.tripData.startLat, +this.tripData.startLon));
 
         // grab map style
         this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe( (data) => {
@@ -137,7 +139,7 @@ export class TripMapPage {
       }
 
       // pan map to our new juncture location
-      this.panToCoords(this.tripData.juncturesByTripId.nodes[i].lat, this.tripData.juncturesByTripId.nodes[i].lon);
+      this.panToCoords(+this.tripData.juncturesByTripId.nodes[i].lat, +this.tripData.juncturesByTripId.nodes[i].lon);
     } else if (i - this.junctureIndex === 1) {
       // increment index of active juncture
       this.junctureIndex = this.junctureIndex + 1;
@@ -148,7 +150,7 @@ export class TripMapPage {
       }
 
       // pan map to our new juncture location
-      this.panToCoords(this.tripData.juncturesByTripId.nodes[i].lat, this.tripData.juncturesByTripId.nodes[i].lon);
+      this.panToCoords(+this.tripData.juncturesByTripId.nodes[i].lat, +this.tripData.juncturesByTripId.nodes[i].lon);
     }
   }
 

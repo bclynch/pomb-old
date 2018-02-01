@@ -10,8 +10,8 @@ export class Juncture {
   country: string;
   description: string;
   id: number;
-  lat: number;
-  lon: number;
+  lat: string;
+  lon: string;
   markerImg: string;
   name: string;
   createdAt: number;

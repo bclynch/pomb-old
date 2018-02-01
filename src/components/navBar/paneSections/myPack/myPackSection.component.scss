@@ -131,8 +131,38 @@ mypacknavsection {
             > div {
               flex: 1;
             }
+            .tripContainer {
+              height: 200px;
+
+              .tripCardContainer {
+                height: 170px;
+              }
+            }
             .juncturesContainer {
               margin-top: 15px;
+
+              .bubblesWrapper {
+                display: flex;
+
+                juncturebubble {
+                  .bubbleContainer {
+                    height: 175px;
+                    width: 175px;
+
+                    .junctureImg {
+                      height: 100px;
+                      width: 100px;
+                      margin: 5px auto;
+                    }
+                    .infoWrapper {
+                      > div:first-child {
+                        font-size: 18px;
+                      }
+                      font-size: 14px;
+                    }
+                  }
+                }
+              }
             }
           }
           .rightContainer {

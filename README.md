@@ -5,14 +5,16 @@
 ### Top Priorities
 
 - Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-    - Need to add posts, description
+    - Need to add posts
     - Fix flickr banner algorithm. It sucks
 - Place newsletter component around (blog posts, w/e)
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal
 - infinite scroll hub page
+- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Mobile usage!
+- Add to data model for views / likes
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
 - Currently trying to get application online
@@ -24,13 +26,14 @@
 
 *AFTER ONLINE*
 
-- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - DB security
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - Disqus comments??
-- Google Analytics - Page views working at least (on pomb gmail... Make domain email)
+- Google Analytics - Page views working at least (on CN email... Make domain email)
+    - Track activities - https://codeburst.io/using-google-analytics-with-angular-25c93bffaa18
+    - Set up reporting api calls - http://2ality.com/2015/10/google-analytics-api.html
+        - https://stackoverflow.com/questions/12837748/analytics-google-api-error-403-user-does-not-have-any-google-analytics-account
 - Share buttons for posts / trips / junctures - in progress
-- Add to data model for views / likes
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
 - Favorites / 'add to pack' for posts, images, trips
@@ -40,7 +43,7 @@
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
 - Password Retrieval + mailing on new account
-- Map view of trips users have posted + some kind of way to explore various places
+- Communit hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 
 #### Create/edit post dash

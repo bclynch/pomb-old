@@ -6,7 +6,13 @@
     <span [style.color]="settingsService.secondaryColor" *ngIf="!post.accountByAuthor.firstName">{{post.accountByAuthor.username}}</span>
   </div>
   <Tags [tags]="tags"></Tags>
-  <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
+  <div class="bottomRow">
+    <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
+    <div class="viewsContainer" title="Views">
+      <ion-icon name="md-eye"></ion-icon>
+      <div [style.color]="settingsService.secondaryColor">{{views | number}}</div>
+    </div>
+  </div>
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>
   <Newsletter></Newsletter>

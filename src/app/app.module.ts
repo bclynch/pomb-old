@@ -20,7 +20,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ShareButtonsModule } from 'ngx-sharebuttons';
 
 // App
-import { MyApp } from './app.component';
+import { PackOnMyBack } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalErrorHandler } from './app.globalErrorHandler';
 
@@ -133,10 +133,11 @@ import { JunctureService } from '../services/juncture.service';
 import { TripService } from '../services/trip.service';
 import { GeoService } from '../services/geo.service';
 import { ErrorService } from '../services/error.service';
+import { AnalyticsService } from '../services/analytics.service';
 
 @NgModule({
   declarations: [
-    MyApp,
+    PackOnMyBack,
     HomePage,
     PostPage,
     HubPage,
@@ -223,7 +224,7 @@ import { ErrorService } from '../services/error.service';
     BrowserModule,
     HttpModule,
     AppRoutingModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(PackOnMyBack),
     HttpClientModule,
     HttpLinkModule,
     ApolloModule,
@@ -238,7 +239,7 @@ import { ErrorService } from '../services/error.service';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    PackOnMyBack,
     HomePage,
     PostPage,
     HubPage,
@@ -292,6 +293,7 @@ import { ErrorService } from '../services/error.service';
     GeoService,
     Title,
     ErrorService,
+    AnalyticsService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

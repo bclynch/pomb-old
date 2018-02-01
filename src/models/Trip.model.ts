@@ -21,7 +21,7 @@ export class Trip {
     nodes: Post[]
   };
   startDate: number;
-  startLat: number;
-  startLon: number;
+  startLat: string;
+  startLon: string;
   description: string;
 }

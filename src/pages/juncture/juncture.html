@@ -4,9 +4,27 @@
       <div class="bannerTitle">{{junctureData?.name}}</div>
       <div class="bannerSubtitle">{{junctureData?.city}}, {{junctureData?.country}}</div>
     </div>
+    <div class="bannerNavContainer">
+      <div 
+        class="priorJuncture" 
+        (click)="routerService.navigateToPage('/juncture/' + priorJuncture.id)"
+      >
+        <ion-icon *ngIf="priorJuncture" name="ios-arrow-back"></ion-icon>
+        <span *ngIf="priorJuncture">{{priorJuncture?.name}}</span>
+      </div>
+      <div class="junctureTrip" (click)="routerService.navigateToPage('/trip/' + junctureData.tripByTripId.id)">{{junctureData?.tripByTripId.name}}</div>
+      <div 
+        class="nextJuncture" 
+        (click)="routerService.navigateToPage('/juncture/' + nextJuncture.id)"
+      >
+        <span *ngIf="nextJuncture">{{nextJuncture?.name}}</span>
+        <ion-icon *ngIf="nextJuncture" name="ios-arrow-forward"></ion-icon>
+      </div>
+    </div>
   </div>
 
   <div class="widthWrapper">
+    <div class="junctureDescription" [froalaView]="junctureData?.description"></div>
     <div class="infoContainer">
       <div class="mapContainer">
         <agm-map 
@@ -17,8 +35,8 @@
           [scrollwheel]="false"
           [fitBounds]="latlngBounds" 
           [styles]=mapStyle
-          [latitude]="junctureData?.lat" 
-          [longitude]="junctureData?.lon"
+          [latitude]="markerLat" 
+          [longitude]="markerLon"
           [zoom]="zoomLevel"
           mapTypeId="terrain" 
         >
@@ -30,10 +48,10 @@
           ></agm-data-layer>
           <agm-marker 
             *ngIf= "!isGPX"
-            [latitude]= "junctureData?.lat" 
-            [longitude]= "junctureData?.lon" 
+            [latitude]= "markerLat" 
+            [longitude]= "markerLon" 
             [iconUrl]= "{
-              url: junctureData?.markerImg || 'https://www.shareicon.net/data/256x256/2016/11/14/852173_circle_512x512.png',
+              url: junctureData?.markerImg || 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png',
               anchor: {x: 18, y: 18},
               size: {width: 32, height: 32},
               scaledSize: {width: 32, height: 32}

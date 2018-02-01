@@ -32,7 +32,7 @@
               <div *ngIf="!markerLoading">
                 <div 
                   class="juncturePhoto" 
-                  [ngStyle]="junctureContentArr[i - 1].junctureToPhotosByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i - 1].junctureToPhotosByJunctureId.nodes[0].url + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
+                  [ngStyle]="junctureContentArr[i - 1].imagesByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i - 1].imagesByJunctureId.nodes[0].url + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
                 >
                   <div class="overlay">
                     <div class="overlayName">{{junctureContentArr[i - 1].name}}</div>

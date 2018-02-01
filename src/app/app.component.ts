@@ -1,22 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 
 import { APIService } from '../services/api.service';
 import { LocalStorageService } from '../services/localStorage.service';
 import { UserService } from '../services/user.service';
 import { AlertService } from '../services/alert.service';
 import { SettingsService } from '../services/settings.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { BroadcastService, BroadcastEvent } from '../services/broadcast.service';
-
-declare let ga: Function;
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp implements OnInit, OnDestroy {
+export class PackOnMyBack implements OnInit, OnDestroy {
 
-  subscription: Subscription;
   firstTry = true;
 
   constructor(
@@ -26,7 +22,7 @@ export class MyApp implements OnInit, OnDestroy {
     private alertService: AlertService,
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
-    private router: Router
+    private anaylticsService: AnalyticsService
   ) {
     // grab site config
     this.settingsService.appInit().then(() => {
@@ -64,16 +60,11 @@ export class MyApp implements OnInit, OnDestroy {
 
   // analytics tracking
   ngOnInit() {
-    this.subscription = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        ga('set', 'page', event.urlAfterRedirects);
-        ga('send', 'pageview');
-      }
-    });
+    this.anaylticsService.trackViews();
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.anaylticsService.destroyTracking();
   }
 
   emitReady() {

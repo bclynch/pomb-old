@@ -16,7 +16,7 @@
       <div class="innerWrapper">
         <div class="statWrapper" *ngFor="let stat of stats;">
           <ion-icon [name]="stat.icon"></ion-icon>
-          <div class="statValue">{{stat.value}}</div>
+          <div class="statValue">{{stat.value | number}}</div>
           <div class="statLabel">{{stat.label}}</div>
         </div>
       </div>

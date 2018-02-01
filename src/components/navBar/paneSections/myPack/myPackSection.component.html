@@ -48,8 +48,9 @@
             </div>
             <div class="juncturesContainer" *ngIf="userService.recentJunctures.length">
               <div class="miniSectionLabel">Recent Junctures</div>
-              <div *ngFor="let juncture of userService.recentJunctures;">{{juncture.name}}</div>
-              <!-- WHatever our juncture bubbles / card looks like -->
+              <div class="bubblesWrapper">
+                <JunctureBubble [juncture]="juncture" *ngFor="let juncture of userService.recentJunctures;"></JunctureBubble>
+              </div>
             </div>
           </div>
           <div class="rightContainer" *ngIf="userService.recentPosts.length">

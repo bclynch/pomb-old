@@ -19,7 +19,7 @@ juncturemodal {
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 10;
+        z-index: 100;
   
         > * {
           flex: 1;
@@ -173,9 +173,12 @@ juncturemodal {
           }
         }
         .descriptionContainer {
-  
-          textarea {
+
+          .textEditorWrapper {
             width: 100%;
+            margin-top: 10px;
+            overflow: scroll;
+            border: solid 1px #ddd;
           }
         }
         .galleryLoadWrapper {

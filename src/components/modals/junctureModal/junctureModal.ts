@@ -24,6 +24,13 @@ import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/gallery
 })
 export class JunctureModal {
 
+  editorOptions = {
+    placeholderText: 'Write something insightful...',
+    heightMin: '300px',
+    heightMax: '525px',
+    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
+  };
+
   junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
   inited = false;
   junctureSaveType = 'Publish';

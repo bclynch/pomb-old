@@ -92,8 +92,10 @@
         </div>
       </div>
       <div class="descriptionContainer modalSection">
-        <div class="junctureLabel">Juncture Content</div>
-        <textarea [(ngModel)]="junctureModel.description" rows="6"></textarea>
+        <div class="junctureLabel">Juncture Description</div>
+        <div class="textEditorWrapper">
+          <div [froalaEditor]="editorOptions" [(froalaModel)]="junctureModel.description"></div>
+        </div>
       </div>
       <div class="galleryLoadWrapper">
         <div (click)="presentGalleryUploaderPopover()">

@@ -13,6 +13,7 @@ import { GeoService } from '../../services/geo.service';
 import { TripService } from '../../services/trip.service';
 import { AlertService } from '../../services/alert.service';
 import { ExploreService } from '../../services/explore.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { Post } from '../../models/Post.model';
 import { Trip } from '../../models/Trip.model';
@@ -66,7 +67,8 @@ export class TripPage implements AfterViewInit {
     private tripService: TripService,
     private sanitizer: DomSanitizer,
     private mapsAPILoader: MapsAPILoader,
-    private exploreService: ExploreService
+    private exploreService: ExploreService,
+    private analyticsService: AnalyticsService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.tripId;
@@ -162,13 +164,19 @@ export class TripPage implements AfterViewInit {
   populateStats(): void {
     // populate stats
     const stats = [];
+
     stats.push({ icon: 'md-git-merge', label: 'Junctures', value: this.tripData.juncturesByTripId.totalCount });
     stats.push({ icon: 'md-globe', label: 'Countries', value: this.countryFlags.length || 1 });
     stats.push({ icon: 'md-images', label: 'Photos', value: this.tripData.imagesByTripId.totalCount });
     stats.push({ icon: 'md-albums', label: 'Posts', value: this.postCount });
-    stats.push({ icon: 'md-eye', label: 'Views', value: null || 0 });
     stats.push({ icon: 'md-calendar', label: 'Days', value: this.utilService.differenceDays(this.tripData.startDate, this.tripData.endDate) });
 
     this.stats = stats;
+    this.analyticsService.getPageViews().then(
+      result => {
+        const data = <any>result;
+        this.stats.push({ icon: 'md-eye', label: 'Views', value: data.views });
+      }
+    );
   }
 }

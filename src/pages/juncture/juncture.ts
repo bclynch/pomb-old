@@ -1,11 +1,14 @@
 import { ViewChild, Component, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AgmMap, AgmDataLayer, MapsAPILoader } from '@agm/core';
+
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { GeoService } from '../../services/geo.service';
 import { UtilService } from '../../services/util.service';
+import { RouterService } from '../../services/router.service';
+
 import { Juncture } from '../../models/Juncture.model';
 
 @Component({
@@ -21,6 +24,9 @@ export class JuncturePage {
   junctureData: Juncture;
   bannerImg: string;
 
+  priorJuncture: Juncture;
+  nextJuncture: Juncture;
+
   isProcessing = false;
   filesToUpload: Array<File> = [];
 
@@ -30,6 +36,8 @@ export class JuncturePage {
   mapStyle;
   dataLayerStyle;
   zoomLevel = 14;
+  markerLat: number;
+  markerLon: number;
 
   stats: { icon: string; iconColor: string; label: string; value: any; unitOfMeasure: string; }[];
 
@@ -81,7 +89,8 @@ export class JuncturePage {
     private geoService: GeoService,
     private mapsAPILoader: MapsAPILoader,
     private utilService: UtilService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private routerService: RouterService
   ) {
     this.route.params.subscribe((params) => {
       this.junctureId = params.id;
@@ -103,6 +112,10 @@ export class JuncturePage {
 
       // fitting the map to the data layer OR the marker
       this.mapsAPILoader.load().then(() => {
+        // coerce lat / lon to numbers
+        this.markerLat = +this.junctureData.lat;
+        this.markerLon = +this.junctureData.lon;
+
         if (this.isGPX) {
           this.latlngBounds = new window['google'].maps.LatLngBounds();
           // take five coord pairs from the coords arr evenly spaced to hopefully encapsulate all the bounds
@@ -130,6 +143,27 @@ export class JuncturePage {
 
       if (this.isGPX) this.createLineCharts();
       this.inited = true;
+
+      // find prior juncture + next juncture
+      for (let i = 0; i < this.junctureData.tripByTripId.juncturesByTripId.nodes.length; i++) {
+        if (this.junctureData.tripByTripId.juncturesByTripId.nodes[i].id === this.junctureData.id) {
+          // set prior juncture
+          if (i !== 0) {
+            this.priorJuncture = this.junctureData.tripByTripId.juncturesByTripId.nodes[i - 1];
+          } else {
+            this.priorJuncture = null;
+          }
+
+          // set next juncture
+          if (i !== this.junctureData.tripByTripId.juncturesByTripId.nodes.length - 1) {
+            this.nextJuncture = this.junctureData.tripByTripId.juncturesByTripId.nodes[i + 1];
+          } else {
+            this.nextJuncture = null;
+          }
+
+          break;
+        }
+      }
 
       // grab flickr images for the banner
       this.apiService.getFlickrPhotos(this.junctureData.city.trim(), 'landscape', 1, this.junctureData.country.trim()).subscribe(

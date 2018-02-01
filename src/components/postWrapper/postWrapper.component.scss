@@ -20,6 +20,25 @@ postwrapper {
         width: 100%!important;
       }
     }
+    .bottomRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .viewsContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        ion-icon {
+          font-size: 24px;
+          color: #bbb;
+        }
+        > div {
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
 @include respond-to(tiny) {

@@ -47,12 +47,14 @@ const getAllPublishedPosts = gql`
         createdAt,
         updatedAt,
         accountByAuthor {
+          id,
           firstName,
           lastName,
           username
         },
         imagesByPostId {
           nodes {
+            id,
             type,
             url,
             title,
@@ -89,6 +91,7 @@ query allPosts($author: Int!) {
       junctureId,
       tripId,
       accountByAuthor {
+        id,
         firstName,
         lastName
       },
@@ -104,8 +107,10 @@ query allPosts($author: Int!) {
         nodes {
           postCommentByCommentId {
             accountByAuthor {
+              id,
               firstName
             },
+            id,
             content,
             createdAt
           }
@@ -138,6 +143,7 @@ const getAllImagesByUser = gql`
       offset: $offset
     ) {
       nodes {
+        id,
         url,
         description,
         title,
@@ -159,6 +165,7 @@ const getAllImagesByTrip = gql`
       offset: $offset
     ) {
       nodes {
+        id,
         url,
         description,
         title,
@@ -179,6 +186,7 @@ const getRecentImages = gql`
       last: $last,
     ) {
       nodes {
+        id,
         url,
         description,
         accountByUserId {
@@ -211,6 +219,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       scheduledDate,
       publishedDate,
       accountByAuthor {
+        id,
         firstName,
         lastName
       },
@@ -225,7 +234,8 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName
+              id,
+              firstName
             },
             content,
             createdAt
@@ -234,6 +244,7 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
       },
       imagesByPostId {
         nodes {
+          id,
           type,
           url,
           description,
@@ -340,6 +351,7 @@ const getAccountByUsername = gql`
           id,
           title,
           accountByAuthor {
+            id,
             firstName,
             lastName,
             username
@@ -397,11 +409,13 @@ const getRecentUserActivity = gql`
           }
         }
       },
-      juncturesByUserId(last: 2) {
+      juncturesByUserId(first: 2, orderBy: PRIMARY_KEY_DESC) {
         nodes {
           id,
           name,
-          markerImg
+          markerImg,
+          city,
+          country
         }
       },
       postsByAuthor(
@@ -463,6 +477,7 @@ const getTripById = gql`
         }
       },
       accountByUserId {
+        id,
         username,
         firstName,
         lastName,
@@ -471,6 +486,7 @@ const getTripById = gql`
       imagesByTripId {
         totalCount,
         nodes {
+          id,
           url,
           title,
           type,
@@ -519,6 +535,7 @@ const getPartialJunctureById = gql`
           id,
           title,
           accountByAuthor {
+            id,
             firstName,
             lastName,
             username
@@ -526,6 +543,7 @@ const getPartialJunctureById = gql`
           createdAt,
           imagesByPostId {
             nodes {
+              id,
               url,
               type
             }
@@ -538,6 +556,7 @@ const getPartialJunctureById = gql`
         }
       ) {
         nodes {
+          id,
           postId,
           type,
           url,
@@ -574,6 +593,7 @@ const getFullJunctureById = gql`
       },
       coordsByJunctureId {
         nodes {
+          id,
           lat,
           lon,
           elevation,
@@ -586,11 +606,22 @@ const getFullJunctureById = gql`
         }
       ) {
         nodes {
+          id,
           postId,
           type,
           url,
           description,
           accountByUserId {
+            id
+          }
+        }
+      }
+      tripByTripId {
+        id,
+        name,
+        juncturesByTripId {
+          nodes {
+            name
             id
           }
         }
@@ -611,6 +642,7 @@ const getPostById = gql`
       scheduledDate,
       publishedDate,
       accountByAuthor {
+        id,
         firstName,
         lastName,
         username
@@ -626,7 +658,8 @@ const getPostById = gql`
         nodes {
           postCommentByCommentId {
             accountByAuthor {
-            firstName
+              id,
+              firstName
             },
             content,
             createdAt
@@ -661,6 +694,7 @@ const getPostsByTag = gql`
           id,
           title,
           accountByAuthor {
+            id,
             firstName,
             lastName
           }
@@ -668,6 +702,7 @@ const getPostsByTag = gql`
           createdAt,
           imagesByPostId {
             nodes {
+              id,
               type,
               url,
               title,
@@ -686,14 +721,15 @@ const getPostsByTrip = gql`
   query getPostsByTrip($id: Int!) {
     tripById(id: $id) {
       postsByTripId(
-        last: 10,
-        orderBy: ID_ASC
+        first: 10,
+        orderBy: ID_DESC
       ) {
         totalCount,
         nodes {
           id,
           title,
           accountByAuthor {
+            id,
             firstName,
             lastName
           }
@@ -701,6 +737,7 @@ const getPostsByTrip = gql`
           createdAt,
           imagesByPostId {
             nodes {
+              id,
               url,
               type,
               accountByUserId {
@@ -1174,6 +1211,22 @@ export class APIService {
   // upload gpx information
   uploadGPX(geoJSON, junctureId: number) {
     return this.http.post(`http://localhost:8080/process-gpx/upload?juncture=${junctureId}`, geoJSON)
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  // get page views
+  getViews(path: string) {
+    return this.http.get(`http://localhost:8080/analytics/getViews?path=${path}`)
       .map(
         (response: Response) => {
           const data = response.json();
