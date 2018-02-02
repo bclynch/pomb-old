@@ -15,5 +15,13 @@
   </div>
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>
-  <Newsletter></Newsletter>
+  <div class="moreContainer">
+    <div class="moreWrapper">
+      <div class="header">You may also like</div>
+      <PostCard *ngFor="let post of relatedPosts;" [data]="post"></PostCard>
+    </div>
+    <div class="signupWrapper">
+      <Newsletter></Newsletter>
+    </div>
+  </div>
 </div>

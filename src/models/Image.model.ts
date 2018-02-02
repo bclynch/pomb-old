@@ -14,4 +14,7 @@ export class Image {
   title: string;
   type: ImageType;
   url: string;
+  postId: number;
+  junctureId: number;
+  tripId: number;
 }

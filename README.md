@@ -4,17 +4,13 @@
 
 ### Top Priorities
 
-- Work on separate page for junctures beyond the trip viewer for more information like data if avail and otherwise. Could show graphs, map with specific part visited etc.
-    - Need to add posts
-    - Fix flickr banner algorithm. It sucks
-- Place newsletter component around (blog posts, w/e)
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Add name of user with link on gallery modal
 - infinite scroll hub page
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Mobile usage!
-- Add to data model for views / likes
+- Add to data model for likes
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
 - Currently trying to get application online

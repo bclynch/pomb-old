@@ -17,6 +17,8 @@ export class PostWrapper implements OnChanges {
   tags: string[] = [];
   views: number;
 
+  relatedPosts: Post[] = [];
+
   constructor(
     private routerService: RouterService,
     private settingsService: SettingsService,
@@ -36,7 +38,17 @@ export class PostWrapper implements OnChanges {
           this.views = data.views;
         }
       );
+
+      this.populateRelatedPosts();
     }
   }
 
+  populateRelatedPosts(): void {
+    this.relatedPosts = [];
+    this.post.postToTagsByPostId.nodes[0].postTagByPostTagId.postToTagsByPostTagId.nodes.forEach((post) => {
+      if (this.relatedPosts.map(obj => obj.id).indexOf(post.postByPostId.id) === -1 && post.postByPostId.id !== this.post.id) {
+        this.relatedPosts.push(post.postByPostId);
+      }
+    });
+  }
 }

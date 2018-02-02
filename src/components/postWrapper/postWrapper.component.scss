@@ -39,6 +39,30 @@ postwrapper {
         }
       }
     }
+    .moreContainer {
+      display: block;
+      margin-top: 60px;
+
+      .moreWrapper {
+        flex: 3;
+
+        .header {
+          font-size: 24px;
+          margin-bottom: 25px;
+        }
+      }
+      .signupWrapper {
+        flex: 2;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        margin: 30px auto;
+
+        newsletter {
+          margin: 0 auto
+        }
+      }
+    }
   }
 }
 @include respond-to(tiny) {
@@ -47,6 +71,19 @@ postwrapper {
       .postSandbox {
         img {
           width: 300px!important; 
+        }
+      }
+    }
+  }
+}
+@include respond-to(small) {
+  postwrapper {
+    .postContentWrapper {
+      .moreContainer {
+        display: flex;
+
+        .signupWrapper {
+          margin: 0 0 0 15px;
         }
       }
     }

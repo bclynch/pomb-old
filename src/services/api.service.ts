@@ -585,9 +585,22 @@ const getFullJunctureById = gql`
       postsByJunctureId {
         nodes {
           id,
-          author,
+          title,
           accountByAuthor {
-            id
+            id,
+            firstName,
+            lastName,
+            username
+          }
+          imagesByPostId {
+            nodes {
+              id,
+              url,
+              type,
+              accountByUserId {
+                id
+              }
+            }
           }
         }
       },
@@ -650,7 +663,32 @@ const getPostById = gql`
       postToTagsByPostId {
         nodes {
           postTagByPostTagId {
-            name
+            name,
+            postToTagsByPostTagId(first: 5, orderBy: ID_DESC) {
+              nodes {
+                postByPostId {
+                  id,
+                  title,
+                  createdAt,
+                  accountByAuthor {
+                    id,
+                    firstName,
+                    lastName,
+                    username
+                  },
+                  imagesByPostId {
+                    nodes {
+                      id,
+                      url,
+                      type,
+                      accountByUserId {
+                        id
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -731,7 +769,8 @@ const getPostsByTrip = gql`
           accountByAuthor {
             id,
             firstName,
-            lastName
+            lastName,
+            username
           }
           subtitle,
           createdAt,

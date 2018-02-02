@@ -1,6 +1,7 @@
 import { ViewChild, Component, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AgmMap, AgmDataLayer, MapsAPILoader } from '@agm/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
@@ -8,6 +9,8 @@ import { APIService } from '../../services/api.service';
 import { GeoService } from '../../services/geo.service';
 import { UtilService } from '../../services/util.service';
 import { RouterService } from '../../services/router.service';
+import { ExploreService } from '../../services/explore.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 import { Juncture } from '../../models/Juncture.model';
 
@@ -16,6 +19,7 @@ import { Juncture } from '../../models/Juncture.model';
  templateUrl: 'juncture.html'
 })
 export class JuncturePage {
+  @ViewChild(AgmMap) private map: any;
   @ViewChild('distance') distance: any;
   @ViewChild('time') time: any;
 
@@ -23,6 +27,8 @@ export class JuncturePage {
   junctureId: number;
   junctureData: Juncture;
   bannerImg: string;
+  flag: { url: string; name: string };
+  views: number;
 
   priorJuncture: Juncture;
   nextJuncture: Juncture;
@@ -90,7 +96,10 @@ export class JuncturePage {
     private mapsAPILoader: MapsAPILoader,
     private utilService: UtilService,
     private route: ActivatedRoute,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private sanitizer: DomSanitizer,
+    private exploreService: ExploreService,
+    private analyticsService: AnalyticsService
   ) {
     this.route.params.subscribe((params) => {
       this.junctureId = params.id;
@@ -109,6 +118,16 @@ export class JuncturePage {
       this.settingsService.modPageTitle(data.junctureById.name);
       this.junctureData = data.junctureById;
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
+
+      // populate banner info
+      console.log(this.exploreService.getCountryFlag(this.junctureData.country));
+      this.flag = { url: this.exploreService.getCountryFlag(this.junctureData.country), name: this.junctureData.country};
+      this.analyticsService.getPageViews().then(
+        result => {
+          const data = <any>result;
+          this.views = data.views;
+        }
+      );
 
       // fitting the map to the data layer OR the marker
       this.mapsAPILoader.load().then(() => {
@@ -142,7 +161,6 @@ export class JuncturePage {
       });
 
       if (this.isGPX) this.createLineCharts();
-      this.inited = true;
 
       // find prior juncture + next juncture
       for (let i = 0; i < this.junctureData.tripByTripId.juncturesByTripId.nodes.length; i++) {
@@ -165,18 +183,22 @@ export class JuncturePage {
         }
       }
 
-      // grab flickr images for the banner
-      this.apiService.getFlickrPhotos(this.junctureData.city.trim(), 'landscape', 1, this.junctureData.country.trim()).subscribe(
-        result => {
-          console.log(result.photos.photo);
-          if (result.photos.photo.length) {
-            const photo = result.photos.photo[0];
-            this.bannerImg = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
-          } else {
-            this.bannerImg = '../../assets/images/trip-default.jpg';
+      // populate banner
+      if (!this.junctureData.imagesByJunctureId.nodes.length) {
+        this.bannerImg = '../../assets/images/trip-default.jpg';
+      } else {
+        for (let i = 0; i < this.junctureData.imagesByJunctureId.nodes.length; i++ ) {
+          if (!this.junctureData.imagesByJunctureId.nodes[i].postId) {
+            this.bannerImg = this.junctureData.imagesByJunctureId.nodes[i].url;
+            break;
           }
         }
-      );
+      }
+
+      this.inited = true;
+
+      // resize since size changes depending on how data is
+      this.map.triggerResize();
     });
   }
 

@@ -113,7 +113,7 @@ export class TripPage implements AfterViewInit {
 
       // populate flags array
       this.tripData.juncturesByTripId.nodes.forEach((juncture) => {
-        if (this.countryFlags.indexOf(juncture.country) === -1) {
+        if (this.countryFlags.map(obj => obj.name).indexOf(juncture.country) === -1) {
           this.countryFlags.push({ url: this.exploreService.getCountryFlag(juncture.country), name: juncture.country});
         }
       });

@@ -25,11 +25,16 @@ export class Post {
     }[]
   };
   imagesByPostId: {
-    nodes: Image[]
+    nodes: Image[];
   };
 }
 
 export class PostTag {
   name: string;
   tagDescription: string;
+  postToTagsByPostTagId: {
+    nodes: {
+      postByPostId: Post
+    }[]
+  };
 }

@@ -2,7 +2,7 @@ page-home {
 
   @include respond-to(small) {
     .rightColumn {
-      display: block!important;
+      display: flex!important;
     }
   }
 }

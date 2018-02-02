@@ -2,7 +2,7 @@ page-juncture {
 
   .junctureBannerContainer {
     width: 100%;
-    height: 450px;
+    height: 600px;
     position: relative;
 
     > .banner {
@@ -31,6 +31,30 @@ page-juncture {
         font-style: italic;
         text-shadow: 2px 2px mapGet($basecolor, black);
       }
+      .bannerDataWrapper {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+
+        img {
+          width: 40px;
+          margin-right: 40px;
+        }
+        .viewsContainer {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          color: white;
+  
+          ion-icon {
+            font-size: 32px;
+          }
+          > div {
+            font-weight: bold;
+            font-size: 18px;
+          }
+        }
+      }
     }
     .bannerNavContainer {
       position: absolute;
@@ -50,7 +74,6 @@ page-juncture {
 
       > div {
         cursor: pointer;
-        flex: 1;
         display: flex;
         align-items: center;
         
@@ -61,6 +84,9 @@ page-juncture {
           transition: .3s;
         }
       }
+      .priorJuncture {
+        flex: 2;
+      }
       .priorJuncture:hover {
         ion-icon {
           transform: translate(5px, 0);
@@ -68,9 +94,11 @@ page-juncture {
       }
       .junctureTrip {
         justify-content: center;
+        flex: 1;
       }
       .nextJuncture {
         justify-content: flex-end;
+        flex: 2;
       }
       .nextJuncture:hover {
 
@@ -84,7 +112,25 @@ page-juncture {
     margin: 0 auto;
     width: 100%;
     max-width: 1200px;
+    padding: 0 10px;
 
+    .sectionHeader {
+      font-size: 32px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+      margin: 70px 0 50px;
+    }
+    .sectionHeader:after {
+      border-bottom: .2rem solid var(--secondary);
+      bottom: 0;
+      content: "";
+      display: block;
+      left: 50%;
+      margin-left: -1.5rem;
+      position: absolute;
+      width: 3rem;
+    }
     .junctureDescription {
       max-width: 800px;
       margin: 60px auto;
@@ -109,6 +155,11 @@ page-juncture {
         h2 {
           text-align: center;
           margin-bottom: 15px;
+        }
+        unittoggle {
+          .toggle {
+            margin: 0 auto 20px;
+          }
         }
         .statsGrid {
           display: flex;
@@ -165,6 +216,9 @@ page-juncture {
     gallery {
       width: 100%;
     }
+    .posts {
+
+    }
   }
   @include respond-to(tiny) {
     .widthWrapper {
@@ -198,8 +252,10 @@ page-juncture {
     .widthWrapper {
       .infoContainer {
         .mapContainer {
-          width: 50%;
-    
+
+          &.isGPX {
+            width: 50%;
+          }
           agm-map {
             width: 100%;
             height: 50vh;
