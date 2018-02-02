@@ -1,3 +1,374 @@
 page-splash {
 
+  // modding the nav bar for this page
+  .pageWrapperContainer {
+    margin: 0;
+    // min-height: 100%;
+
+    .navBarContainer {
+      position: absolute;
+      background: transparent;
+    }
+  }
+  .titleText {
+    font-size: 36px;
+    letter-spacing: -.9px;
+    line-height: 1.44;
+    font-family: Sailec-Bold,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+  }
+  .contentText {
+    line-height: 1.6;
+    font-size: 18px;
+  }
+  .header {
+    position: relative;
+    width: 100%;
+    height: 534px;
+
+    .stripes {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      transform: skewY(-12deg);
+      transform-origin: 0;
+      background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%);
+      position: absolute;
+
+      span {
+        position: absolute;
+        height: 40px;
+
+        &:nth-child(1) {
+          width: 50%;
+          left: 50%;
+          top: 40px;
+          background: #4c29ff;
+        }
+        &:nth-child(2) {
+          width: 14%;
+          right: 0;
+          bottom: 40px;
+          background: #2be7ff;
+        }
+        &:nth-child(3) {
+          width: 25%;
+          bottom: 0;
+          right: 0;
+          background: #a1ffc8;
+        }
+      }
+    }
+    .headerContentContainer {
+      display: block;
+      padding: 64px 0;
+      max-width: 1200px;
+      margin: 50px auto;
+      position: relative; 
+
+      > div {
+        max-width: 100%;
+        margin: 0 16px 60px;
+
+        &:first-child {
+          margin-top: 50px;
+        }
+      }
+      .headerCallout {
+        color: white;
+
+        .headerTitle {
+          font-family: Sailec-Bold,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+          font-size: 60px;
+          letter-spacing: -2px;
+          line-height: 1.12;
+        }
+        .contentText {
+          line-height: 1.6;
+          font-size: 18px;
+          color: #d9fcff;
+        }
+      }
+      .registrationBox {
+        background: white;
+        padding: 32px;
+
+        .registrationTitle {
+          font-size: 30px;
+          font-weight: bold;
+          line-height: 1.46;
+          text-align: center;
+        }
+        form {
+
+          input {
+            display: block;
+            height: 48px;
+            max-width: 100%;
+            padding: 0 16px;
+            border: 1px solid #f1f1f1;
+            background: #fff;
+            color: rgba(3,27,78,.7);
+            transition: all .25s cubic-bezier(.645,.045,.355,1);
+            border-radius: 5px;
+            width: 100%;
+            position: relative;
+            margin-bottom: 10px;
+          }
+          button {
+            width: 100%;
+            height: 48px;
+            margin: 15px 0;
+            background: #53f;
+            font-weight: 400;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            ion-icon {
+              transition: .3s;
+              margin-left: 5px;
+            }
+          }
+          button:hover {
+            ion-icon {
+              transform: translate(5px, 0);
+            }
+          }
+        }
+        .terms {
+          text-align: center;
+
+          span {
+            color: #53f;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  .featuresContainer {
+    text-align: center;
+    background: url('../../assets/images/bg_1.svg');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 15px;
+    width: 100vw;
+    color: white;
+    margin-top: 120px;
+
+    .titleText {
+      max-width: 943px;
+      margin: 0 auto 64px;
+    }
+    .featuresWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+
+      .feature {
+        border: solid 1px white;
+        width: 80%;
+        padding: 32px;
+        background: rgba(0, 15, 83, .2);
+        margin: 10px 0;
+        cursor: pointer;
+        height: 450px;
+        position: relative;
+
+        ion-icon {
+          font-size: 64px;
+        }
+        .featureTitle {
+          margin: 16px 0;
+          font-size: 24px;
+          font-weight: 400px;
+        }
+        .featureDescription {
+
+        }
+        .featureCallout {
+          color: white;
+          margin-top: 40px;
+          font-weight: 400;
+          font-size: 18px;
+          width: 100%;
+          position: absolute;
+          bottom: 15px;
+          left: 0;
+          transition: .5s;
+        }
+      }
+      .feature:hover {
+        .featureCallout {
+          color: #53f;
+        }
+      }
+    }
+  }
+  .communityContainer {
+    text-align: center;
+    margin-top: 200px;
+    max-width: 1000px;
+    width: 100%;
+    padding: 15px;
+
+    .communityHeader {
+      &.titleText {
+        margin-bottom: 16px;
+      }
+    }
+    .contentText {
+      margin-bottom: 64px;
+    }
+    .communityWrapper {
+      display: block;
+      color: white;
+
+      .left {
+        
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        > div {
+          height: 48%;          
+        }
+      }
+      .box {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%);
+        transition: .5s;
+        cursor: pointer;
+        padding: 30px 0;
+        margin-bottom: 20px;
+        border-radius: 5px;
+
+        ion-icon {
+          font-size: 48px;
+        }
+      }
+      .box:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+  @media (min-width: 670px) {
+    .header {
+      height: 1000px;
+      .stripes {
+
+        span {
+          height: 150px;
+
+          &:nth-child(1) {
+            top: 0;
+            background: #4750ff;
+          }
+          &:nth-child(2) {
+            width: 16.66667%;
+            top: 300px;
+            bottom: auto;
+            background: #0dcfff;
+          }
+          &:nth-child(3) {
+            width: 33.33333%;
+            right: auto;
+            background: #11bdff;
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 880px) {
+    .header {
+      height: 800px;
+      .stripes {
+
+        span {
+          height: 190px;
+
+          &:nth-child(1) {
+            width: 33.33333%;
+            left: -16.66666%;
+            background: #53f;
+          }
+          &:nth-child(2) {
+            width: 33.33333%;
+            top: 0;
+            left: 16.66666%;
+            right: auto;
+            background: #4553ff;
+          }
+          &:nth-child(3) {
+            width: 33.33333%;
+            left: 49.99999%;
+            bottom: auto;
+            background: #4f40ff;
+          }
+          &:nth-child(4) {
+            width: 33.33333%;
+            top: 380px;
+            right: -16.66666%;
+            background: #25ddf5;
+          }
+          &:nth-child(5) {
+            width: 33.33333%;
+            bottom: 0;
+            background: #1fa2ff;
+          }
+        }
+      }
+      .headerContentContainer {
+        display: flex;
+        align-items: center;
+
+        > div {
+          max-width: 50%;
+          margin: 0 16px;
+
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+    .featuresContainer {
+  
+      .featuresWrapper {
+        flex-direction: row;
+        justify-content: space-around;
+
+        .feature {
+          border: solid 1px white;
+          width: 350px;
+          max-width: 32%;
+        }
+      }
+    }
+    .communityContainer {
+      .communityWrapper {
+        height: 600px;
+        display: grid;
+        grid-gap: 32px;
+        grid-template-columns: 3fr 2fr;
+      }
+      .box {
+        margin-bottom: 0;
+
+        ion-icon {
+          font-size: 64px;
+        }
+      }
+    }
+  }
 }

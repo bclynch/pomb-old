@@ -1,12 +1,85 @@
-<PageWrapper>
-  <div class="paneSection benefits">
-    <div class="paneSectionHeader">Benefits</div>
-    <div class="paneSectionContent">
-      <div class="benefitWrapper" *ngFor="let benefit of benefits;">
-        <div><ion-icon name="{{benefit.icon}}"></ion-icon></div>
-        <div class="benefitDescription">{{benefit.description}}</div>
+<PageWrapper [collapsibleNav]="false" [topo]="true">
+  <div class="header">
+    <div class="stripes">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+      <div class="headerContentContainer">
+        <div class="headerCallout">
+          <div class="headerTitle">Tracking your memories made easy</div>
+          <div class="contentText">Pack On My Back is a software platform built with simplicity in mind so you spend less time recording your travels and more time discovering your next passion. We get out of the way so you can craft your own adventure.</div>
+        </div>
+        <div class="registrationBox">
+          <div class="registrationTitle">Signup and begin capturing your travels in seconds.</div>
+          <form 
+            class="registrationForm" 
+            novalidate
+            #registrationForm="ngForm"
+            (ngSubmit)="userService.registerAccount(registrationModel)"
+          >
+            <input
+              type="text"
+              placeholder="Username"
+              required
+              name="username"
+              [(ngModel)]="registrationModel.username" 
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              name="email"
+              [(ngModel)]="registrationModel.email" 
+              pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+            />
+            <input
+              type="password"
+              placeholder="Password (8 character min.)"
+              required
+              name="password"
+              [(ngModel)]="registrationModel.password"
+              minlength="8" 
+            />
+            <button type="submit">Create Account <ion-icon name="md-arrow-forward"></ion-icon></button>
+          </form>
+          <div class="terms">By signing up you agree to the <span>Terms of Service</span></div>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="featuresContainer">
+      <div class="titleText">A fun and simple interface you will love and the complete set of features you need</div>
+      <div class="featuresWrapper">
+        <div class="feature" *ngFor="let feature of features;">
+          <ion-icon [name]="feature.icon"></ion-icon>
+          <div class="featureTitle">{{feature.title}}</div>
+          <div class="featureDescription contentText">{{feature.description}}</div>
+          <div class="featureCallout">{{feature.callout}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="communityContainer">
+      <div class="communityHeader titleText">Discover With The Community</div>
+      <div class="contentText">Share your experiences and unearth your next dream adventure</div>
+      <div class="communityWrapper">
+        <div class="left box">
+          <ion-icon name="md-desktop"></ion-icon>
+          <div class="titleText">Research Your Next Journey</div>
+          <div>Follow in your fellow members footsteps to share in their experiences and gain in their wisdom from the road</div>
+        </div>
+        <div class="right">
+          <div class="titleText box">
+            <ion-icon name="md-git-merge"></ion-icon>
+            <div>Plot Your Next Move</div>
+          </div>
+          <div class="titleText box">
+            <ion-icon name="ios-people"></ion-icon>
+            <div>Contribute To A Growing Community</div>
+          </div>
+        </div>
+      </div>
+    </div>
 </PageWrapper>
 

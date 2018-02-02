@@ -10,7 +10,7 @@ import { SettingsService } from '../../services/settings.service';
 export class Footer {
   year = Date.now();
 
-  links: string[] = ['About', 'Contact', 'Terms of Use'];
+  links: string[] = ['About', 'Contact', 'Terms of Service'];
   socialOptions = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/', label: 'instagram' },
     { icon: 'logo-facebook', url: 'https://www.facebook.com/brendan.lynch.90', label: 'facebook' },
