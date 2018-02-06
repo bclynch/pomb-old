@@ -148,7 +148,20 @@ const getAllImagesByUser = gql`
         description,
         title,
         accountByUserId {
-          id
+          id,
+          username
+        },
+        likesByUser: likesByImageId(
+          condition: {
+            userId: $userId
+          }
+        ) {
+          nodes {
+            id
+          }
+        },
+        totalLikes: likesByImageId {
+          totalCount
         }
       }
     }
@@ -156,7 +169,7 @@ const getAllImagesByUser = gql`
 `;
 
 const getAllImagesByTrip = gql`
-  query allImages($tripId: Int!, $first: Int, $offset: Int) {
+  query allImages($tripId: Int!, $first: Int, $offset: Int, $userId: Int) {
     allImages(
       condition: {
         tripId: $tripId
@@ -170,7 +183,20 @@ const getAllImagesByTrip = gql`
         description,
         title,
         accountByUserId {
-          id
+          id,
+          username
+        },
+        likesByUser: likesByImageId(
+          condition: {
+            userId: $userId
+          }
+        ) {
+          nodes {
+            id
+          }
+        },
+        totalLikes: likesByImageId {
+          totalCount
         }
       }
     }
@@ -178,7 +204,7 @@ const getAllImagesByTrip = gql`
 `;
 
 const getRecentImages = gql`
-  query allImages($last: Int) {
+  query allImages($last: Int, $userId: Int) {
     allImages(
       condition: {
         type: GALLERY
@@ -192,6 +218,18 @@ const getRecentImages = gql`
         accountByUserId {
           id,
           username
+        },
+        likesByUser: likesByImageId(
+          condition: {
+            userId: $userId
+          }
+        ) {
+          nodes {
+            id
+          }
+        },
+        totalLikes: likesByImageId {
+          totalCount
         }
       }
     }
@@ -446,7 +484,7 @@ const getRecentUserActivity = gql`
 `;
 
 const getTripById = gql`
-  query tripById($id: Int!) {
+  query tripById($id: Int!, $userId: Int) {
     tripById(id: $id) {
       id,
       name,
@@ -495,8 +533,32 @@ const getTripById = gql`
           accountByUserId {
             id,
             username
+          },
+          likesByUser: likesByImageId(
+            condition: {
+              userId: $userId
+            }
+          ) {
+            nodes {
+              id
+            }
+          },
+          totalLikes: likesByImageId {
+            totalCount
           }
         }
+      }
+      likesByUser: likesByTripId(
+        condition: {
+          userId: $userId
+        }
+      ) {
+        nodes {
+          id
+        }
+      },
+      totalLikes: likesByTripId {
+        totalCount
       }
     }
   }
@@ -524,7 +586,7 @@ const getTripsByUser = gql`
 `;
 
 const getPartialJunctureById = gql`
-  query junctureById($id: Int!) {
+  query junctureById($id: Int!, $userId: Int) {
     junctureById(id: $id) {
       id,
       name,
@@ -566,15 +628,39 @@ const getPartialJunctureById = gql`
           accountByUserId {
             id,
             username
+          },
+          likesByUser: likesByImageId(
+            condition: {
+              userId: $userId
+            }
+          ) {
+            nodes {
+              id
+            }
+          },
+          totalLikes: likesByImageId {
+            totalCount
           }
         }
+      }
+      likesByUser: likesByJunctureId(
+        condition: {
+          userId: $userId
+        }
+      ) {
+        nodes {
+          id
+        }
+      },
+      totalLikes: likesByJunctureId {
+        totalCount
       }
     }
   }
 `;
 
 const getFullJunctureById = gql`
-  query junctureById($id: Int!) {
+  query junctureById($id: Int!, $userId: Int) {
     junctureById(id: $id) {
       id,
       name,
@@ -630,6 +716,18 @@ const getFullJunctureById = gql`
           accountByUserId {
             id,
             username
+          },
+          likesByUser: likesByImageId(
+            condition: {
+              userId: $userId
+            }
+          ) {
+            nodes {
+              id
+            }
+          },
+          totalLikes: likesByImageId {
+            totalCount
           }
         }
       }
@@ -642,6 +740,18 @@ const getFullJunctureById = gql`
             id
           }
         }
+      }
+      likesByUser: likesByJunctureId(
+        condition: {
+          userId: $userId
+        }
+      ) {
+        nodes {
+          id
+        }
+      },
+      totalLikes: likesByJunctureId {
+        totalCount
       }
     }
   }
@@ -718,6 +828,18 @@ const getPostById = gql`
           accountByUserId {
             id,
             username
+          },
+          likesByUser: likesByImageId(
+            condition: {
+              userId: $userId
+            }
+          ) {
+            nodes {
+              id
+            }
+          },
+          totalLikes: likesByImageId {
+            totalCount
           }
         }
       },
@@ -1400,22 +1522,24 @@ export class APIService {
     });
   }
 
-  getAllImagesByTrip(tripId: number, first: number, offset: number) {
+  getAllImagesByTrip(tripId: number, first: number, offset: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getAllImagesByTrip,
       variables: {
         tripId,
         first,
-        offset
+        offset,
+        userId
       }
     });
   }
 
-  getRecentImages(amount: number) {
+  getRecentImages(amount: number, $userId: number) {
     return this.apollo.watchQuery<any>({
       query: getRecentImages,
       variables: {
-        last: amount
+        last: amount,
+        $userId
       }
     });
   }
@@ -1432,11 +1556,12 @@ export class APIService {
     });
   }
 
-  getTripById(id: number) {
+  getTripById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getTripById,
       variables: {
-          id
+          id,
+          userId
       }
     });
   }
@@ -1450,20 +1575,22 @@ export class APIService {
     });
   }
 
-  getPartialJunctureById(id: number) {
+  getPartialJunctureById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getPartialJunctureById,
       variables: {
-          id
+          id,
+          userId
       }
     });
   }
 
-  getFullJunctureById(id: number) {
+  getFullJunctureById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getFullJunctureById,
       variables: {
-          id
+          id,
+          userId
       }
     });
   }

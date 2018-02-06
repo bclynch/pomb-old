@@ -14,6 +14,7 @@ import { TripService } from '../../services/trip.service';
 import { AlertService } from '../../services/alert.service';
 import { ExploreService } from '../../services/explore.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { UserService } from '../../services/user.service';
 
 import { Post } from '../../models/Post.model';
 import { Trip } from '../../models/Trip.model';
@@ -26,7 +27,8 @@ import { ImageType } from '../../models/Image.model';
 export class TripPage implements AfterViewInit {
 
   carouselImages: { imgURL: string; tagline: string; }[] = [];
-  gallery: { url: string; description: string; accountByUserId: { username: string }; }[] = [];
+  carouselTripData: { totalLikes: number; likesArr: { id: number }[]; tripId: number; } = { totalLikes: null, likesArr: [], tripId: null };
+  gallery: { url: string; description: string; accountByUserId: { username: string }; totalLikes: { totalCount: number }; likesByUser: { nodes: { id: number }[] }; id: number; }[] = [];
 
   subnavOptions = ['Highlights', 'Map', 'Junctures', 'Posts', 'Photos'];
 
@@ -68,7 +70,8 @@ export class TripPage implements AfterViewInit {
     private sanitizer: DomSanitizer,
     private mapsAPILoader: MapsAPILoader,
     private exploreService: ExploreService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.tripId;
@@ -79,7 +82,7 @@ export class TripPage implements AfterViewInit {
   init() {
     this.countryFlags = [];
 
-    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.settingsService.modPageTitle(this.tripData.name);
@@ -89,8 +92,9 @@ export class TripPage implements AfterViewInit {
       // populate img arrays
       this.tripData.imagesByTripId.nodes.forEach((img) => {
         if (img.type === ImageType['BANNER']) this.carouselImages.push({ imgURL: img.url, tagline: img.title });
-        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }});
+        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
       });
+      this.carouselTripData = { totalLikes: this.tripData.totalLikes.totalCount, likesArr: this.tripData.likesByUser.nodes, tripId: this.tripData.id };
 
       // trip coords
       const junctureArr = this.tripData.juncturesByTripId.nodes.map((juncture) => {

@@ -9,8 +9,8 @@
 - infinite scroll hub page
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Mobile usage!
-- Add to data model for likes - in progress
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
+- Test test test
 - AWS domain email for S3 + RDS
 - Currently trying to get application online
     - test ionic app up and running
@@ -38,6 +38,7 @@
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
 - Password Retrieval + mailing on new account
+    - Mailing to users / subbed people
 - Communit hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 

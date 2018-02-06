@@ -12,6 +12,7 @@ import { TripService } from '../../services/trip.service';
 import { GeoService } from '../../services/geo.service';
 import { RouterService } from '../../services/router.service';
 import { JunctureService } from '../../services/juncture.service';
+import { UserService } from '../../services/user.service';
 
 import { Trip } from '../../models/Trip.model';
 
@@ -54,7 +55,8 @@ export class TripMapPage {
     private geoService: GeoService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private junctureService: JunctureService
+    private junctureService: JunctureService,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.tripId;
@@ -67,7 +69,7 @@ export class TripMapPage {
     this.junctureMarkers = [];
     this.junctureContentArr = [];
 
-    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.settingsService.modPageTitle(`${this.tripData.name} Map`);
@@ -160,7 +162,7 @@ export class TripMapPage {
 
       // make sure it doesn't already exist
       if (!this.junctureContentArr[index]) {
-        this.apiService.getPartialJunctureById(id).valueChanges.subscribe(({ data }) => {
+        this.apiService.getPartialJunctureById(id, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
           console.log(data);
           const junctureData = data.junctureById;
           if (!this.junctureContentArr[index]) {

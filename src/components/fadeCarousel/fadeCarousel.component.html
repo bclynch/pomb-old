@@ -12,15 +12,6 @@
         <img [src]="flag.url" [title]="flag.name" />
       </div>
     </div>
-    <div class="statsContainer" *ngIf="stats.length">
-      <div class="innerWrapper">
-        <div class="statWrapper" *ngFor="let stat of stats;">
-          <ion-icon [name]="stat.icon"></ion-icon>
-          <div class="statValue">{{stat.value | number}}</div>
-          <div class="statLabel">{{stat.label}}</div>
-        </div>
-      </div>
-    </div>
     <div 
       class="modalLauncherBtn boldFont" 
       *ngIf="btnLabel" 
@@ -29,6 +20,24 @@
     >
       {{btnLabel}}
       <ion-icon name="ios-arrow-down"></ion-icon>
+    </div>
+  </div>
+  <div class="statsContainer" *ngIf="stats.length">
+    <div class="innerWrapper">
+      <div class="statWrapper" *ngFor="let stat of stats;">
+        <ion-icon [name]="stat.icon"></ion-icon>
+        <div class="statValue">{{stat.value | number}}</div>
+        <div class="statLabel">{{stat.label}}</div>
+      </div>
+      <LikeCounter 
+        [totalLikes]="tripData.totalLikes" 
+        [userLikes]="tripData.likesArr" 
+        [assetId]="tripData.tripId" 
+        assetType="trip"
+        [hasLabel]="true"
+        color="white"
+        *ngIf="tripData"
+      ></LikeCounter>
     </div>
   </div>
 </div>

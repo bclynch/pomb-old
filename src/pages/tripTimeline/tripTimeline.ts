@@ -7,6 +7,7 @@ import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { JunctureService } from '../../services/juncture.service';
 import { RouterService } from '../../services/router.service';
+import { UserService } from '../../services/user.service';
 
 import { Trip } from '../../models/Trip.model';
 
@@ -27,7 +28,8 @@ export class TripTimelinePage {
     private sanitizer: DomSanitizer,
     private junctureService: JunctureService,
     private route: ActivatedRoute,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.tripId;
@@ -36,7 +38,7 @@ export class TripTimelinePage {
   }
 
   init() {
-    this.apiService.getTripById(this.tripId).valueChanges.subscribe(({ data }) => {
+    this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.settingsService.modPageTitle(`${this.tripData.name} Timeline`);

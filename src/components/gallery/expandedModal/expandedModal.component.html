@@ -22,5 +22,12 @@
         [style.color]="settingsService.secondaryColor"
       >{{photos[currentIndex].accountByUserId.username}}</span>
     </div>
+    <LikeCounter 
+      [totalLikes]="photos[currentIndex].totalLikes.totalCount" 
+      [userLikes]="photos[currentIndex].likesByUser.nodes" 
+      [assetId]="photos[currentIndex].id"
+      assetType="image"
+      color="white"
+    ></LikeCounter>
   </div>
 </div>

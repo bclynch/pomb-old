@@ -5,6 +5,7 @@
       [title]="tripData?.name"
       [flags]="countryFlags"
       [stats]="stats"
+      [tripData]="carouselTripData"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
       <div class="subnavContainer" [ngClass]="tripService.displayTripNav ? 'fixed' : ''">

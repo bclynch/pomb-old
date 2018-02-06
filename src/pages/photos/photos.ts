@@ -6,6 +6,7 @@ import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { APIService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'page-photos',
@@ -29,7 +30,8 @@ export class PhotosPage {
     private route: ActivatedRoute,
     private apiService: APIService,
     private utilService: UtilService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       // photos page will either be all photos from a trip or all from a user
@@ -70,7 +72,7 @@ export class PhotosPage {
   loadMoreImages() {
     console.log('load more');
     if (this.isTrip) {
-      this.apiService.getAllImagesByTrip(this.tripId, this.callQuant, this.index).valueChanges.subscribe(
+      this.apiService.getAllImagesByTrip(this.tripId, this.callQuant, this.index, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(
         result => {
           console.log(result);
           this.gallery = this.gallery.concat(result.data.allImages.nodes);

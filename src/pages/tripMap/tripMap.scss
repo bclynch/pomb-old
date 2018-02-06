@@ -225,17 +225,23 @@ page-trip-map {
               line-height: 24px;
               font-size: 16px;
             }
-            .junctureTimeRow {
+            .bottomRow {
               display: flex;
               align-items: center;
-              margin-bottom: 5px;
+              justify-content: space-between;
 
-              .junctureNumber {
-                background: mapGet($basecolor, border);
-                color: mapGet($basecolor, white);
-                font-weight: bold;
-                padding: 5px 10px;
-                margin-right: 10px;
+              .junctureTimeRow {
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+  
+                .junctureNumber {
+                  background: mapGet($basecolor, border);
+                  color: mapGet($basecolor, white);
+                  font-weight: bold;
+                  padding: 5px 10px;
+                  margin-right: 10px;
+                }
               }
             }
             Gallery {

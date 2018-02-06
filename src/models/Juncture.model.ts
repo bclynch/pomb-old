@@ -25,9 +25,11 @@ export class Juncture {
   imagesByJunctureId: {
     nodes: Image[];
   };
-  likesByJunctureId: {
+  totalLikes: {
     totalCount: number;
-    nodes: Like[];
+  };
+  likesByUser: {
+    nodes: { id: number }[];
   };
   coordsByJunctureId: {
     nodes: Coords[];

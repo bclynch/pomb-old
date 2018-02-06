@@ -38,13 +38,13 @@ page-juncture {
 
         img {
           width: 40px;
-          margin-right: 40px;
         }
-        .viewsContainer {
+        .viewsContainer, .counterContainer {
           display: flex;
           flex-direction: column;
           align-items: center;
           color: white;
+          margin-left: 20px;
   
           ion-icon {
             font-size: 32px;

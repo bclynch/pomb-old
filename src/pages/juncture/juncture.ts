@@ -11,6 +11,7 @@ import { UtilService } from '../../services/util.service';
 import { RouterService } from '../../services/router.service';
 import { ExploreService } from '../../services/explore.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { UserService } from '../../services/user.service';
 
 import { Juncture } from '../../models/Juncture.model';
 
@@ -99,7 +100,8 @@ export class JuncturePage {
     private routerService: RouterService,
     private sanitizer: DomSanitizer,
     private exploreService: ExploreService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.junctureId = params.id;
@@ -113,7 +115,7 @@ export class JuncturePage {
   }
 
   init() {
-    this.apiService.getFullJunctureById(this.junctureId).valueChanges.subscribe(({ data }) => {
+    this.apiService.getFullJunctureById(this.junctureId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       console.log(data.junctureById);
       this.settingsService.modPageTitle(data.junctureById.name);
       this.junctureData = data.junctureById;

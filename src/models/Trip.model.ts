@@ -21,9 +21,11 @@ export class Trip {
     totalCount: number;
     nodes: Post[];
   };
-  likeByTripId: {
+  totalLikes: {
     totalCount: number;
-    nodes: Like[];
+  };
+  likesByUser: {
+    nodes: { id: number }[];
   };
   startDate: number;
   startLat: string;

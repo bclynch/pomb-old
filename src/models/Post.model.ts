@@ -32,7 +32,7 @@ export class Post {
     totalCount: number;
   };
   likesByUser: {
-    totalCount: number;
+    nodes: { id: number }[];
   };
 }
 

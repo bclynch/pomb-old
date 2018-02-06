@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
 import { LocalStorageService } from './localStorage.service';
+import { UserService } from './user.service';
 
 import { Trip } from '../models/Trip.model';
 import { Image } from '../models/Image.model';
@@ -44,7 +45,8 @@ export class SettingsService {
     private apiService: APIService,
     private exploreService: ExploreService,
     private localStorageService: LocalStorageService,
-    private titleService: Title
+    private titleService: Title,
+    private userService: UserService
   ) {
     this.unitOfMeasureSubject = new BehaviorSubject(null);
     this.unitOfMeasure$ = this.unitOfMeasureSubject.asObservable();
@@ -78,9 +80,10 @@ export class SettingsService {
           this.addFeaturedStory([appSettings.postByFeaturedStory1, appSettings.postByFeaturedStory2, appSettings.postByFeaturedStory3]);
 
           // get photos for nav
-          this.apiService.getRecentImages(5).valueChanges.subscribe(
+          this.apiService.getRecentImages(5, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(
             result => {
               this.recentPhotos = result.data.allImages.nodes;
+              console.log(this.recentPhotos);
               resolve();
             }
           );

@@ -118,7 +118,7 @@ navBar {
     .sectionInfoPane {
       background: mapGet($basecolor, border);
       width: 100%;
-      height: calc(60vh - 40px);
+      height: calc(520px - 40px);
       position: absolute;
       top: $navbarHeight;
 

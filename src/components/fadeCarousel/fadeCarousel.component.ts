@@ -9,6 +9,7 @@ import { SettingsService } from '../../services/settings.service';
 })
 export class FadeCarousel implements OnChanges {
   @Input() data = [];
+  @Input() tripData: { totalLikes: number; likesArr: { id: number }[]; tripId: number; };
   @Input() title: string;
   @Input() btnLabel: string;
   @Input() flags: { url: string; name: string; }[] = [];

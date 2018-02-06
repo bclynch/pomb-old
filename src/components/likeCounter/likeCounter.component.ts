@@ -14,6 +14,9 @@ export class LikeCounter {
   @Input() userLikes: { id: number }[] = []; // whether user likes asset
   @Input() assetId: number;
   @Input() assetType: 'trip' | 'juncture' | 'post' | 'image';
+  @Input() isVertical = true;
+  @Input() hasLabel = false;
+  @Input() color = '#bbb';
 
   constructor(
     private settingsService: SettingsService,

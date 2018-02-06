@@ -9,6 +9,14 @@
           <ion-icon name="md-eye"></ion-icon>
           <div>{{views | number}}</div>
         </div>
+        <LikeCounter 
+          [totalLikes]="junctureData.totalLikes.totalCount" 
+          [userLikes]="junctureData.likesByUser.nodes" 
+          [assetId]="junctureData.id"
+          assetType="juncture"
+          color="white"
+          *ngIf="junctureData"
+        ></LikeCounter>
       </div>
     </div>
     <div class="bannerNavContainer">

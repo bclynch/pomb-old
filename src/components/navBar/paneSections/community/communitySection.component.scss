@@ -10,7 +10,7 @@ communitynavsection {
         display: none !important;
       }
       .paneContent {
-        height: calc(60vh - 40px - 50px); // info pane height - 50px which is the height of the header
+        height: calc(520px - 40px - 50px); // info pane height - 50px which is the height of the header
         display: flex;
         align-items: center;
         flex-direction: column;

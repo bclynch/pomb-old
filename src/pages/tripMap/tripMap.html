@@ -112,9 +112,19 @@
                   <div class="junctureLink" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">View Full Details</div>
                 </div> 
                 <div class="junctureCountry">{{juncture?.country}}</div>
-                <div class="junctureTimeRow">
-                  <div class="junctureNumber">Juncture #{{i + 1}}</div>
-                  <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
+                <div class="bottomRow">
+                  <div class="junctureTimeRow">
+                    <div class="junctureNumber">Juncture #{{i + 1}}</div>
+                    <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
+                  </div>
+                  <LikeCounter 
+                    [totalLikes]="juncture.totalLikes.totalCount" 
+                    [userLikes]="juncture.likesByUser.nodes" 
+                    [assetId]="juncture.id" 
+                    assetType="juncture"
+                    [isVertical]="false"
+                    *ngIf="juncture"
+                  ></LikeCounter>
                 </div>
                 <div class="junctureDescription">{{juncture?.description}}</div>
                 <Gallery [isSquare]="true" perRow="2" [data]="juncture?.imagesByJunctureId.nodes" gutterWidth="2px"></Gallery>

@@ -18,8 +18,10 @@ export class Image {
   postId: number;
   junctureId: number;
   tripId: number;
-  likesByImageId: {
+  totalLikes: {
     totalCount: number;
-    nodes: Like[];
+  };
+  likesByUser: {
+    nodes: { id: number }[];
   };
 }
