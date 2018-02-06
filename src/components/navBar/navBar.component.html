@@ -4,6 +4,7 @@
   [style.height]="isExpanded ? '60vh' : '40px'"
   [style.background]="isExpanded || searchActive ? 'black' : ''"
   (mouseleave)="navHover($event)"
+  id="navBar"
 >
   <div class="navBarWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
     <div class="barWrapper">

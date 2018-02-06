@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from '../../services/api.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { SettingsService } from '../../services/settings.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'page-post',
@@ -19,7 +20,8 @@ export class PostPage {
     private router: Router,
     private route: ActivatedRoute,
     private broadcastService: BroadcastService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.postId = params.id;
@@ -28,7 +30,8 @@ export class PostPage {
   }
 
   init() {
-    this.apiService.getPostById(this.postId).valueChanges.subscribe(
+    console.log(this.userService.user);
+    this.apiService.getPostById(this.postId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(
       data => {
         this.post = data.data.postById;
         console.log(this.post);

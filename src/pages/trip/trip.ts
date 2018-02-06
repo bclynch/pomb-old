@@ -26,7 +26,7 @@ import { ImageType } from '../../models/Image.model';
 export class TripPage implements AfterViewInit {
 
   carouselImages: { imgURL: string; tagline: string; }[] = [];
-  gallery: { url: string; description: string; }[] = [];
+  gallery: { url: string; description: string; accountByUserId: { username: string }; }[] = [];
 
   subnavOptions = ['Highlights', 'Map', 'Junctures', 'Posts', 'Photos'];
 
@@ -89,7 +89,7 @@ export class TripPage implements AfterViewInit {
       // populate img arrays
       this.tripData.imagesByTripId.nodes.forEach((img) => {
         if (img.type === ImageType['BANNER']) this.carouselImages.push({ imgURL: img.url, tagline: img.title });
-        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description });
+        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }});
       });
 
       // trip coords

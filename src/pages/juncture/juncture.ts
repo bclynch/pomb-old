@@ -120,7 +120,7 @@ export class JuncturePage {
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
 
       // populate banner info
-      console.log(this.exploreService.getCountryFlag(this.junctureData.country));
+      // console.log(this.exploreService.getCountryFlag(this.junctureData.country));
       this.flag = { url: this.exploreService.getCountryFlag(this.junctureData.country), name: this.junctureData.country};
       this.analyticsService.getPageViews().then(
         result => {

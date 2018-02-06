@@ -190,7 +190,8 @@ const getRecentImages = gql`
         url,
         description,
         accountByUserId {
-          id
+          id,
+          username
         }
       }
     }
@@ -492,7 +493,8 @@ const getTripById = gql`
           type,
           description,
           accountByUserId {
-            id
+            id,
+            username
           }
         }
       }
@@ -562,7 +564,8 @@ const getPartialJunctureById = gql`
           url,
           description,
           accountByUserId {
-            id
+            id,
+            username
           }
         }
       }
@@ -625,7 +628,8 @@ const getFullJunctureById = gql`
           url,
           description,
           accountByUserId {
-            id
+            id,
+            username
           }
         }
       }
@@ -644,7 +648,7 @@ const getFullJunctureById = gql`
 `;
 
 const getPostById = gql`
-  query postById($id: Int!) {
+  query postById($id: Int!, $userId: Int) {
     postById(id: $id) {
       id,
       title,
@@ -712,9 +716,22 @@ const getPostById = gql`
           description,
           title,
           accountByUserId {
-            id
+            id,
+            username
           }
         }
+      },
+      likesByUser: likesByPostId(
+        condition: {
+          userId: $userId
+        }
+      ) {
+        nodes {
+          id
+        }
+      },
+      totalLikes: likesByPostId {
+        totalCount
       }
     }
   }
@@ -1136,6 +1153,40 @@ const updateJuncture = gql`
   }
 `;
 
+const createLike = gql`
+  mutation($tripId: Int, $junctureId: Int, $postId: Int, $imageId: Int, $userId: Int!) {
+    createLike(
+      input: {
+        like: {
+          tripId: $tripId,
+          junctureId: $junctureId,
+          postId: $postId,
+          imageId: $imageId,
+          userId: $userId
+        }
+      }
+    ) {
+      likeEdge {
+        node {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const deleteLike = gql`
+  mutation($likeId: Int!) {
+    deleteLikeById(
+      input: {
+        id: $likeId
+      }
+    ) {
+      clientMutationId
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -1417,11 +1468,12 @@ export class APIService {
     });
   }
 
-  getPostById(postId: number) {
+  getPostById(postId: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getPostById,
       variables: {
-          id: postId
+          id: postId,
+          userId
       }
     });
   }
@@ -1715,6 +1767,28 @@ export class APIService {
         country,
         isDraft,
         markerImg
+      }
+    });
+  }
+
+  createLike(tripId: number, junctureId: number, postId: number, imageId: number, userId: number) {
+    return this.apollo.mutate({
+      mutation: createLike,
+      variables: {
+        tripId,
+        junctureId,
+        postId,
+        imageId,
+        userId
+      }
+    });
+  }
+
+  deleteLike(likeId: number) {
+    return this.apollo.mutate({
+      mutation: deleteLike,
+      variables: {
+        likeId
       }
     });
   }

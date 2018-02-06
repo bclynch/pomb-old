@@ -1,16 +1,32 @@
 <div class="postContentWrapper" *ngIf="post">
   <h1>{{post.title}}</h1>
   <h3>{{post.subtitle}}</h3>
-  <div class="authorWrapper" (click)="routerService.navigateToPage('/user/' + post.accountByAuthor.username)">by
-    <span [style.color]="settingsService.secondaryColor" *ngIf="post.accountByAuthor.firstName">{{post.accountByAuthor.firstName}} {{post.accountByAuthor.lastName}}</span>
-    <span [style.color]="settingsService.secondaryColor" *ngIf="!post.accountByAuthor.firstName">{{post.accountByAuthor.username}}</span>
+  <div class="authorWrapper">by
+    <span 
+      [style.color]="settingsService.secondaryColor" 
+      *ngIf="post.accountByAuthor.firstName" 
+      (click)="routerService.navigateToPage('/user/' + post.accountByAuthor.username)"
+    >{{post.accountByAuthor.firstName}} {{post.accountByAuthor.lastName}}</span>
+    <span 
+      [style.color]="settingsService.secondaryColor" 
+      *ngIf="!post.accountByAuthor.firstName" 
+      (click)="routerService.navigateToPage('/user/' + post.accountByAuthor.username)"
+    >{{post.accountByAuthor.username}}</span>
   </div>
   <Tags [tags]="tags"></Tags>
   <div class="bottomRow">
     <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
-    <div class="viewsContainer" title="Views">
-      <ion-icon name="md-eye"></ion-icon>
-      <div [style.color]="settingsService.secondaryColor">{{views | number}}</div>
+    <div class="dataContainer">
+      <div class="statContainer" title="Views">
+        <ion-icon name="md-eye"></ion-icon>
+        <div [style.color]="settingsService.secondaryColor">{{views | number}}</div>
+      </div>
+      <LikeCounter 
+        [totalLikes]="post.totalLikes.totalCount" 
+        [userLikes]="post.likesByUser.nodes" 
+        [assetId]="post.id" 
+        assetType="post"
+      ></LikeCounter>
     </div>
   </div>
   <div class="postSandbox" [froalaView]="post.content"></div>

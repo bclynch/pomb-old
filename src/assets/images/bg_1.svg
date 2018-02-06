@@ -47,8 +47,8 @@
       }
     </style>
     <linearGradient id="linear-gradient" x1="1495" y1="2018" x2="1495" y2="-31" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#a6ffcb"/>
-      <stop offset="1" stop-color="#53f"/>
+      <stop offset="0" stop-color="#185a9d"/>
+      <stop offset="1" stop-color="#78d3b2"/>
     </linearGradient>
   </defs>
   <rect class="cls-1" x="-38" y="-31" width="3066" height="2049"/>

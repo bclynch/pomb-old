@@ -6,11 +6,10 @@
 
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
-- Add name of user with link on gallery modal
 - infinite scroll hub page
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Mobile usage!
-- Add to data model for likes
+- Add to data model for likes - in progress
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - AWS domain email for S3 + RDS
 - Currently trying to get application online
@@ -33,9 +32,8 @@
 - Share buttons for posts / trips / junctures - in progress
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
+- Scroll to top when new route - fucked up because ionic...
 - Favorites / 'add to pack' for posts, images, trips
-- Figure out what main page looks like (thinking a combo of liked/followed subs if you're logged in otherwise curated for non logged in. Sort of a newsfeed for better or worse)
-    - digital ocean, uber eats, stripe, fresh desk
 - Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!

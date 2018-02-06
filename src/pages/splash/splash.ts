@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
+import { ModalController } from 'ionic-angular';
+import { Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
+import { SettingsService } from '../../services/settings.service';
+import { BroadcastService } from '../../services/broadcast.service';
+
+import { RegistrationModal } from '../../components/modals/registrationModal/registrationModal';
 
 @Component({
   selector: 'page-splash',
@@ -17,7 +23,25 @@ export class SplashPage {
   registrationModel = { username: '', firstName: '', lastName: '', email: '', password: '' };
 
   constructor(
-    private userService: UserService
-  ) {  }
+    private userService: UserService,
+    private modalCtrl: ModalController,
+    private router: Router,
+    private settingsService: SettingsService,
+    private broadcastService: BroadcastService,
+  ) {
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
 
+  init() {
+    console.log(this.userService.signedIn);
+    if (this.userService.signedIn) {
+      console.log('authenticated');
+      this.router.navigateByUrl('/stories');
+    }
+  }
+
+  registerUser() {
+    const modal = this.modalCtrl.create(RegistrationModal, { isRegister: true }, {cssClass: 'registrationModal'});
+    modal.present();
+  }
 }

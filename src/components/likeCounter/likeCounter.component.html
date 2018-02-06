@@ -1,0 +1,4 @@
+<div class="counterContainer" title="Likes" (click)="toggleLike()">
+  <ion-icon name="md-heart" [style.color]="userLikes.length > 0 ? 'red' : '#bbb'"></ion-icon>
+  <div [style.color]="settingsService.secondaryColor">{{totalLikes | number}}</div>
+</div>

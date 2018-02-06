@@ -1,4 +1,5 @@
 import { User } from './User.model';
+import { Like } from './Like.model';
 
 export enum ImageType {
   LEAD_LARGE = 'LEAD_LARGE',
@@ -17,4 +18,8 @@ export class Image {
   postId: number;
   junctureId: number;
   tripId: number;
+  likesByImageId: {
+    totalCount: number;
+    nodes: Like[];
+  };
 }

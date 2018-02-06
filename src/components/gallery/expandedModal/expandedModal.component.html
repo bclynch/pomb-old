@@ -16,5 +16,11 @@
       <ion-icon name="ios-arrow-back"></ion-icon>
     </div>
     <div class="imgOverlay" *ngIf="photos[currentIndex].description">{{photos[currentIndex].description}}</div>
+    <div class="photoCredit">Photo by: 
+      <span 
+        (click)="goToUser(photos[currentIndex].accountByUserId.username)" 
+        [style.color]="settingsService.secondaryColor"
+      >{{photos[currentIndex].accountByUserId.username}}</span>
+    </div>
   </div>
 </div>

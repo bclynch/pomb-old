@@ -27,7 +27,7 @@ export class RegistrationModal {
     private router: Router,
     private settingsService: SettingsService
   ) {
-
+    if (this.params.data.isRegister) this.isRegister = true;
   }
 
   onCloseModal() {

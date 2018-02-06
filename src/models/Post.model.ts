@@ -1,5 +1,6 @@
 import { GalleryPhoto } from './GalleryPhoto.model';
 import { Image } from './Image.model';
+import { Like } from './Like.model';
 
 export class Post {
   createdAt: string;
@@ -26,6 +27,12 @@ export class Post {
   };
   imagesByPostId: {
     nodes: Image[];
+  };
+  totalLikes: {
+    totalCount: number;
+  };
+  likesByUser: {
+    totalCount: number;
   };
 }
 

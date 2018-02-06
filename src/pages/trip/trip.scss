@@ -186,16 +186,21 @@ page-trip {
             }
           }
           &.posts {
-            .postsContainer {
-              margin: 50px;
+
+            .sectionContent {
               width: 100%;
 
-              .bottomWrapper {
-                display: flex !important;
-                margin-top: 10px;
-
-                > * {
-                  margin-right: 5px !important;
+              .postsContainer {
+                margin: 50px;
+                width: 100%;
+  
+                .bottomWrapper {
+                  display: flex !important;
+                  margin-top: 10px;
+  
+                  > * {
+                    margin-right: 5px !important;
+                  }
                 }
               }
             }

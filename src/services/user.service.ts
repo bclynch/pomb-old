@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Apollo} from 'apollo-angular';
+import { Router } from '@angular/router';
 
 import { APIService } from './api.service';
 import { LocalStorageService } from './localStorage.service';
@@ -26,7 +27,8 @@ export class UserService {
     private apiService: APIService,
     private apollo: Apollo,
     private localStorageService: LocalStorageService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private router: Router
   ) { }
 
   init() {
@@ -65,6 +67,7 @@ export class UserService {
     // reset apollo cache and refetch queries
     this.apollo.getClient().resetStore();
     localStorage.removeItem('pomb-user');
+    this.router.navigateByUrl('/');
     // reload window to update db role
     window.location.reload();
   }

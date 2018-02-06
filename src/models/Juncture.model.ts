@@ -3,6 +3,7 @@ import { Trip } from './Trip.model';
 import { Post } from './Post.model';
 import { Image } from './Image.model';
 import { Coords } from './Coords.model';
+import { Like } from './Like.model';
 
 export class Juncture {
   arrivalDate: string;
@@ -23,6 +24,10 @@ export class Juncture {
   };
   imagesByJunctureId: {
     nodes: Image[];
+  };
+  likesByJunctureId: {
+    totalCount: number;
+    nodes: Like[];
   };
   coordsByJunctureId: {
     nodes: Coords[];

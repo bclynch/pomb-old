@@ -67,6 +67,7 @@ import { Tags } from '../components/tags/tags.component';
 import { JunctureBubbles } from '../components/junctureBubbles/junctureBubbles.component';
 import { JunctureBubble } from '../components/junctureBubbles/junctureBubble/junctureBubble.component';
 import { ProfilePicture } from '../components/profilePicture/profilePicture.component';
+import { LikeCounter } from '../components/likeCounter/likeCounter.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -218,7 +219,8 @@ import { AnalyticsService } from '../services/analytics.service';
     Tags,
     JunctureBubbles,
     JunctureBubble,
-    ProfilePicture
+    ProfilePicture,
+    LikeCounter
   ],
   imports: [
     BrowserModule,

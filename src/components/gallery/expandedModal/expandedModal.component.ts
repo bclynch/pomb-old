@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 
 import { SettingsService } from '../../../services/settings.service';
+import { RouterService } from '../../../services/router.service';
+
 import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 
 @Component({
@@ -16,10 +18,13 @@ export class ExpandedModal {
   constructor(
     public viewCtrl: ViewController,
     private params: NavParams,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private routerService: RouterService
   ) {
     this.photos = this.params.data.data;
     this.currentIndex = this.params.data.index;
+
+    console.log(this.photos);
   }
 
   onCloseModal() {
@@ -43,5 +48,10 @@ export class ExpandedModal {
         if (this.currentIndex !== 0) this.currentIndex--;
         break;
     }
+  }
+
+  goToUser(user: string) {
+    this.viewCtrl.dismiss();
+    this.routerService.navigateToPage(`/user/${user}`);
   }
 }
