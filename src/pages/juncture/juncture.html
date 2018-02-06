@@ -121,5 +121,6 @@
       <div class="sectionHeader">Juncture Photos</div>
       <Gallery [data]="junctureData?.imagesByJunctureId.nodes" gutterWidth="2px"></Gallery>
     </div>
+    <disqus [identifier]="disqusId" *ngIf="disqusId"></disqus>
   </div>
 </PageWrapper>

@@ -16,6 +16,7 @@ export class PostWrapper implements OnChanges {
   galleryImages = [];
   tags: string[] = [];
   views: number;
+  disqusId: string;
 
   relatedPosts: Post[] = [];
 
@@ -23,10 +24,11 @@ export class PostWrapper implements OnChanges {
     private routerService: RouterService,
     private settingsService: SettingsService,
     private analyticsService: AnalyticsService
-  ) {  }
+  ) { }
 
   ngOnChanges() {
     if (this.post) {
+      this.disqusId = `post/${this.post.id}`;
       this.post.imagesByPostId.nodes.forEach((image) => {
         if (image.type === ImageType['GALLERY']) this.galleryImages.push(image);
       });

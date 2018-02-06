@@ -26,6 +26,8 @@ import { ImageType } from '../../models/Image.model';
 })
 export class TripPage implements AfterViewInit {
 
+  disqusId: string;
+
   carouselImages: { imgURL: string; tagline: string; }[] = [];
   carouselTripData: { totalLikes: number; likesArr: { id: number }[]; tripId: number; } = { totalLikes: null, likesArr: [], tripId: null };
   gallery: { url: string; description: string; accountByUserId: { username: string }; totalLikes: { totalCount: number }; likesByUser: { nodes: { id: number }[] }; id: number; }[] = [];
@@ -85,6 +87,7 @@ export class TripPage implements AfterViewInit {
     this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
+      this.disqusId = `trip/${this.tripData.id}`;
       this.settingsService.modPageTitle(this.tripData.name);
 
       this.carouselImages = [];

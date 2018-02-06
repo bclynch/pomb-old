@@ -25,6 +25,8 @@ export class JuncturePage {
   @ViewChild('time') time: any;
 
   inited = false;
+  disqusId: string;
+
   junctureId: number;
   junctureData: Juncture;
   bannerImg: string;
@@ -119,6 +121,7 @@ export class JuncturePage {
       console.log(data.junctureById);
       this.settingsService.modPageTitle(data.junctureById.name);
       this.junctureData = data.junctureById;
+      this.disqusId = `juncture/${this.junctureData.id}`;
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
 
       // populate banner info

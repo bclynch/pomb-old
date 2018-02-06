@@ -6,7 +6,6 @@
 
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
-- infinite scroll hub page
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
@@ -24,7 +23,7 @@
 
 - DB security
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
-- Disqus comments??
+- infinite scroll hub page
 - Google Analytics - Page views working at least (on CN email... Make domain email)
     - Track activities - https://codeburst.io/using-google-analytics-with-angular-25c93bffaa18
     - Set up reporting api calls - http://2ality.com/2015/10/google-analytics-api.html
@@ -41,6 +40,15 @@
     - Mailing to users / subbed people
 - Communit hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
+
+
+
+### ROUTING ITEM
+
+- Changed to path strategy earlier for nicer looking url + disqus comments
+- Caused local dev server to crash, but fix here in the node_modules/@ionic/app-scripts/dist/dev-server folder 
+    - https://github.com/ionic-team/ionic/issues/10565
+- Will need to make sure this work when we go live
 
 #### Create/edit post dash
 

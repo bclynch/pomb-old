@@ -2,6 +2,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-b
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 // import { getClient } from './client';
 import { MyHammerConfig } from './touchConfig';
@@ -18,6 +19,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ShareButtonsModule } from 'ngx-sharebuttons';
+import { DisqusModule } from 'ngx-disqus';
 
 // App
 import { PackOnMyBack } from './app.component';
@@ -237,7 +239,8 @@ import { AnalyticsService } from '../services/analytics.service';
     AgmSnazzyInfoWindowModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
-    ShareButtonsModule.forRoot()
+    ShareButtonsModule.forRoot(),
+    DisqusModule.forRoot('packonmyback')
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -297,7 +300,8 @@ import { AnalyticsService } from '../services/analytics.service';
     ErrorService,
     AnalyticsService,
     {provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig},
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ]
 })
 export class AppModule {

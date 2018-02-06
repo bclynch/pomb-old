@@ -219,6 +219,9 @@ page-juncture {
     .posts {
 
     }
+    #disqus_thread {
+      margin: 50px 0;
+    }
   }
   @include respond-to(tiny) {
     .widthWrapper {
