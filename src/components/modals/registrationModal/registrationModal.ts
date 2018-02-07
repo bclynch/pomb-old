@@ -7,6 +7,7 @@ import { APIService } from '../../../services/api.service';
 import { LocalStorageService } from '../../../services/localStorage.service';
 import { UserService } from '../../../services/user.service';
 import { SettingsService } from '../../../services/settings.service';
+import { RouterService } from '../../../services/router.service';
 
 @Component({
   selector: 'RegistrationModal',
@@ -25,7 +26,8 @@ export class RegistrationModal {
     private userService: UserService,
     private params: NavParams,
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private routerService: RouterService
   ) {
     if (this.params.data.isRegister) this.isRegister = true;
   }
@@ -36,5 +38,10 @@ export class RegistrationModal {
 
   toggleView() {
     this.isRegister = !this.isRegister;
+  }
+
+  sendReset() {
+    this.viewCtrl.dismiss();
+    this.routerService.navigateToPage('/reset');
   }
 }

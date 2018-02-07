@@ -42,6 +42,7 @@ registrationmodal {
         margin-bottom: 15px;
         width: 100%;
         border: solid 1px #CCCCCC;
+        transition: all .25s cubic-bezier(.645,.045,.355,1);
       }
 
       > div, input {
@@ -72,6 +73,14 @@ registrationmodal {
       button[disabled] {
         cursor: not-allowed;
         pointer-events: auto;
+      }
+      .forgot {
+        margin-bottom: 12px;
+        font-size: 10px;
+
+        span {
+          cursor: pointer;
+        }
       }
     }
     .registrationForm .ng-valid[required], .registrationForm .ng-valid.required  {

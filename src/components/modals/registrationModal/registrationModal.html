@@ -93,6 +93,13 @@
         name="password"
         [(ngModel)]="loginModel.password"
       />
+      <div class="forgot">Forgot your password? 
+        <span 
+          class="boldFont" 
+          (click)="sendReset()" 
+          [style.color]="settingsService.secondaryColor"
+        >Send reset email</span>
+      </div>
       <button
         type="submit" 
         class="createBtn boldFont" 

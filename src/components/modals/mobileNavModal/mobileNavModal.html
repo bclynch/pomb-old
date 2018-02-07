@@ -15,6 +15,7 @@
     <div 
       class="profileWrapper" 
       (click)="viewCtrl.dismiss('profile')"
+      *ngIf="userService.signedIn"
     >
       <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
       <ProfilePicture [photo]="userService.user?.profilePhoto"></ProfilePicture>

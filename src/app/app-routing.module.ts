@@ -27,6 +27,7 @@ import { PhotosPage } from '../pages/photos/photos';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
 import { SplashPage } from '../pages/splash/splash';
+import { ResetPage } from '../pages/reset/reset';
 
 const appRoutes: Routes = [
   {
@@ -222,6 +223,7 @@ const appRoutes: Routes = [
       },
     ]
   },
+  { path: 'reset',   component: ResetPage },
   { path: '',   component: SplashPage },
   { path: 'error', component: GeneralErrorPage },
   { path: '**', component: NotFoundPage }

@@ -1,0 +1,37 @@
+page-reset {
+
+  .pageWrapperContainer {
+    padding: 20px;
+    align-items: flex-start;
+
+    h1 {
+      font-size: 40px;
+    }
+    form {
+      width: 400px;
+
+      input {
+        padding: 12px 16px;
+        line-height: 1.45;
+        margin-bottom: 15px;
+        width: 100%;
+        border: solid 1px #CCCCCC;
+        transition: all .25s cubic-bezier(.645,.045,.355,1);
+      }
+      button {
+        text-align: center;
+        display: block;
+        background: mapGet($basecolor, black);
+        color: mapGet($basecolor, white);
+        padding: 20px 0;
+        cursor: pointer;
+        width: 60%;
+        font-size: 14px;
+      }
+      button[disabled] {
+        cursor: not-allowed;
+        pointer-events: auto;
+      }
+    }
+  }
+}

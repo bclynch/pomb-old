@@ -1309,6 +1309,30 @@ const deleteLike = gql`
   }
 `;
 
+const resetPassword = gql`
+  mutation($email: String!) {
+    resetPassword(input: {
+      email: $email
+    }) {
+      string
+    }
+  }
+`;
+
+const updatePassword = gql`
+  mutation($email: String!, $password: String!, $newPassword: String!) {
+    updatePassword(
+      input: {
+        email: $email,
+        password: $password,
+        newPassword: $newPassword
+      }
+    ) {
+      boolean
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -1487,6 +1511,22 @@ export class APIService {
         }
       });
     });
+  }
+
+  // password updating
+  sendResetEmail(user: string, pw: string) {
+    return this.http.post(`http://localhost:8080/mailing/reset`, { user, pw })
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
   }
 
   // Graphql Queries
@@ -1916,6 +1956,26 @@ export class APIService {
       mutation: deleteLike,
       variables: {
         likeId
+      }
+    });
+  }
+
+  resetPassword(email: string) {
+    return this.apollo.mutate({
+      mutation: resetPassword,
+      variables: {
+        email
+      }
+    });
+  }
+
+  updatePassword(email: string, password: string, newPassword: string) {
+    return this.apollo.mutate({
+      mutation: updatePassword,
+      variables: {
+        email,
+        password,
+        newPassword
       }
     });
   }

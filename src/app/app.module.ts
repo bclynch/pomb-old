@@ -117,6 +117,7 @@ import { JuncturePage } from '../pages/juncture/juncture';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { PhotosPage } from '../pages/photos/photos';
 import { SplashPage } from '../pages/splash/splash';
+import { ResetPage } from '../pages/reset/reset';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
 
@@ -222,7 +223,8 @@ import { AnalyticsService } from '../services/analytics.service';
     JunctureBubbles,
     JunctureBubble,
     ProfilePicture,
-    LikeCounter
+    LikeCounter,
+    ResetPage
   ],
   imports: [
     BrowserModule,
@@ -280,7 +282,8 @@ import { AnalyticsService } from '../services/analytics.service';
     PhotosPage,
     SplashPage,
     NotFoundPage,
-    GeneralErrorPage
+    GeneralErrorPage,
+    ResetPage
   ],
   providers: [
     APIService,

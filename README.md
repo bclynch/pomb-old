@@ -7,6 +7,8 @@
 - Need way to edit trips and junctures!
     - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+- Finish password update feature
+- Send email to new created user
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
@@ -33,11 +35,8 @@
 - Admin panels
 - Scroll to top when new route - fucked up because ionic...
 - Favorites / 'add to pack' for posts, images, trips
-- Figure out what main hub pages look like. --> trips hub, explore hub, etc
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
-- Password Retrieval + mailing on new account
-    - Mailing to users / subbed people
 - Communit hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 
