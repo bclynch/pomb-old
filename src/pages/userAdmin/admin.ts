@@ -26,6 +26,7 @@ export class UserAdminPage {
     {label: 'Trips', icon: 'md-plane', path: 'trips'},
     {label: 'Posts', icon: 'md-filing', path: 'posts'},
     {label: 'Configuration', icon: 'md-hammer', path: 'config'},
+    {label: 'Settings', icon: 'md-settings', path: 'settings'},
     {label: 'Log Out', icon: 'log-out', path: null}
   ];
   activeDashView: string;

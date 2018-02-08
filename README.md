@@ -112,7 +112,7 @@ Could create a front page of sorts for each user that has their own grid or look
 
 - Sponsored routes could be interesting. POMB would be used as a tracking/blogging tool for free to lure users, but non-obtrusive ads + sponsored routes could pay the bills. Travel companies around the world can gps their routes and show off what's avail to users. Get a cut or something of leads / conversions. Would need to flesh out the explore feature set and expand with hotels / activites / etc like lonely planet. Company accounts show off their trip options and user accounts.
 
-- Company accounts could have their own accounts with subsequent dash to keep track of clciks / views etc. Custom comaany pages to show off their offerings and signups. 
+- Company accounts could have their own accounts with subsequent dash to keep track of clciks / views etc. Custom comaany pages to show off their offerings and signups. Make these accounts premium with more analysis options etc.
 
 - Most features available for free, but some premium like photo caps, private vs public posts, certain features. A couple bucks a year to stay premium. Maybe monthly? Seems like folks would only keep it as long as they're traveling. Maybe one off payments to post for a trip with limits to posts, pictures, etc but once it's there it's always there. Hard to say. 
 - https://www.partner.viator.com/partner/home.jspa

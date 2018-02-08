@@ -11,4 +11,34 @@ page-useradmin-posts {
     padding: 0 60px;
     font-size: 24px;
   }
+  .viewContent {
+    background: mapGet($basecolor, border);
+    height: calc(100% - 80px);
+    padding-top: 15px;
+    overflow: scroll;
+
+    .contentGroup {     
+      background: white;
+      max-width: 700px;
+      margin: 0 auto 15px;
+
+      .contentGroupHeader {
+        padding: 20px;
+        border-bottom: solid 1px #ddd;
+
+        .contentGroupTitle {
+          font-size: 22px;
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+        .contentGroupSubtitle {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+      }
+      .contentGroupContent {
+        padding: 20px;
+      }
+    }
+  }
 }

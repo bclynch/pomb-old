@@ -1,0 +1,76 @@
+<div class="pageContainer">
+  <div class="viewHeader">
+    <div>Settings</div>
+  </div>
+  <div class="viewContent">
+    <div class="contentGroup account">
+      <div class="contentGroupHeader">
+        <div class="contentGroupTitle">Account</div>
+        <div class="contentGroupSubtitle">Change your basic account information.</div>
+      </div>
+      <div class="contentGroupContent">
+        <form 
+          class="changeForm"
+          novalidate
+          #changeForm="ngForm"
+          (ngSubmit)="changePassword(changeForm.value)"  
+        >
+          <label class="inputLabel" for="currentPassword">Current Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            id="currentPassword"
+            name="currentPassword"
+            [(ngModel)]="changeModel.current"
+            minlength="8" 
+          />
+          <div class="forgot">Forgot your password? 
+            <span 
+              class="boldFont" 
+              (click)="routerService.navigateToPage('/reset')" 
+              [style.color]="settingsService.secondaryColor"
+            >Send reset email</span>
+          </div>
+          <label class="inputLabel" for="newPassword">New Password</label>
+          <input
+            type="password"
+            placeholder="Password (8 character min.)"
+            required
+            id="newPassword"
+            name="newPassword"
+            [(ngModel)]="changeModel.password"
+            validateEqual="confirmPassword" 
+            reverse="true" 
+            minlength="8" 
+          />
+          <label class="inputLabel" for="confirmPassword">Confirm New Password</label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            id="confirmPassword"
+            required
+            [(ngModel)]="changeModel.confirm"
+            validateEqual="newPassword" 
+            reverse="false"
+          />
+          <button
+            type="submit" 
+            class="submitBtn boldFont" 
+            [disabled]="!changeForm.valid"
+          >Change Password</button>
+        </form>
+      </div>     
+    </div>
+    <div class="contentGroup delete">
+      <div class="contentGroupHeader">
+        <div class="contentGroupTitle">Delete Your Pack On My Back Account</div>
+        <div class="contentGroupSubtitle">This can't be reversed, so make sure you're sure this is what you want.</div>
+      </div>
+      <div class="contentGroupContent">
+        <button class="deleteBtn boldFont">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>

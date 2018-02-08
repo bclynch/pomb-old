@@ -28,6 +28,7 @@ import { GlobalErrorHandler } from './app.globalErrorHandler';
 
 // Directives
 import { WindowScrollDirective } from '../directives/scroll.directive';
+import { EqualValidator } from '../directives/validatePassword.directive';
 
 // Pipes
 import { TruncatePipe } from '../pipes/truncate.pipe';
@@ -106,6 +107,7 @@ import { UserAdminDashboardPage } from '../pages/userAdmin/subViews/dashboard/da
 import { UserAdminConfigPage } from '../pages/userAdmin/subViews/config/config';
 import { UserAdminTripsPage } from '../pages/userAdmin/subViews/trips/trips';
 import { UserAdminPostsPage } from '../pages/userAdmin/subViews/posts/posts';
+import { UserAdminSettingsPage } from '../pages/userAdmin/subViews/settings/settings';
 import { ExplorePage } from '../pages/explore/explore';
 import { ExploreRegionPage } from '../pages/explore/region/explore.region';
 import { ExploreCountryPage } from '../pages/explore/country/explore.country';
@@ -176,6 +178,7 @@ import { AnalyticsService } from '../services/analytics.service';
     UserAdminConfigPage,
     UserAdminTripsPage,
     UserAdminPostsPage,
+    UserAdminSettingsPage,
     GradientPopover,
     DatePickerModal,
     ImageUploaderPopover,
@@ -191,6 +194,7 @@ import { AnalyticsService } from '../services/analytics.service';
     FadeCarousel,
     ExploreModal,
     WindowScrollDirective,
+    EqualValidator,
     CommunityPage,
     ExploreSubnav,
     MyPackNavSection,
