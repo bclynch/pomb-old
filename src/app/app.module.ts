@@ -87,6 +87,7 @@ import { ExploreModal } from '../components/modals/exploreModal/exploreModal';
 import { JunctureModal } from '../components/modals/junctureModal/junctureModal';
 import { TripModal } from '../components/modals/tripModal/tripModal';
 import { MobileNavModal } from '../components/modals/mobileNavModal/mobileNavModal';
+import { DeleteAccountModal } from '../components/modals/deleteAccountModal/deleteAccountModal';
 
 // Pages
 import { HomePage } from '../pages/home/home';
@@ -106,7 +107,6 @@ import { UserAdminPage } from '../pages/userAdmin/admin';
 import { UserAdminDashboardPage } from '../pages/userAdmin/subViews/dashboard/dashboard';
 import { UserAdminConfigPage } from '../pages/userAdmin/subViews/config/config';
 import { UserAdminTripsPage } from '../pages/userAdmin/subViews/trips/trips';
-import { UserAdminPostsPage } from '../pages/userAdmin/subViews/posts/posts';
 import { UserAdminSettingsPage } from '../pages/userAdmin/subViews/settings/settings';
 import { ExplorePage } from '../pages/explore/explore';
 import { ExploreRegionPage } from '../pages/explore/region/explore.region';
@@ -177,7 +177,6 @@ import { AnalyticsService } from '../services/analytics.service';
     UserAdminDashboardPage,
     UserAdminConfigPage,
     UserAdminTripsPage,
-    UserAdminPostsPage,
     UserAdminSettingsPage,
     GradientPopover,
     DatePickerModal,
@@ -228,7 +227,8 @@ import { AnalyticsService } from '../services/analytics.service';
     JunctureBubble,
     ProfilePicture,
     LikeCounter,
-    ResetPage
+    ResetPage,
+    DeleteAccountModal
   ],
   imports: [
     BrowserModule,
@@ -287,7 +287,8 @@ import { AnalyticsService } from '../services/analytics.service';
     SplashPage,
     NotFoundPage,
     GeneralErrorPage,
-    ResetPage
+    ResetPage,
+    DeleteAccountModal
   ],
   providers: [
     APIService,

@@ -2,42 +2,120 @@ page-useradmin-trips {
   height: 100%;
   width: 100%;
 
-  .viewHeader {
-    background: mapGet($basecolor, black);
-    height: 80px;
-    color: mapGet($basecolor, white);
-    display: flex;
-    align-items: center;
-    padding: 0 60px;
-    font-size: 24px;
-  }
   .viewContent {
-    background: mapGet($basecolor, border);
-    height: calc(100% - 80px);
-    padding-top: 15px;
-    overflow: scroll;
 
     .contentGroup {     
-      background: white;
-      max-width: 700px;
-      margin: 0 auto 15px;
 
-      .contentGroupHeader {
-        padding: 20px;
-        border-bottom: solid 1px #ddd;
+      &.trips {
 
-        .contentGroupTitle {
-          font-size: 22px;
-          font-weight: 500;
-          margin-bottom: 15px;
+        .tripsWrapperContainer {
+
+          .trip {
+            border-bottom: solid 1px #ddd;
+            // color: white;
+  
+            .editBtn {
+              margin-left: 30px;
+              border: solid 1px black;
+              padding: 10px 25px;
+              cursor: pointer;
+            }
+            &.active {
+  
+              .tripHeader {
+
+                .tripName {
+                  color: var(--secondary);
+                }
+                ion-icon {
+                  transform: rotate(90deg);
+                }
+              }
+              .juncturesWrapper {
+                padding-left: 20px;
+  
+                .juncture {
+                  height: 60px;
+                  opacity: 1;
+                  margin-bottom: 10px;
+                }
+                .juncture:last-child {
+                  margin-bottom: 0;
+                }
+              }
+            }
+            .tripHeader {
+              display: flex;
+  
+              .tripInfo {
+                flex: 1;
+                padding: 15px 0;
+                display: flex;
+                align-items: center;
+
+                .leftWrapper {
+                  .tripName {
+                    cursor: pointer;
+                    font-size: 24px;
+                    font-weight: bold;
+                  }
+                  .timeWrapper {
+                    display: flex;
+                    align-items: center;
+
+                    .status {
+                      text-transform: uppercase;
+                      margin-left: 10px;
+                    }
+                  }
+                }
+                .editBtn {
+                  margin-left: 30px;
+                }
+              }
+              .arrowWrapper {
+                width: 25%;
+                text-align: right;
+                cursor: pointer;
+                padding: 15px 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+  
+                ion-icon {
+                  transition: .5s;
+                  font-size: 24px;
+                  margin-left: 10px;
+                }
+              }
+            }
+            .juncturesWrapper {
+              overflow: hidden;
+              transition: .5s;
+  
+              .juncture {
+                transition: .5s;
+                font-size: 16px;
+                height: 0;
+                opacity: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: solid 1px #ddd;
+
+                .editBtn {
+                  padding: 5px 15px;
+                }
+              }
+              .juncture:first-child {
+                border-top: solid 1px #ddd;
+              }
+              .juncture:last-child {
+                border-bottom: none;
+              }
+            }
+          }
         }
-        .contentGroupSubtitle {
-          font-size: 16px;
-          margin-bottom: 15px;
-        }
-      }
-      .contentGroupContent {
-        padding: 20px;
       }
     }
   }

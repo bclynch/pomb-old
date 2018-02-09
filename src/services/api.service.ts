@@ -26,7 +26,11 @@ const currentAccountQuery = gql`
       lastName,
       username,
       profilePhoto,
-      heroPhoto
+      heroPhoto,
+      userStatus,
+      city,
+      country,
+      autoUpdateLocation
     }
   }
 `;
@@ -383,6 +387,9 @@ const getAccountByUsername = gql`
       lastName,
       profilePhoto,
       heroPhoto,
+      city,
+      country,
+      userStatus,
       postsByAuthor(condition: {
         isPublished: true
       }) {
@@ -566,8 +573,8 @@ const getTripById = gql`
 
 const getTripsByUser = gql`
   query allTrips($id: Int!) {
-    allTrips(
-      condition:{
+    allTrips (
+      condition: {
         userId: $id
       }
     ) {
@@ -578,6 +585,37 @@ const getTripsByUser = gql`
           nodes {
             name,
             id
+          }
+        }
+      }
+    }
+  }
+`;
+
+const getTripsUserDashboard = gql`
+  query allTrips($id: Int!) {
+    allTrips (
+      condition: {
+        userId: $id
+      }
+    ) {
+      nodes {
+        id,
+        name,
+        startDate,
+        endDate,
+        juncturesByTripId {
+          nodes {
+            id
+            name,
+            arrivalDate,
+            city,
+            country
+          }
+        },
+        imagesByTripId {
+          nodes {
+            url
           }
         }
       }
@@ -1040,14 +1078,18 @@ const authAccount = gql`
 `;
 
 const updateAccountById = gql`
-  mutation updateAccountById($id: Int!, $firstName: String!, $lastName: String!, $heroPhoto: String, $profilePhoto: String) {
+  mutation updateAccountById($id: Int!, $firstName: String!, $lastName: String!, $userStatus: String, $heroPhoto: String, $profilePhoto: String, $city: String, $country: String, $autoUpdate: Boolean!) {
     updateAccountById(input:{
       id: $id,
       accountPatch:{
         firstName: $firstName,
         lastName: $lastName,
+        userStatus: $userStatus,
         profilePhoto: $profilePhoto,
-        heroPhoto: $heroPhoto
+        heroPhoto: $heroPhoto,
+        city: $city,
+        country: $country,
+        autoUpdateLocation: $autoUpdate
       }
     }) {
       account {
@@ -1055,8 +1097,12 @@ const updateAccountById = gql`
         username,
         firstName,
         lastName,
+        userStatus,
         heroPhoto,
-        profilePhoto
+        profilePhoto,
+        city,
+        country,
+        autoUpdateLocation
       }
     }
   }
@@ -1238,6 +1284,26 @@ const createTrip = gql`
   }
 `;
 
+const updateTrip = gql`
+  mutation($tripId: Int!, $name: String, $description: String, $startDate: BigInt, $endDate: BigInt, $startLat: BigFloat, $startLon: BigFloat) {
+    updateTripById (
+      input: {
+        id: $tripId,
+        tripPatch:{
+          name: $name,
+          description: $description,
+          startDate: $startDate,
+          endDate: $endDate,
+          startLat: $startLat,
+          startLon: $startLon
+        }
+      }
+    ) {
+      clientMutationId
+    }
+  }
+`;
+
 const createEmailListEntry = gql`
   mutation($email: String!) {
     createEmailList(input:{
@@ -1320,15 +1386,25 @@ const resetPassword = gql`
 `;
 
 const updatePassword = gql`
-  mutation($email: String!, $password: String!, $newPassword: String!) {
+  mutation($userId: Int!, $password: String!, $newPassword: String!) {
     updatePassword(
       input: {
-        email: $email,
+        userId: $userId,
         password: $password,
         newPassword: $newPassword
       }
     ) {
       boolean
+    }
+  }
+`;
+
+const deleteAccountById = gql`
+  mutation($userId: Int!) {
+    deleteAccountById(input: {
+      id: $userId
+    }) {
+      clientMutationId
     }
   }
 `;
@@ -1615,6 +1691,15 @@ export class APIService {
     });
   }
 
+  getTripsUserDashboard(id: number) {
+    return this.apollo.watchQuery<any>({
+      query: getTripsUserDashboard,
+      variables: {
+          id
+      }
+    });
+  }
+
   getPartialJunctureById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getPartialJunctureById,
@@ -1762,15 +1847,19 @@ export class APIService {
     });
   }
 
-  updateAccountById(id: number, firstName: string, lastName: string, heroPhoto: string, profilePhoto: string) {
+  updateAccountById(id: number, firstName: string, lastName: string, userStatus: string, heroPhoto: string, profilePhoto: string, city: string, country: string, autoUpdate: boolean) {
     return this.apollo.mutate({
       mutation: updateAccountById,
       variables: {
         id,
         firstName,
         lastName,
+        userStatus,
         heroPhoto,
-        profilePhoto
+        profilePhoto,
+        city,
+        country,
+        autoUpdate
       }
     });
   }
@@ -1909,6 +1998,21 @@ export class APIService {
     });
   }
 
+  updateTrip(tripId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number) {
+    return this.apollo.mutate({
+      mutation: updateTrip,
+      variables: {
+        tripId,
+        name,
+        description,
+        startDate,
+        endDate,
+        startLat,
+        startLon
+      }
+    });
+  }
+
   createEmailListEntry(email: string) {
     return this.apollo.mutate({
       mutation: createEmailListEntry,
@@ -1969,13 +2073,22 @@ export class APIService {
     });
   }
 
-  updatePassword(email: string, password: string, newPassword: string) {
+  updatePassword(userId: number, password: string, newPassword: string) {
     return this.apollo.mutate({
       mutation: updatePassword,
       variables: {
-        email,
+        userId,
         password,
         newPassword
+      }
+    });
+  }
+
+  deleteAccountById(userId: number) {
+    return this.apollo.mutate({
+      mutation: deleteAccountById,
+      variables: {
+        userId
       }
     });
   }

@@ -13,6 +13,8 @@ import { DatePickerModal } from '../datepickerModal/datepickerModal';
 import { ImageUploaderPopover } from '../../popovers/imageUploader/imageUploaderPopover.component';
 import { GalleryImgActionPopover } from '../../popovers/galleryImgAction/galleryImgActionPopover.component';
 
+import { Trip } from '../../../models/Trip.model';
+
 @Component({
   selector: 'TripModal',
   templateUrl: 'tripModal.html'
@@ -25,7 +27,7 @@ export class TripModal {
     heightMax: '525px',
     toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
   };
-  tripModel = {name: '', timeStart: Date.now(), timeEnd: null, description: '', bannerImages: []};
+  tripModel = { name: '', timeStart: Date.now(), timeEnd: null, description: '', bannerImages: [] };
 
   inited = false;
   coords = { lat: null, lon: null };
@@ -46,19 +48,42 @@ export class TripModal {
     private toastCtrl: ToastController,
     private junctureService: JunctureService
   ) {
-    // grab location for map
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location: any) => {
-        console.log(location.coords);
-        this.coords.lat = location.coords.latitude;
-        this.coords.lon = location.coords.longitude;
-        // grab map style
-        this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
-          this.mapStyle = data;
-          this.inited = true;
+    console.log(this.params);
+    // grab existing trip if it exists
+    if (this.params.data.tripId) {
+      this.apiService.getTripById(this.params.data.tripId, this.userService.user.id).valueChanges.subscribe(
+        result => {
+          console.log(result);
+          const tripData: Trip = result.data.tripById;
+          // populate model
+          this.tripModel.name = tripData.name;
+          this.tripModel.timeStart = +tripData.startDate;
+          this.tripModel.timeEnd = +tripData.endDate;
+          this.tripModel.description = tripData.description;
+          this.tripModel.bannerImages = tripData.imagesByTripId.nodes;
+          this.coords.lat = +tripData.startLat;
+          this.coords.lon = +tripData.startLon;
+          this.grabMapStyle();
+        }
+      );
+    } else {
+      // grab location for map
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((location: any) => {
+          console.log(location.coords);
+          this.coords.lat = location.coords.latitude;
+          this.coords.lon = location.coords.longitude;
+          this.grabMapStyle();
         });
-      });
+      }
     }
+  }
+
+  grabMapStyle() {
+    this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
+      this.mapStyle = data;
+      this.inited = true;
+    });
   }
 
   presentDatepickerModal(e: Event, isStart) {
@@ -81,6 +106,7 @@ export class TripModal {
 
   saveTrip() {
     this.viewCtrl.dismiss({
+      isExisting: this.params.data.tripId ? true : false,
       name: this.tripModel.name,
       timeStart: this.tripModel.timeStart,
       timeEnd: this.tripModel.timeEnd,

@@ -117,10 +117,10 @@ export class NavBar {
             this.routerService.navigateToPage('/stories');
             break;
           case 'create trip':
-            this.tripService.createTrip();
+            this.tripService.openTripModal(null);
             break;
           case 'create juncture':
-            this.junctureService.createJuncture();
+            this.junctureService.openJunctureModal(null);
             break;
           case 'blog dashboard':
             this.routerService.navigateToPage(`/user/${this.userService.user.username}/post-dashboard`);

@@ -10,6 +10,10 @@ export class User {
   id: number;
   heroPhoto: string;
   profilePhoto: string;
+  city: string;
+  country: string;
+  userStatus: string;
+  autoUpdateLocation: boolean;
   postsByAuthor: {
     nodes: Post[];
   };

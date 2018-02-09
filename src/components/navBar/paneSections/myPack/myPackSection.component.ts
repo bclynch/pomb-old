@@ -51,10 +51,10 @@ export class MyPackNavSection {
         this.routerService.navigateToPage(`/user/${this.userService.user.username}/admin`);
         break;
       case 'checkIn':
-        this.junctureService.createJuncture();
+        this.junctureService.openJunctureModal(null);
         break;
       case 'trip':
-        this.tripService.createTrip();
+        this.tripService.openTripModal(null);
         break;
       default:
       this.routerService.navigateToPage(`/${path}`);

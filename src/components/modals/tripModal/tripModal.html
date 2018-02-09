@@ -2,7 +2,7 @@
   <div class="initWrapper">
     <div class="header">
       <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
-      <div class="headerTitle">Create Trip</div>
+      <div class="headerTitle">{{params.data.tripId ? 'Edit Trip' : 'Create Trip'}}</div>
       <div class="saveContainer boldFont">
         <span (click)="saveTrip()">Save</span>
       </div>

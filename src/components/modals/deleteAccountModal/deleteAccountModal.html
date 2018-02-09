@@ -1,0 +1,36 @@
+<div class="modalContainer">
+  <div class="header">
+    <div>Are you absolutely sure?</div>
+    <div 
+      class="closeModal" 
+      name="close"
+      (click)="viewCtrl.dismiss()"
+    >
+      <ion-icon name="close"></ion-icon>
+    </div>
+  </div>
+  <div class="content">
+    <div class="section">This action <strong>cannot</strong> be undone. This will permanently delete your {{userService.user?.username}} account including photos, trips, and blog posts.</div>
+    <form
+      class="validateForm"
+      novalidate
+      #validateForm="ngForm"
+      (ngSubmit)="delete()"
+    >
+      <label for="input">Please type in your username to confirm</label>
+      <input 
+        required 
+        id="input" 
+        name="usernameValidator" 
+        [(ngModel)]="username" 
+        placeholder="Username" 
+        [pattern]="'^' + userService.user?.username + '$'" 
+      />
+      <button
+        type="submit" 
+        class="submitBtn boldFont" 
+        [disabled]="!validateForm.valid"
+      >Delete Account</button>
+    </form>
+  </div>
+</div>

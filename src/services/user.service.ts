@@ -94,6 +94,7 @@ export class UserService {
   }
 
   registerAccount(model: Registration) {
+    console.log(model);
     this.apiService.registerAccount(model.username, model.firstName, model.lastName, model.password, model.email).subscribe(({ data }) => {
       const userObj = data as any;
       console.log('Successfully created account');
@@ -110,12 +111,16 @@ export class UserService {
         console.log('err');
       });
     }, err => {
+      console.log(err);
       switch (err.message) {
         case 'GraphQL error: duplicate key value violates unique constraint "account_username_key"':
           this.alertService.alert('Invalid Registration', 'That username already exists, please select a new one!');
           break;
+        case 'GraphQL error: permission denied for function register_account':
+          this.alertService.alert('Submission Error', 'Looks like you\'re still logged into another account. Make sure you\'re logged out or reload the page and try again');
+          break;
         default:
-        this.alertService.alert('Invalid Registration', 'Something is fucked in your credentials. Try again');
+          this.alertService.alert('Invalid Registration', 'There is an issue submitting your registration. Please reload and try again');
       }
     });
   }

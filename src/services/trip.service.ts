@@ -6,6 +6,7 @@ import { APIService } from './api.service';
 import { UserService } from './user.service';
 
 import { ImageType } from '../models/Image.model';
+import { Trip } from '../models/Trip.model';
 
 @Injectable()
 export class TripService {
@@ -19,23 +20,45 @@ export class TripService {
     private userService: UserService
   ) { }
 
-  createTrip() {
-    const modal = this.modalCtrl.create(TripModal, {}, {cssClass: 'tripModal', enableBackdropDismiss: false});
-    modal.onDidDismiss(data => {
-      if (data) {
-        console.log(data);
-        // creat trip
-        this.apiService.createTrip(this.userService.user.id, data.name, data.description, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
-          (result: any) => {
-            // save banner photos
-            this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(
-              () => this.toast(`New trip '${data.name}' successfully created`)
+  openTripModal(tripId): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const modal = this.modalCtrl.create(TripModal, { tripId }, {cssClass: 'tripModal', enableBackdropDismiss: false});
+      modal.onDidDismiss(data => {
+        if (data) {
+          console.log(data);
+          if (data.isExisting) {
+            this.apiService.updateTrip(tripId, data.name, data.description, +data.timeStart, +data.timeEnd, data.startLat, data.startLon).subscribe(
+              result => {
+                console.log(result);
+
+                // update banner images as required
+                console.log(data.bannerImages);
+                resolve();
+              },
+              err => {
+                console.log(err);
+                reject();
+              }
+            );
+          } else {
+            // create trip
+            this.apiService.createTrip(this.userService.user.id, data.name, data.description, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
+              (result: any) => {
+                // save banner photos
+                this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(
+                  () => {
+                    this.toast(`New trip '${data.name}' successfully created`);
+                    resolve();
+                  },
+                  err => reject()
+                );
+              }
             );
           }
-        );
-      }
+        }
+      });
+      modal.present();
     });
-    modal.present();
   }
 
   toast(message: string) {

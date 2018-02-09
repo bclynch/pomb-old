@@ -22,36 +22,84 @@ export class JunctureService {
     private userService: UserService
   ) { }
 
-  createJuncture() {
-    const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg }, { cssClass: 'junctureModal', enableBackdropDismiss: false });
-    modal.onDidDismiss(data => {
-      if (data) {
-        this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
-          result => {
-            // console.log(result);
-            const city = result.formatted_address.split(',')[1].trim();
-            const country = result.formatted_address.split(',').slice(-1)[0].trim();
+  openJunctureModal(junctureId): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg, junctureId }, { cssClass: 'junctureModal', enableBackdropDismiss: false });
+      modal.onDidDismiss(data => {
+        console.log(data);
+        if (data) {
+          this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
+            result => {
+              // console.log(result);
+              const city = result.formatted_address.split(',')[1].trim();
+              const country = result.formatted_address.split(',').slice(-1)[0].trim();
 
-            this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
-              (result: any) => {
-                console.log(result);
-                // upload gpx data
-                if (data.geoJSON) this.apiService.uploadGPX(data.geoJSON, result.data.createJuncture.juncture.id).subscribe(
-                  jsonData => {
-                    console.log(jsonData);
-                    this.saveGalleryPhotos(result.data.createJuncture.juncture.id, data.photos, data.selectedTrip).then(() => {
-                      this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
-                    });
+              if (data.isExisting) {
+                this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
+                  result => {
+                    console.log(result);
+
+                    // update banner images as required
+                    // console.log(data.bannerImages);
+                    resolve();
                   },
-                  err => console.log(err)
+                  err => {
+                    console.log(err);
+                    reject();
+                  }
+                );
+              } else {
+                this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
+                  (result: any) => {
+                    console.log(result);
+
+                    // check setting to update user location -- if so update
+                    if (this.userService.user.autoUpdateLocation) {
+                      this.apiService.updateAccountById(
+                        this.userService.user.id,
+                        this.userService.user.firstName,
+                        this.userService.user.lastName,
+                        this.userService.user.userStatus,
+                        this.userService.user.heroPhoto,
+                        this.userService.user.profilePhoto,
+                        city,
+                        country,
+                        this.userService.user.autoUpdateLocation
+                      ).subscribe(
+                        (result: any) => {
+                          // set user service to new returned user
+                          this.userService.user = result.data.updateAccountById.account;
+                        }
+                      );
+                    }
+
+                    // upload gpx data
+                    if (data.geoJSON) {
+                      this.apiService.uploadGPX(data.geoJSON, result.data.createJuncture.juncture.id).subscribe(
+                        jsonData => {
+                          console.log(jsonData);
+                          this.saveGalleryPhotos(result.data.createJuncture.juncture.id, data.photos, data.selectedTrip).then(() => {
+                            this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                            resolve();
+                          });
+                        },
+                        err => {
+                          console.log(err);
+                          reject();
+                        }
+                      );
+                    } else {
+                      this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                    }
+                  }
                 );
               }
-            );
-          }
-        );
-      }
+            }
+          );
+        }
+      });
+      modal.present();
     });
-    modal.present();
   }
 
   saveGalleryPhotos(junctureId: number, photoArr: GalleryPhoto[], tripId: number) {

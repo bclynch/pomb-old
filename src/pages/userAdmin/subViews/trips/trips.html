@@ -1,25 +1,44 @@
-<div class="pageContainer">
+<div class="pageContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="viewHeader">
     <div>Trips</div>
   </div>
   <div class="viewContent">
-    <div class="contentGroup account">
+    <div class="contentGroup trips">
       <div class="contentGroupHeader">
-        <div class="contentGroupTitle">Account</div>
-        <div class="contentGroupSubtitle">Change your basic account information.</div>
+        <div class="contentGroupTitle">Trips</div>
+        <div class="contentGroupSubtitle">View and manage your trips.</div>
       </div>
       <div class="contentGroupContent">
-      
+        <div class="tripsWrapperContainer">
+          <div class="trip" *ngFor="let trip of tripsData; let i = index;" [ngClass]="activeTrip === i ? 'active' : ''">
+            <div class="tripHeader">
+              <div class="tripInfo">
+                <div class="leftWrapper">
+                  <div class="tripName" (click)="routerService.navigateToPage('/trip/' + trip.id)">{{trip.name}}</div>
+                  <div class="timeWrapper">
+                    <div>{{daysTraveling(i)}}</div>
+                    <div class="status">{{trip.endDate ? 'Complete' : 'In Progress'}}</div>
+                  </div>
+                </div>
+                <div class="editBtn" (click)="editTrip(i)">Edit Trip</div>
+              </div>
+              <div class="arrowWrapper" (click)="activeTrip === i ? activeTrip = null : activeTrip = i">
+                <div>See Junctures</div>
+                <ion-icon name="ios-arrow-forward"></ion-icon>
+              </div>
+            </div>
+            <div class="juncturesWrapper">
+              <div *ngFor="let juncture of trip.juncturesByTripId.nodes; let i = index;" class="juncture">
+                <div class="junctureInfoWrapper">
+                  <div class="junctureName" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">{{juncture.name}} - {{juncture.arrivalDate | date : 'mediumDate'}}</div>
+                  <div>{{juncture.city}}<span *ngIf="juncture.country">, </span>{{juncture.country}}</div>
+                </div>
+                <div class="editBtn" (click)="editJuncture(i)">Edit Juncture</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>     
-    </div>
-    <div class="contentGroup delete">
-      <div class="contentGroupHeader">
-        <div class="contentGroupTitle">Delete Your Pack On My Back Account</div>
-        <div class="contentGroupSubtitle">This can't be reversed, so make sure you're sure this is what you want.</div>
-      </div>
-      <div class="contentGroupContent">
-        
-      </div>
     </div>
   </div>
 </div>

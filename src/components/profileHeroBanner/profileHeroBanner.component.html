@@ -6,7 +6,7 @@
     <ProfilePicture [photo]="user.profilePhoto"></ProfilePicture>
     <div class="name" *ngIf="user.firstName">{{user.firstName}} {{user.lastName}}</div>
     <div class="name" *ngIf="!user.firstName">{{user.username}}</div>
-    <div>Status: On The Road (This needs to be dynamic)</div>
-    <div class="location">Medellin, Colombia</div>
+    <div>{{user.userStatus}}</div>
+    <div class="location">{{user.city}}<span *ngIf="user.country">, </span>{{user.country}}</div>
   </div>
 </div>

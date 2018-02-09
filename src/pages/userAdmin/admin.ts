@@ -24,9 +24,8 @@ export class UserAdminPage {
   navListOptions: ListOption[] = [
     {label: 'Dashboard', icon: 'md-pulse', path: 'dashboard'},
     {label: 'Trips', icon: 'md-plane', path: 'trips'},
-    {label: 'Posts', icon: 'md-filing', path: 'posts'},
-    {label: 'Configuration', icon: 'md-hammer', path: 'config'},
-    {label: 'Settings', icon: 'md-settings', path: 'settings'},
+    {label: 'Profile', icon: 'md-hammer', path: 'config'},
+    {label: 'Account', icon: 'md-settings', path: 'settings'},
     {label: 'Log Out', icon: 'log-out', path: null}
   ];
   activeDashView: string;

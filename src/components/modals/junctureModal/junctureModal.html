@@ -2,7 +2,7 @@
   <div class="initWrapper">
     <div class="header">
       <ion-icon name="close" (click)="viewCtrl.dismiss()" title="Close"></ion-icon>
-      <div class="headerTitle">Create Juncture</div>
+      <div class="headerTitle">{{params.data.junctureId ? 'Edit Juncture' : 'Create Juncture'}}</div>
       <div class="saveContainer">
         <div class="wrapper">
           <div class="saveBtn">

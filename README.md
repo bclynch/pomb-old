@@ -4,11 +4,16 @@
 
 ### Top Priorities
 
-- Need way to edit trips and junctures!
-    - Probably just flesh out user dashboard a little with a btn to open up modal and edit
 - Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
-- Finish password update feature
 - Send email to new created user
+    - https://reallygoodemails.com/category/inaugural/activation/
+    - For on subscribe as well to verify
+- Check updated photos on trip + junctures edits
+- Empty state for juncture / trips on user dash
+- juncture edit needs to open to right tab depending on type of coord data
+- trips user dash mobile styling
+- Should implement a route guard for the splash page. Jittery otherwise
+- DB security
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test

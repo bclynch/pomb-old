@@ -12,6 +12,7 @@ import { UtilService } from '../../../services/util.service';
 import { AlertService } from '../../../services/alert.service';
 
 import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
+import { Juncture } from '../../../models/Juncture.model';
 
 import { JunctureSaveTypePopover } from '../../popovers/junctureSaveType/junctureSaveTypePopover.component';
 import { DatePickerModal } from '../datepickerModal/datepickerModal';
@@ -66,13 +67,6 @@ export class JunctureModal {
     private toastCtrl: ToastController,
     private sanitizer: DomSanitizer
   ) {
-    // grab trips to populate select
-    this.apiService.tripsByUserId(this.userService.user.id).valueChanges.subscribe(
-      (data: any) => {
-        this.tripOptions = data.data.allTrips.nodes;
-        if (this.tripOptions[0]) this.junctureModel.selectedTrip = this.tripOptions[0].id;
-      }
-    );
 
     this.dataLayerStyle = {
       clickable: false,
@@ -80,21 +74,53 @@ export class JunctureModal {
       strokeWeight: 3
     };
 
-    this.markerURL = this.params.data.markerImg;
+    // grab existing trip if it exists
+    if (this.params.data.junctureId) {
+      this.apiService.getFullJunctureById(this.params.data.junctureId, this.userService.user.id).valueChanges.subscribe(
+        result => {
+          console.log(result);
+          const junctureData: Juncture = result.data.junctureById;
+          // populate model
+          this.junctureModel.name = junctureData.name;
+          this.junctureModel.description = junctureData.description;
+          this.junctureModel.selectedTrip = junctureData.tripByTripId.id;
+          this.junctureModel.time = +junctureData.arrivalDate;
+          this.coords.lat = +junctureData.lat;
+          this.coords.lon = +junctureData.lon;
+          this.markerURL = junctureData.imagesByJunctureId.nodes.length ? junctureData.imagesByJunctureId.nodes[0].url : this.params.data.markerImg;
+          this.grabMapStyle();
 
-    // grab location for map
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location: any) => {
-        console.log(location.coords);
-        this.coords.lat = location.coords.latitude;
-        this.coords.lon = location.coords.longitude;
-        // grab map style
-        this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
-          this.mapStyle = data;
-          this.inited = true;
+          // populate trip select
+          this.tripOptions = [{ id: junctureData.tripByTripId.id, name: junctureData.tripByTripId.name }];
+        }
+      );
+    } else {
+      this.markerURL = this.params.data.markerImg;
+
+      // grab trips to populate select
+      this.apiService.tripsByUserId(this.userService.user.id).valueChanges.subscribe(
+        (data: any) => {
+          this.tripOptions = data.data.allTrips.nodes;
+          if (this.tripOptions[0]) this.junctureModel.selectedTrip = this.tripOptions[0].id;
+        }
+      );
+      // grab location for map
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((location: any) => {
+          console.log(location.coords);
+          this.coords.lat = location.coords.latitude;
+          this.coords.lon = location.coords.longitude;
+          this.grabMapStyle();
         });
-      });
+      }
     }
+  }
+
+  grabMapStyle() {
+    this.utilService.getJSON('../../assets/mapStyles/unsaturated.json').subscribe((data) => {
+      this.mapStyle = data;
+      this.inited = true;
+    });
   }
 
   onCloseModal() {
@@ -226,6 +252,7 @@ export class JunctureModal {
 
   saveJuncture() {
     this.viewCtrl.dismiss({
+      isExisting: this.params.data.junctureId ? true : false,
       saveType: this.junctureSaveType,
       name: this.junctureModel.name,
       description: this.junctureModel.description,

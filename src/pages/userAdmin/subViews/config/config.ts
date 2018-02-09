@@ -15,7 +15,10 @@ import { ImageUploaderPopover } from '../../../../components/popovers/imageUploa
 })
 export class UserAdminConfigPage {
 
-  configModel = { primaryColor: null, secondaryColor: null, tagline: null, heroBanner: null, userPhoto: null };
+  profileModel = { firstName: null, lastName: null, userStatus: null, heroBanner: null, userPhoto: null };
+  locationModel = { city: null, country: null, autoUpdate: null };
+
+  defaultBannerImg = 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg';
 
   constructor(
     private broadcastService: BroadcastService,
@@ -29,24 +32,16 @@ export class UserAdminConfigPage {
   }
 
   init() {
-    this.configModel.userPhoto = this.userService.user.profilePhoto;
-    this.configModel.primaryColor = this.settingsService.primaryColor;
-    this.configModel.secondaryColor = this.settingsService.secondaryColor;
-    this.configModel.tagline = this.settingsService.tagline;
-    this.configModel.heroBanner = this.settingsService.heroBanner;
-  }
+    // populate inputs
+    this.profileModel.firstName = this.userService.user.firstName;
+    this.profileModel.lastName = this.userService.user.lastName;
+    this.profileModel.userStatus = this.userService.user.userStatus;
+    this.profileModel.userPhoto = this.userService.user.profilePhoto;
+    this.profileModel.heroBanner = this.userService.user.heroPhoto;
 
-  presentGradientPopover(e: Event) {
-    const popover = this.popoverCtrl.create(GradientPopover, {}, { cssClass: 'gradientPopover' });
-    popover.present({
-      ev: e
-    });
-    popover.onDidDismiss((data) => {
-      if (data) {
-        this.configModel.primaryColor = data.primaryColor;
-        this.configModel.secondaryColor = data.secondaryColor;
-      }
-    });
+    this.locationModel.city = this.userService.user.city;
+    this.locationModel.country = this.userService.user.country;
+    this.locationModel.autoUpdate = this.userService.user.autoUpdateLocation;
   }
 
   presentImageUploaderPopover(type: string) {
@@ -55,34 +50,61 @@ export class UserAdminConfigPage {
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) {
-        type === 'banner' ? this.configModel.heroBanner = data[0].url : this.configModel.userPhoto = data[0].url;
+        type === 'banner' ? this.profileModel.heroBanner = data[0].url : this.profileModel.userPhoto = data[0].url;
       }
     });
   }
 
-  saveConfig() {
-    this.apiService.updateConfig(this.configModel.primaryColor, this.configModel.secondaryColor, this.configModel.tagline, this.configModel.heroBanner)
-    .subscribe(() => {
-      this.settingsService.primaryColor = this.configModel.primaryColor;
-      this.settingsService.secondaryColor = this.configModel.secondaryColor;
-      this.settingsService.tagline = this.configModel.tagline;
-      this.settingsService.heroBanner = this.configModel.heroBanner;
+  updateProfile() {
+    this.apiService.updateAccountById(
+      this.userService.user.id,
+      this.profileModel.firstName,
+      this.profileModel.lastName,
+      this.profileModel.userStatus,
+      this.profileModel.heroBanner,
+      this.profileModel.userPhoto,
+      this.userService.user.city,
+      this.userService.user.country,
+      this.userService.user.autoUpdateLocation
+    ).subscribe(
+      (result: any) => {
+        // set user service to new returned user
+        this.userService.user = result.data.updateAccountById.account;
 
-      // probably need to put this in a settings menu eventually...
-      const user = this.userService.user;
-      this.apiService.updateAccountById(user.id, user.firstName, user.lastName, user.heroPhoto, this.configModel.userPhoto).subscribe(
-        (result: any) => {
-          // set user service to new returned user
-          this.userService.user = result.data.updateAccountById.account;
+        const toast = this.toastCtrl.create({
+          message: `Profile updated`,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      },
+      err => console.log(err)
+    );
+  }
 
-          const toast = this.toastCtrl.create({
-            message: `New site settings saved`,
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-        }
-      );
-    });
+  updateLocation() {
+    this.apiService.updateAccountById(
+      this.userService.user.id,
+      this.userService.user.firstName,
+      this.userService.user.lastName,
+      this.userService.user.userStatus,
+      this.userService.user.heroPhoto,
+      this.userService.user.profilePhoto,
+      this.locationModel.city,
+      this.locationModel.country,
+      this.locationModel.autoUpdate
+    ).subscribe(
+      (result: any) => {
+        // set user service to new returned user
+        this.userService.user = result.data.updateAccountById.account;
+
+        const toast = this.toastCtrl.create({
+          message: `Location updated`,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
+    );
   }
 }
