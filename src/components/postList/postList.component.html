@@ -4,7 +4,7 @@
       <PostCard *ngFor="let post of data;" [data]="post"></PostCard>
     </div>
     <div class="rightColumn">
-      <Newsletter></Newsletter>
+      <Newsletter *ngIf="userService.SignedIn"></Newsletter>
     </div>
   </div>
 </div>

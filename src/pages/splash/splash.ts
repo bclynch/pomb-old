@@ -33,11 +33,11 @@ export class SplashPage {
   }
 
   init() {
-    console.log(this.userService.signedIn);
-    if (this.userService.signedIn) {
-      console.log('authenticated');
-      this.router.navigateByUrl('/stories');
-    }
+    // console.log(this.userService.signedIn);
+    // if (this.userService.signedIn) {
+    //   console.log('authenticated');
+    //   this.router.navigateByUrl('/stories');
+    // }
   }
 
   registerUser() {

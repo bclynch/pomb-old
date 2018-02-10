@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { RoleGuardService as RoleGuard } from '../services/roleGuard.service';
+import { SplashGuardService as SplashGuard } from '../services/splashGuard.service';
 
 // pages
 import { HomePage } from '../pages/home/home';
@@ -193,6 +194,22 @@ const appRoutes: Routes = [
     path: 'user',
     children: [
       {
+        path: 'admin',
+        canActivate: [RoleGuard],
+        data: {
+          expectedRole: 'pomb_account'
+        },
+        component: UserAdminPage
+      },
+      {
+        path: 'post-dashboard',
+        canActivate: [RoleGuard],
+        data: {
+          expectedRole: 'pomb_account'
+        },
+        component: DashboardPage
+      },
+      {
         path: ':username',
         children: [
           {
@@ -202,29 +219,17 @@ const appRoutes: Routes = [
           {
             path: 'photos',
             component: PhotosPage
-          },
-          {
-            path: 'admin',
-            canActivate: [RoleGuard],
-            data: {
-              expectedRole: 'pomb_account'
-            },
-            component: UserAdminPage
-          },
-          {
-            path: 'post-dashboard',
-            canActivate: [RoleGuard],
-            data: {
-              expectedRole: 'pomb_account'
-            },
-            component: DashboardPage
-          },
+          }
         ]
       },
     ]
   },
-  { path: 'reset',   component: ResetPage },
-  { path: '',   component: SplashPage },
+  { path: 'reset', component: ResetPage },
+  {
+    path: '',
+    component: SplashPage,
+    canActivate: [SplashGuard]
+  },
   { path: 'error', component: GeneralErrorPage },
   { path: '**', component: NotFoundPage }
 ];

@@ -3,6 +3,8 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { RouterService } from '../../services/router.service';
 import { SettingsService } from '../../services/settings.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { UserService } from '../../services/user.service';
+
 import { Post } from '../../models/Post.model';
 import { ImageType } from '../../models/Image.model';
 
@@ -23,7 +25,8 @@ export class PostWrapper implements OnChanges {
   constructor(
     private routerService: RouterService,
     private settingsService: SettingsService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    private userService: UserService
   ) { }
 
   ngOnChanges() {
@@ -47,10 +50,12 @@ export class PostWrapper implements OnChanges {
 
   populateRelatedPosts(): void {
     this.relatedPosts = [];
-    this.post.postToTagsByPostId.nodes[0].postTagByPostTagId.postToTagsByPostTagId.nodes.forEach((post) => {
-      if (this.relatedPosts.map(obj => obj.id).indexOf(post.postByPostId.id) === -1 && post.postByPostId.id !== this.post.id) {
-        this.relatedPosts.push(post.postByPostId);
-      }
-    });
+    if (this.tags.length) {
+      this.post.postToTagsByPostId.nodes[0].postTagByPostTagId.postToTagsByPostTagId.nodes.forEach((post) => {
+        if (this.relatedPosts.map(obj => obj.id).indexOf(post.postByPostId.id) === -1 && post.postByPostId.id !== this.post.id) {
+          this.relatedPosts.push(post.postByPostId);
+        }
+      });
+    }
   }
 }

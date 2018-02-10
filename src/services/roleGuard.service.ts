@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import decode from 'jwt-decode';
 
 import { LocalStorageService } from './localStorage.service';
@@ -16,16 +16,21 @@ export class RoleGuardService implements CanActivate {
     // this will be passed from the route config
     // on the data property
     const expectedRole = route.data.expectedRole;
-    const token = this.localStorageService.get('pomb-user').token;
-    // decode the token to get its payload
-    const tokenPayload = decode(token);
-    console.log(tokenPayload);
-    if (!tokenPayload) return false;
+    if (this.localStorageService.get('pomb-user')) {
+      const token = this.localStorageService.get('pomb-user').token;
+      // decode the token to get its payload
+      const tokenPayload = decode(token);
+      console.log(tokenPayload);
+      if (!tokenPayload) return false;
 
-    if (tokenPayload.role !== expectedRole) {
+      if (tokenPayload.role !== expectedRole) {
+        this.router.navigate(['']);
+        return false;
+      }
+      return true;
+    } else {
       this.router.navigate(['']);
       return false;
     }
-    return true;
   }
 }

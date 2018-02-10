@@ -133,6 +133,7 @@ import { RouterService } from '../services/router.service';
 import { AlertService } from '../services/alert.service';
 import { BroadcastService } from '../services/broadcast.service';
 import { RoleGuardService } from '../services/roleGuard.service';
+import { SplashGuardService } from '../services/splashGuard.service';
 import { ExploreService } from '../services/explore.service';
 import { UtilService } from '../services/util.service';
 import { JunctureService } from '../services/juncture.service';
@@ -299,6 +300,7 @@ import { AnalyticsService } from '../services/analytics.service';
     AlertService,
     BroadcastService,
     RoleGuardService,
+    SplashGuardService,
     ExploreService,
     UtilService,
     JunctureService,

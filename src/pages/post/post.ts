@@ -36,7 +36,8 @@ export class PostPage {
         this.post = data.data.postById;
         console.log(this.post);
         this.settingsService.modPageTitle(this.post.title);
-      }
+      },
+      err => console.log(err)
     );
   }
 }

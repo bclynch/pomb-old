@@ -67,7 +67,7 @@ export class UserService {
     // reset apollo cache and refetch queries
     this.apollo.getClient().resetStore();
     localStorage.removeItem('pomb-user');
-    this.router.navigateByUrl('/');
+    // this.router.navigateByUrl('/');
     // reload window to update db role
     window.location.reload();
   }

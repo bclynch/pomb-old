@@ -12,8 +12,8 @@
 - Empty state for juncture / trips on user dash
 - juncture edit needs to open to right tab depending on type of coord data
 - trips user dash mobile styling
-- Should implement a route guard for the splash page. Jittery otherwise
-- DB security
+- Delete functionality for trips / junctures
+- Validation on those modals
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
@@ -28,7 +28,6 @@
 
 *AFTER ONLINE*
 
-- DB security
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - infinite scroll hub page
 - Google Analytics - Page views working at least (on CN email... Make domain email)

@@ -107,19 +107,6 @@ query allPosts($author: Int!) {
           }
         }
       },
-      postToCommentsByPostId {
-        nodes {
-          postCommentByCommentId {
-            accountByAuthor {
-              id,
-              firstName
-            },
-            id,
-            content,
-            createdAt
-          }
-        }
-      },
       imagesByPostId {
         nodes {
           id,
@@ -270,18 +257,6 @@ query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean
         nodes {
           postTagByPostTagId {
             name
-          }
-        }
-      },
-      postToCommentsByPostId {
-        nodes {
-          postCommentByCommentId {
-            accountByAuthor {
-              id,
-              firstName
-            },
-            content,
-            createdAt
           }
         }
       },
@@ -841,18 +816,6 @@ const getPostById = gql`
                 }
               }
             }
-          }
-        }
-      },
-      postToCommentsByPostId {
-        nodes {
-          postCommentByCommentId {
-            accountByAuthor {
-              id,
-              firstName
-            },
-            content,
-            createdAt
           }
         }
       },
