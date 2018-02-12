@@ -119,7 +119,7 @@ export class JuncturePage {
   init() {
     this.apiService.getFullJunctureById(this.junctureId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       console.log(data.junctureById);
-      this.settingsService.modPageTitle(data.junctureById.name);
+      this.settingsService.modPageMeta(`Juncture ${data.junctureById.name}`, `Check out the posts, photos, and impressions that make up the juncture, ${data.junctureById.name}`);
       this.junctureData = data.junctureById;
       this.disqusId = `juncture/${this.junctureData.id}`;
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;

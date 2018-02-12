@@ -48,7 +48,7 @@ export class AdminPage {
   }
 
   init() {
-    this.settingsService.modPageTitle('Admin Dashboard');
+    this.settingsService.modPageMeta('Admin Dashboard', 'Administrative dashboard for Pack On My Back');
   }
 
   openMenu() {

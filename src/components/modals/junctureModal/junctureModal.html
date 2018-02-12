@@ -111,6 +111,11 @@
           </div>
         </div>
       </div>
+      <div 
+        class="deleteBtn modalSection" 
+        (click)="deleteJuncture()" 
+        *ngIf="params.data.junctureId"
+      >Delete Juncture</div>
     </div>
   </div>
 </div>

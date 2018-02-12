@@ -39,9 +39,24 @@ export class JunctureService {
                   result => {
                     console.log(result);
 
-                    // update banner images as required
-                    // console.log(data.bannerImages);
-                    resolve();
+                    // upload new gpx if requred
+                    if (data.gpxChanged) {
+                      this.apiService.uploadGPX(data.geoJSON, junctureId).subscribe(
+                        jsonData => {
+                          // update banner images as required
+                          // console.log(data.bannerImages);
+                          resolve();
+                        },
+                        err => {
+                          console.log(err);
+                          reject();
+                        }
+                      );
+                    } else {
+                      // update banner images as required
+                      // console.log(data.bannerImages);
+                      resolve();
+                    }
                   },
                   err => {
                     console.log(err);

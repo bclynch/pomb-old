@@ -38,7 +38,7 @@ export class DashboardPage {
   }
 
   init() {
-    this.settingsService.modPageTitle('Blog Dashboard');
+    this.settingsService.modPageMeta('Blog Dashboard', 'Create, edit, and share your own stories with Pack On My Back\'s blog generation tool. Make beautiful representations of your experiences to share and look back on.');
     // splitting this out to be able to refetch later
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id);
     this.postsData.valueChanges.subscribe(

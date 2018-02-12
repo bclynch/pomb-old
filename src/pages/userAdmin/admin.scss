@@ -90,7 +90,7 @@ page-useradmin {
     .viewContent {
       background: mapGet($basecolor, border);
       height: calc(100% - 80px);
-      padding-top: 15px;
+      padding: 15px 10px 0;
       overflow: scroll;
   
       .contentGroup {     
@@ -118,28 +118,9 @@ page-useradmin {
       }
     }
   }
-  // @media screen and (max-width: $break-medium) {
-  //     .menu-inner{
-  //         width: 35% !important;
-  //     }
-  //     .ion-content{
-  //         transform: translate3d(35%, 0px, 0px) !important;
-  //     }
-  // }
-  // @media screen and (max-width: $break-small) {
-  //     .menu-inner{
-  //         width: 40% !important;
-  //     }
-  //     .ion-content{
-  //         transform: translate3d(40%, 0px, 0px) !important;
-  //     }
-  // }
-  // @media screen and (max-width: $break-xsmall) {
-  //     .menu-inner{
-  //         width: 80% !important;
-  //     }
-  //     .ion-content{
-  //         transform: translate3d(80%, 0px, 0px) !important;
-  //     }
-  // }
+  @include respond-to(small) {
+    .viewContent {
+      padding: 15px 0 0 !important;
+    }
+  }
 }

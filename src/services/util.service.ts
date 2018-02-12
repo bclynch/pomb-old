@@ -45,6 +45,10 @@ export class UtilService {
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 
+  stripHTMLTags(string: string): string {
+    return string.replace(/<\/?[^>]+(>|$)/g, '');
+  }
+
   getJSON(path: string) {
     return this.http.get(path).map((res: Response) => res.json());
   }
@@ -81,5 +85,10 @@ export class UtilService {
   toggleInfiniteActive(state: boolean) {
     this.infiniteActive = state;
     this.infiniteActiveSubject.next(null);
+  }
+
+  truncateString(str, num) {
+    if (str.length > num) return str.slice(0, num > 3 ? num - 3 : num) + '...';
+    return str;
   }
 }

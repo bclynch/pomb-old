@@ -82,6 +82,11 @@
           <div [froalaEditor]="editorOptions" [(froalaModel)]="tripModel.description"></div>
         </div>
       </div>
+      <div 
+        class="deleteBtn modalSection" 
+        (click)="deleteTrip()" 
+        *ngIf="params.data.tripId"
+      >Delete Trip</div>
     </div>
   </div>
 </div>

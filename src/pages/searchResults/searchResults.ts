@@ -32,7 +32,7 @@ export class SearchResultsPage {
       this.runSearch();
     });
 
-    this.settingsService.modPageTitle('Search Results');
+    this.settingsService.modPageMeta('Search Results', `See user, trip, and juncture results for the query ${this.query}`);
   }
 
   runSearch(): void {

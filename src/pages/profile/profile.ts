@@ -39,7 +39,7 @@ export class ProfilePage {
   }
 
   init() {
-    this.settingsService.modPageTitle(`${this.username}'s profile`);
+    this.settingsService.modPageMeta(`${this.username}'s profile`, `View ${this.username}'s profile with trip, juncture, and photo information to share and inspire!`);
     // check if this is an actual user + grab data
     this.apiService.getAccountByUsername(this.username).valueChanges.subscribe(({ data }) => {
       this.user = data.accountByUsername;

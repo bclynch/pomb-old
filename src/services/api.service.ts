@@ -1227,6 +1227,43 @@ const createJuncture = gql`
   }
 `;
 
+const updateJuncture = gql`
+  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+    updateJunctureById(input:{
+      id: $junctureId,
+      juncturePatch: {
+        userId: $userId,
+        tripId: $tripId,
+        name: $name,
+        arrivalDate: $arrivalDate,
+        description: $description,
+        lat: $lat,
+        lon: $lon,
+        city: $city,
+        country: $country,
+        isDraft: $isDraft,
+        markerImg: $markerImg
+      }
+    }) {
+      juncture {
+        id
+      }
+    }
+  }
+`;
+
+const deleteJunctureById = gql`
+  mutation($junctureId: Int!) {
+    deleteJunctureById (
+      input: {
+        id: $junctureId
+      }
+    ) {
+      clientMutationId
+    }
+  }
+`;
+
 const createTrip = gql`
   mutation($userId: Int!, $name: String!, $description: String, $startDate: BigInt!, $endDate: BigInt, $startLat: BigFloat!, $startLon: BigFloat!) {
     createTrip(input:{
@@ -1267,6 +1304,18 @@ const updateTrip = gql`
   }
 `;
 
+const deleteTripById = gql`
+  mutation($tripId: Int!) {
+    deleteTripById (
+      input: {
+        id: $tripId
+      }
+    ) {
+      clientMutationId
+    }
+  }
+`;
+
 const createEmailListEntry = gql`
   mutation($email: String!) {
     createEmailList(input:{
@@ -1275,31 +1324,6 @@ const createEmailListEntry = gql`
       }
     }) {
       clientMutationId
-    }
-  }
-`;
-
-const updateJuncture = gql`
-  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
-    updateJunctureById(input:{
-      id: $junctureId,
-      juncturePatch: {
-        userId: $userId,
-        tripId: $tripId,
-        name: $name,
-        arrivalDate: $arrivalDate,
-        description: $description,
-        lat: $lat,
-        lon: $lon,
-        city: $city,
-        country: $country,
-        isDraft: $isDraft,
-        markerImg: $markerImg
-      }
-    }) {
-      juncture {
-        id
-      }
     }
   }
 `;
@@ -1946,6 +1970,35 @@ export class APIService {
     });
   }
 
+  updateJuncture(junctureId: number, userId: number, tripId, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
+    return this.apollo.mutate({
+      mutation: updateJuncture,
+      variables: {
+        junctureId,
+        userId,
+        tripId,
+        name,
+        arrivalDate,
+        description,
+        lat,
+        lon,
+        city,
+        country,
+        isDraft,
+        markerImg
+      }
+    });
+  }
+
+  deleteJunctureById(junctureId: number) {
+    return this.apollo.mutate({
+      mutation: deleteJunctureById,
+      variables: {
+        junctureId
+      }
+    });
+  }
+
   createTrip(userId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number) {
     return this.apollo.mutate({
       mutation: createTrip,
@@ -1976,31 +2029,20 @@ export class APIService {
     });
   }
 
+  deleteTripById(tripId: number) {
+    return this.apollo.mutate({
+      mutation: deleteTripById,
+      variables: {
+        tripId
+      }
+    });
+  }
+
   createEmailListEntry(email: string) {
     return this.apollo.mutate({
       mutation: createEmailListEntry,
       variables: {
         email
-      }
-    });
-  }
-
-  updateJuncture(junctureId: number, userId: number, tripId, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
-    return this.apollo.mutate({
-      mutation: updateJuncture,
-      variables: {
-        junctureId,
-        userId,
-        tripId,
-        name,
-        arrivalDate,
-        description,
-        lat,
-        lon,
-        city,
-        country,
-        isDraft,
-        markerImg
       }
     });
   }

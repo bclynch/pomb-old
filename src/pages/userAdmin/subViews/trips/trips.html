@@ -9,7 +9,7 @@
         <div class="contentGroupSubtitle">View and manage your trips.</div>
       </div>
       <div class="contentGroupContent">
-        <div class="tripsWrapperContainer">
+        <div class="tripsWrapperContainer" *ngIf="tripsData?.length">
           <div class="trip" *ngFor="let trip of tripsData; let i = index;" [ngClass]="activeTrip === i ? 'active' : ''">
             <div class="tripHeader">
               <div class="tripInfo">
@@ -27,16 +27,28 @@
                 <ion-icon name="ios-arrow-forward"></ion-icon>
               </div>
             </div>
-            <div class="juncturesWrapper">
+            <div class="juncturesWrapper" *ngIf="trip.juncturesByTripId.nodes.length">
               <div *ngFor="let juncture of trip.juncturesByTripId.nodes; let i = index;" class="juncture">
                 <div class="junctureInfoWrapper">
                   <div class="junctureName" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">{{juncture.name}} - {{juncture.arrivalDate | date : 'mediumDate'}}</div>
-                  <div>{{juncture.city}}<span *ngIf="juncture.country">, </span>{{juncture.country}}</div>
+                  <div class="junctureLocale">{{juncture.city}}<span *ngIf="juncture.country">, </span>{{juncture.country}}</div>
                 </div>
                 <div class="editBtn" (click)="editJuncture(i)">Edit Juncture</div>
               </div>
             </div>
+            <div class="juncturesWrapper" *ngIf="!trip.juncturesByTripId.nodes.length">
+              <div class="noJuncturesContainer">
+                <ion-icon name="md-git-merge"></ion-icon>
+                <div>Looks like there aren't any junctures for this trip quite yet. Create some to view them here.</div>
+              </div>      
+            </div>
           </div>
+        </div>
+        <div class="tripsWrapperContainer" *ngIf="tripsData && !tripsData?.length">
+          <div class="noTripsContainer">
+            <ion-icon name="md-plane"></ion-icon>
+            <div>Looks like you haven't created any trips quite yet. Create some to view them here.</div>
+          </div>  
         </div>
       </div>     
     </div>

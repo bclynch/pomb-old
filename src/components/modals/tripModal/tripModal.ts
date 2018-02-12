@@ -105,16 +105,20 @@ export class TripModal {
   }
 
   saveTrip() {
-    this.viewCtrl.dismiss({
-      isExisting: this.params.data.tripId ? true : false,
-      name: this.tripModel.name,
-      timeStart: this.tripModel.timeStart,
-      timeEnd: this.tripModel.timeEnd,
-      bannerImages: this.tripModel.bannerImages,
-      startLat: this.coords.lat,
-      startLon: this.coords.lon,
-      description: this.tripModel.description
-    });
+    if (!this.tripModel.name) {
+      this.alertService.alert('Missing Information', 'Please enter a name for your trip and try to save again.');
+    } else {
+      this.viewCtrl.dismiss({
+        isExisting: this.params.data.tripId ? true : false,
+        name: this.tripModel.name,
+        timeStart: this.tripModel.timeStart,
+        timeEnd: this.tripModel.timeEnd,
+        bannerImages: this.tripModel.bannerImages,
+        startLat: this.coords.lat,
+        startLon: this.coords.lon,
+        description: this.tripModel.description
+      });
+    }
   }
 
   presentBannerUploaderPopover() {
@@ -139,7 +143,6 @@ export class TripModal {
     console.log(index);
     e.stopPropagation();
 
-    const self = this;
     const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.tripModel.bannerImages[index] }, { cssClass: 'galleryImgActionPopover' });
     popover.present({
       ev: e
@@ -157,12 +160,12 @@ export class TripModal {
                 this.apiService.deleteImageById(this.tripModel.bannerImages[index].id).subscribe(
                   result => {
                     this.tripModel.bannerImages.splice(index, 1);
-                    toastDelete();
+                    this.toastDelete('Banner image deleted');
                   }
                 );
               } else {
                 this.tripModel.bannerImages.splice(index, 1);
-                toastDelete();
+                this.toastDelete('Banner image deleted');
               }
             }}
           );
@@ -174,14 +177,30 @@ export class TripModal {
         }
       }
     });
+  }
 
-    function toastDelete() {
-      const toast = self.toastCtrl.create({
-        message: `Banner image deleted`,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    }
+  deleteTrip() {
+    this.alertService.confirm(
+      'Delete Trip',
+      'Are you sure you want to delete this trip? All the associated information will be deleted and this action cannot be reversed',
+      { label: 'Delete Trip', handler: () =>  {
+        this.apiService.deleteTripById(this.params.data.tripId).subscribe(
+          result => {
+            console.log(result);
+            this.toastDelete('Trip deleted');
+            this.viewCtrl.dismiss();
+          }
+        );
+      }}
+    );
+  }
+
+  toastDelete(msg: string) {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 }

@@ -38,6 +38,7 @@ export class SplashPage {
     //   console.log('authenticated');
     //   this.router.navigateByUrl('/stories');
     // }
+    this.settingsService.modPageMeta('Travel Tracking, Blogging, and Sharing Made Easy', 'Log and share your memories with Pack On My Back. Sophisticated, yet easy to use tools make plotting your journey, writing a blog, and visualizing your trip easy. Make your experiences last a lifetime.');
   }
 
   registerUser() {

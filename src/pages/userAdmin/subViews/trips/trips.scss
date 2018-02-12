@@ -15,10 +15,11 @@ page-useradmin-trips {
             // color: white;
   
             .editBtn {
-              margin-left: 30px;
-              border: solid 1px black;
-              padding: 10px 25px;
               cursor: pointer;
+              margin-left: 0;
+              padding: 0;
+              border: none;
+              font-weight: bold;
             }
             &.active {
   
@@ -38,9 +39,22 @@ page-useradmin-trips {
                   height: 60px;
                   opacity: 1;
                   margin-bottom: 10px;
+
+                  .junctureInfoWrapper {
+                    max-width: 180px !important;
+
+                    .junctureLocale {
+                      font-size: 11px;
+                    }
+                  }
                 }
                 .juncture:last-child {
                   margin-bottom: 0;
+                }
+                .noJuncturesContainer {
+                  opacity: 1;
+                  height: 120px;
+                  margin-top: 10px;
                 }
               }
             }
@@ -54,6 +68,8 @@ page-useradmin-trips {
                 align-items: center;
 
                 .leftWrapper {
+                  flex: 1;
+                  
                   .tripName {
                     cursor: pointer;
                     font-size: 24px;
@@ -66,15 +82,13 @@ page-useradmin-trips {
                     .status {
                       text-transform: uppercase;
                       margin-left: 10px;
+                      display: none;
                     }
                   }
                 }
-                .editBtn {
-                  margin-left: 30px;
-                }
               }
               .arrowWrapper {
-                width: 25%;
+                width: 30%;
                 text-align: right;
                 cursor: pointer;
                 padding: 15px 0;
@@ -104,7 +118,8 @@ page-useradmin-trips {
                 border-bottom: solid 1px #ddd;
 
                 .editBtn {
-                  padding: 5px 15px;
+                  width: 100px;
+                  padding: 0;
                 }
               }
               .juncture:first-child {
@@ -113,8 +128,68 @@ page-useradmin-trips {
               .juncture:last-child {
                 border-bottom: none;
               }
+              .noJuncturesContainer {
+                transition: .5s;
+                height: 0;
+                opacity: 0;
+                font-size: 18px;
+                color: mapGet($basecolor, dark);
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                padding: 0 10px;
+                width: 100%;
+
+                ion-icon {
+                  font-size: 45px;
+                  margin-bottom: 10px;
+                }
+              }
             }
           }
+          .noTripsContainer {
+            font-size: 24px;
+            color: mapGet($basecolor, dark);
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 10px;
+            width: 100%;
+
+            ion-icon {
+              font-size: 60px;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+  @include respond-to(small) {
+    .viewContent {
+      
+      .arrowWrapper {
+        width: 25% !important;
+      }
+      .timeWrapper {
+        .status {
+          display: block !important;
+        }
+      }
+      .editBtn {
+        border: solid 1px black !important;
+        margin-left: 30px !important;
+        padding: 10px 25px !important;
+        width: auto !important;
+        font-size: 14px;
+      }
+      .junctureInfoWrapper {
+        max-width: auto !important;
+        
+        .junctureLocale {
+          font-size: 14px !important;
         }
       }
     }

@@ -10,6 +10,7 @@ import { UserService } from '../../../services/user.service';
 import { SettingsService } from '../../../services/settings.service';
 import { UtilService } from '../../../services/util.service';
 import { AlertService } from '../../../services/alert.service';
+import { GeoService } from '../../../services/geo.service';
 
 import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 import { Juncture } from '../../../models/Juncture.model';
@@ -48,6 +49,7 @@ export class JunctureModal {
   dataLayerStyle;
   latlngBounds;
   gpxLoaded = false;
+  gpxChanged = false;
 
   tabBtns = ['Upload GPX', 'Manual'];
   selectedIndex = 0;
@@ -65,7 +67,8 @@ export class JunctureModal {
     private alertService: AlertService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private geoService: GeoService
   ) {
 
     this.dataLayerStyle = {
@@ -88,6 +91,32 @@ export class JunctureModal {
           this.coords.lat = +junctureData.lat;
           this.coords.lon = +junctureData.lon;
           this.markerURL = junctureData.imagesByJunctureId.nodes.length ? junctureData.imagesByJunctureId.nodes[0].url : this.params.data.markerImg;
+
+          // check which type of juncture it is
+          if (!junctureData.coordsByJunctureId.nodes.length) {
+            // if no coords put on manual tab
+            this.selectedIndex = 1;
+          } else {
+            // if coords populate data
+            // fitting the map to the data layer OR the marker
+            this.geoJsonObject = this.geoService.generateGeoJSON([junctureData.coordsByJunctureId.nodes]);
+            this.mapsAPILoader.load().then(() => {
+              this.latlngBounds = new window['google'].maps.LatLngBounds();
+              // take five coord pairs from the coords arr evenly spaced to hopefully encapsulate all the bounds
+              const chosenCoords = [];
+              const desiredNumberPairs = 5;
+              for (let i = 0; i < junctureData.coordsByJunctureId.nodes.length && chosenCoords.length < desiredNumberPairs; i += Math.ceil(junctureData.coordsByJunctureId.nodes.length / desiredNumberPairs)) {
+                chosenCoords.push(junctureData.coordsByJunctureId.nodes[i]);
+              }
+
+              chosenCoords.forEach((pair) => {
+                this.latlngBounds.extend(new window['google'].maps.LatLng(pair.lat, pair.lon));
+              });
+
+              this.gpxLoaded = true;
+            });
+          }
+
           this.grabMapStyle();
 
           // populate trip select
@@ -148,6 +177,7 @@ export class JunctureModal {
       this.coords.lon = gpxData.geometry.coordinates.slice(-1)[0][0];
       this.geoJsonObject = gpxData;
       this.gpxLoaded = true;
+      this.gpxChanged = true;
     });
   }
 
@@ -206,7 +236,6 @@ export class JunctureModal {
   }
 
   presentGalleryPopover(e, index: number) {
-    const self = this;
     const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.galleryPhotos[index] }, { cssClass: 'galleryImgActionPopover' });
     popover.present({
       ev: e
@@ -216,19 +245,19 @@ export class JunctureModal {
         if (data.action === 'delete') {
           this.alertService.confirm(
             'Delete Gallery Image',
-            'Are you sure you want to delete permanently delete this image?',
+            'Are you sure you want to delete permanently delete this image? This action cannot be reversed',
             { label: 'Delete', handler: () =>  {
               // if photo has already been saved to db
               if (this.galleryPhotos[index].id) {
                 this.apiService.deleteImageById(this.galleryPhotos[index].id).subscribe(
                   result => {
                     this.galleryPhotos.splice(index, 1);
-                    toastDelete();
+                    this.toastDelete('Gallery image deleted');
                   }
                 );
               } else {
                 this.galleryPhotos.splice(index, 1);
-                toastDelete();
+                this.toastDelete('Gallery image deleted');
               }
             }}
           );
@@ -239,34 +268,57 @@ export class JunctureModal {
         }
       }
     });
-
-    function toastDelete() {
-      const toast = self.toastCtrl.create({
-        message: `Gallery image deleted`,
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    }
   }
 
   saveJuncture() {
-    this.viewCtrl.dismiss({
-      isExisting: this.params.data.junctureId ? true : false,
-      saveType: this.junctureSaveType,
-      name: this.junctureModel.name,
-      description: this.junctureModel.description,
-      photos: this.galleryPhotos,
-      time: this.junctureModel.time,
-      location: this.coords,
-      selectedTrip: this.junctureModel.selectedTrip,
-      markerImg: this.markerURL,
-      geoJSON: this.geoJsonObject
-    });
+    if (!this.junctureModel.name) {
+      this.alertService.alert('Missing Information', 'Please enter a name for your juncture and try to save again.');
+    } else if (this.selectedIndex === 0 && !this.geoJsonObject) {
+      this.alertService.alert('Notification', 'Upload gpx data or try a manual location for your juncture.');
+    } else {
+      this.viewCtrl.dismiss({
+        isExisting: this.params.data.junctureId ? true : false,
+        saveType: this.junctureSaveType,
+        name: this.junctureModel.name,
+        description: this.junctureModel.description,
+        photos: this.galleryPhotos,
+        time: this.junctureModel.time,
+        location: this.coords,
+        selectedTrip: this.junctureModel.selectedTrip,
+        markerImg: this.markerURL,
+        geoJSON: this.geoJsonObject,
+        gpxChanged: this.gpxChanged
+      });
+    }
   }
 
   moveCenter(e) {
     this.coords.lat = e.lat;
     this.coords.lon = e.lng;
+  }
+
+  deleteJuncture() {
+    this.alertService.confirm(
+      'Delete Juncture',
+      'Are you sure you want to delete this juncture? All the associated information will be deleted and this action cannot be reversed',
+      { label: 'Delete Juncture', handler: () =>  {
+        this.apiService.deleteJunctureById(this.params.data.junctureId).subscribe(
+          result => {
+            console.log(result);
+            this.toastDelete('Juncture deleted');
+            this.viewCtrl.dismiss();
+          }
+        );
+      }}
+    );
+  }
+
+  toastDelete(msg: string) {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 }

@@ -41,7 +41,7 @@ export class TripTimelinePage {
     this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
-      this.settingsService.modPageTitle(`${this.tripData.name} Timeline`);
+      this.settingsService.modPageMeta(`${this.tripData.name} Timeline`, `Follow along and see the junctures that made ${this.tripData.name} an experience of a lifetime.`);
     });
   }
 

@@ -88,7 +88,7 @@ export class TripPage implements AfterViewInit {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
       this.disqusId = `trip/${this.tripData.id}`;
-      this.settingsService.modPageTitle(this.tripData.name);
+      this.settingsService.modPageMeta(this.tripData.name, `The main page for ${this.tripData.name}. Follow in their footsteps and see the junctures, photos, and posts that made up this journey.`);
 
       this.carouselImages = [];
       this.gallery = [];

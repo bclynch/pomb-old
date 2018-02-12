@@ -5,6 +5,7 @@ import { APIService } from '../../services/api.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { SettingsService } from '../../services/settings.service';
 import { UserService } from '../../services/user.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'page-post',
@@ -21,7 +22,8 @@ export class PostPage {
     private route: ActivatedRoute,
     private broadcastService: BroadcastService,
     private settingsService: SettingsService,
-    private userService: UserService
+    private userService: UserService,
+    private utilService: UtilService
   ) {
     this.route.params.subscribe((params) => {
       this.postId = params.id;
@@ -35,7 +37,7 @@ export class PostPage {
       data => {
         this.post = data.data.postById;
         console.log(this.post);
-        this.settingsService.modPageTitle(this.post.title);
+        this.settingsService.modPageMeta(this.post.title, this.utilService.truncateString(this.utilService.stripHTMLTags(this.post.content), 145));
       },
       err => console.log(err)
     );

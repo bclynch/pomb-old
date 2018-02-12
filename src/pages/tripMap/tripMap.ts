@@ -72,7 +72,7 @@ export class TripMapPage {
     this.apiService.getTripById(this.tripId, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.tripData = data.tripById;
       console.log('got trip data: ', this.tripData);
-      this.settingsService.modPageTitle(`${this.tripData.name} Map`);
+      this.settingsService.modPageMeta(`${this.tripData.name} Map`, `An interactive map plotting the route for ${this.tripData.name}. Follow in their footsteps and see the junctures, photos, and posts that made up this journey.`);
 
       // fill up arr with a bunch of empty values so our styling works properly + create arr with copies so we can mod values
       for (let i = 0; i < this.tripData.juncturesByTripId.nodes.length; i++) {

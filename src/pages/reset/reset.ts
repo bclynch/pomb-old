@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { APIService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'page-reset',
@@ -13,8 +14,11 @@ export class ResetPage {
 
   constructor(
     private apiService: APIService,
-    private alertService: AlertService
-  ) {  }
+    private alertService: AlertService,
+    private settingsService: SettingsService
+  ) {
+    this.settingsService.modPageMeta('Reset Password', 'Reset your account\'s password');
+  }
 
   sendReset(model) {
     this.apiService.resetPassword(model.email).subscribe(

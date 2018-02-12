@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta } from '@angular/platform-browser';
 
 import { APIService } from './api.service';
 import { ExploreService } from './explore.service';
@@ -46,7 +46,8 @@ export class SettingsService {
     private exploreService: ExploreService,
     private localStorageService: LocalStorageService,
     private titleService: Title,
-    private userService: UserService
+    private userService: UserService,
+    private meta: Meta
   ) {
     this.unitOfMeasureSubject = new BehaviorSubject(null);
     this.unitOfMeasure$ = this.unitOfMeasureSubject.asObservable();
@@ -107,7 +108,8 @@ export class SettingsService {
     });
   }
 
-  modPageTitle(title: string) {
-    this.titleService.setTitle(`POMB - ${title}`);
+  modPageMeta(title: string, description: string) {
+    this.titleService.setTitle(`Pack On My Back - ${title}`);
+    this.meta.addTag({ name: 'description', content: description });
   }
 }

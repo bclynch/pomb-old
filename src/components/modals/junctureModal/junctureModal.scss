@@ -227,6 +227,17 @@ juncturemodal {
             }
           }
         }
+        .deleteBtn {
+          background: red;
+          color: white;
+          cursor: pointer;
+          font-weight: bold;
+          transition: .3s;
+          padding: 15px 0;
+          width: 80%;
+          text-align: center;
+          font-size: 18px;
+        }
       }
     }
   }
