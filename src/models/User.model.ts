@@ -2,6 +2,7 @@ import { Post } from './Post.model';
 import { Image } from './Image.model';
 import { Juncture } from './Juncture.model';
 import { Trip } from './Trip.model';
+import { Track } from './Track.model';
 
 export class User {
   firstName: string;
@@ -25,5 +26,25 @@ export class User {
   };
   tripsByUserId: {
     nodes: Trip[];
+  };
+  tracksByUserId: {
+    totalCount: number;
+    nodes: Track[];
+  };
+  tracksByTrackUserId: {
+    totalCount: number;
+    nodes: Track[];
+  };
+  totalPostCount: {
+    totalCount: number;
+  };
+  totalTripCount: {
+    totalCount: number;
+  };
+  totalJunctureCount: {
+    totalCount: number;
+  };
+  totalImageCount: {
+    totalCount: number;
   };
 }

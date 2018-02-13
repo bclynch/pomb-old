@@ -14,6 +14,7 @@ export class FadeCarousel implements OnChanges {
   @Input() btnLabel: string;
   @Input() flags: { url: string; name: string; }[] = [];
   @Input() stats: { icon: string; label: string; value: number }[] = [];
+  @Input() trackUserId: number;
   @Output() btnClick = new EventEmitter<any>();
 
   displayedIndex = 0;

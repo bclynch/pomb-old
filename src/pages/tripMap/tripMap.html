@@ -61,18 +61,20 @@
     <div class="juncturePane">
       <div class="paneHeader">
         <BackpackIcon color="white" title="Add To Pack"></BackpackIcon>
-        <div class="userWrapper" (click)="routerService.navigateToPage('/' + tripData.accountByUserId.username)">
+        <div class="userWrapper">
           <div 
             class="profilePhoto" 
             *ngIf="tripData.accountByUserId.profilePhoto" 
             [ngStyle]="{ 'background-image': 'url(' + tripData.accountByUserId.profilePhoto + ')'}"
+            (click)="routerService.navigateToPage('/user/' + tripData.accountByUserId.username)"
           ></div>
-          <div *ngIf="tripData.accountByUserId.firstName">
+          <div *ngIf="tripData.accountByUserId.firstName" (click)="routerService.navigateToPage('/user/' + tripData.accountByUserId.username)">
             {{tripData.accountByUserId.firstName}} {{tripData.accountByUserId.lastName}}
           </div>
-          <div *ngIf="!tripData.accountByUserId.firstName">
+          <div *ngIf="!tripData.accountByUserId.firstName" (click)="routerService.navigateToPage('/user/' + tripData.accountByUserId.username)">
             {{tripData.accountByUserId.username}}
           </div>
+          <TrackUser [trackUserId]="tripData.accountByUserId.id"></TrackUser>
         </div>
       </div>
       <div 

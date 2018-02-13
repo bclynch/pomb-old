@@ -71,6 +71,7 @@ import { JunctureBubbles } from '../components/junctureBubbles/junctureBubbles.c
 import { JunctureBubble } from '../components/junctureBubbles/junctureBubble/junctureBubble.component';
 import { ProfilePicture } from '../components/profilePicture/profilePicture.component';
 import { LikeCounter } from '../components/likeCounter/likeCounter.component';
+import { TrackUser } from '../components/trackUser/trackUser.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -229,7 +230,8 @@ import { AnalyticsService } from '../services/analytics.service';
     ProfilePicture,
     LikeCounter,
     ResetPage,
-    DeleteAccountModal
+    DeleteAccountModal,
+    TrackUser
   ],
   imports: [
     BrowserModule,

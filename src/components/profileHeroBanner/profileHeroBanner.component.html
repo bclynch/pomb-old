@@ -3,7 +3,7 @@
   [ngStyle]="user.heroPhoto ? { 'background-image': 'url(' + user.heroPhoto + ')'} : { 'background-image': 'url(' + defaultBannerImg + ')'}"
 >
   <div class="overlay">
-    <ProfilePicture [photo]="user.profilePhoto"></ProfilePicture>
+    <ProfilePicture [photo]="user.profilePhoto" [trackUserId]="user.id"></ProfilePicture>
     <div class="name" *ngIf="user.firstName">{{user.firstName}} {{user.lastName}}</div>
     <div class="name" *ngIf="!user.firstName">{{user.username}}</div>
     <div>{{user.userStatus}}</div>

@@ -365,9 +365,12 @@ const getAccountByUsername = gql`
       city,
       country,
       userStatus,
-      postsByAuthor(condition: {
-        isPublished: true
-      }) {
+      postsByAuthor (
+        condition: {
+          isPublished: true
+        },
+        last: 11
+      ) {
         nodes {
           id,
           title,
@@ -387,7 +390,9 @@ const getAccountByUsername = gql`
           }
         }
       },
-      tripsByUserId {
+      tripsByUserId (
+        last: 5
+      ) {
         nodes {
           id,
           name,
@@ -404,6 +409,24 @@ const getAccountByUsername = gql`
             }
           }
         }
+      },
+      totalJunctureCount: juncturesByUserId {
+        totalCount
+      },
+      totalImageCount: imagesByUserId {
+        totalCount
+      },
+      totalPostCount: postsByAuthor {
+        totalCount
+      }
+      totalTripCount: tripsByUserId {
+        totalCount
+      },
+      tracksByUserId {
+        totalCount
+      },
+      tracksByTrackUserId {
+        totalCount
       }
     }
   }
@@ -1006,6 +1029,24 @@ const tripsByUserId = gql`
   }
 `;
 
+const checkTrackingByUser = gql`
+  query checkTrackingByUser($trackedUser: Int!, $trackingUser: Int!) {
+    accountById (
+      id: $trackedUser
+    ) {
+      tracksByTrackUserId(
+        condition: {
+          userId: $trackingUser
+        }
+      ) {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
+
 //////////////////////////
 /////////// mutations
 ////////////////////////
@@ -1391,6 +1432,33 @@ const deleteAccountById = gql`
     deleteAccountById(input: {
       id: $userId
     }) {
+      clientMutationId
+    }
+  }
+`;
+
+const createTrack = gql`
+  mutation($userId: Int!, $trackUserId: Int!) {
+    createTrack(
+      input: {
+        track: {
+          userId: $userId,
+          trackUserId: $trackUserId
+        }
+      }
+    ) {
+      clientMutationId
+    }
+  }
+`;
+
+const deleteTrackById = gql`
+  mutation($trackId: Int!) {
+    deleteTrackById(
+      input: {
+        id: $trackId
+      }
+    ) {
       clientMutationId
     }
   }
@@ -1801,6 +1869,16 @@ export class APIService {
     });
   }
 
+  checkTrackingByUser(trackedUser: number, trackingUser: number) {
+    return this.apollo.watchQuery<any>({
+      query: checkTrackingByUser,
+      variables: {
+        trackedUser,
+        trackingUser
+      }
+    });
+  }
+
   // Graphql mutations
   registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
     return this.apollo.mutate({
@@ -2094,6 +2172,25 @@ export class APIService {
       mutation: deleteAccountById,
       variables: {
         userId
+      }
+    });
+  }
+
+  createTrack(userId: number, trackUserId: number) {
+    return this.apollo.mutate({
+      mutation: createTrack,
+      variables: {
+        userId,
+        trackUserId
+      }
+    });
+  }
+
+  deleteTrackById(trackId: number) {
+    return this.apollo.mutate({
+      mutation: deleteTrackById,
+      variables: {
+        trackId
       }
     });
   }

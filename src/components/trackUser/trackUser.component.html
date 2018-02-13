@@ -1,0 +1,4 @@
+<div class="trackUserContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)" *ngIf="displayComponent">
+  <div *ngIf="!isTracking" (click)="trackUser()">Track</div>
+  <div *ngIf="isTracking" (click)="unTrackUser()">Stop Tracking</div>
+</div>

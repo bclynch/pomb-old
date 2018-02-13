@@ -24,6 +24,8 @@ export class ProfilePage {
   user: User;
   ready = false;
 
+  stats: { icon: string; label: string; value: number, customIcon?: boolean }[] = [];
+
   constructor(
     private apiService: APIService,
     private settingsService: SettingsService,
@@ -47,6 +49,7 @@ export class ProfilePage {
       if (this.user) {
         this.posts = this.user.postsByAuthor.nodes;
         this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
+        this.populateStats();
         this.ready = true;
       } else {
         // username doesnt exist
@@ -58,4 +61,18 @@ export class ProfilePage {
     });
   }
 
+  populateStats(): void {
+    // populate stats
+    const stats = [];
+
+    // stats.push({ icon: 'md-globe', label: 'Countries', value: 1 });
+    stats.push({ icon: 'md-plane', label: 'Trips', value: this.user.totalTripCount.totalCount });
+    stats.push({ icon: 'md-git-merge', label: 'Junctures', value: this.user.totalJunctureCount.totalCount });
+    stats.push({ icon: 'md-albums', label: 'Posts', value: this.user.totalPostCount.totalCount });
+    stats.push({ icon: 'md-images', label: 'Photos', value: this.user.totalImageCount.totalCount });
+    stats.push({ icon: '../../assets/images/track.svg', label: 'Trackers', value: this.user.tracksByTrackUserId.totalCount, customIcon: true });
+    stats.push({ icon: 'logo-rss', label: 'Tracking', value: this.user.tracksByUserId.totalCount });
+
+    this.stats = stats;
+  }
 }

@@ -1,5 +1,15 @@
 <PageWrapper *ngIf="ready" backgroundColor="black">
   <ProfileHeroBanner [user]="user"></ProfileHeroBanner>
+  <div class="statsContainer" *ngIf="stats.length">
+    <div class="innerWrapper">
+      <div class="statWrapper" *ngFor="let stat of stats;">
+        <ion-icon [name]="stat.icon" *ngIf="!stat.customIcon"></ion-icon>
+        <img [src]="stat.icon" *ngIf="stat.customIcon" />
+        <div class="statValue">{{stat.value | number}}</div>
+        <div class="statLabel">{{stat.label}}</div>
+      </div>
+    </div>
+  </div>
   <div class="tripCardContainer">
     <TripCard *ngFor="let trip of user.tripsByUserId.nodes;" [trip]="trip"></TripCard>
   </div>

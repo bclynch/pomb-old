@@ -1,0 +1,16 @@
+trackUser {
+
+  .trackUserContainer {
+    cursor: pointer;
+    background: var(--secondary);
+    color: white;
+    padding: 5px 0;
+    font-weight: bold;
+    width: 100px;
+    text-align: center;
+  }
+
+  @include respond-to(small) {
+
+  }
+}

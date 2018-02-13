@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 })
 export class ProfilePicture {
   @Input() photo: string;
+  @Input() trackUserId: number;
 
   constructor(
     private settingsService: SettingsService,

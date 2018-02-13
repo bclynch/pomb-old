@@ -4,11 +4,16 @@
 
 ### Top Priorities
 
-- Flesh out user profile - Would be nice to have stats for countries visited + % of world etc
+- Flesh out user profile
+    - Countries visited / % of world
+    - Images
 - Send email to new created user
-    - https://reallygoodemails.com/category/inaugural/activation/
+    - Written, but need to set up
     - For on subscribe as well to verify
 - Check updated photos on trip + junctures edits
+- Need to identify user on trip page
+- Page for following tracked users that shows active trips, recent photos, recent posts, etc -- Maybe this could be the feed???
+    - Perhaps rudimentary to start, but the audit table could provide something more sophisticated later on
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
@@ -62,12 +67,7 @@
 
 #### Other
 
-- Validation on create juncture modal
 - Figure out imgsrc for responsive choice on which size image to display on cards + posts (mostly for the primary photos since those ones have lots of options)
-- Admin page to change certain types of things like hero banner, highlighted posts, or grid design
-- Auth validation for certain routes to check logged in state (post create, favorites, profile, etc)
-- Would like to add some tracking measures. Similar to gizmodo can display views, favs, and comments on posts
-    - Google analytics required as well https://github.com/angulartics/angulartics2
 
 #### Analytics
 

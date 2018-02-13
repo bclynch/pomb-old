@@ -12,6 +12,7 @@
       *ngIf="!post.accountByAuthor.firstName" 
       (click)="routerService.navigateToPage('/user/' + post.accountByAuthor.username)"
     >{{post.accountByAuthor.username}}</span>
+    <TrackUser [trackUserId]="post.accountByAuthor.id"></TrackUser>
   </div>
   <Tags [tags]="tags" *ngIf="tags.length"></Tags>
   <div class="bottomRow">

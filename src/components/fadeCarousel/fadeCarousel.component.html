@@ -12,6 +12,7 @@
         <img [src]="flag.url" [title]="flag.name" />
       </div>
     </div>
+    <TrackUser [trackUserId]="trackUserId" *ngIf="trackUserId"></TrackUser>
     <div 
       class="modalLauncherBtn boldFont" 
       *ngIf="btnLabel" 
