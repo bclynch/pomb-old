@@ -60,6 +60,7 @@ import { CommunityNavSection } from '../components/navBar/paneSections/community
 import { ProfileHeroBanner } from '../components/profileHeroBanner/profileHeroBanner.component';
 import { TripCard } from '../components/tripCard/tripCard.component';
 import { BackpackIcon } from '../components/svgs/backpack/backpack.component';
+import { TrackIcon } from '../components/svgs/track/track.component';
 import { PlaceGuide } from '../components/placeGuide/placeGuide.component';
 import { ShareBtns } from '../components/shareBtns/shareBtns.component';
 import { UploadGPX } from '../components/uploadGPX/uploadGPX.component';
@@ -120,6 +121,7 @@ import { JuncturePage } from '../pages/juncture/juncture';
 import { TripTimelinePage } from '../pages/tripTimeline/tripTimeline';
 import { PhotosPage } from '../pages/photos/photos';
 import { SplashPage } from '../pages/splash/splash';
+import { TrackingPage } from '../pages/tracking/tracking';
 import { ResetPage } from '../pages/reset/reset';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
@@ -231,7 +233,9 @@ import { AnalyticsService } from '../services/analytics.service';
     LikeCounter,
     ResetPage,
     DeleteAccountModal,
-    TrackUser
+    TrackUser,
+    TrackingPage,
+    TrackIcon
   ],
   imports: [
     BrowserModule,
@@ -291,7 +295,8 @@ import { AnalyticsService } from '../services/analytics.service';
     NotFoundPage,
     GeneralErrorPage,
     ResetPage,
-    DeleteAccountModal
+    DeleteAccountModal,
+    TrackingPage
   ],
   providers: [
     APIService,

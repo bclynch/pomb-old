@@ -20,6 +20,7 @@ export class MyPackNavSection {
     { label: 'Create Trip', value: 'trip', icon: 'md-plane' },
     { label: 'Juncture Check-In', value: 'checkIn', icon: 'md-git-merge' },
     { label: 'Blog Dashboard', value: 'blog', icon: 'md-filing' },
+    { label: 'Tracking', value: 'tracking', icon: 'track', custom: true },
     { label: 'User Dashboard', value: 'settings', icon: 'md-settings' }
   ];
 

@@ -28,16 +28,20 @@ export class TrackUser implements OnChanges {
   }
 
   ngOnChanges() {
-    if (this.trackUserId === this.userService.user.id) this.displayComponent = false;
-    this.apiService.checkTrackingByUser(this.trackUserId, this.userService.user.id).valueChanges.subscribe(
-      result => {
-        if (result.data.accountById.tracksByTrackUserId.nodes.length) {
-          this.isTracking = true;
-          this.trackingId = result.data.accountById.tracksByTrackUserId.nodes[0].id;
-        }
-      },
-      err => console.log(err)
-    );
+    if (this.userService.user) {
+      if (this.trackUserId === this.userService.user.id) this.displayComponent = false;
+      this.apiService.checkTrackingByUser(this.trackUserId, this.userService.user.id).valueChanges.subscribe(
+        result => {
+          if (result.data.accountById.tracksByTrackUserId.nodes.length) {
+            this.isTracking = true;
+            this.trackingId = result.data.accountById.tracksByTrackUserId.nodes[0].id;
+          }
+        },
+        err => console.log(err)
+      );
+    } else {
+      this.displayComponent = false;
+    }
   }
 
   trackUser() {

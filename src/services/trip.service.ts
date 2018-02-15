@@ -99,4 +99,16 @@ export class TripService {
       );
     });
   }
+
+  // function returns what the nature of the trip is currently
+  tripStatus(startDate: number, endDate: number): 'complete' | 'active' | 'upcoming' {
+    // to be upcoming it must have a start date beyond current
+    if (startDate > Date.now()) return 'upcoming';
+
+    // to be complete it must have an end date and be in the past
+    if (endDate && endDate < Date.now()) return 'complete';
+
+    // otherwise it's active
+    return 'active';
+  }
 }

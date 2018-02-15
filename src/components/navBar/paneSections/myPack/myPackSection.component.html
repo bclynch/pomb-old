@@ -33,7 +33,8 @@
             class="paneOption boldFont" 
             (click)="navigate(option.value)"
           >
-            <ion-icon [name]="option.icon"></ion-icon>
+            <ion-icon [name]="option.icon" *ngIf="!option.custom"></ion-icon>
+            <TrackIcon *ngIf="option.custom && option.icon === 'track'"></TrackIcon>
             <div class="linkLabel">{{option.label}}</div>
           </div>
         </div>

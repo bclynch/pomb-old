@@ -140,6 +140,9 @@ export class NavBar {
           case 'home':
             this.routerService.navigateToPage('/');
             break;
+          case 'tracking':
+            this.routerService.navigateToPage('/tracking');
+            break;
           default:
             this.routerService.navigateToPage(`/stories/${data}`);
             break;

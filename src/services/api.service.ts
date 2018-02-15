@@ -1047,6 +1047,45 @@ const checkTrackingByUser = gql`
   }
 `;
 
+const getUserTrackedTrips = gql`
+  query getUserTrackedTrips($username: String!) {
+    accountByUsername(username: $username) {
+      tracksByUserId {
+        totalCount,
+        nodes {
+          accountByTrackUserId {
+            id,
+            username,
+            firstName,
+            lastName,
+            profilePhoto,
+            tripsByUserId (
+              orderBy: START_DATE_DESC
+            ) {
+              nodes {
+                id,
+                name,
+                startDate,
+                endDate,
+                imagesByTripId(
+                  condition: {
+                    type: BANNER,
+                  },
+                  first: 1
+                ) {
+                  nodes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 //////////////////////////
 /////////// mutations
 ////////////////////////
@@ -1644,9 +1683,24 @@ export class APIService {
     });
   }
 
-  // password updating
+  // Email endpoints
   sendResetEmail(user: string, pw: string) {
-    return this.http.post(`http://localhost:8080/mailing/reset`, { user, pw })
+    return this.http.post('http://localhost:8080/mailing/reset', { user, pw })
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  sendRegistrationEmail(user: string) {
+    return this.http.post('http://localhost:8080/mailing/registration', { user })
       .map(
         (response: Response) => {
           const data = response.json();
@@ -1875,6 +1929,15 @@ export class APIService {
       variables: {
         trackedUser,
         trackingUser
+      }
+    });
+  }
+
+  getUserTrackedTrips(username: string) {
+    return this.apollo.watchQuery<any>({
+      query: getUserTrackedTrips,
+      variables: {
+        username
       }
     });
   }

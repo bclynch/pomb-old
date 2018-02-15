@@ -6,14 +6,14 @@
 
 - Flesh out user profile
     - Countries visited / % of world
+        - Look to something like this https://github.com/umpirsky/country-list/blob/master/data/en_US/country.postgresql.sql. Could be useful for our other geo calls too
     - Images
 - Send email to new created user
-    - Written, but need to set up
     - For on subscribe as well to verify
 - Check updated photos on trip + junctures edits
+- Validation trip modal end date not before start date
+- Fix trip status on user dash + maybe add status to trip card
 - Need to identify user on trip page
-- Page for following tracked users that shows active trips, recent photos, recent posts, etc -- Maybe this could be the feed???
-    - Perhaps rudimentary to start, but the audit table could provide something more sophisticated later on
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test

@@ -12,7 +12,7 @@ mypacknavsection {
         height: 32px;
         width: 32px;
         font-size: 32px;
-        margin: 15px 0;
+        margin: 10px 0;
         transition: .3s;
       }
     }
@@ -100,11 +100,23 @@ mypacknavsection {
             .linkLabel {
               transition: .3s;
             }
+            trackicon {
+
+              svg {
+                height: 40px;
+                width: 40px;
+                margin: 10px 0;
+                transition: .3s;
+              }
+            }
           }
           > div:hover {
 
             ion-icon, .linkLabel {
               color: var(--secondary);
+            }
+            svg {
+              fill: var(--secondary) !important;
             }
           }
         }
@@ -185,11 +197,6 @@ mypacknavsection {
     }
   }
   @include respond-to(medium) {
-    ion-icon {
-      height: 48px !important;
-      width: 48px !important;
-      font-size: 48px !important;
-    }
     .paneContainer {
       .signedInContainer {
         .recent {

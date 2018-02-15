@@ -99,6 +99,11 @@ export class UserService {
       const userObj = data as any;
       console.log('Successfully created account');
 
+      // send welcome registration email
+      this.apiService.sendRegistrationEmail(model.email).subscribe(
+        result => console.log(result)
+      );
+
       // auth to snag token
       this.authAccount({email: model.email, password: model.password}).then((token) => {
         userObj.token = token;

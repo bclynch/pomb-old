@@ -1,0 +1,31 @@
+<PageWrapper [topo]="true">
+  <div class="contentWrapper" *ngIf="inited">
+    <div
+      class="tripsContainer" 
+      *ngFor="let container of containers;" 
+      [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+    >
+      <div *ngIf="container.arr.length">
+        <div class="containerHeader">{{container.label}}</div>
+        <div class="tracksWrapper">
+          <div class="trackWrapper" *ngFor="let trip of container.arr;">
+            <div class="authorPanel" (click)="router.navigate(['/user/' + trip.user.accountByTrackUserId.username])">
+              <ProfilePicture [photo]="trip.user.accountByTrackUserId.profilePhoto"></ProfilePicture>
+              <div>
+                <div *ngIf="trip.user.accountByTrackUserId.firstName" class="name">{{trip.user.accountByTrackUserId.firstName}} {{trip.user.accountByTrackUserId.lastName}}</div>
+                <div *ngIf="!trip.user.accountByTrackUserId.firstName" class="name">{{trip.user.accountByTrackUserId.username}}</div>
+                <div *ngIf="container.label === 'Upcoming Trips'">Starts traveling in {{calcStart(+trip.trip.startDate)}} days</div>
+              </div>
+            </div>
+            <TripCard [trip]="trip.trip"></TripCard>
+          </div>
+        </div>
+      </div>    
+    </div>
+    <div class="emptyContainer" *ngIf="!upcomingTrips.length && !activeTrips.length && !completeTrips.length">
+      <ion-icon name="md-plane"></ion-icon>
+      <div>Looks like you aren't tracking any users with trip activity quite yet. Start tracking to view updates here!</div>
+    </div>
+  </div>
+</PageWrapper>
+
