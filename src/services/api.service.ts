@@ -354,7 +354,7 @@ query allConfigs {
 `;
 
 const getAccountByUsername = gql`
-  query accountByUsername($username: String!) {
+  query accountByUsername($username: String!, $userId: Int) {
     accountByUsername(username: $username) {
       id,
       username,
@@ -390,6 +390,31 @@ const getAccountByUsername = gql`
           }
         }
       },
+      imagesByUserId(last: 12) {
+        nodes {
+            id,
+            url,
+            title,
+            type,
+            description,
+            accountByUserId {
+              id,
+              username
+            },
+            likesByUser: likesByImageId(
+              condition: {
+                userId: $userId
+              }
+            ) {
+              nodes {
+                id
+              }
+            },
+            totalLikes: likesByImageId {
+              totalCount
+            }
+          }
+      }
       tripsByUserId (
         last: 5
       ) {
@@ -427,6 +452,16 @@ const getAccountByUsername = gql`
       },
       tracksByTrackUserId {
         totalCount
+      },
+      userToCountriesByUserId(
+        orderBy: COUNTRY_ASC
+      ) {
+        nodes {
+          countryByCountry {
+            code,
+            name
+          }
+        }
       }
     }
   }
@@ -1074,6 +1109,7 @@ const getUserTrackedTrips = gql`
                   first: 1
                 ) {
                   nodes {
+                    id,
                     url
                   }
                 }
@@ -1081,6 +1117,17 @@ const getUserTrackedTrips = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+const getAllCountries = gql`
+  query getAllCountries {
+    allCountries {
+      nodes {
+        code,
+        name
       }
     }
   }
@@ -1513,20 +1560,20 @@ export class APIService {
   ) {}
 
   // get all countries
-  getAllCountries() {
-    return this.http.get('https://restcountries.eu/rest/v2/')
-    .map(
-      (response: Response) => {
-        const responseData = <any>response;
-        return JSON.parse(responseData._body);
-      }
-    )
-    .catch(
-      (error: Response) => {
-        return Observable.throw('Something went wrong');
-      }
-    );
-  }
+  // getAllCountries() {
+  //   return this.http.get('https://restcountries.eu/rest/v2/')
+  //   .map(
+  //     (response: Response) => {
+  //       const responseData = <any>response;
+  //       return JSON.parse(responseData._body);
+  //     }
+  //   )
+  //   .catch(
+  //     (error: Response) => {
+  //       return Observable.throw('Something went wrong');
+  //     }
+  //   );
+  // }
 
   // flickr photos
   getFlickrPhotos(place: string, tag: string, results: number, additionalTag?: string) {
@@ -1654,7 +1701,7 @@ export class APIService {
       geocoder.geocode( {'location': {lat, lng: lon}}, (results, status) => {
         console.log(results);
         if (status === google.maps.GeocoderStatus.OK) {
-          observer.next(results[0]);
+          observer.next({ formattedAddress: results[0], country: results.slice(-1)[0] });
           observer.complete();
         } else {
           console.log('Error - ', results, ' & Status - ', status);
@@ -1869,11 +1916,12 @@ export class APIService {
     });
   }
 
-  getAccountByUsername(username: string) {
+  getAccountByUsername(username: string, userId: number) {
     return this.apollo.watchQuery<any>({
       query: getAccountByUsername,
       variables: {
-        username
+        username,
+        userId
       }
     });
   }
@@ -1938,6 +1986,15 @@ export class APIService {
       query: getUserTrackedTrips,
       variables: {
         username
+      }
+    });
+  }
+
+  getAllCountries() {
+    return this.apollo.watchQuery<any>({
+      query: getAllCountries,
+      variables: {
+
       }
     });
   }

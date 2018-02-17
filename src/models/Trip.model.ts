@@ -6,7 +6,7 @@ import { Like } from './Like.model';
 
 export class Trip {
   accountByUserId: User;
-  endDate: number;
+  endDate: string;
   id: number;
   imagesByTripId: {
     totalCount: number;
@@ -27,7 +27,7 @@ export class Trip {
   likesByUser: {
     nodes: { id: number }[];
   };
-  startDate: number;
+  startDate: string;
   startLat: string;
   startLon: string;
   description: string;

@@ -11,7 +11,7 @@
         <span *ngIf="trip.endDate">-</span>
         <div *ngIf="trip.endDate">{{trip.endDate | date:'MMM yy'}}</div>
         <div>{{daysTraveling()}}</div>
-        <div class="tripStatus" [ngClass]="trip.endDate ? 'complete' : 'active'">{{trip.endDate ? 'Complete' : 'Active'}}</div>
+        <div class="tripStatus">{{tripService.tripStatus(+trip.startDate, trip.endDate ? +trip.endDate : null)}}</div>
       </div>
     </div>
   </div>

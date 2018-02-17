@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
 import { UtilService } from '../../services/util.service';
+import { TripService } from '../../services/trip.service';
 
 import { Trip } from '../../models/Trip.model';
 
@@ -20,7 +21,8 @@ export class TripCard {
     private settingsService: SettingsService,
     private routerService: RouterService,
     private router: Router,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private tripService: TripService
   ) { }
 
   navigateToTrip() {
@@ -28,7 +30,7 @@ export class TripCard {
   }
 
   daysTraveling() {
-    const days = this.utilService.differenceDays(this.trip.startDate, this.trip.endDate);
+    const days = this.utilService.differenceDays(+this.trip.startDate, +this.trip.endDate);
     return days === 1 ? `${days} day` : `${days} days`;
   }
 }

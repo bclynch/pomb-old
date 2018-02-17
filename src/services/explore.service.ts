@@ -86,8 +86,18 @@ export class ExploreService {
 
   init() {
     return new Promise<string>((resolve, reject) => {
-      this.processRegions();
-      this.createCountryObjects().then(() => resolve());
+      // this.processRegions();
+      // this.createCountryObjects().then(() => resolve());
+      this.apiService.getAllCountries().valueChanges.subscribe(
+        result => {
+          // create object by code
+          console.log(result);
+          result.data.allCountries.nodes.forEach((country) => {
+            this.countryCodeObj[country.code] = { name: country.name };
+          });
+          resolve();
+        }
+      );
     });
   }
 
@@ -111,29 +121,29 @@ export class ExploreService {
     return countryCode;
   }
 
-  private createCountryObjects() {
-    return new Promise<string>((resolve, reject) => {
-      const nameObj = {};
-      const codeObj = {};
-      this.apiService.getAllCountries().subscribe(
-        countries => {
-          countries.forEach((country) => {
-            // create object with name keys
-            nameObj[country.name] = country;
+  // private createCountryObjects() {
+  //   return new Promise<string>((resolve, reject) => {
+  //     const nameObj = {};
+  //     const codeObj = {};
+  //     this.apiService.getAllCountries().subscribe(
+  //       countries => {
+  //         countries.forEach((country) => {
+  //           // create object with name keys
+  //           nameObj[country.name] = country;
 
-            // create object with code keys
-            codeObj[country.alpha2Code] = country;
-          });
+  //           // create object with code keys
+  //           codeObj[country.alpha2Code] = country;
+  //         });
 
-          this.countryCodeObj = codeObj;
-          this.countryNameObj = nameObj;
-          console.log('All countries by name: ', this.countryNameObj);
-          console.log('All countries by code: ', this.countryCodeObj);
-          resolve();
-        }
-      );
-    });
-  }
+  //         this.countryCodeObj = codeObj;
+  //         this.countryNameObj = nameObj;
+  //         console.log('All countries by name: ', this.countryNameObj);
+  //         console.log('All countries by code: ', this.countryCodeObj);
+  //         resolve();
+  //       }
+  //     );
+  //   });
+  // }
 
   requestCountryCodes(region: string, subregion?: string) {
     // check cache first
@@ -180,22 +190,22 @@ export class ExploreService {
     return subregionArr;
   }
 
-  getCountryFlag(country: string): string {
-    if (this.countryNameObj[country]) {
-      return this.countryNameObj[country].flag;
-    } else {
-      // if it doesn't find the name we can set up some defaults
-      switch (country) {
-        case 'USA':
-          return this.countryNameObj['United States of America'].flag;
-        case 'South Korea':
-          return this.countryNameObj['Korea (Republic of)'].flag;
-        case 'UK':
-          return this.countryNameObj['United Kingdom of Great Britain and Northern Ireland'].flag;
-        case 'Bolivia':
-        default:
-          return '';
-      }
-    }
-  }
+  // getCountryFlag(country: string): string {
+  //   if (this.countryNameObj[country]) {
+  //     return this.countryNameObj[country].flag;
+  //   } else {
+  //     // if it doesn't find the name we can set up some defaults
+  //     switch (country) {
+  //       case 'USA':
+  //         return this.countryNameObj['United States of America'].flag;
+  //       case 'South Korea':
+  //         return this.countryNameObj['Korea (Republic of)'].flag;
+  //       case 'UK':
+  //         return this.countryNameObj['United Kingdom of Great Britain and Northern Ireland'].flag;
+  //       case 'Bolivia':
+  //       default:
+  //         return '';
+  //     }
+  //   }
+  // }
 }

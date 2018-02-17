@@ -37,6 +37,7 @@
     "apollo-link-context": "^1.0.3",
     "chart.js": "^2.7.1",
     "codelyzer": "~3.2.1",
+    "flag-icon-css": "^2.9.0",
     "geolib": "^2.0.24",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.6.1",

@@ -4,7 +4,7 @@
       <div class="bannerTitle">{{junctureData?.name}}</div>
       <div class="bannerSubtitle">{{junctureData?.city}}, {{junctureData?.country}}</div>
       <div class="bannerDataWrapper">
-        <img *ngIf="flag" [src]="flag.url" [title]="flag.name" />
+        <img [src]="'https://lipis.github.io/flag-icon-css/flags/4x3/' + flag.code + '.svg'" [title]="flag.name" />
         <div class="viewsContainer" title="Views">
           <ion-icon name="md-eye"></ion-icon>
           <div>{{views | number}}</div>

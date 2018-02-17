@@ -6,7 +6,6 @@
       [flags]="countryFlags"
       [stats]="stats"
       [tripData]="carouselTripData"
-      [trackUserId]="tripData?.accountByUserId.id"
     ></FadeCarousel>
     <div class="contentWrapper" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
       <div class="subnavContainer" [ngClass]="tripService.displayTripNav ? 'fixed' : ''">
@@ -19,7 +18,20 @@
       <div class="sectionsWrapper">
         <div class="widthWrapper">
           <div class="section glance" id="Highlights">
-            <div class="glanceHeader">Explore {{tripData?.name}}</div>
+            <div class="headerWrapper">
+              <div class="glanceHeader">Explore {{tripData?.name}}</div>
+              <div class="infoContainer" *ngIf="tripData">
+                <div class="tripStatus"><div>Trip Status:</div> {{tripService.tripStatus(+this.tripData.startDate, this.tripData.endDate ? +this.tripData.endDate : null)}}</div>
+                <div class="userWrapper">
+                  <div (click)="routerService.navigateToPage('/user/' + tripData.accountByUserId.username)">
+                    <div class="name" *ngIf="tripData.accountByUserId.firstName">{{tripData.accountByUserId.firstName}} {{tripData.accountByUserId.lastName}}</div>
+                    <div class="name" *ngIf="!tripData.accountByUserId.firstName">{{tripData.accountByUserId.username}}</div>
+                    <ProfilePicture [photo]="tripData.accountByUserId.profilePhoto"></ProfilePicture>
+                  </div>
+                  <TrackUser [trackUserId]="tripData.accountByUserId.id"></TrackUser>
+                </div>
+              </div>
+            </div>
             <div class="glanceContent" [froalaView]="tripData?.description"></div>
             <!-- <div 
               class="toggleBtn" 

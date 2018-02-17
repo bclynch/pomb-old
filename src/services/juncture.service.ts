@@ -30,9 +30,8 @@ export class JunctureService {
         if (data) {
           this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
             result => {
-              // console.log(result);
-              const city = result.formatted_address.split(',')[1].trim();
-              const country = result.formatted_address.split(',').slice(-1)[0].trim();
+              const city = this.extractCity(result.formattedAddress.address_components);
+              const country = result.country.address_components[0].short_name;
 
               if (data.isExisting) {
                 this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
@@ -115,6 +114,19 @@ export class JunctureService {
       });
       modal.present();
     });
+  }
+
+  extractCity(addressComponents): string {
+    for (let i = 0; i < addressComponents.length; i++) {
+      for ( let j = 0; j < addressComponents[i].types.length; j++) {
+        const type = addressComponents[i].types[j];
+        // as its going down the list of places it will git the most specific one first and return the value
+        if (type === 'locality' || type === 'administrative_area_level_2' || type === 'administrative_area_level_1' || type === 'country') {
+          return addressComponents[i].long_name;
+        }
+      }
+    }
+    return null;
   }
 
   saveGalleryPhotos(junctureId: number, photoArr: GalleryPhoto[], tripId: number) {

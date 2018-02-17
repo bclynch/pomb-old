@@ -17,7 +17,7 @@
                   <div class="tripName" (click)="routerService.navigateToPage('/trip/' + trip.id)">{{trip.name}}</div>
                   <div class="timeWrapper">
                     <div>{{daysTraveling(i)}}</div>
-                    <div class="status">{{trip.endDate ? 'Complete' : 'In Progress'}}</div>
+                    <div class="status">{{tripService.tripStatus(+trip.startDate, trip.endDate ? +trip.endDate : null)}}</div>
                   </div>
                 </div>
                 <div class="editBtn" (click)="editTrip(i)">Edit Trip</div>

@@ -114,10 +114,50 @@ page-trip {
           }
           &.glance {
             
-            .glanceHeader {
-              font-size: 45px;
-              margin-bottom: 10px;
-              align-self: flex-start;
+            .headerWrapper {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex-wrap: wrap;
+              width: 100%;
+
+              .glanceHeader {
+                font-size: 45px;
+                width: 100%;
+              }
+              .infoContainer {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 100%;
+                align-self: flex-end;
+        
+                .userWrapper {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+        
+                  .profileContainer {
+                    cursor: pointer;
+                    margin: 5px 0;
+        
+                    .defaultPhoto,
+                    .profilePhoto {
+                      height: 80px;
+                      width: 80px;
+                    }
+                  }
+                  .name {
+                    font-size: 18px;
+                    text-align: center;
+                  }
+                }
+                .tripStatus {
+                  text-transform: uppercase;
+                  font-size: 18px;
+                  text-align: center;
+                }
+              }
             }
             .glanceContent {
               width: 100%;
@@ -241,6 +281,15 @@ page-trip {
 
       .subnavWrapper {
         width: 70% !important;
+      }
+    }
+    .glanceHeader,
+    .infoContainer {
+      width: 50% !important;
+      justify-content: flex-end !important;
+
+      .tripStatus {
+        margin-right: 20px;
       }
     }
   }

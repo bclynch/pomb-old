@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { APIService } from '../../services/api.service';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { RouterService } from '../../services/router.service';
+import { UserService } from '../../services/user.service';
 
 import { Post } from '../../models/Post.model';
 import { User } from '../../models/User.model';
+import { ImageType } from '../../models/Image.model';
 
 @Component({
   selector: 'page-profile',
@@ -20,11 +23,14 @@ export class ProfilePage {
   compactHeroPost: Post = null;
   otherPosts: Post[] = [];
   gridConfiguration: number[] = [ 6.5, 3.5, 3.5, 6.5, 3, 3, 3 ];
+  gallery: { url: string; description: string; accountByUserId: { username: string }; totalLikes: { totalCount: number }; likesByUser: { nodes: { id: number }[] }; id: number; }[] = [];
   username: string;
   user: User;
-  ready = false;
+  inited = false;
 
   stats: { icon: string; label: string; value: number, customIcon?: boolean }[] = [];
+  countriesVisited: [string, string][] = [['Country', 'Name']];
+  mapWidth: string;
 
   constructor(
     private apiService: APIService,
@@ -32,7 +38,9 @@ export class ProfilePage {
     private broadcastService: BroadcastService,
     private router: Router,
     private route: ActivatedRoute,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private sanitizer: DomSanitizer,
+    private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
       this.username = params.username;
@@ -43,14 +51,23 @@ export class ProfilePage {
   init() {
     this.settingsService.modPageMeta(`${this.username}'s profile`, `View ${this.username}'s profile with trip, juncture, and photo information to share and inspire!`);
     // check if this is an actual user + grab data
-    this.apiService.getAccountByUsername(this.username).valueChanges.subscribe(({ data }) => {
+    this.apiService.getAccountByUsername(this.username, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
       this.user = data.accountByUsername;
       console.log('got user data: ', this.user);
       if (this.user) {
         this.posts = this.user.postsByAuthor.nodes;
         this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
         this.populateStats();
-        this.ready = true;
+        this.populateCountriesVisited();
+        this.mapWidth = window.innerWidth > 1280 ? '1280px' : '100vw';
+
+        // populate img array
+        for (let i = 0; i < this.user.imagesByUserId.nodes.length; i++) {
+          const img = this.user.imagesByUserId.nodes[i];
+          if (img.type === ImageType['GALLERY']) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
+          if (this.gallery.length === 12) return;
+        }
+        this.inited = true;
       } else {
         // username doesnt exist
         alert('this username doesnt exist!');
@@ -74,5 +91,11 @@ export class ProfilePage {
     stats.push({ icon: 'logo-rss', label: 'Tracking', value: this.user.tracksByUserId.totalCount });
 
     this.stats = stats;
+  }
+
+  populateCountriesVisited() {
+    this.user.userToCountriesByUserId.nodes.forEach((country) => {
+      this.countriesVisited.push([ country.countryByCountry.code.toLowerCase(), country.countryByCountry.name ]);
+    });
   }
 }

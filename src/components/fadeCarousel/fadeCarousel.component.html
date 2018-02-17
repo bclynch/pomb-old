@@ -9,10 +9,9 @@
     <div class="slideTagline">{{slide.tagline}}</div>
     <div class="flagsContainer" *ngIf="flags.length">
       <div *ngFor="let flag of flags;">
-        <img [src]="flag.url" [title]="flag.name" />
+        <img [src]="'https://lipis.github.io/flag-icon-css/flags/4x3/' + flag.code + '.svg'" [title]="flag.name" />
       </div>
     </div>
-    <TrackUser [trackUserId]="trackUserId" *ngIf="trackUserId"></TrackUser>
     <div 
       class="modalLauncherBtn boldFont" 
       *ngIf="btnLabel" 

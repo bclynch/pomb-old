@@ -41,21 +41,22 @@ export class ExplorePage {
   }
 
   init() {
-    this.countryCodes = this.exploreService.requestCountryCodes('all');
+    // this.countryCodes = this.exploreService.requestCountryCodes('all');
+    this.countryCodes = [['Country', 'Name'], ['CN', 'China'], ['JP', 'Japan'], ['US', 'United States'], ['CA', 'Canada'], ['MX', 'Mexico']];
 
     // grab flickr images for the carousel
-    this.apiService.getFlickrPhotos('travel', 'landscape', 5).subscribe(
-      result => {
-        console.log(result.photos.photo);
-        const photos = result.photos.photo.slice(0, 5);
-        this.carouselImages = photos.map((photo) => {
-          // _b is 'large' img request so 1024 x 768. We'll go with this for now
-          // _o is 'original' which is 2400 x 1800
-          return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
-        });
+    // this.apiService.getFlickrPhotos('travel', 'landscape', 5).subscribe(
+    //   result => {
+    //     console.log(result.photos.photo);
+    //     const photos = result.photos.photo.slice(0, 5);
+    //     this.carouselImages = photos.map((photo) => {
+    //       // _b is 'large' img request so 1024 x 768. We'll go with this for now
+    //       // _o is 'original' which is 2400 x 1800
+    //       return { imgURL: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`, tagline: photo.title };
+    //     });
         this.inited = true;
-      }
-    );
+    //   }
+    // );
   }
 
   presentModal() {

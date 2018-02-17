@@ -111,22 +111,18 @@ page-trip-map {
           display: flex;
           align-items: center;
 
-          .profilePhoto {
-            height: 25px;
-            width: 25px;
-            background-size: contain;
-            border: 1px solid mapGet($basecolor, white);
-            border-radius: 5px;
+          .profileContainer {
             margin-right: 10px;
+            
+            .defaultPhoto,
+            .profilePhoto {
+              height: 24px;
+              width: 24px;
+            }
           }
           .trackUserContainer {
             margin-left: 10px;
           }
-        }
-        BackpackIcon {
-          height: 20px;
-          width: 20px;
-          cursor: pointer;
         }
         > div {
           cursor: pointer;
@@ -291,14 +287,14 @@ page-trip-map {
 
           .userWrapper {
   
-            .profilePhoto {
-              height: 32px;
-              width: 32px;
+            .profileContainer {
+              
+              .defaultPhoto,
+              .profilePhoto {
+                height: 32px;
+                width: 32px;
+              }
             }
-          }
-          BackpackIcon {
-            height: 32px;
-            width: 32px;
           }
         }
       }

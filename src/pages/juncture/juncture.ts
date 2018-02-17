@@ -30,7 +30,7 @@ export class JuncturePage {
   junctureId: number;
   junctureData: Juncture;
   bannerImg: string;
-  flag: { url: string; name: string };
+  flag: { code: string; name: string };
   views: number;
 
   priorJuncture: Juncture;
@@ -125,8 +125,7 @@ export class JuncturePage {
       this.isGPX = this.junctureData.coordsByJunctureId.nodes.length ? true : false;
 
       // populate banner info
-      // console.log(this.exploreService.getCountryFlag(this.junctureData.country));
-      this.flag = { url: this.exploreService.getCountryFlag(this.junctureData.country), name: this.junctureData.country};
+      this.flag = { code: this.junctureData.country.toLowerCase(), name: this.exploreService.countryCodeObj[this.junctureData.country].name};
       this.analyticsService.getPageViews().then(
         result => {
           const data = <any>result;

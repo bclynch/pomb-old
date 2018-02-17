@@ -17,7 +17,7 @@ declare var google: any;
     `
 })
 export class GoogleChartComponent {
-  @Input() mapWidth = '100vw';
+  @Input() mapWidth = '900px';
   @Input() backgroundColor = 'white';
   @Input() datalessColor = 'grey';
   @Input() defaultColor = 'white';
@@ -69,12 +69,12 @@ export class GoogleChartComponent {
     google.visualization.events.addListener(this.chart, 'regionClick', myPageEventHandler);
     function myPageEventHandler(e) {
       console.log(e);
-      // if its not a region code we know its a country code
-      if (Object.keys(self.exploreService.googleRegionCodes).indexOf(e.region) === -1) {
-        self.routerService.navigateToPage(`/explore/country/${self.utilService.formatForURLString(self.exploreService.countryCodeObj[e.region].name)}`);
-      } else {
-        self.routerService.navigateToPage(`/explore/region/${self.utilService.formatForURLString(self.exploreService.googleRegionCodes[e.region])}`);
-      }
+      // // if its not a region code we know its a country code
+      // if (Object.keys(self.exploreService.googleRegionCodes).indexOf(e.region) === -1) {
+      //   self.routerService.navigateToPage(`/explore/country/${self.utilService.formatForURLString(self.exploreService.countryCodeObj[e.region].name)}`);
+      // } else {
+      //   self.routerService.navigateToPage(`/explore/region/${self.utilService.formatForURLString(self.exploreService.googleRegionCodes[e.region])}`);
+      // }
     }
     this.chart.draw(this.data, this.options);
   }

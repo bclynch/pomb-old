@@ -47,4 +47,12 @@ export class User {
   totalImageCount: {
     totalCount: number;
   };
+  userToCountriesByUserId: {
+    nodes: {
+      countryByCountry: {
+        code: string;
+        name: string;
+      }
+    }[]
+  };
 }

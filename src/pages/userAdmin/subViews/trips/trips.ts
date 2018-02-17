@@ -48,7 +48,7 @@ export class UserAdminTripsPage {
   }
 
   daysTraveling(index: number) {
-    const days = this.utilService.differenceDays(this.tripsData[index].startDate, this.tripsData[index].endDate);
+    const days = this.utilService.differenceDays(+this.tripsData[index].startDate, +this.tripsData[index].endDate);
     return days === 1 ? `${days} day` : `${days} days`;
   }
 

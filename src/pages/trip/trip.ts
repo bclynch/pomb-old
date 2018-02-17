@@ -45,14 +45,13 @@ export class TripPage implements AfterViewInit {
 
   // map props
   coords: { lat: number; lon: number; } = { lat: null, lon: null };
-  zoomLevel: number;
+  zoomLevel = 6;
   latlngBounds;
   geoJsonObject: any = null;
   mapStyle;
   boundedZoom: number;
 
-  // countryFlags: { url: string; name: string; }[] = [];
-  countryFlags: any[] = [];
+  countryFlags: { code: string; name: string; }[] = [];
 
   tripPosts: Post[] = [];
   postCount: number;
@@ -118,14 +117,12 @@ export class TripPage implements AfterViewInit {
         strokeWeight: 3
       };
 
-      // populate flags array
+      // // populate flags array
       this.tripData.juncturesByTripId.nodes.forEach((juncture) => {
-        if (this.countryFlags.map(obj => obj.name).indexOf(juncture.country) === -1) {
-          this.countryFlags.push({ url: this.exploreService.getCountryFlag(juncture.country), name: juncture.country});
+        if (this.countryFlags.map(obj => obj.code).indexOf(juncture.country.toLowerCase()) === -1) {
+          this.countryFlags.push({ code: juncture.country.toLowerCase(), name: this.exploreService.countryCodeObj[juncture.country].name});
         }
       });
-      // if it doesn't have url filter it out
-      this.countryFlags = this.countryFlags.filter(obj => obj.url);
 
       // populate posts arr
       // Separated it out so we don't make the posts call for other pages that use this endpoint
@@ -176,7 +173,7 @@ export class TripPage implements AfterViewInit {
     stats.push({ icon: 'md-globe', label: 'Countries', value: this.countryFlags.length || 1 });
     stats.push({ icon: 'md-images', label: 'Photos', value: this.tripData.imagesByTripId.totalCount });
     stats.push({ icon: 'md-albums', label: 'Posts', value: this.postCount });
-    stats.push({ icon: 'md-calendar', label: 'Days', value: this.utilService.differenceDays(this.tripData.startDate, this.tripData.endDate) });
+    stats.push({ icon: 'md-calendar', label: 'Days', value: this.utilService.differenceDays(+this.tripData.startDate, +this.tripData.endDate) });
 
     this.stats = stats;
     this.analyticsService.getPageViews().then(

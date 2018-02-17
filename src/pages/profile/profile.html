@@ -1,4 +1,4 @@
-<PageWrapper *ngIf="ready" backgroundColor="black">
+<PageWrapper *ngIf="inited" backgroundColor="black" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <ProfileHeroBanner [user]="user"></ProfileHeroBanner>
   <div class="statsContainer" *ngIf="stats.length">
     <div class="innerWrapper">
@@ -10,9 +10,44 @@
       </div>
     </div>
   </div>
-  <div class="tripCardContainer">
-    <TripCard *ngFor="let trip of user.tripsByUserId.nodes;" [trip]="trip"></TripCard>
+  <div class="countriesContainer container">
+    <div class="containerHeader">Countries Visited</div>
+    <GeoChart 
+      [countries]="countriesVisited" 
+      *ngIf="inited"
+      backgroundColor="black"
+      [defaultColor]="settingsService.secondaryColor"
+      datalessColor="black"
+      [mapWidth]="mapWidth"
+    ></GeoChart>
+    <div class="countryStats">
+      <div class="statsWrapper">
+        <div>{{user.userToCountriesByUserId.nodes.length}}</div>
+        <div>Countries Visited</div>
+      </div>
+      <div class="statsWrapper">
+        <!-- UN Says there are 193 recognized countries -->
+        <div>{{user.userToCountriesByUserId.nodes.length / 193 | percent}}</div>
+        <div>Percentage of the World</div>
+      </div>
+    </div>
+    <!-- <div class="subHeader">Click a visited country on the map or its flag down below to see any content {{user.username}} has posted about it</div> -->
+    <div class="flagsContainer">
+      <div class="flagWrapper" *ngFor="let flag of countriesVisited | slice:1">
+        <img [src]="'https://lipis.github.io/flag-icon-css/flags/1x1/' + flag[0] + '.svg'" [title]="flag[1]" />
+        <div>{{flag[1]}}</div>
+      </div>
+    </div>
   </div>
-  <Grid *ngIf="gridPosts.length" [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
+  <div class="tripCardContainer container">
+    <div class="containerHeader">Recent Activity</div>
+    <div class="tripCardsWrapper">
+      <TripCard *ngFor="let trip of user.tripsByUserId.nodes;" [trip]="trip"></TripCard>
+    </div>
+  </div>
+  <Grid class="container" *ngIf="gridPosts.length" [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
+  <div class="photosWrapper container">
+    <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
+  </div>
 </PageWrapper>
 

@@ -38,7 +38,7 @@ export class PhotosPage {
       // maybe eventually it would be cool to grab photos from locales or tags, but for now this works
       if (params.username) {
         this.settingsService.modPageMeta(`Photos By ${params.username}`, `All photos taken by ${params.username}`);
-        this.apiService.getAccountByUsername(params.username).valueChanges.subscribe(({ data }) => {
+        this.apiService.getAccountByUsername(params.username, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
           const user = data.accountByUsername;
           console.log(user);
           this.userId = user.id;

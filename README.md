@@ -4,16 +4,12 @@
 
 ### Top Priorities
 
-- Flesh out user profile
-    - Countries visited / % of world
-        - Look to something like this https://github.com/umpirsky/country-list/blob/master/data/en_US/country.postgresql.sql. Could be useful for our other geo calls too
-    - Images
-- Send email to new created user
-    - For on subscribe as well to verify
+- Way for user to add / remove countries visited in user dash
 - Check updated photos on trip + junctures edits
 - Validation trip modal end date not before start date
-- Fix trip status on user dash + maybe add status to trip card
-- Need to identify user on trip page
+- Might be nice to add city / country options to post and post model since they won't always be tied into a juncture
+    - Can auto populate when a user selects a juncture
+- Auto add countries to list if in juncture while traveling
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
@@ -37,6 +33,7 @@
 - Share buttons for posts / trips / junctures - in progress
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
+- Flesh out user --> country page (bleh) trips, junctures, posts, pics
 - Scroll to top when new route - fucked up because ionic...
 - Favorites / 'add to pack' for posts, images, trips
 - Search results view more - Look at reddit + maybe infinite scroll
