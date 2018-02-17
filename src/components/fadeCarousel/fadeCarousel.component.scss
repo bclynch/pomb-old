@@ -84,7 +84,7 @@ fadecarousel {
             font-size: 36px;
           }
           .statLabel {
-
+            display: none;
           }
           .statValue, .likeValue {
             margin: 5px 0;
@@ -93,6 +93,9 @@ fadecarousel {
             color: var(--secondary);
           }
         }
+        .likeLabel {
+          display: none;
+        }
       }
     }
   }
@@ -100,6 +103,9 @@ fadecarousel {
   @include respond-to(small) {
     .flagsContainer {
       width: 30% !important;
+    }
+    .statLabel, .likeLabel {
+      display: block !important;
     }
   }
 }

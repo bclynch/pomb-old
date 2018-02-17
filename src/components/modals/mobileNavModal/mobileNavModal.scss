@@ -115,6 +115,9 @@ $navbarHeight: 40px;
               }
             }
           }
+          &.signedIn {
+            border-bottom: none;
+          }
           .sectionHeader {
             display: flex;
             font-size: 24px;

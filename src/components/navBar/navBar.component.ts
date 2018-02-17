@@ -123,10 +123,10 @@ export class NavBar {
             this.junctureService.openJunctureModal(null);
             break;
           case 'blog dashboard':
-            this.routerService.navigateToPage(`/user/${this.userService.user.username}/post-dashboard`);
+            this.routerService.navigateToPage(`/user/post-dashboard`);
             break;
           case 'user dashboard':
-            this.routerService.navigateToPage(`/user/${this.userService.user.username}/admin`);
+            this.routerService.navigateToPage(`/user/admin`);
             break;
           case 'logout':
             this.userService.logoutUser();

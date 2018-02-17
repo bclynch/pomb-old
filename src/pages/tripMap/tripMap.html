@@ -1,6 +1,6 @@
 <PageWrapper [collapsibleNav]="false">
   <div *ngIf="inited" class="initedLayer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
-    <div class="mapContainer">
+    <div class="mapContainer" [ngClass]="fullscreen ? 'fullscreen' : ''">
       <agm-map 
         [zoomControl]="false"
         [latitude]="coords.lat" 
@@ -57,6 +57,7 @@
         [justIcons]="true"
         size="-3"
       ></ShareBtns>
+      <ion-icon name="md-expand" (click)="toggleFullScreen()" class="fullScreenToggle"></ion-icon>
     </div>
     <div class="juncturePane">
       <div class="paneHeader">

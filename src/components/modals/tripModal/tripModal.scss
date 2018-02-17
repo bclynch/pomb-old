@@ -100,7 +100,7 @@ tripmodal {
           }
         }
         .modalSection {
-          width: 80%;
+          width: 90%;
           margin: 25px auto;
         }
         .timeContainer {
@@ -210,6 +210,11 @@ tripmodal {
           font-size: 18px;
         }
       }
+    }
+  }
+  @include respond-to(small) {
+    .modalSection {
+      width: 80% !important;
     }
   }
 }

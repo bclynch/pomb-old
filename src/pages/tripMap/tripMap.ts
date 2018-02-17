@@ -42,6 +42,7 @@ export class TripMapPage {
   mapStyle;
   boundedZoom: number;
   dataLayerStyle;
+  fullscreen = false;
 
   constructor(
     private settingsService: SettingsService,
@@ -234,5 +235,10 @@ export class TripMapPage {
     // bounded zoom is what the map originally used based on bounds formula and is useful for panning around later
     // is undefined on load, but this works otherwise
     if (e.zoom) this.boundedZoom = e.zoom;
+  }
+
+  toggleFullScreen() {
+    this.fullscreen = !this.fullscreen;
+    this.map.triggerResize();
   }
 }

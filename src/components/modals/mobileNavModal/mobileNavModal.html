@@ -27,8 +27,8 @@
       <div class="paneSectionBtn">Get Started</div>
     </div>
     <Search (searchSubmit)="viewCtrl.dismiss()" [hasBorder]="true"></Search>
-    <div class="section" *ngFor="let option of sectionOptions; let i = index;" [ngClass]="activeSection === i ? 'active' : ''">
-      <div class="sectionHeader" (click)="activeSection === i ? activeSection = null : activeSection = i">
+    <div class="section" *ngFor="let option of sectionOptions; let i = index;" [ngClass]="[activeSection === i ? 'active' : '', i === 2 && !userService.signedIn ? 'signedIn' : '']">
+      <div class="sectionHeader" (click)="activeSection === i ? activeSection = null : activeSection = i" *ngIf="i !== 2 || userService.signedIn">
         <div class="sectionName">{{option.label}}</div>
         <div class="arrowWrapper">
           <ion-icon name="ios-arrow-forward"></ion-icon>

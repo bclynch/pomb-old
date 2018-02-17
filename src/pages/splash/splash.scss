@@ -73,14 +73,14 @@ page-splash {
     }
     .headerContentContainer {
       display: block;
-      padding: 64px 0;
       max-width: 1200px;
       margin: 50px auto;
-      position: relative; 
+      position: relative;
+      top: 10px;
 
       > div {
         max-width: 100%;
-        margin: 0 16px 60px;
+        margin: 0 16px 30px;
 
         &:first-child {
           margin-top: 50px;
@@ -91,7 +91,7 @@ page-splash {
 
         .headerTitle {
           font-family: Sailec-Bold,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
-          font-size: 60px;
+          font-size: 48px;
           letter-spacing: -2px;
           line-height: 1.12;
         }
@@ -104,6 +104,8 @@ page-splash {
       .registrationBox {
         background: white;
         padding: 32px;
+        display: none;
+        max-width: 500px;
 
         .registrationTitle {
           font-size: 30px;
@@ -159,6 +161,16 @@ page-splash {
           }
         }
       }
+      .mobileCreate {
+        background: $color3;
+        color: white;
+        box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+        height: 40px;
+        line-height: 40px;
+        padding: 0 14px;
+        display: inline-block;
+        margin-left: 16px;
+      }
     }
   }
   .featuresContainer {
@@ -169,11 +181,12 @@ page-splash {
     padding: 80px 15px;
     width: 100vw;
     color: white;
-    margin-top: 120px;
+    margin-top: 70px;
 
     .titleText {
       max-width: 943px;
       margin: 0 auto 64px;
+      display: none;
     }
     .featuresWrapper {
       display: flex;
@@ -185,11 +198,11 @@ page-splash {
       .feature {
         border: solid 1px white;
         width: 80%;
-        padding: 32px;
+        padding: 16px;
         background: rgba(0, 15, 83, .2);
         margin: 10px 0;
         cursor: pointer;
-        height: 450px;
+        // height: 350px;
         position: relative;
 
         ion-icon {
@@ -202,6 +215,9 @@ page-splash {
         }
         .featureDescription {
 
+          &.contentText {
+            line-height: 1.2;
+          }
         }
         .featureCallout {
           color: white;
@@ -209,7 +225,7 @@ page-splash {
           font-weight: 400;
           font-size: 18px;
           width: 100%;
-          position: absolute;
+          // position: absolute;
           bottom: 15px;
           left: 0;
           transition: .5s;
@@ -224,7 +240,7 @@ page-splash {
   }
   .deviceFamilyContainer {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 50px;
     max-width: 1000px;
     width: 100%;
     padding: 15px;
@@ -307,15 +323,14 @@ page-splash {
   .altRegisterContainer {
     width: 100%;
     background: $color3;
-    margin-top: 150px;
 
     .altWrapper {
       width: 100%;
       background: #0C1C2E;
       border-radius: 5px;
       max-width: 1000px;
-      margin: 120px auto;
-      display: flex;
+      margin: 60px auto;
+      display: block;
       justify-content: space-between;
       align-items: center;
       padding: 64px;
@@ -334,6 +349,8 @@ page-splash {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 250px;
+        margin-top: 30px;
 
         ion-icon {
           transition: .3s;
@@ -379,6 +396,23 @@ page-splash {
             right: auto;
             background: $alt3;
           }
+        }
+      }
+      .headerContentContainer {
+        padding: 64px 0;
+        top: 0;
+
+        .headerCallout {
+  
+          .headerTitle {
+            font-size: 60px;
+          }
+        }
+        .registrationBox {
+          display: block;
+        }
+        .mobileCreate {
+          display: none;
         }
       }
     }
@@ -437,7 +471,11 @@ page-splash {
       }
     }
     .featuresContainer {
+      margin-top: 120px;
   
+      .titleText {
+        display: block;
+      }
       .featuresWrapper {
         flex-direction: row;
         justify-content: space-around;
@@ -446,6 +484,18 @@ page-splash {
           border: solid 1px white;
           width: 350px;
           max-width: 32%;
+          padding: 32px;
+          height: 450px;
+
+          .featureDescription {
+
+            &.contentText {
+              line-height: 1.6;
+            }
+          }
+          .featureCallout {
+            position: absolute;
+          }
         }
       }
     }
@@ -461,6 +511,22 @@ page-splash {
 
         ion-icon {
           font-size: 64px;
+        }
+      }
+    }
+    .deviceFamilyContainer {
+      margin-top: 100px;
+    }
+    .altRegisterContainer {
+      margin-top: 150px;
+  
+      .altWrapper {
+        display: flex;
+        margin: 120px auto;
+
+        .altBtn {
+          width: auto;
+          margin-top: 0;
         }
       }
     }

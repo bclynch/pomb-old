@@ -10,6 +10,9 @@
 - Might be nice to add city / country options to post and post model since they won't always be tied into a juncture
     - Can auto populate when a user selects a juncture
 - Auto add countries to list if in juncture while traveling
+- Empty state for recent activity on profile page
+- Want something a little more interesting for mobile home page... maybe just expanded first post
+- Look into search indexing (or lack there of...)
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
