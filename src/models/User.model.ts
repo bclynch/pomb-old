@@ -15,6 +15,7 @@ export class User {
   country: string;
   userStatus: string;
   autoUpdateLocation: boolean;
+  autoUpdateVisited: boolean;
   postsByAuthor: {
     nodes: Post[];
   };
@@ -49,6 +50,7 @@ export class User {
   };
   userToCountriesByUserId: {
     nodes: {
+      id: number;
       countryByCountry: {
         code: string;
         name: string;

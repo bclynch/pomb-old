@@ -1,0 +1,40 @@
+countrysearch {
+
+  .countrySearchContainer {
+
+    form {
+      width: 100%;
+      position: relative;
+
+      .inputWrapper {
+        display: flex;
+        align-items: center;
+
+        input {
+          width: 100%;
+          border: none;
+          line-height: 32px;
+          margin-left: 10px;
+        }
+      }
+      .resultsPane {
+        background: mapGet($basecolor, white);
+        position: absolute;
+        width: 100%;
+        box-shadow: 0 3px 9px 0 rgba(0,0,0, 0.1);
+
+        > div {
+          cursor: pointer;
+          padding: 10px 5px;
+        }
+        > div:hover {
+          opacity: .7;
+        }
+      }
+    }
+  }
+
+  @include respond-to(small) {
+
+  }
+}

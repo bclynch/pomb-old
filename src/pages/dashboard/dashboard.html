@@ -1,6 +1,6 @@
 <PageWrapper [displayFooter]="false" [displayNav]="false">
-  <div class="dashboardContainer">
-    <div class="leftMenu" [style.width]="isExpanded ? '0' : '320px'" [style.min-width]="isExpanded ? '0' : '320px'">
+  <div class="dashboardContainer" [ngClass]="isExpanded ? 'previewExpanded': ''">
+    <div class="leftMenu">
       <div class="logo">
         <span 
           (click)="routerService.navigateToPage('')"
@@ -46,16 +46,15 @@
         ></DashboardCard>
       </div>
     </div>
-    <div class="previewContainer" [style.margin]="isExpanded ? 0 : '22px'">
+    <div class="previewContainer">
       <div *ngIf="activePost >= 0 && activePost !== null">
           <ion-icon 
           name="md-arrow-up" 
           title="Expand Preview" 
           class="expandArrow"
           (click)="isExpanded = !isExpanded"
-          [style.transform]="isExpanded ? 'rotate(135deg)' : 'rotate(-45deg)'"
         ></ion-icon>
-        <PostWrapper [post]="posts[activePost]"></PostWrapper>
+        <PostWrapper [post]="posts[activePost]" [isPreview]="true"></PostWrapper>
       </div>
       <div class="emptyPreview" *ngIf="activePost === null">
         <ion-icon name="md-document"></ion-icon>

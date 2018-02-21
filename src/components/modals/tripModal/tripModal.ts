@@ -27,7 +27,7 @@ export class TripModal {
     heightMax: '525px',
     toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
   };
-  tripModel = { name: '', timeStart: Date.now(), timeEnd: null, description: '', bannerImages: [] };
+  tripModel = { name: '', timeStart: Date.now(), timeEnd: null, description: '', bannerImages: [], photoHasChanged: [] };
 
   inited = false;
   coords = { lat: null, lon: null };
@@ -58,7 +58,7 @@ export class TripModal {
           // populate model
           this.tripModel.name = tripData.name;
           this.tripModel.timeStart = +tripData.startDate;
-          this.tripModel.timeEnd = +tripData.endDate;
+          this.tripModel.timeEnd = tripData.endDate ? +tripData.endDate : null;
           this.tripModel.description = tripData.description;
           this.tripModel.bannerImages = tripData.imagesByTripId.nodes;
           this.coords.lat = +tripData.startLat;
@@ -107,6 +107,8 @@ export class TripModal {
   saveTrip() {
     if (!this.tripModel.name) {
       this.alertService.alert('Missing Information', 'Please enter a name for your trip and try to save again.');
+    } else if (this.tripModel.timeEnd && this.tripModel.timeEnd < this.tripModel.timeStart) {
+      this.alertService.alert('Save Issue', 'Please check your start and end dates. End date cannot be after your start date.');
     } else {
       this.viewCtrl.dismiss({
         isExisting: this.params.data.tripId ? true : false,
@@ -116,7 +118,8 @@ export class TripModal {
         bannerImages: this.tripModel.bannerImages,
         startLat: this.coords.lat,
         startLon: this.coords.lon,
-        description: this.tripModel.description
+        description: this.tripModel.description,
+        photoHasChanged: this.tripModel.photoHasChanged
       });
     }
   }
@@ -128,7 +131,7 @@ export class TripModal {
       if (data) {
         console.log(data);
         this.tripModel.bannerImages = data.map((img) => {
-          return { url: img.url, title: null };
+          return { id: null, url: img.url, title: null };
         });
       }
     });
@@ -157,6 +160,7 @@ export class TripModal {
             { label: 'Delete', handler: () =>  {
               // if photo has already been saved to db
               if (this.tripModel.bannerImages[index].id) {
+                this.tripModel.bannerImages = [...this.tripModel.bannerImages];
                 this.apiService.deleteImageById(this.tripModel.bannerImages[index].id).subscribe(
                   result => {
                     this.tripModel.bannerImages.splice(index, 1);
@@ -171,9 +175,10 @@ export class TripModal {
           );
         } else {
           // update photo
-          this.tripModel.bannerImages[index].url = data.data.url;
-          this.tripModel.bannerImages[index].title = data.data.description;
-          this.tripModel.bannerImages[index].description = data.data.description;
+          const editedPhoto = {...this.tripModel.bannerImages[index]};
+          editedPhoto.description = data.data.description;
+
+          this.tripModel.photoHasChanged.push(editedPhoto);
         }
       }
     });

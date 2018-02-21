@@ -4,13 +4,10 @@
 
 ### Top Priorities
 
-- Way for user to add / remove countries visited in user dash
-- Check updated photos on trip + junctures edits
-- Validation trip modal end date not before start date
 - Might be nice to add city / country options to post and post model since they won't always be tied into a juncture
     - Can auto populate when a user selects a juncture
 - Auto add countries to list if in juncture while traveling
-- Empty state for recent activity on profile page
+- Add some button links to profile page to edit info on own profle page (aka link to place to update countries visited etc)
 - Want something a little more interesting for mobile home page... maybe just expanded first post
 - Look into search indexing (or lack there of...)
 - Mobile usage!
@@ -29,6 +26,7 @@
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - infinite scroll hub page
+- netflix style infinite scroll for junctures view?
 - Google Analytics - Page views working at least (on CN email... Make domain email)
     - Track activities - https://codeburst.io/using-google-analytics-with-angular-25c93bffaa18
     - Set up reporting api calls - http://2ality.com/2015/10/google-analytics-api.html

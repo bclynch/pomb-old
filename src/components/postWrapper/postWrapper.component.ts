@@ -14,6 +14,7 @@ import { ImageType } from '../../models/Image.model';
 })
 export class PostWrapper implements OnChanges {
   @Input() post: Post;
+  @Input() isPreview = false;
 
   galleryImages = [];
   tags: string[] = [];
@@ -44,7 +45,7 @@ export class PostWrapper implements OnChanges {
         }
       );
 
-      this.populateRelatedPosts();
+      if (!this.isPreview) this.populateRelatedPosts();
     }
   }
 

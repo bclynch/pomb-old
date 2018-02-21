@@ -70,17 +70,17 @@ export class WindowScrollDirective implements OnInit, OnDestroy {
       this.priorScrollValue = e.target.scrollTop;
 
       // if explore page run change detection when crossing 360 threshold sweetspot for our fixed side menu
-      if (this.router.url.split('/')[1] === 'explore') {
-        if (e.target.scrollTop > 345 && this.exploreService.displayExploreNav === false) {
-          this.ngZone.run(() => {
-            this.exploreService.displayExploreNav = true;
-          });
-        } else if (e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
-          this.ngZone.run(() => {
-            this.exploreService.displayExploreNav = false;
-          });
-        }
-      }
+      // if (this.router.url.split('/')[1] === 'explore') {
+      //   if (e.target.scrollTop > 345 && this.exploreService.displayExploreNav === false) {
+      //     this.ngZone.run(() => {
+      //       this.exploreService.displayExploreNav = true;
+      //     });
+      //   } else if (e.target.scrollTop < 345 && this.exploreService.displayExploreNav === true) {
+      //     this.ngZone.run(() => {
+      //       this.exploreService.displayExploreNav = false;
+      //     });
+      //   }
+      // }
       // if trip page run change detection when crossing 360 threshold sweetspot for our fixed nav menu
       if (this.router.url.split('/')[1] === 'trip') {
         if (e.target.scrollTop > 630 && this.tripService.displayTripNav === false) {

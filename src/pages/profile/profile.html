@@ -40,7 +40,7 @@
     </div>
   </div>
   <div class="tripCardContainer container">
-    <div class="containerHeader">Recent Activity</div>
+    <div class="containerHeader" *ngIf="user.tripsByUserId.nodes.length || gridPosts.length || gallery.length">Recent Activity</div>
     <div class="tripCardsWrapper">
       <TripCard *ngFor="let trip of user.tripsByUserId.nodes;" [trip]="trip"></TripCard>
     </div>

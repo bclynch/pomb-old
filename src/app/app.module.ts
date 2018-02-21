@@ -73,6 +73,7 @@ import { JunctureBubble } from '../components/junctureBubbles/junctureBubble/jun
 import { ProfilePicture } from '../components/profilePicture/profilePicture.component';
 import { LikeCounter } from '../components/likeCounter/likeCounter.component';
 import { TrackUser } from '../components/trackUser/trackUser.component';
+import { CountrySearch } from '../components/countrySearch/countrySearch.component';
 
 // Popovers
 import { PostTypePopover } from '../components/popovers/postType/postTypePopover.component';
@@ -235,7 +236,8 @@ import { AnalyticsService } from '../services/analytics.service';
     DeleteAccountModal,
     TrackUser,
     TrackingPage,
-    TrackIcon
+    TrackIcon,
+    CountrySearch
   ],
   imports: [
     BrowserModule,

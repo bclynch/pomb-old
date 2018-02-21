@@ -42,9 +42,10 @@ export class JunctureService {
                     if (data.gpxChanged) {
                       this.apiService.uploadGPX(data.geoJSON, junctureId).subscribe(
                         jsonData => {
-                          // update banner images as required
-                          // console.log(data.bannerImages);
-                          resolve();
+                          // update gallery images as required
+                          this.comparePhotos(data.photos, data.changedPhotos, junctureId, data.selectedTrip).then(
+                            result => resolve()
+                          );
                         },
                         err => {
                           console.log(err);
@@ -53,7 +54,9 @@ export class JunctureService {
                       );
                     } else {
                       // update banner images as required
-                      // console.log(data.bannerImages);
+                      this.comparePhotos(data.photos, data.changedPhotos, junctureId, data.selectedTrip).then(
+                        result => resolve()
+                      );
                       resolve();
                     }
                   },
@@ -103,7 +106,10 @@ export class JunctureService {
                         }
                       );
                     } else {
-                      this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                      this.saveGalleryPhotos(result.data.createJuncture.juncture.id, data.photos, data.selectedTrip).then(() => {
+                        this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
+                        resolve();
+                      });
                     }
                   }
                 );
@@ -129,7 +135,7 @@ export class JunctureService {
     return null;
   }
 
-  saveGalleryPhotos(junctureId: number, photoArr: GalleryPhoto[], tripId: number) {
+  saveGalleryPhotos(junctureId: number, photoArr, tripId: number) {
     return new Promise((resolve, reject) => {
       if (!photoArr.length) resolve();
 
@@ -143,7 +149,7 @@ export class JunctureService {
               junctureId: ${junctureId}
               userId: ${this.userService.user.id},
               type: ${ImageType['GALLERY']},
-              url: "${photo.photoUrl}",
+              url: "${photo.url}",
               ${photo.description ? 'description: "' + photo.description + '"' : ''}
             }
           }) {
@@ -155,6 +161,50 @@ export class JunctureService {
       this.apiService.genericCall(query).subscribe(
         result => resolve(result),
         err => console.log(err)
+      );
+    });
+  }
+
+  comparePhotos(photos, changedPhotos, junctureId: number, tripId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const promiseArr = [];
+
+      // next check out if gallery photos are different
+      // create arr of new photos (we can tell because they don't have an id yet)
+      const newPhotoArr = photos.filter((img) => !img.id );
+      this.saveGalleryPhotos(junctureId, newPhotoArr, tripId).then(
+        result => {
+          // update edited gallery photos
+          // make sure 'new' photos not on 'edited' arr
+          const filteredEditedArr = changedPhotos.filter((img => newPhotoArr.indexOf(img) === -1));
+          console.log(filteredEditedArr);
+          // then bulk update imgs
+          if (filteredEditedArr.length) {
+            let query = `mutation {`;
+            filteredEditedArr.forEach((img, i) => {
+              query += `a${i}: updateImageById(
+                input: {
+                  id: ${img.id},
+                  imagePatch:{
+                    url: "${img.url}",
+                    description: "${img.description}"
+                  }
+                }
+              ) {
+                clientMutationId
+              }
+            `;
+            });
+            query += `}`;
+
+            this.apiService.genericCall(query).subscribe(
+              result => resolve(result),
+              err => console.log(err)
+            );
+          } else {
+            resolve();
+          }
+        }
       );
     });
   }

@@ -17,7 +17,7 @@
   <Tags [tags]="tags" *ngIf="tags.length"></Tags>
   <div class="bottomRow">
     <ShareBtns [title]="post.title" [description]="post.subtitle"></ShareBtns>
-    <div class="dataContainer">
+    <div class="dataContainer" *ngIf="!isPreview">
       <div class="statContainer" title="Views">
         <ion-icon name="md-eye"></ion-icon>
         <div [style.color]="settingsService.secondaryColor">{{views | number}}</div>
@@ -33,7 +33,7 @@
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>
   <disqus [identifier]="disqusId" *ngIf="disqusId"></disqus>
-  <div class="moreContainer">
+  <div class="moreContainer" *ngIf="!isPreview">
     <div class="moreWrapper" *ngIf="tags.length">
       <div class="header">You may also like</div>
       <PostCard *ngFor="let post of relatedPosts;" [data]="post"></PostCard>

@@ -59,6 +59,7 @@
         </form>
       </div>
     </div>
+
     <div class="contentGroup location">
       <div class="contentGroupHeader">
         <div class="contentGroupTitle">Location</div>
@@ -96,6 +97,38 @@
             class="submitBtn boldFont" 
           >Update Location</button>
         </form>
+      </div>     
+    </div>
+
+    <div class="contentGroup visited">
+      <div class="contentGroupHeader">
+        <div class="contentGroupTitle">Countries Visited ({{visitedCountries.length}})</div>
+        <div class="contentGroupSubtitle">Add and manage countries visited information</div>
+      </div>
+      <div class="contentGroupContent">
+        <div class="checkboxContainer">
+          <input type="checkbox" [(ngModel)]="autoUpdateVisited" id="visitedAutoUpdate" />
+          <label for="visitedAutoUpdate">Auto update countries visited when traveling?</label>
+        </div>
+        <CountrySearch (selectCountry)="addCountry($event)"></CountrySearch>
+        <div class="countriesContainer">
+          <div class="countryWrapper" *ngFor="let country of visitedCountries; let i = index;">
+            <div class="flagWrapper">
+              <img [src]="'https://lipis.github.io/flag-icon-css/flags/1x1/' + country.code + '.svg'" [title]="country.name" />
+              <ion-icon 
+                class="removeBtn" 
+                name="close" 
+                title="Remove Country" 
+                (click)="removeCountry(i)"
+              ></ion-icon>
+            </div>
+            <div>{{country.name}}</div>
+          </div>
+        </div>
+        <button
+          (click)="updateCountries()" 
+          class="submitBtn boldFont" 
+        >Update Visited Countries</button>
       </div>     
     </div>
   </div>

@@ -20,6 +20,9 @@ export class UserAdminConfigPage {
 
   defaultBannerImg = 'https://www.yosemitehikes.com/images/wallpaper/yosemitehikes.com-bridalveil-winter-1200x800.jpg';
 
+  autoUpdateVisited;
+  visitedCountries: { code: string; name: string; }[] = [];
+
   constructor(
     private broadcastService: BroadcastService,
     private settingsService: SettingsService,
@@ -42,6 +45,9 @@ export class UserAdminConfigPage {
     this.locationModel.city = this.userService.user.city;
     this.locationModel.country = this.userService.user.country;
     this.locationModel.autoUpdate = this.userService.user.autoUpdateLocation;
+
+    this.visitedCountries = this.userService.user.userToCountriesByUserId.nodes.map((country) => ({ code: country.countryByCountry.code.toLowerCase(), name: country.countryByCountry.name }));
+    this.autoUpdateVisited = this.userService.user.autoUpdateVisited;
   }
 
   presentImageUploaderPopover(type: string) {
@@ -100,6 +106,91 @@ export class UserAdminConfigPage {
 
         const toast = this.toastCtrl.create({
           message: `Location updated`,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      }
+    );
+  }
+
+  addCountry(country) {
+    console.log(country);
+    const selectedCountry = { code: country.code.toLowerCase(), name: country.name };
+    if (this.visitedCountries.map((country) => (country.code)).indexOf(selectedCountry.code) === -1) this.visitedCountries.push(selectedCountry);
+  }
+
+  removeCountry(index: number) {
+    this.visitedCountries.splice(index, 1);
+  }
+
+  updateCountries() {
+    // checking for dif between arrays
+    const diffExisting = this.userService.user.userToCountriesByUserId.nodes.filter(x => this.visitedCountries.map((countryToSave) => countryToSave.name).indexOf(x.countryByCountry.name) < 0);
+    console.log(diffExisting); // remove country
+    const moddedExisting = this.userService.user.userToCountriesByUserId.nodes.map((value) => value.countryByCountry.name );
+    const diffNew = this.visitedCountries.filter(x => moddedExisting.indexOf(x.name) < 0);
+    console.log(diffNew); // add country
+
+    // if no changes resolve
+    if (!diffExisting.length && !diffNew.length) return;
+
+    const promiseArr = [];
+
+    // if diff new need to add
+    if (diffNew.length) {
+      const promise = new Promise((resolve, reject) => {
+        // then bulk add tag to post
+        let query = `mutation {`;
+        diffNew.forEach((country, i) => {
+          query += `a${i}: createUserToCountry(
+            input: {
+              userToCountry: {
+                country: "${country.code.toUpperCase()}",
+                userId: ${this.userService.user.id}
+              }
+            }) {
+              clientMutationId
+            }
+        `;
+        });
+        query += `}`;
+
+        this.apiService.genericCall(query).subscribe(
+          result => console.log(result),
+          err => console.log(err)
+        );
+      });
+      promiseArr.push(promise);
+    }
+
+    // // Has diff existing so run a for each and delete
+    if (diffExisting.length) {
+      const promise = new Promise((resolve, reject) => {
+        let query = `mutation {`;
+        diffExisting.forEach((country, i) => {
+          query += `a${i}: deleteUserToCountryById(
+            input: {
+              id: ${country.id}
+            }) {
+              clientMutationId
+            }
+        `;
+        });
+        query += `}`;
+
+        this.apiService.genericCall(query).subscribe(
+          result => resolve(),
+          err => console.log(err)
+        );
+      });
+      promiseArr.push(promise);
+    }
+
+    Promise.all(promiseArr).then(
+      result => {
+        const toast = this.toastCtrl.create({
+          message: `Visited Countries updated`,
           duration: 3000,
           position: 'top'
         });

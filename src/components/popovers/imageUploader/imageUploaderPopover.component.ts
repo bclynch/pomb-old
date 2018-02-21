@@ -55,7 +55,7 @@ export class ImageUploaderPopover {
       this.viewCtrl.dismiss('maxErr');
       return;
     }
-    this.apiService.uploadImages(formData, sizes, quality, isJuncture).subscribe(
+    this.apiService.uploadImages(formData, sizes, quality, isJuncture && this.params.get('existingPhotos') === 0 ? true : false).subscribe(
       result => {
         console.log(result);
         this.isProcessing = false;

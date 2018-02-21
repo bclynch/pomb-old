@@ -6,6 +6,15 @@ page-useradmin-config {
 
     .contentGroup {     
 
+      button {
+        text-align: center;
+        background: mapGet($basecolor, black);
+        color: mapGet($basecolor, white);
+        padding: 20px 0;
+        cursor: pointer;
+        width: 100%;
+        font-size: 14px;
+      }
       .profileForm,
       .locationForm {
         display: flex;
@@ -34,15 +43,6 @@ page-useradmin-config {
         > div, input {
           flex: 1;
           width: 100%;
-        }
-        button {
-          text-align: center;
-          background: mapGet($basecolor, black);
-          color: mapGet($basecolor, white);
-          padding: 20px 0;
-          cursor: pointer;
-          width: 100%;
-          font-size: 14px;
         }
       }
       &.profile {
@@ -98,6 +98,57 @@ page-useradmin-config {
           }
         }
       }
+      &.visited {
+
+        button {
+          max-width: 400px;
+          margin: 20px auto 0;
+          display: block;
+        }
+        .countrySearchContainer {
+
+          input {
+            line-height: 48px;
+          }
+          .resultsPane {
+            z-index: 99;
+          }
+        }
+        .countriesContainer {
+          display: flex;
+          flex-wrap: wrap;
+
+          > .countryWrapper {
+            width: 50%;
+            text-align: center;
+
+            .flagWrapper {
+              position: relative;
+
+              img {
+                width: 75%;
+              }
+              .removeBtn {
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-size: 24px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @include respond-to(tiny) {
+    .countryWrapper {
+      width: 33.33% !important;
+    }
+  }
+  @include respond-to(small) {
+    .countryWrapper {
+      width: 25% !important;
     }
   }
 }

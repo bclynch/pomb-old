@@ -161,7 +161,7 @@ export class CreatePostModal {
 
     this.editorOptions = {
       placeholderText: 'Write something insightful...',
-      heightMin: '300px',
+      heightMin: '350px',
       heightMax: '525px',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
     };

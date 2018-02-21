@@ -43,6 +43,10 @@ export class ProfilePage {
     private userService: UserService
   ) {
     this.route.params.subscribe((params) => {
+      // reset arrays
+      this.countriesVisited = [['Country', 'Name']];
+      this.gallery = [];
+
       this.username = params.username;
       this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     });

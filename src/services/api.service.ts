@@ -30,7 +30,17 @@ const currentAccountQuery = gql`
       userStatus,
       city,
       country,
-      autoUpdateLocation
+      autoUpdateLocation,
+      autoUpdateVisited,
+      userToCountriesByUserId {
+        nodes {
+          id,
+          countryByCountry {
+            code,
+            name
+          }
+        }
+      }
     }
   }
 `;
@@ -1048,6 +1058,17 @@ const searchTags = gql`
   }
 `;
 
+const searchCountries = gql`
+  query searchCountries($query: String!) {
+    searchCountries(query: $query) {
+      nodes {
+        code,
+        name
+      }
+    }
+  }
+`;
+
 const tripsByUserId = gql`
   query tripsByUserId($userId: Int!) {
     allTrips(
@@ -1550,6 +1571,19 @@ const deleteTrackById = gql`
   }
 `;
 
+const createUserToCountry = gql`
+  mutation($code: String!, $userId: Int!) {
+    createUserToCountry(input: {
+      userToCountry: {
+        country: $code,
+        userId: $userId
+      }
+    }) {
+      clientMutationId
+    }
+  }
+`;
+
 @Injectable()
 export class APIService {
 
@@ -1962,6 +1996,15 @@ export class APIService {
     });
   }
 
+  searchCountries(query: string) {
+    return this.apollo.watchQuery<any>({
+      query: searchCountries,
+      variables: {
+        query
+      }
+    });
+  }
+
   tripsByUserId(userId: number) {
     return this.apollo.watchQuery<any>({
       query: tripsByUserId,
@@ -2311,6 +2354,16 @@ export class APIService {
       mutation: deleteTrackById,
       variables: {
         trackId
+      }
+    });
+  }
+
+  createUserToCountry(code: string, userId: number) {
+    return this.apollo.mutate({
+      mutation: createUserToCountry,
+      variables: {
+        code,
+        userId
       }
     });
   }

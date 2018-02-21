@@ -12,7 +12,6 @@ import { UtilService } from '../../../services/util.service';
 import { AlertService } from '../../../services/alert.service';
 import { GeoService } from '../../../services/geo.service';
 
-import { GalleryPhoto } from '../../../models/GalleryPhoto.model';
 import { Juncture } from '../../../models/Juncture.model';
 
 import { JunctureSaveTypePopover } from '../../popovers/junctureSaveType/junctureSaveTypePopover.component';
@@ -33,13 +32,13 @@ export class JunctureModal {
     toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
   };
 
-  junctureModel = {name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null};
+  junctureModel = { name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null, photoHasChanged: [] };
   inited = false;
   junctureSaveType = 'Publish';
   tripOptions = null;
   geoJsonObject: Object = null;
 
-  galleryPhotos: GalleryPhoto[] = [];
+  galleryPhotos = [];
   markerURL: string = null;
   startMarkerURL: string;
 
@@ -90,7 +89,8 @@ export class JunctureModal {
           this.junctureModel.time = +junctureData.arrivalDate;
           this.coords.lat = +junctureData.lat;
           this.coords.lon = +junctureData.lon;
-          this.markerURL = junctureData.imagesByJunctureId.nodes.length ? junctureData.imagesByJunctureId.nodes[0].url : this.params.data.markerImg;
+          this.markerURL = junctureData.markerImg;
+          this.galleryPhotos = junctureData.imagesByJunctureId.nodes;
 
           // check which type of juncture it is
           if (!junctureData.coordsByJunctureId.nodes.length) {
@@ -218,13 +218,15 @@ export class JunctureModal {
           if (data === 'maxErr') {
             this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 6 or less');
           } else {
+            console.log(data);
             data.forEach((img) => {
               if (img.size === 'marker') {
                 this.markerURL = img.url;
               } else {
+                this.galleryPhotos = [...this.galleryPhotos];
                 this.galleryPhotos.push({
                   id: null,
-                  photoUrl: img.url,
+                  url: img.url,
                   description: ''
                 });
               }
@@ -249,6 +251,7 @@ export class JunctureModal {
             { label: 'Delete', handler: () =>  {
               // if photo has already been saved to db
               if (this.galleryPhotos[index].id) {
+                this.galleryPhotos = [...this.galleryPhotos];
                 this.apiService.deleteImageById(this.galleryPhotos[index].id).subscribe(
                   result => {
                     this.galleryPhotos.splice(index, 1);
@@ -263,8 +266,10 @@ export class JunctureModal {
           );
         } else {
           // update photo
-          this.galleryPhotos[index] = data.data;
-          // this.galleryItemHasChanged.push(this.galleryPhotos[index]);
+          const editedPhoto = {...this.galleryPhotos[index]};
+          editedPhoto.description = data.data.description;
+
+          this.junctureModel.photoHasChanged.push(editedPhoto);
         }
       }
     });
@@ -287,7 +292,8 @@ export class JunctureModal {
         selectedTrip: this.junctureModel.selectedTrip,
         markerImg: this.markerURL,
         geoJSON: this.geoJsonObject,
-        gpxChanged: this.gpxChanged
+        gpxChanged: this.gpxChanged,
+        changedPhotos: this.junctureModel.photoHasChanged
       });
     }
   }

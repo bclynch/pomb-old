@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
@@ -16,7 +16,7 @@ declare var google: any;
     </div>
     `
 })
-export class GoogleChartComponent {
+export class GoogleChartComponent implements OnChanges {
   @Input() mapWidth = '900px';
   @Input() backgroundColor = 'white';
   @Input() datalessColor = 'grey';
@@ -37,6 +37,11 @@ export class GoogleChartComponent {
     private utilService: UtilService
   ) {
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+  }
+
+  // redraw map on data change
+  ngOnChanges() {
+    this.init();
   }
 
   getGoogle() {

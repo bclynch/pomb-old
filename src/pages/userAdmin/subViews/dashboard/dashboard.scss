@@ -2,4 +2,21 @@ page-useradmin-dashboard {
   height: 100%;
   width: 100%;
   
+  .contentGroupContent {
+    color: mapGet($basecolor, dark);
+    text-align: center;
+
+    div {
+      font-size: 36px;
+    }
+    ion-icon {
+      font-size: 64px;
+      animation: flash linear 5s infinite;
+    }
+    @keyframes flash {
+      0% { color: black; } 
+      50% { color: red; } 
+      100% { color: black; }
+    } 
+  }
 }

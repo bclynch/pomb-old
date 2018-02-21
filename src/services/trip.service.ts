@@ -32,8 +32,9 @@ export class TripService {
                 console.log(result);
 
                 // update banner images as required
-                console.log(data.bannerImages);
-                resolve();
+                this.comparePhotos(data.bannerImages, data.photoHasChanged, tripId).then(
+                  result => resolve()
+                );
               },
               err => {
                 console.log(err);
@@ -110,5 +111,51 @@ export class TripService {
 
     // otherwise it's active
     return 'active';
+  }
+
+  comparePhotos(photos, changedPhotos, tripId) {
+    return new Promise((resolve, reject) => {
+      const promiseArr = [];
+
+      console.log(photos);
+
+      // next check out if gallery photos are different
+      // create arr of new photos (we can tell because they don't have an id yet)
+      const newPhotoArr = photos.filter((img) => !img.id );
+      this.saveBannerPhotos(newPhotoArr, tripId).then(
+        result => {
+          // update edited gallery photos
+          // make sure 'new' photos not on 'edited' arr
+          const filteredEditedArr = changedPhotos.filter((img => newPhotoArr.indexOf(img) === -1));
+          console.log(filteredEditedArr);
+          // then bulk update imgs
+          if (filteredEditedArr.length) {
+            let query = `mutation {`;
+            filteredEditedArr.forEach((img, i) => {
+              query += `a${i}: updateImageById(
+                input: {
+                  id: ${img.id},
+                  imagePatch:{
+                    url: "${img.url}",
+                    description: "${img.description}"
+                  }
+                }
+              ) {
+                clientMutationId
+              }
+            `;
+            });
+            query += `}`;
+
+            this.apiService.genericCall(query).subscribe(
+              result => resolve(result),
+              err => console.log(err)
+            );
+          } else {
+            resolve();
+          }
+        }
+      );
+    });
   }
 }

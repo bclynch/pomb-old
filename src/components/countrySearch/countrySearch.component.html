@@ -1,0 +1,26 @@
+<div class="countrySearchContainer">
+  <form 
+    class="searchWrapper" 
+    (submit)="submitQuery($event)"
+    [formControl]="search"
+    ngDefaultControl
+  >
+    <div class="inputWrapper">
+      <ion-icon 
+        class="searchIcon" 
+        name="search"
+      ></ion-icon>
+      <input
+        type="text"
+        placeholder="Search"
+        [(ngModel)]="value"
+        name="searchInput"
+        autocomplete="off"
+        #searchInput
+      />
+    </div>
+    <div class="resultsPane" *ngIf="searchResults">
+      <div *ngFor="let result of searchResults;" (click)="onSelectCountry(result)">{{result.name}}</div>
+    </div>
+  </form>
+</div>
