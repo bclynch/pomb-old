@@ -124,6 +124,8 @@ import { PhotosPage } from '../pages/photos/photos';
 import { SplashPage } from '../pages/splash/splash';
 import { TrackingPage } from '../pages/tracking/tracking';
 import { ResetPage } from '../pages/reset/reset';
+import { ConstructionPage } from '../pages/construction/construction';
+import { ContactPage } from '../pages/contact/contact';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
 
@@ -237,7 +239,9 @@ import { AnalyticsService } from '../services/analytics.service';
     TrackUser,
     TrackingPage,
     TrackIcon,
-    CountrySearch
+    CountrySearch,
+    ConstructionPage,
+    ContactPage
   ],
   imports: [
     BrowserModule,
@@ -298,7 +302,9 @@ import { AnalyticsService } from '../services/analytics.service';
     GeneralErrorPage,
     ResetPage,
     DeleteAccountModal,
-    TrackingPage
+    TrackingPage,
+    ConstructionPage,
+    ContactPage
   ],
   providers: [
     APIService,

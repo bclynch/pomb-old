@@ -30,6 +30,8 @@ import { GeneralErrorPage } from '../pages/error/general/general';
 import { SplashPage } from '../pages/splash/splash';
 import { TrackingPage } from '../pages/tracking/tracking';
 import { ResetPage } from '../pages/reset/reset';
+import { ConstructionPage } from '../pages/construction/construction';
+import { ContactPage } from '../pages/contact/contact';
 
 const appRoutes: Routes = [
   {
@@ -226,6 +228,10 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'reset', component: ResetPage },
+  { path: 'contact', component: ContactPage },
+  { path: 'terms', component: ConstructionPage },
+  { path: 'about', component: ConstructionPage },
+  { path: 'privacy', component: ConstructionPage },
   {
     path: 'tracking',
     canActivate: [RoleGuard],

@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="linksWrapper">
-      <div *ngFor="let link of links;" class="hover link">{{link}}</div>
+      <div *ngFor="let link of links;" class="hover link" (click)="navigateTo(link)">{{link}}</div>
     </div>
     <div class="infoWrapper">
       <div>©{{year | date:'y'}} POMB All rights reserved.</div>

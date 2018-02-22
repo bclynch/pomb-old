@@ -8,6 +8,7 @@
 - Add some button links to profile page to edit info on own profle page (aka link to place to update countries visited etc)
 - Look into search indexing (or lack there of...)
 - Look at updating stores on mutation https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
+- Contact page + about page
 - Mobile usage!
     - overlays on hover need to always be there on mobile
 - Pagination stories home screen

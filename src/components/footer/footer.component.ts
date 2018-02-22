@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import { SettingsService } from '../../services/settings.service';
 
@@ -19,7 +20,21 @@ export class Footer {
 
   constructor(
     private settingsService: SettingsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) { }
 
+  navigateTo(link) {
+    switch (link) {
+      case 'About':
+        this.router.navigateByUrl('/about');
+        break;
+      case 'Contact':
+        this.router.navigateByUrl('/contact');
+        break;
+      case 'Terms of Service':
+        this.router.navigateByUrl('/terms');
+        break;
+    }
+  }
 }

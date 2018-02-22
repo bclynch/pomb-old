@@ -40,8 +40,8 @@ export class RegistrationModal {
     this.isRegister = !this.isRegister;
   }
 
-  sendReset() {
+  navigate(link: string) {
     this.viewCtrl.dismiss();
-    this.routerService.navigateToPage('/reset');
+    this.routerService.navigateToPage(`/${link}`);
   }
 }
