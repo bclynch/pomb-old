@@ -23,6 +23,8 @@ export class DashboardPage {
   postsData: any;
   posts: Post[] = [];
   activePost: number = null;
+  isPreview = false;
+  previewedPost: Post;
 
   constructor(
     private apiService: APIService,
@@ -84,12 +86,25 @@ export class DashboardPage {
   }
 
   launchPostEditor(post?: Post) {
-    const modal = this.modalCtrl.create(CreatePostModal, {post}, { cssClass: 'createPostModal', enableBackdropDismiss: false });
-    modal.onDidDismiss(data => {
-      if (data === 'delete') this.deletePost(post);
-      if (data === 'refresh') this.postsData.refetch();
-    });
-    modal.present();
+    const self = this;
+    if (post) {
+      this.apiService.getPostById(post.id, this.userService.user.id).valueChanges.subscribe(
+        result => {
+          launchModal(result.data.postById);
+        }
+      );
+    } else {
+      launchModal(null);
+    }
+
+    function launchModal(post: Post) {
+      const modal = self.modalCtrl.create(CreatePostModal, { post }, { cssClass: 'createPostModal', enableBackdropDismiss: false });
+      modal.onDidDismiss(data => {
+        if (data === 'delete') self.deletePost(post);
+        if (data === 'refresh') self.postsData.refetch();
+      });
+      modal.present();
+    }
   }
 
   deletePost(post: Post) {
@@ -131,5 +146,15 @@ export class DashboardPage {
       ]
     });
     alert.present();
+  }
+
+  previewPost(post: Post) {
+    this.apiService.getPostById(post.id, this.userService.user.id).valueChanges.subscribe(
+      result => {
+        this.previewedPost = result.data.postById;
+        this.isPreview = true;
+        console.log(result);
+      }
+    );
   }
 }

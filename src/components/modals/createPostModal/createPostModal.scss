@@ -166,6 +166,15 @@ createpostmodal {
           .tripContainer {
             margin-top: 15px;
 
+            .locationWrapper {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              span {
+                cursor: pointer;
+              }
+            }
             select {
               width: 100%;
               margin-bottom: 10px;

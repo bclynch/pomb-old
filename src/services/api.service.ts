@@ -93,42 +93,10 @@ query allPosts($author: Int!) {
     nodes {
       id,
       title,
-      subtitle,
-      content,
-      createdAt,
       updatedAt,
       isDraft,
       isScheduled,
-      isPublished,
-      scheduledDate,
-      publishedDate,
-      junctureId,
-      tripId,
-      accountByAuthor {
-        id,
-        firstName,
-        lastName
-      },
-      postToTagsByPostId {
-        nodes {
-          id,
-          postTagByPostTagId {
-            name
-          }
-        }
-      },
-      imagesByPostId {
-        nodes {
-          id,
-          type,
-          url,
-          description,
-          title,
-          accountByUserId {
-            id
-          }
-        }
-      }
+      isPublished
     }
   }
 }

@@ -1,8 +1,6 @@
 <div 
-  class="dashboardCardContainer" 
-  [style.background]="isActive ? '#BABBBD' : null" 
-  [style.border-top]="isActive ? 'solid 1px #fff': null" 
-  [style.border-bottom]="isActive ? 'solid 1px #fff': null"
+  class="dashboardCardContainer"
+  [ngClass]="isActive ? 'active' : ''" 
 >
   <div class="postInfoContainer" (click)="selectActive()">
     <h2>{{data.title}}</h2>
@@ -14,6 +12,7 @@
   </div>
   <div class="btnsContainer" *ngIf="isActive">
     <div class="boldFont editBtn" (click)="editItem()">Edit</div>
+    <div class="boldFont previewBtn" (click)="previewItem()">Preview</div>
     <div class="boldFont deleteBtn" (click)="deleteItem()">Delete</div>
   </div>
 </div>

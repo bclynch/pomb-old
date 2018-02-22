@@ -44,6 +44,8 @@ interface PostModel {
   leadPhotoTitle: string;
   tripId: any;
   junctureId: number;
+  city: string;
+  country: string;
 }
 
 interface LeadPhoto {
@@ -60,7 +62,7 @@ export class CreatePostModal {
   containerOptions: string[] = ['Content', 'Options', 'Gallery'];
   activeContainerOption = 0;
   btnOptions: string[] = ['Cancel', 'Delete', 'Save'];
-  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', leadPhotoTitle: '', tripId: null, junctureId: null };
+  postModel: PostModel = { postTitle: '', postSubtitle: '', content: '', leadPhotoTitle: '', tripId: null, junctureId: null, city: null, country: null };
   data: Post;
 
   // https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
@@ -730,5 +732,9 @@ export class CreatePostModal {
       this.postModel.junctureId = null;
       this.junctureOptions = [];
     }
+  }
+
+  selectJuncture() {
+    console.log(this.postModel.junctureId);
   }
 }

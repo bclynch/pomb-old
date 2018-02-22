@@ -68,8 +68,22 @@
             <option [value]="option.id" *ngFor="let option of tripOptions;">{{option.name}}</option>
           </select>
           <div class="segmentLabel">Juncture</div>
-          <select [(ngModel)]="postModel.junctureId" [disabled]="!postModel.tripId" placeholder="Select a Juncture">
+          <select [(ngModel)]="postModel.junctureId" [disabled]="!postModel.tripId" placeholder="Select a Juncture" (change)="selectJuncture($event)">
             <option [value]="option.id" *ngFor="let option of junctureOptions;">{{option.name}}</option>
+          </select>
+          <div class="locationWrapper">
+            <div class="segmentLabel">Location</div>
+            <span>Use Current Location</span>
+          </div>
+          <input 
+            type="text"
+            placeholder="City"
+            [(ngModel)]="postModel.city"
+            class="locationInput"
+          />
+          <div class="segmentLabel">Country</div>
+          <select [(ngModel)]="postModel.country" placeholder="Select a Country">
+            <option [value]="country.code" *ngFor="let country of countries;">{{country.name}}</option>
           </select>
         </div>
       </div>

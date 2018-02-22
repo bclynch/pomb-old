@@ -4,9 +4,17 @@ dashboardcard {
     display: flex;
     cursor: pointer;
 
+    &.active {
+      background: #BABBBD;
+      border-top: solid 1px #fff;
+      border-bottom: solid 1px #fff;
+    }
     .postInfoContainer {
       flex: 1;
       padding: 14px 10px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
       h2 {
         margin-top: 0;
@@ -33,17 +41,19 @@ dashboardcard {
         justify-content: center;
         align-items: center;
         border-left: solid 1px mapGet($basecolor, white);
+        padding: 10px 0;
       }
-      .editBtn:hover {
+      .editBtn:hover,
+      .previewBtn:hover {
         opacity: .7;
       }
-      .deleteBtn {
+      .previewBtn {
         border-top: solid 1px mapGet($basecolor, white);
+        border-bottom: solid 1px mapGet($basecolor, white);
       }
       .deleteBtn:hover {
         background: mapGet($basecolor, danger);
         color: mapGet($basecolor, white);
-        border-top: solid 1px mapGet($basecolor, white);
       }
     }
   }

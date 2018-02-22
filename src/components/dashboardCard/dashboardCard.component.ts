@@ -12,6 +12,7 @@ export class DashboardCard {
   @Output() changeActive: EventEmitter<void> = new EventEmitter<void>();
   @Output() editPost: EventEmitter<void> = new EventEmitter<void>();
   @Output() deletePost: EventEmitter<void> = new EventEmitter<void>();
+  @Output() previewPost: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
 
@@ -27,5 +28,9 @@ export class DashboardCard {
 
   deleteItem() {
     this.deletePost.emit();
+  }
+
+  previewItem() {
+    this.previewPost.emit();
   }
 }

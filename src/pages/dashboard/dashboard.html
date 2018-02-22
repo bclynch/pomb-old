@@ -43,18 +43,19 @@
           (changeActive)="activePost = i"
           (editPost)="launchPostEditor(post)"
           (deletePost)="deleteConfirm(post)"
+          (previewPost)="previewPost(post)"
         ></DashboardCard>
       </div>
     </div>
     <div class="previewContainer">
-      <div *ngIf="activePost >= 0 && activePost !== null">
+      <div *ngIf="activePost >= 0 && activePost !== null && isPreview">
           <ion-icon 
           name="md-arrow-up" 
           title="Expand Preview" 
           class="expandArrow"
           (click)="isExpanded = !isExpanded"
         ></ion-icon>
-        <PostWrapper [post]="posts[activePost]" [isPreview]="true"></PostWrapper>
+        <PostWrapper [post]="previewedPost" [isPreview]="true"></PostWrapper>
       </div>
       <div class="emptyPreview" *ngIf="activePost === null">
         <ion-icon name="md-document"></ion-icon>
