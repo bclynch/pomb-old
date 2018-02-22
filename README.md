@@ -4,13 +4,13 @@
 
 ### Top Priorities
 
-- Might be nice to add city / country options to post and post model since they won't always be tied into a juncture
-    - Can auto populate when a user selects a juncture
 - Auto add countries to list if in juncture while traveling
 - Add some button links to profile page to edit info on own profle page (aka link to place to update countries visited etc)
-- Want something a little more interesting for mobile home page... maybe just expanded first post
 - Look into search indexing (or lack there of...)
+- Look at updating stores on mutation https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
 - Mobile usage!
+    - overlays on hover need to always be there on mobile
+- Pagination stories home screen
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
 - AWS domain email for S3 + RDS

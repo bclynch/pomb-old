@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { APIService } from '../../services/api.service';
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
+import { UtilService } from '../../services/util.service';
+import { RouterService } from '../../services/router.service';
 
 import { Post } from '../../models/Post.model';
 
@@ -21,7 +23,9 @@ export class HomePage {
   constructor(
     private apiService: APIService,
     private settingsService: SettingsService,
-    private broadcastService: BroadcastService
+    private broadcastService: BroadcastService,
+    private utilService: UtilService,
+    private routerService: RouterService
   ) {
     this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
   }
@@ -39,4 +43,14 @@ export class HomePage {
     });
   }
 
+  navigateToPost(post: Post) {
+    this.routerService.navigateToPage(`/stories/post/${post.id}/${post.title.split(' ').join('-')}`);
+  }
+
+  navigateToAuthor(e, username: string) {
+    // stop bubbling to other click listener
+    e.stopPropagation();
+
+    this.routerService.navigateToPage(`/user/${username}`);
+  }
 }

@@ -12,7 +12,7 @@
   <div class="contentContainer" *ngIf="activeContainerOption === 0">
     <div class="titleInputWrapper">
       <input
-        placeholder="Enter a post title..."
+        placeholder="Enter a post title...*"
         type="text"
         [(ngModel)]="postModel.postTitle"
       />
@@ -24,7 +24,7 @@
   <div class="optionsContainer" *ngIf="activeContainerOption === 1">
     <div class="topContainer">
       <div class="left">
-        <div class="segmentLabel">Primary Photo</div>
+        <div class="segmentLabel">Primary Photo*</div>
         <div class="uploadWrapper" (click)="presentLeadUploaderPopover()">
           <div 
             class="thumbnailImage" 
@@ -43,7 +43,7 @@
         </div>
         <input 
           type="text"
-          placeholder="Image title"
+          placeholder="Image title*"
           [(ngModel)]="postModel.leadPhotoTitle"
           class="imgTitleInput"
         />
@@ -68,12 +68,12 @@
             <option [value]="option.id" *ngFor="let option of tripOptions;">{{option.name}}</option>
           </select>
           <div class="segmentLabel">Juncture</div>
-          <select [(ngModel)]="postModel.junctureId" [disabled]="!postModel.tripId" placeholder="Select a Juncture" (change)="selectJuncture($event)">
+          <select [(ngModel)]="postModel.junctureId" [disabled]="!postModel.tripId" placeholder="Select a Juncture" (change)="populateLocation($event)">
             <option [value]="option.id" *ngFor="let option of junctureOptions;">{{option.name}}</option>
           </select>
           <div class="locationWrapper">
             <div class="segmentLabel">Location</div>
-            <span>Use Current Location</span>
+            <span (click)="useCurrentLocation()">Use Current Location <ion-icon name="md-locate"></ion-icon></span>
           </div>
           <input 
             type="text"
@@ -81,15 +81,15 @@
             [(ngModel)]="postModel.city"
             class="locationInput"
           />
-          <div class="segmentLabel">Country</div>
           <select [(ngModel)]="postModel.country" placeholder="Select a Country">
+            <option [value]="null" [selected]="true">Select a Country</option>
             <option [value]="country.code" *ngFor="let country of countries;">{{country.name}}</option>
           </select>
         </div>
       </div>
     </div>
     <div class="subtitleContainer">
-      <div class="segmentLabel">Subtitle</div>
+      <div class="segmentLabel">Subtitle*</div>
       <textarea 
         placeholder="Add something..." 
         rows="4" 

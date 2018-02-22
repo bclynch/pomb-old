@@ -4,6 +4,7 @@ import { ModalController, ToastController } from 'ionic-angular';
 import { JunctureModal } from '../components/modals/junctureModal/junctureModal';
 import { APIService } from './api.service';
 import { UserService } from './user.service';
+import { UtilService } from './util.service';
 
 import { GalleryPhoto } from '../models/GalleryPhoto.model';
 import { ImageType } from '../models/Image.model';
@@ -19,7 +20,8 @@ export class JunctureService {
     private modalCtrl: ModalController,
     private apiService: APIService,
     private toastCtrl: ToastController,
-    private userService: UserService
+    private userService: UserService,
+    private utilService: UtilService
   ) { }
 
   openJunctureModal(junctureId): Promise<void> {
@@ -30,7 +32,7 @@ export class JunctureService {
         if (data) {
           this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
             result => {
-              const city = this.extractCity(result.formattedAddress.address_components);
+              const city = this.utilService.extractCity(result.formattedAddress.address_components);
               const country = result.country.address_components[0].short_name;
 
               if (data.isExisting) {
@@ -120,19 +122,6 @@ export class JunctureService {
       });
       modal.present();
     });
-  }
-
-  extractCity(addressComponents): string {
-    for (let i = 0; i < addressComponents.length; i++) {
-      for ( let j = 0; j < addressComponents[i].types.length; j++) {
-        const type = addressComponents[i].types[j];
-        // as its going down the list of places it will git the most specific one first and return the value
-        if (type === 'locality' || type === 'administrative_area_level_2' || type === 'administrative_area_level_1' || type === 'country') {
-          return addressComponents[i].long_name;
-        }
-      }
-    }
-    return null;
   }
 
   saveGalleryPhotos(junctureId: number, photoArr, tripId: number) {

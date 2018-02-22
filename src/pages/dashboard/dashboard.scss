@@ -54,6 +54,7 @@ page-dashboard {
       .tabsRow {
         display: flex;
         text-align: center;
+        border-top: solid 1px #BABBBD;
 
         > div {
           flex: 2;
@@ -76,10 +77,15 @@ page-dashboard {
           padding: 15px;
           font-size: 24px;
         }
-        > input {
-          border: none;
+        form {
           flex: 1;
-          line-height: 24px;
+
+          > input {
+            border: none;
+            line-height: 24px;
+            width: 100%;
+            height: 100%;
+          }
         }
       }
     }

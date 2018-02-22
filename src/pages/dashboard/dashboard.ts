@@ -25,6 +25,7 @@ export class DashboardPage {
   activePost: number = null;
   isPreview = false;
   previewedPost: Post;
+  // searchQuery: string;
 
   constructor(
     private apiService: APIService,
@@ -86,6 +87,7 @@ export class DashboardPage {
   }
 
   launchPostEditor(post?: Post) {
+    console.log(post);
     const self = this;
     if (post) {
       this.apiService.getPostById(post.id, this.userService.user.id).valueChanges.subscribe(
@@ -101,7 +103,8 @@ export class DashboardPage {
       const modal = self.modalCtrl.create(CreatePostModal, { post }, { cssClass: 'createPostModal', enableBackdropDismiss: false });
       modal.onDidDismiss(data => {
         if (data === 'delete') self.deletePost(post);
-        if (data === 'refresh') self.postsData.refetch();
+        // causing weird behavior where it reopens modal
+        // if (data === 'refresh') self.postsData.refetch();
       });
       modal.present();
     }
@@ -157,4 +160,16 @@ export class DashboardPage {
       }
     );
   }
+
+  // searchPosts() {
+  //   console.log(this.searchQuery);
+  //   if (this.searchQuery) {
+  //     this.apiService.searchPosts(this.searchQuery).valueChanges.subscribe(
+  //       result => {
+  //         this.posts = result.data.searchPosts.nodes;
+  //         this.searchQuery = '';
+  //       }
+  //     );
+  //   }
+  // }
 }

@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
 import { ViewController, NavParams, AlertController, PopoverController, ModalController, ToastController } from 'ionic-angular';
 import moment from 'moment';
+import { MapsAPILoader } from '@agm/core'; // using to spin up google ready for geocoding with current location
 
 import { APIService } from '../../../services/api.service';
 import { SettingsService } from '../../../services/settings.service';
 import { AlertService } from '../../../services/alert.service';
 import { UserService } from '../../../services/user.service';
+import { UtilService } from '../../../services/util.service';
 
 import { Post } from '../../../models/Post.model';
 import { ImageType } from '../../../models/Image.model';
@@ -86,6 +88,7 @@ export class CreatePostModal {
   displayedLeadPhoto: LeadPhoto;
 
   tripOptions;
+  countries;
   junctureOptions = [];
 
   constructor(
@@ -99,7 +102,10 @@ export class CreatePostModal {
     private modalController: ModalController,
     private alertService: AlertService,
     private toastCtrl: ToastController,
-    private userService: UserService
+    private userService: UserService,
+    private utilService: UtilService,
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
   ) {
     this.data = params.get('post');
     console.log(this.data);
@@ -108,6 +114,13 @@ export class CreatePostModal {
       result => {
         console.log(result);
         this.tripOptions = result.data.allTrips.nodes;
+
+        // populate country options
+        this.apiService.getAllCountries().valueChanges.subscribe(
+          result => {
+            this.countries = result.data.allCountries.nodes;
+          }
+        );
 
         if (this.data) {
           this.postModel.postTitle = this.data.title;
@@ -118,6 +131,9 @@ export class CreatePostModal {
             this.populateJunctures();
           }
           this.postModel.junctureId = this.data.junctureId;
+          if (this.postModel.junctureId) {
+            this.populateLocation();
+          }
           this.data.postToTagsByPostId.nodes.forEach((tag) => {
             this.tagOptions.push({ name: tag.postTagByPostTagId.name, exists: true, postToTagId: tag.id });
           });
@@ -143,6 +159,10 @@ export class CreatePostModal {
 
           this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
         }
+
+        this.mapsAPILoader.load().then(() => {
+          // geocoding ready
+        });
       }
     );
 
@@ -162,7 +182,7 @@ export class CreatePostModal {
     });
 
     this.editorOptions = {
-      placeholderText: 'Write something insightful...',
+      placeholderText: 'Write something insightful...*',
       heightMin: '350px',
       heightMax: '525px',
       toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 'fontFamily', 'fontSize', 'color', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'myImageUploader', 'insertVideo', '|', 'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'spellChecker', 'help', 'html', '|', 'undo', 'redo']
@@ -264,7 +284,7 @@ export class CreatePostModal {
   updatePost() {
     // this.data is the original data passed in and shouldn't be mutated
     // We can use this as a ref to know if we need to pass in new edits/changes
-    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           const updatePromises = [];
@@ -286,7 +306,7 @@ export class CreatePostModal {
   createPost() {
     const self = this;
     // Add most of the model to our post table
-    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           console.log(result);
@@ -734,7 +754,30 @@ export class CreatePostModal {
     }
   }
 
-  selectJuncture() {
-    console.log(this.postModel.junctureId);
+  populateLocation() {
+    const selectedJuncture = this.junctureOptions.filter((option) => {
+      return option.id === +this.postModel.junctureId;
+    })[0];
+    console.log(selectedJuncture);
+    this.postModel.city = selectedJuncture.city;
+    this.postModel.country = selectedJuncture.country;
+  }
+
+  useCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location: any) => {
+        this.apiService.reverseGeocodeCoords(location.coords.latitude, location.coords.longitude).subscribe(
+          result => {
+            // use zone to force update
+            this.ngZone.run(() => {
+              this.postModel.city = this.utilService.extractCity(result.formattedAddress.address_components);
+              this.postModel.country = result.country.address_components[0].short_name;
+            });
+          }
+        );
+      });
+    } else {
+      this.alertService.alert('Error', 'Enable geolocation to use current location');
+    }
   }
 }

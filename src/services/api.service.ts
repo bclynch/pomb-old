@@ -595,7 +595,9 @@ const getTripsByUser = gql`
         juncturesByTripId {
           nodes {
             name,
-            id
+            id,
+            city,
+            country
           }
         }
       }
@@ -817,6 +819,10 @@ const getPostById = gql`
       updatedAt,
       scheduledDate,
       publishedDate,
+      tripId,
+      junctureId,
+      city,
+      country,
       accountByAuthor {
         id,
         firstName,
@@ -1026,6 +1032,24 @@ const searchTags = gql`
   }
 `;
 
+const searchPosts = gql`
+  query searchPosts($query: String!, $postStatus: String) {
+    searchPosts(
+      query: $query,
+      first: 10
+    ) {
+      nodes {
+        id,
+        title,
+        updatedAt,
+        isDraft,
+        isScheduled,
+        isPublished
+      }
+    }
+  }
+`;
+
 const searchCountries = gql`
   query searchCountries($query: String!) {
     searchCountries(query: $query) {
@@ -1200,7 +1224,7 @@ const deletePostById = gql`
 `;
 
 const createPost = gql`
-  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $tripId: Int, $junctureId: Int, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $tripId: Int, $city: String, $country: String, $junctureId: Int, $scheduledDate: BigInt, $publishedDate: BigInt) {
     createPost(input: {
       post: {
         author: $author,
@@ -1212,6 +1236,8 @@ const createPost = gql`
         isPublished: $isPublished,
         tripId: $tripId,
         junctureId: $junctureId,
+        city: $city,
+        country: $country,
         scheduledDate: $scheduledDate,
         publishedDate: $publishedDate
       }
@@ -1296,7 +1322,7 @@ const updateConfig = gql`
 `;
 
 const updatePostById = gql`
-  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $tripId: Int, $junctureId: Int, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
+  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $tripId: Int, $junctureId: Int, $city: String, $country: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
     updatePostById(input:{
       id: $postId,
       postPatch:{
@@ -1305,6 +1331,8 @@ const updatePostById = gql`
         content: $content,
         tripId: $tripId,
         junctureId: $junctureId,
+        city: $city,
+        country: $country,
         isDraft: $isDraft,
         isScheduled: $isScheduled,
         isPublished: $isPublished,
@@ -1964,6 +1992,17 @@ export class APIService {
     });
   }
 
+  searchPosts(query: string, postStatus: 'draft' | 'scheduled' | 'published') {
+    return this.apollo.watchQuery<any>({
+      query: searchPosts,
+      variables: {
+        query,
+        postStatus,
+        // userId
+      }
+    });
+  }
+
   searchCountries(query: string) {
     return this.apollo.watchQuery<any>({
       query: searchCountries,
@@ -2060,7 +2099,7 @@ export class APIService {
     });
   }
 
-  createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, tripId: number, junctureId: number, scheduledDate?: number, publishedDate?: number) {
+  createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, tripId: number, junctureId: number, city: string, country: string, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: createPost,
       variables: {
@@ -2073,6 +2112,8 @@ export class APIService {
         isPublished,
         tripId,
         junctureId,
+        city,
+        country,
         scheduledDate: scheduledDate ? scheduledDate : null,
         publishedDate: publishedDate ? publishedDate : null
       }
@@ -2141,7 +2182,7 @@ export class APIService {
     });
   }
 
-  updatePostById(postId: number, title: string, subtitle: string, content: string, tripId: number, junctureId: number, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  updatePostById(postId: number, title: string, subtitle: string, content: string, tripId: number, junctureId: number, city: string, country: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
       mutation: updatePostById,
       variables: {
@@ -2151,6 +2192,8 @@ export class APIService {
         content,
         tripId,
         junctureId,
+        city,
+        country,
         isDraft,
         isScheduled,
         isPublished,

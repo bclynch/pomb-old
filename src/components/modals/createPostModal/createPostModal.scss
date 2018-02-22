@@ -6,6 +6,12 @@ createpostmodal {
     width: 100%;
     position: relative;
 
+    input {
+      border: none;
+      width: 100%;
+      line-height: 32px;
+      padding: 0 5px;
+    }
     .headerInfo {
       padding: 16px 32px;
       display: flex;
@@ -132,10 +138,7 @@ createpostmodal {
             color: mapGet($basecolor, black);
           }
           .imgTitleInput {
-            border: none;
-            width: 100%;
             margin-top: 15px;
-            line-height: 32px;
           }
         }
         .right {
@@ -173,7 +176,16 @@ createpostmodal {
 
               span {
                 cursor: pointer;
+                display: flex;
+                align-items: center;
+
+                ion-icon {
+                  margin-left: 5px;
+                }
               }
+            }
+            .locationInput {
+              margin-bottom: 10px;
             }
             select {
               width: 100%;
@@ -208,6 +220,7 @@ createpostmodal {
         textarea {
           width: 100%;
           border: none;
+          padding: 10px;
         }
       }
       .postTypeContainer {

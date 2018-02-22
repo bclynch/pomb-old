@@ -91,4 +91,17 @@ export class UtilService {
     if (str.length > num) return str.slice(0, num > 3 ? num - 3 : num) + '...';
     return str;
   }
+
+  extractCity(addressComponents): string {
+    for (let i = 0; i < addressComponents.length; i++) {
+      for ( let j = 0; j < addressComponents[i].types.length; j++) {
+        const type = addressComponents[i].types[j];
+        // as its going down the list of places it will git the most specific one first and return the value
+        if (type === 'locality' || type === 'administrative_area_level_2' || type === 'administrative_area_level_1' || type === 'country') {
+          return addressComponents[i].long_name;
+        }
+      }
+    }
+    return null;
+  }
 }

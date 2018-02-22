@@ -3,6 +3,21 @@
   backgroundColor="black" 
   [displayHeroBanner]="true"
 >
+  <div class="mobileTopPost" *ngIf="gridPosts.length" (click)="navigateToPost(gridPosts[0])">
+    <div 
+      class="cardThumb" 
+      [ngStyle]="{ 'background-image': 'url(' + gridPosts[0].imagesByPostId.nodes[0].url + ')'}"
+    ></div>
+    <div class="cardContent">
+      <div class="title">{{gridPosts[0].title}}</div>
+      <div class="authorContainer" (click)="navigateToAuthor($event, gridPosts[0].accountByAuthor.username)">
+        <span [style.color]="settingsService.secondaryColor" *ngIf="gridPosts[0].accountByAuthor.firstName">{{gridPosts[0].accountByAuthor.firstName}} {{gridPosts[0].accountByAuthor.lastName}}</span>
+        <span [style.color]="settingsService.secondaryColor" *ngIf="!gridPosts[0].accountByAuthor.firstName">{{gridPosts[0].accountByAuthor.username}}</span>
+      </div>
+      <div>{{gridPosts[0].createdAt | date: 'mediumDate'}}</div>
+      <div class="content">{{utilService.stripHTMLTags(gridPosts[0].content) | truncate:[200, '...']}}</div>
+    </div>
+  </div>
   <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <CompactHero [post]="compactHeroPost"></CompactHero>
   <PostList [data]="otherPosts"></PostList>

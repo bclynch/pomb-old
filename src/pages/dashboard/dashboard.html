@@ -16,15 +16,19 @@
           (click)="launchPostEditor()"
         ></ion-icon>
       </div>
-      <div class="searchContainer">
+      <!-- <div class="searchContainer">
         <div>
           <ion-icon name="md-search"></ion-icon>
         </div>
-        <input 
-          placeholder="Search posts..."
-
-        />
-      </div>
+        <form (submit)="searchPosts()">
+          <input 
+            placeholder="Search posts..."
+            type="text"
+            name="searchInput"
+            [(ngModel)]="searchQuery"
+          />
+        </form>
+      </div> -->
       <div class="tabsRow">
         <div 
           class="tab boldFont" 
@@ -48,7 +52,7 @@
       </div>
     </div>
     <div class="previewContainer">
-      <div *ngIf="activePost >= 0 && activePost !== null && isPreview">
+      <div *ngIf="isPreview">
           <ion-icon 
           name="md-arrow-up" 
           title="Expand Preview" 
@@ -57,7 +61,7 @@
         ></ion-icon>
         <PostWrapper [post]="previewedPost" [isPreview]="true"></PostWrapper>
       </div>
-      <div class="emptyPreview" *ngIf="activePost === null">
+      <div class="emptyPreview" *ngIf="!isPreview">
         <ion-icon name="md-document"></ion-icon>
         <div>Select a post to preview</div>
       </div> 
