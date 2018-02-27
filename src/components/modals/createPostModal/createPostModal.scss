@@ -48,49 +48,6 @@ createpostmodal {
         .left {
           width: 100%;
 
-          // label {
-          //   height: 200px;
-          //   width: 300px;
-          //   display: inline-block;
-          //   display: flex;
-          //   align-items: center;
-          //   justify-content: center;
-          //   flex-direction: column;
-          //   background: mapGet($basecolor, white);
-          //   color: mapGet($basecolor, dark);
-          //   cursor: pointer;
-          //   transition: color .8s;
-    
-          //   input {
-          //     width: 0.1px;
-          //     height: 0.1px;
-          //     opacity: 0;
-          //     overflow: hidden;
-          //     position: absolute;
-          //     z-index: -1;
-          //   }
-          //   > div {
-          //     text-align: center;
-
-          //     ion-icon {
-          //       font-size: 36px;
-          //     }
-          //   }
-          //   ion-spinner {
-          //     width: 36px;
-          //     height: 36px;
-
-          //     svg {
-          //       circle {
-          //         stroke: mapGet($basecolor, dark);
-          //       }
-          //     }
-          //   }
-            
-          // }
-          // label:hover {
-          //   color: mapGet($basecolor, black);
-          // }
           .uploadWrapper {
             height: 200px;
             width: 300px;
@@ -115,7 +72,7 @@ createpostmodal {
               background-size: contain;
   
               .hoverOverlay {
-                opacity: 0;
+                opacity: 1;
                 height: 100%;
                 width: 100%;
                 background: rgba(0,0,0, 0.7);
@@ -130,7 +87,7 @@ createpostmodal {
             .thumbnailImage:hover {
   
               .hoverOverlay {
-                opacity: 1;
+                opacity: 1 !important;
               }
             }
           } 
@@ -386,6 +343,10 @@ createpostmodal {
 
       .left {
         width: calc(50% - 15px) !important;
+
+        .hoverOverlay {
+          opacity: 0 !important;
+        }
       }
       .right {
         width: calc(50% - 15px) !important;

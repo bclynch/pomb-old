@@ -22,7 +22,7 @@
           <div class="signedInUser">Welcome back {{userService.user.firstName || userService.user.username}}</div>
           <ProfilePicture [photo]="userService.user?.profilePhoto"></ProfilePicture>
         </div>
-        <div (click)="routerService.navigateToPage('/admin')">Admin</div>
+        <!-- <div (click)="routerService.navigateToPage('/admin')">Admin</div> -->
         <div (click)="logout()" class="paneSectionBtn">Logout</div>
       </div>
       <div class="paneSection quickLinks">

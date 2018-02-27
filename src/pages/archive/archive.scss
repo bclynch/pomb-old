@@ -15,11 +15,24 @@ page-archive {
     > div {
       font-size: 48px;
     }
-    .archiveDescription {
-      max-width: 728px;
-      font-size: 18px;
-      line-height: 28px;
-      padding: 0 5px;
+  }
+  .archiveNav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ddd;
+    margin-top: 20px;
+
+    .pages {
+      flex: 1;
+      padding: 16px 0;
+      text-align: center;
+    }
+    .btn {
+      color: white;
+      padding: 16px;
+      cursor: pointer;
     }
   }
 

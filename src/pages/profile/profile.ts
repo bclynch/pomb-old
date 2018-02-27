@@ -98,6 +98,7 @@ export class ProfilePage {
   }
 
   populateCountriesVisited() {
+    this.countriesVisited = [['Country', 'Name']];
     this.user.userToCountriesByUserId.nodes.forEach((country) => {
       this.countriesVisited.push([ country.countryByCountry.code.toLowerCase(), country.countryByCountry.name ]);
     });

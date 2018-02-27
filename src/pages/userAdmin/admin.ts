@@ -44,8 +44,12 @@ export class UserAdminPage {
   ) {
     this.activeDashView = this.routerService.fragment || 'dashboard';
     this.dataReady = true;
-    this.settingsService.appInited ? console.log('fuck off') : this.broadcastService.on('appIsReady', () => console.log('fuck off'));
+    this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
     this.settingsService.modPageMeta('User Admin Dashboard', 'Maintain, edit, and analyze all user settings and configuration around Pack On My Back');
+  }
+
+  init() {
+
   }
 
   openMenu() {

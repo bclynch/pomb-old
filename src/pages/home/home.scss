@@ -36,6 +36,13 @@ page-home {
       display: none;
     }
   }
+  .more {
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+  }
 
   @include respond-to(small) {
     .mobileTopPost {

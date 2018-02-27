@@ -68,9 +68,19 @@ page-trip-map {
             .contentWrapper {
               padding: 10px;
   
-              .windowCity {
-                font-weight: bold;
-                font-size: 18px;
+              .topWrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .windowCity {
+                  font-weight: bold;
+                  font-size: 18px;
+                }
+                .typeIcon {
+                  height: 20px;
+                  width: 20px;
+                }
               }
               .windowCountry {
                 font-size: 16px;
@@ -255,6 +265,11 @@ page-trip-map {
                   font-weight: bold;
                   padding: 5px 10px;
                   margin-right: 10px;
+                }
+                .typeIcon {
+                  height: 20px;
+                  width: 20px;
+                  margin-left: 10px;
                 }
               }
             }

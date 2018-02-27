@@ -26,6 +26,7 @@ fadecarousel {
         font-weight: 600;
         margin-bottom: 15px;
         text-shadow: 2px 2px mapGet($basecolor, black);
+        text-align: center;
       }
       .slideTagline {
         font-size: 30px;
@@ -59,6 +60,21 @@ fadecarousel {
         ion-icon {
           margin-left: 10px;
         }
+      }
+      .updateWrapper {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: .3s;
+        font-weight: bold;
+  
+        ion-icon {
+          margin-right: 5px;
+        }
+      }
+      .updateWrapper:hover {
+        color: var(--secondary);
       }
     }
     .statsContainer {

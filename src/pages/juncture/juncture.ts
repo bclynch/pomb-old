@@ -12,6 +12,7 @@ import { RouterService } from '../../services/router.service';
 import { ExploreService } from '../../services/explore.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { UserService } from '../../services/user.service';
+import { JunctureService } from '../../services/juncture.service';
 
 import { Juncture } from '../../models/Juncture.model';
 
@@ -103,7 +104,8 @@ export class JuncturePage {
     private sanitizer: DomSanitizer,
     private exploreService: ExploreService,
     private analyticsService: AnalyticsService,
-    private userService: UserService
+    private userService: UserService,
+    private junctureService: JunctureService
   ) {
     this.route.params.subscribe((params) => {
       this.junctureId = params.id;
@@ -202,7 +204,7 @@ export class JuncturePage {
       this.inited = true;
 
       // resize since size changes depending on how data is
-      this.map.triggerResize();
+      if (this.map) this.map.triggerResize();
     });
   }
 
@@ -405,5 +407,12 @@ export class JuncturePage {
         }
       }
     };
+  }
+
+  editJuncture(index: number) {
+    this.junctureService.openJunctureModal(this.junctureData.id).then(
+      // would like to update apollo store
+      result => console.log(result)
+    );
   }
 }

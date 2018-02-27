@@ -21,6 +21,12 @@
       {{btnLabel}}
       <ion-icon name="ios-arrow-down"></ion-icon>
     </div>
+    <div
+      *ngIf="userId === userService.user?.id" 
+      class="updateWrapper"
+      (click)="editTrip()"
+    >
+      <ion-icon name="md-plane"></ion-icon> Update Trip</div>
   </div>
   <div class="statsContainer" *ngIf="stats.length">
     <div class="innerWrapper">

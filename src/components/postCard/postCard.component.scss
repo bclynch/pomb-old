@@ -10,6 +10,7 @@ postcard {
       @extend %fixedRatioWrapper;
       cursor: pointer;
       max-height: 240px;
+      overflow: hidden;
 
       .cardImg {
         background-size: cover;

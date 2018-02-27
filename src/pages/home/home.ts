@@ -32,7 +32,7 @@ export class HomePage {
 
   init() {
     this.settingsService.modPageMeta('Stories', 'See what new posts are available from around Pack On My Back. Learn and be inspired by our users stories.');
-    this.apiService.getAllPublishedPosts().valueChanges.subscribe(({ data }) => {
+    this.apiService.getAllPublishedPosts(20, 0).valueChanges.subscribe(({ data }) => {
       console.log('got data: ', data.allPosts.nodes);
       this.posts = data.allPosts.nodes;
       this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);

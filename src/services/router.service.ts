@@ -67,13 +67,13 @@ export class RouterService {
     this.router.navigate([url], paramsObj);
   }
 
-  modifyFragment(fragment: string) {
+  modifyFragment(fragment: string, url?: string) {
     const navigationExtras: NavigationExtras = {
       fragment
     };
 
-    const url = this.grabBaseRoute(this.router.url);
-    this.router.navigate([url], navigationExtras);
+    const currentURL = url ? url : this.grabBaseRoute(this.router.url);
+    this.router.navigate([currentURL], navigationExtras);
   }
 
   navigateToPage(path: string, query?: string) {

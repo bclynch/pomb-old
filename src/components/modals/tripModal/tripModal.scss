@@ -144,9 +144,9 @@ tripmodal {
           cursor: pointer;
           position: relative;
 
-          > div {
+          > .overlay {
             text-align: center;
-            opacity: 0;
+            opacity: 1;
             transition: .5s;
 
             ion-icon {
@@ -165,8 +165,8 @@ tripmodal {
           }
         }
         .imgLoadWrapper:hover {
-          > div {
-            opacity: 1;
+          > .overlay {
+            opacity: 1 !important;
           }
         }
         .gridWrapper {
@@ -215,6 +215,9 @@ tripmodal {
   @include respond-to(small) {
     .modalSection {
       width: 80% !important;
+    }
+    .overlay {
+      opacity: 0 !important;
     }
   }
 }

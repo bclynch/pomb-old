@@ -1,9 +1,23 @@
-<PageWrapper backgroundColor="black">
+<PageWrapper [topo]="true">
   <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <div class="archiveHeader">
-    <div>{{currentArchive.toUpperCase()}}</div>
-    <div class="archiveDescription">{{archiveDescription}}</div>
+    <div>Archives</div>
   </div>
   <PostList [data]="otherPosts"></PostList>
+  <div class="archiveNav">
+    <div 
+      class="boldFont btn" 
+      [style.background]="settingsService.secondaryColor" 
+      [style.visibility]="archivePage > 1 ? 'visible' : 'hidden'"
+      (click)="routerService.navigateToPage('/archive/' + (archivePage - 1))"
+    >Prev</div>
+    <div class="pages">Page {{archivePage}} of {{totalPages}}</div>
+    <div 
+      class="boldFont btn" 
+      [style.background]="settingsService.secondaryColor" 
+      [style.visibility]="archivePage < totalPages ? 'visible' : 'hidden'"
+      (click)="routerService.navigateToPage('/archive/' + (archivePage + 1))"
+    >Next</div>
+  </div>
 </PageWrapper>
 

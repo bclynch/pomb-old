@@ -157,8 +157,8 @@ export class UserAdminConfigPage {
         query += `}`;
 
         this.apiService.genericCall(query).subscribe(
-          result => console.log(result),
-          err => console.log(err)
+          result => resolve(result),
+          err => reject(err)
         );
       });
       promiseArr.push(promise);
@@ -181,7 +181,7 @@ export class UserAdminConfigPage {
 
         this.apiService.genericCall(query).subscribe(
           result => resolve(),
-          err => console.log(err)
+          err => reject(err)
         );
       });
       promiseArr.push(promise);

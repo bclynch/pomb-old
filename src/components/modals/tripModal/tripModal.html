@@ -13,7 +13,7 @@
         [ngStyle]="tripModel.bannerImages.length ? { 'background-image': 'url(' + tripModel.bannerImages[0].url + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
         (click)="presentBannerUploaderPopover()"
       >
-        <div>
+        <div class="overlay">
           <ion-icon name="md-cloud-upload"></ion-icon>
           <div>Upload image</div>
           <ion-icon 

@@ -47,13 +47,16 @@ const currentAccountQuery = gql`
 `;
 
 const getAllPublishedPosts = gql`
-  query allPosts {
+  query allPosts($quantity: Int, $offset: Int) {
     allPosts(
       orderBy: PRIMARY_KEY_DESC
       condition:{
         isPublished: true
-      }
+      },
+      first: $quantity,
+      offset: $offset
     ) {
+      totalCount,
       nodes {
         id,
         title,
@@ -727,6 +730,7 @@ const getFullJunctureById = gql`
       city,
       country,
       markerImg,
+      userId,
       postsByJunctureId {
         nodes {
           id,
@@ -1820,9 +1824,13 @@ export class APIService {
     });
   }
 
-  getAllPublishedPosts() {
+  getAllPublishedPosts(quantity: number, offset: number) {
     return this.apollo.watchQuery<any>({
-      query: getAllPublishedPosts
+      query: getAllPublishedPosts,
+      variables: {
+        quantity,
+        offset
+      }
     });
   }
 

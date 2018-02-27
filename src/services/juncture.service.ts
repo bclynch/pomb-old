@@ -35,6 +35,9 @@ export class JunctureService {
               const city = this.utilService.extractCity(result.formattedAddress.address_components);
               const country = result.country.address_components[0].short_name;
 
+              // check if country exists in user list. If not then add
+              this.checkCountry(country);
+
               if (data.isExisting) {
                 this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.type, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
                   result => {
@@ -206,5 +209,20 @@ export class JunctureService {
     });
 
     toast.present();
+  }
+
+  checkCountry(country: string) {
+    // if option is toggled on
+    if (this.userService.user.autoUpdateVisited) {
+      // create nicer arr to work with
+      const countriesVisited = this.userService.user.userToCountriesByUserId.nodes.map((country) => (country.countryByCountry.code));
+      console.log(countriesVisited);
+      // if country code doesn't exist then add it
+      if (countriesVisited.indexOf(country) === -1) {
+        this.apiService.createUserToCountry(country, this.userService.user.id).subscribe(
+          result => console.log('new country saved')
+        );
+      }
+    }
   }
 }

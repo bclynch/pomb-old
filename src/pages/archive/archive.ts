@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { APIService } from '../../services/api.service';
 import { SettingsService } from '../../services/settings.service';
@@ -14,8 +14,8 @@ import { Post } from '../../models/Post.model';
 })
 export class ArchivePage {
 
-  currentArchive: string;
-  archiveDescription = null;
+  archivePage: number;
+  totalPages: number;
   posts: Post[] = [];
   gridPosts: Post[] = [];
   otherPosts: Post[] = [];
@@ -26,22 +26,26 @@ export class ArchivePage {
     private router: Router,
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private route: ActivatedRoute
   ) {
-    this.currentArchive = this.routerService.params.tag;
+    this.route.params.subscribe((params) => {
+      this.archivePage = params.page ? +params.page : 1;
+      this.settingsService.appInited ? this.init() : this.broadcastService.on('appIsReady', () => this.init());
+    });
+  }
 
-    this.apiService.getTagByName(this.currentArchive).valueChanges.subscribe(
-      ({ data }) => {
-        console.log(data);
-        this.archiveDescription = data.allPostTags.nodes[0].tagDescription;
-        this.apiService.getPostsByTag(data.allPostTags.nodes[0].id).valueChanges.subscribe(({ data }) => {
-          console.log('got tag posts: ', data);
-          this.posts = data.postsByTag.nodes;
-          this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
-          this.otherPosts = this.posts.slice(this.gridConfiguration.length);
-        }, (error) => {
-          console.log('there was an error sending the query', error);
-        });
+  init() {
+    this.settingsService.modPageMeta(`Stories Archive - Page ${this.archivePage}`, 'Listing of older stories and posts from around the Pack On My Back community.');
+
+    // fetch posts offset correctly based on page param
+    this.apiService.getAllPublishedPosts(20, 20 * this.archivePage).valueChanges.subscribe(
+      result => {
+        this.totalPages = Math.ceil((result.data.allPosts.totalCount - 20) / 20);
+
+        this.posts = result.data.allPosts.nodes;
+        this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
+        this.otherPosts = this.posts.slice(this.gridConfiguration.length);
       }
     );
   }

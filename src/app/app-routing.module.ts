@@ -119,7 +119,19 @@ const appRoutes: Routes = [
         component: ExplorePage
       }
   ]},
-  { path: 'archive', component: ArchivePage },
+  {
+    path: 'archive',
+    children: [
+      {
+        path: ':page',
+        component: ArchivePage
+      },
+      {
+        path: '',
+        component: ArchivePage
+      }
+    ]
+  },
   { path: 'admin',
   // canActivate: [RoleGuard],
   // data: {

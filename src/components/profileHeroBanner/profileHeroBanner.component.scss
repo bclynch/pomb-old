@@ -8,6 +8,7 @@ profileherobanner {
     text-align: center;
     color: mapGet($basecolor, white);
     border-bottom: solid 1px mapGet($basecolor, border);
+    position: relative;
 
     .overlay {
       background: rgba(0,0,0,.2);
@@ -31,6 +32,23 @@ profileherobanner {
       .location {
         margin-bottom: 10px;
       }
+    }
+    .updateWrapper {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: bold;
+
+      ion-icon {
+        margin-right: 5px;
+      }
+    }
+    .updateWrapper:hover {
+      color: var(--secondary);
     }
   }
 }

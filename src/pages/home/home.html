@@ -21,5 +21,11 @@
   <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <CompactHero [post]="compactHeroPost"></CompactHero>
   <PostList [data]="otherPosts"></PostList>
+  <div 
+    class="more boldFont" 
+    *ngIf="posts.length === 20" 
+    [style.background]="settingsService.secondaryColor"
+    (click)="routerService.navigateToPage('/archive')"
+  >View More Posts</div>
 </PageWrapper>
 

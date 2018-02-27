@@ -40,7 +40,10 @@
                   </div>
                 </div>
                 <div class="contentWrapper">
-                  <div class="windowCity">{{junctureContentArr[i - 1].city}}</div>
+                  <div class="topWrapper">
+                    <div class="windowCity">{{junctureContentArr[i - 1].city}}</div>
+                    <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + junctureContentArr[i - 1].type + '.svg'" />
+                  </div>
                   <div class="windowCountry">{{junctureContentArr[i - 1].country}}</div>
                   <div>{{junctureContentArr[i - 1].description | truncate:[200, '...']}}</div>
                   <div class="windowBtn" (click)="goToJuncture(i)" *ngIf="i !== 0">See More</div>
@@ -113,6 +116,7 @@
                   <div class="junctureTimeRow">
                     <div class="junctureNumber">Juncture #{{i + 1}}</div>
                     <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
+                    <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + juncture?.type + '.svg'" />
                   </div>
                   <LikeCounter 
                     [totalLikes]="juncture.totalLikes.totalCount" 

@@ -22,6 +22,12 @@
           *ngIf="junctureData"
         ></LikeCounter>
       </div>
+      <div 
+        *ngIf="junctureData?.userId === userService.user?.id" 
+        class="updateWrapper"
+        (click)="editJuncture()"
+      >
+        <ion-icon name="md-git-merge"></ion-icon> Update Juncture</div>
     </div>
     <div class="bannerNavContainer">
       <div 

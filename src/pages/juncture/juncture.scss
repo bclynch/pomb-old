@@ -25,6 +25,7 @@ page-juncture {
         font-weight: 600;
         margin-bottom: 15px;
         text-shadow: 2px 2px mapGet($basecolor, black);
+        text-align: center;
       }
       .bannerSubtitle {
         font-size: 30px;
@@ -55,6 +56,22 @@ page-juncture {
           }
         }
       }
+    }
+    .updateWrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: bold;
+      color: white;
+
+      ion-icon {
+        margin-right: 5px;
+      }
+    }
+    .updateWrapper:hover {
+      color: var(--secondary);
     }
     .bannerNavContainer {
       position: absolute;
@@ -95,6 +112,7 @@ page-juncture {
       .junctureTrip {
         justify-content: center;
         flex: 1;
+        text-align: center;
       }
       .nextJuncture {
         justify-content: flex-end;

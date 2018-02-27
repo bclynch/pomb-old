@@ -1,4 +1,8 @@
-<PageWrapper *ngIf="inited" backgroundColor="black" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
+<PageWrapper 
+  *ngIf="inited" 
+  backgroundColor="black" 
+  [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)"
+>
   <ProfileHeroBanner [user]="user"></ProfileHeroBanner>
   <div class="statsContainer" *ngIf="stats.length">
     <div class="innerWrapper">
