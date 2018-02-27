@@ -72,6 +72,16 @@
           >{{trip.name}}</option>
         </select>
       </div>
+      <div class="modalSection typeSelect">
+        <div class="junctureLabel">Type</div>
+        <select [(ngModel)]="junctureModel.type">
+          <option 
+            *ngFor="let type of typeOptions; let i = index;" 
+            [selected]="i === 0"
+            [value]="type.value"
+          >{{type.label}}</option>
+        </select>
+      </div>
       <div class="modalSection">
         <label class="junctureLabel" for="junctureName">Juncture Name</label>
         <input 

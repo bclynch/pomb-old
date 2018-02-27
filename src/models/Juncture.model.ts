@@ -5,6 +5,14 @@ import { Image } from './Image.model';
 import { Coords } from './Coords.model';
 import { Like } from './Like.model';
 
+export enum JunctureType {
+  HIKE = 'HIKE',
+  RUN = 'RUN',
+  BIKE = 'BIKE',
+  TRANSPORTATION = 'TRANSPORTATION',
+  FLIGHT = 'FLIGHT',
+}
+
 export class Juncture {
   arrivalDate: string;
   city: string;
@@ -15,6 +23,7 @@ export class Juncture {
   lon: string;
   markerImg: string;
   name: string;
+  type: JunctureType;
   createdAt: number;
   updatedAt: string;
   accountByUserId: User;

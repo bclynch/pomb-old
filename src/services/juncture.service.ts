@@ -36,7 +36,7 @@ export class JunctureService {
               const country = result.country.address_components[0].short_name;
 
               if (data.isExisting) {
-                this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
+                this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.type, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
                   result => {
                     console.log(result);
 
@@ -68,7 +68,7 @@ export class JunctureService {
                   }
                 );
               } else {
-                this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
+                this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.type, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
                   (result: any) => {
                     console.log(result);
 

@@ -32,10 +32,17 @@ export class JunctureModal {
     toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', '|', 'fontFamily', 'fontSize', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', '|', 'specialCharacters', 'selectAll', 'clearFormatting', 'html', '|', 'undo', 'redo']
   };
 
-  junctureModel = { name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null, photoHasChanged: [] };
+  junctureModel = { name: 'Juncture ' + moment().format('l'), time: Date.now(), description: '', selectedTrip: null, photoHasChanged: [], type: 'HIKE' };
   inited = false;
   junctureSaveType = 'Publish';
   tripOptions = null;
+  typeOptions = [
+    { label: 'Hike', value: 'HIKE' },
+    { label: 'Bike', value: 'BIKE' },
+    { label: 'Run', value: 'RUN' },
+    { label: 'Transportation', value: 'TRANSPORTATION' },
+    { label: 'Flight', value: 'FLIGHT' },
+  ];
   geoJsonObject: Object = null;
 
   galleryPhotos = [];
@@ -87,6 +94,7 @@ export class JunctureModal {
           this.junctureModel.description = junctureData.description;
           this.junctureModel.selectedTrip = junctureData.tripByTripId.id;
           this.junctureModel.time = +junctureData.arrivalDate;
+          this.junctureModel.type = junctureData.type;
           this.coords.lat = +junctureData.lat;
           this.coords.lon = +junctureData.lon;
           this.markerURL = junctureData.markerImg;
@@ -286,6 +294,7 @@ export class JunctureModal {
         saveType: this.junctureSaveType,
         name: this.junctureModel.name,
         description: this.junctureModel.description,
+        type: this.junctureModel.type,
         photos: this.galleryPhotos,
         time: this.junctureModel.time,
         location: this.coords,

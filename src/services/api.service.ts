@@ -10,6 +10,7 @@ import gql from 'graphql-tag';
 import { AlertService } from './alert.service';
 
 import { ImageType } from '../models/Image.model';
+import { JunctureType } from '../models/Juncture.model';
 
 // needs to be an env var
 const flickrKey = '691be9c5a38900c0249854a28a319e2c';
@@ -645,6 +646,7 @@ const getPartialJunctureById = gql`
       description,
       city,
       country,
+      type,
       postsByJunctureId {
         nodes {
           id,
@@ -717,6 +719,7 @@ const getFullJunctureById = gql`
       name,
       arrivalDate,
       description,
+      type,
       lat,
       lon,
       city,
@@ -1348,11 +1351,12 @@ const updatePostById = gql`
 `;
 
 const createJuncture = gql`
-  mutation($userId: Int!, $tripId: Int!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: BigFloat!, $lon: BigFloat!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($userId: Int!, $tripId: Int!, $type: JunctureType!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: BigFloat!, $lon: BigFloat!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     createJuncture(input:{
       juncture: {
         userId: $userId,
         tripId: $tripId,
+        type: $type,
         name: $name,
         arrivalDate: $arrivalDate,
         description: $description,
@@ -1372,7 +1376,7 @@ const createJuncture = gql`
 `;
 
 const updateJuncture = gql`
-  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
+  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $type: JunctureType, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
     updateJunctureById(input:{
       id: $junctureId,
       juncturePatch: {
@@ -1381,6 +1385,7 @@ const updateJuncture = gql`
         name: $name,
         arrivalDate: $arrivalDate,
         description: $description,
+        type: $type,
         lat: $lat,
         lon: $lon,
         city: $city,
@@ -2203,12 +2208,13 @@ export class APIService {
     });
   }
 
-  createJuncture(userId: number, tripId: number, name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean, markerImg: string) {
+  createJuncture(userId: number, tripId: number, type: JunctureType, name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean, markerImg: string) {
     return this.apollo.mutate({
       mutation: createJuncture,
       variables: {
         userId,
         tripId,
+        type,
         name,
         arrivalDate,
         description,
@@ -2222,13 +2228,14 @@ export class APIService {
     });
   }
 
-  updateJuncture(junctureId: number, userId: number, tripId, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
+  updateJuncture(junctureId: number, userId: number, tripId: number, type: JunctureType, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
       mutation: updateJuncture,
       variables: {
         junctureId,
         userId,
         tripId,
+        type,
         name,
         arrivalDate,
         description,
