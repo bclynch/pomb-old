@@ -46,6 +46,7 @@ export class TrackingPage {
   }
 
   init() {
+    this.settingsService.modPageMeta('Tracking', 'Keep up to date with all the people you follow.');
     this.apiService.getUserTrackedTrips(this.userService.user.username).valueChanges.subscribe(
       result => {
         const trackingData = result.data.accountByUsername.tracksByUserId.nodes;

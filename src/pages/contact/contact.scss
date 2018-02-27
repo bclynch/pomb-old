@@ -2,21 +2,48 @@ page-contact {
 
   .contactPageWrapper {
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    text-align: center;
     padding: 0 10px;
     color: #919191;
 
-    ion-icon {
-      margin-top: 100px;
-      font-size: 96px;
+    .header {
+      font-size: 36px;
+      margin-top: 50px;
+      text-align: center;
     }
-    h1 {
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      font-size: 48px;
+    form {
+      width: 100%;
+      max-width: 800px;
+      margin: 50px auto 0;
+
+      .sectionLabel {
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+      select, textarea, input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: solid 1px black;
+      }
+      select:focus,
+      textarea:focus,
+      input:focus {
+        border: solid 1px var(--secondary);
+      }
+      button {
+        background: black;
+        padding: 10px 20px;
+        transition: .3s;
+        color: white;
+      }
+      button:hover {
+        color: var(--secondary);
+      }
     }
   }
 

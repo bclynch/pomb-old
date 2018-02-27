@@ -32,6 +32,7 @@ import { TrackingPage } from '../pages/tracking/tracking';
 import { ResetPage } from '../pages/reset/reset';
 import { ConstructionPage } from '../pages/construction/construction';
 import { ContactPage } from '../pages/contact/contact';
+import { AboutPage } from '../pages/about/about';
 
 const appRoutes: Routes = [
   {
@@ -66,7 +67,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: 'community', component: HomePage }, // don't have one
+  { path: 'community', component: TrackingPage }, // don't have one
   { path: 'explore',
     children: [
       {
@@ -229,8 +230,8 @@ const appRoutes: Routes = [
   },
   { path: 'reset', component: ResetPage },
   { path: 'contact', component: ContactPage },
+  { path: 'about', component: AboutPage },
   { path: 'terms', component: ConstructionPage },
-  { path: 'about', component: ConstructionPage },
   { path: 'privacy', component: ConstructionPage },
   {
     path: 'tracking',

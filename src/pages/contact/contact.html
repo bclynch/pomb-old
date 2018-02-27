@@ -1,8 +1,48 @@
 
-<PageWrapper [topo]="true">
+<PageWrapper [topo]="true" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div class="contactPageWrapper">
-    <ion-icon name="md-build"></ion-icon>
-    <h1>This page is still under construction. Keep an eye out for it soon!</h1> 
+    <div class="header boldFont">Contact Pack On My Back</div>
+    <form 
+      class="contactForm" 
+      novalidate
+      #contactForm="ngForm"
+      (ngSubmit)="submitContact()"
+    >
+      <div class="sectionLabel boldFont">Let Us Know Why You're Contacting Us</div>
+      <select [(ngModel)]="contactModel.why" name="why" required>
+        <option [value]="null" [selected]="true">Please Select</option>
+        <option [value]="why.value" *ngFor="let why of whyOptions;">{{why.label}}</option>
+      </select>
+      <div class="sectionLabel boldFont">Tell Us Who You Are</div>
+      <input
+        type="text"
+        placeholder="First and last name"
+        name="name"
+        [(ngModel)]="contactModel.name"
+        required 
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        name="email"
+        [(ngModel)]="contactModel.email" 
+        pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+      />
+      <div class="sectionLabel boldFont">What's Up?</div>
+      <textarea
+        placeholder="Enter comments"
+        required
+        name="content"
+        [(ngModel)]="contactModel.content"
+        rows="10"
+      ></textarea>
+      <button 
+        type="submit" 
+        class="createBtn boldFont" 
+        [disabled]="!contactForm.valid"
+      >Submit</button>
+    </form>
   </div>
 </PageWrapper>
 

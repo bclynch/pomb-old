@@ -473,7 +473,8 @@ const getRecentUserActivity = gql`
           name,
           markerImg,
           city,
-          country
+          country,
+          type
         }
       },
       postsByAuthor(
@@ -522,6 +523,7 @@ const getTripById = gql`
           id,
           markerImg,
           description,
+          type,
           city,
           country,
           coordsByJunctureId {
@@ -1783,6 +1785,21 @@ export class APIService {
 
   sendRegistrationEmail(user: string) {
     return this.http.post('http://localhost:8080/mailing/registration', { user })
+      .map(
+        (response: Response) => {
+          const data = response.json();
+          return data;
+        }
+      )
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        }
+      );
+  }
+
+  sendContactEmail(data: { why: string; name: string; email: string; content: string; }) {
+    return this.http.post('http://localhost:8080/mailing/contact', { data })
       .map(
         (response: Response) => {
           const data = response.json();

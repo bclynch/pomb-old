@@ -6,11 +6,6 @@
 
 - Auto add countries to list if in juncture while traveling
 - Add some button links to profile page to edit info on own profle page (aka link to place to update countries visited etc)
-- Look into search indexing (or lack there of...)
-- Contact page + about page
-- Add juncture type to model (hike, bike, vehicle, plane, run etc) - check
-    - Look at styling the data layer for various types - KML instead of geoJSON for styling
-    - Add little icon to juncture bubble for the type + timeline
 - Mobile usage!
     - overlays on hover need to always be there on mobile
 - Pagination stories home screen
@@ -29,8 +24,12 @@
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - infinite scroll hub page
-- Look at updating stores on mutation https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
+- Look at updating stores on mutation 
+- Look into search indexing (or lack there of...)
+    - Running REFRESH MATERIALZE VIEW pomb.index_name will do it. On a schedule or??https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
 - netflix style infinite scroll for junctures view?
+- Add juncture type to model (hike, bike, vehicle, plane, run etc) - check
+    - Look at styling the data layer for various types - KML instead of geoJSON for styling
 - Google Analytics - Page views working at least (on CN email... Make domain email)
     - Track activities - https://codeburst.io/using-google-analytics-with-angular-25c93bffaa18
     - Set up reporting api calls - http://2ality.com/2015/10/google-analytics-api.html

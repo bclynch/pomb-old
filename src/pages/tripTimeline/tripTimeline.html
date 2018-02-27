@@ -24,7 +24,9 @@
       >
         <div class="imgGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">
           <div class="junctureDate">{{juncture.arrivalDate | date:'mediumDate'}}</div>
-          <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}"></div>
+          <div class="junctureImg" [ngStyle]="{ 'background-image': 'url(' + junctureImage(juncture) + ')'}">
+            <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + juncture.type + '.svg'" />
+          </div>
           <div class="connector"></div>
         </div>
         <div class="dataGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">

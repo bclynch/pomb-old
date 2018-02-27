@@ -143,6 +143,16 @@ page-trip-timeline {
             background-repeat: no-repeat;
             background-position: left center;
             margin: 20px 0;
+
+            position: relative;
+
+            .typeIcon {
+              height: 20px;
+              width: 20px;
+              position: absolute;
+              bottom: 0;
+              right: 0;
+            }
           }
           .junctureDate {
             font-size: 18px;
