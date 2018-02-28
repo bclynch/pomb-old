@@ -15,8 +15,8 @@ import { RouterService } from '../../../services/router.service';
 })
 export class RegistrationModal {
   isRegister = false;
-  registrationModel = {username: '', firstName: '', lastName: '', email: '', password: '', confirm: ''};
-  loginModel = {email: '', password: ''};
+  registrationModel = { username: '', firstName: '', lastName: '', email: '', password: '', confirm: '' };
+  loginModel = { email: '', password: '' };
 
   constructor(
     public viewCtrl: ViewController,
@@ -42,6 +42,6 @@ export class RegistrationModal {
 
   navigate(link: string) {
     this.viewCtrl.dismiss();
-    this.routerService.navigateToPage(`/${link}`);
+    this.routerService.modifyFragment(link, '/terms');
   }
 }

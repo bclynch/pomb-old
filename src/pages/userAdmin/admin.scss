@@ -28,11 +28,12 @@ page-useradmin {
         // background: $color4;
         margin-top: 50px;
         
-        > div {
+        > .option {
           padding: 15px 20px;
           cursor: pointer;
           display: flex;
           align-items: center;
+          transition: .3s;
 
           ion-icon {
             flex: 1;
@@ -42,21 +43,26 @@ page-useradmin {
               flex: 7;
           }
         }
-        > div:hover {
-          // background: $color5;
+        > .option:hover {
+          color: var(--secondary);
         }
       }
       .questionsContainer {
         padding: 35px 25px;
 
-        > div {
+        .mailWrapper {
           display: flex;
           align-items: center;
           padding: 5px 0;
+          cursor: pointer;
+          transition: .3s;
 
           > ion-icon {
               margin-right: 20px;
           }
+        }
+        .mailWrapper:hover {
+          color: var(--secondary);
         }
       }
     }

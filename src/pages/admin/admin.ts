@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from 'ionic-angular';
-import {Apollo} from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
+import { DomSanitizer } from '@angular/platform-browser';
 
 // import { DashboardService } from '../../../services/dashboard.service';
 import { UserService } from '../../services/user.service';
@@ -40,7 +41,8 @@ export class AdminPage {
     private apollo: Apollo,
     private broadcastService: BroadcastService,
     private settingsService: SettingsService,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private sanitizer: DomSanitizer,
   ) {
     this.activeDashView = this.routerService.fragment || 'dashboard';
     this.dataReady = true;

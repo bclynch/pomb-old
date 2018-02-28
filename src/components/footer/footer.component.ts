@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { SettingsService } from '../../services/settings.service';
+import { RouterService } from '../../services/router.service';
 
 @Component({
   selector: 'Footer',
@@ -11,7 +12,7 @@ import { SettingsService } from '../../services/settings.service';
 export class Footer {
   year = Date.now();
 
-  links: string[] = ['About', 'Contact', 'Terms of Service'];
+  links: string[] = ['About', 'Contact', 'Terms of Service', 'Privacy Policy'];
   socialOptions = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/', label: 'instagram' },
     { icon: 'logo-facebook', url: 'https://www.facebook.com/brendan.lynch.90', label: 'facebook' },
@@ -21,7 +22,8 @@ export class Footer {
   constructor(
     private settingsService: SettingsService,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private routerService: RouterService
   ) { }
 
   navigateTo(link) {
@@ -34,6 +36,9 @@ export class Footer {
         break;
       case 'Terms of Service':
         this.router.navigateByUrl('/terms');
+        break;
+      case 'Privacy Policy':
+        this.routerService.modifyFragment('privacy', '/terms');
         break;
     }
   }

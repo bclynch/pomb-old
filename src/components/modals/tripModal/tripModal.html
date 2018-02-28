@@ -64,14 +64,14 @@
         <div class="timeDisplay">
           <div class="tripLabel">Trip Start Date</div>
           <div class="dateWrapper" (click)="presentDatepickerModal($event, true)">
-            <div class="input">{{tripModel.timeStart | date: 'yMMMMd'}}</div>
+            <div class="input">{{tripModel.timeStart | date: 'MMM d, y, h:mm a'}}</div>
             <ion-icon name="md-calendar"></ion-icon>
           </div>
         </div>
         <div class="timeDisplay">
           <div class="tripLabel">Trip End Date</div>
           <div class="dateWrapper" (click)="presentDatepickerModal($event, false)">
-            <div class="input">{{tripModel.timeEnd | date: 'yMMMMd'}}</div>
+            <div class="input">{{tripModel.timeEnd | date: 'MMM d, y, h:mm a'}}</div>
             <ion-icon name="md-calendar"></ion-icon>
           </div>
         </div>

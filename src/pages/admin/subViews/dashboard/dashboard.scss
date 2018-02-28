@@ -1,18 +1,22 @@
 page-admin-dashboard {
   height: 100%;
   width: 100%;
+  
+  .contentGroupContent {
+    color: mapGet($basecolor, dark);
+    text-align: center;
 
-  .pageContainer {
-    height: 100%;
-  }
-
-  .viewHeader {
-    background: mapGet($basecolor, black);
-    height: 80px;
-    color: mapGet($basecolor, white);
-    display: flex;
-    align-items: center;
-    padding: 0 60px;
-    font-size: 24px;
+    div {
+      font-size: 36px;
+    }
+    ion-icon {
+      font-size: 64px;
+      animation: flash linear 5s infinite;
+    }
+    @keyframes flash {
+      0% { color: black; } 
+      50% { color: red; } 
+      100% { color: black; }
+    } 
   }
 }

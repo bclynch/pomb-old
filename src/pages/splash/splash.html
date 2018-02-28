@@ -53,7 +53,7 @@
     <div class="featuresContainer">
       <div class="titleText">A fun and simple interface you will love and the complete set of features you need</div>
       <div class="featuresWrapper">
-        <div class="feature" *ngFor="let feature of features;">
+        <div class="feature" *ngFor="let feature of features;" (click)="router.navigateByUrl('/construction')">
           <ion-icon [name]="feature.icon"></ion-icon>
           <div class="featureTitle">{{feature.title}}</div>
           <div class="featureDescription contentText">{{feature.description}}</div>
@@ -72,17 +72,17 @@
       <div class="communityHeader titleText">Discover With The Community</div>
       <div class="contentText">Share your experiences and unearth your next dream adventure</div>
       <div class="communityWrapper">
-        <div class="left box">
+        <div class="left box" (click)="router.navigateByUrl('/construction')">
           <ion-icon name="md-desktop"></ion-icon>
           <div class="titleText">Research Your Next Journey</div>
           <div>Follow in your fellow members footsteps to share in their experiences and gain in their wisdom from the road</div>
         </div>
         <div class="right">
-          <div class="titleText box">
+          <div class="titleText box" (click)="router.navigateByUrl('/construction')">
             <ion-icon name="md-git-merge"></ion-icon>
             <div>Plot Your Next Move</div>
           </div>
-          <div class="titleText box">
+          <div class="titleText box" (click)="router.navigateByUrl('/construction')">
             <ion-icon name="ios-people"></ion-icon>
             <div>Contribute To A Growing Community</div>
           </div>

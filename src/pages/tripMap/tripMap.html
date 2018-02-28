@@ -36,7 +36,7 @@
                 >
                   <div class="overlay">
                     <div class="overlayName">{{junctureContentArr[i - 1].name}}</div>
-                    <div class="overlayDate">{{junctureContentArr[i - 1].arrivalDate | date: 'yMMMMd'}}</div>
+                    <div class="overlayDate">{{junctureContentArr[i - 1].arrivalDate | date: 'MMM d, y'}}</div>
                   </div>
                 </div>
                 <div class="contentWrapper">
@@ -115,7 +115,7 @@
                 <div class="bottomRow">
                   <div class="junctureTimeRow">
                     <div class="junctureNumber">Juncture #{{i + 1}}</div>
-                    <div>{{juncture?.arrivalDate | date: 'dd MMMM yy'}}</div>
+                    <div>{{juncture?.arrivalDate | date: 'MMM d, y'}}</div>
                     <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + juncture?.type + '.svg'" />
                   </div>
                   <LikeCounter 

@@ -96,7 +96,7 @@
         <div class="timeDisplay">
           <div class="junctureLabel">Juncture Date</div>
           <div class="dateWrapper" (click)="presentDatepickerModal($event)">
-            <div class="input">{{junctureModel.time | date: 'yMMMMd'}}</div>
+            <div class="input">{{junctureModel.time | date: 'MMM d, y, h:mm a'}}</div>
             <ion-icon name="md-calendar"></ion-icon>
           </div>
         </div>

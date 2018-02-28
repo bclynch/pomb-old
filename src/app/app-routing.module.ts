@@ -33,6 +33,7 @@ import { ResetPage } from '../pages/reset/reset';
 import { ConstructionPage } from '../pages/construction/construction';
 import { ContactPage } from '../pages/contact/contact';
 import { AboutPage } from '../pages/about/about';
+import { TermsPage } from '../pages/terms/terms';
 
 const appRoutes: Routes = [
   {
@@ -243,8 +244,8 @@ const appRoutes: Routes = [
   { path: 'reset', component: ResetPage },
   { path: 'contact', component: ContactPage },
   { path: 'about', component: AboutPage },
-  { path: 'terms', component: ConstructionPage },
-  { path: 'privacy', component: ConstructionPage },
+  { path: 'terms', component: TermsPage },
+  { path: 'construction', component: ConstructionPage },
   {
     path: 'tracking',
     canActivate: [RoleGuard],

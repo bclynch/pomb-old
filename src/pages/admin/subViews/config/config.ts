@@ -14,7 +14,7 @@ import { ImageUploaderPopover } from '../../../../components/popovers/imageUploa
 })
 export class AdminConfigPage {
 
-  configModel = { primaryColor: null, secondaryColor: null, tagline: null, heroBanner: null };
+  styleModel = { primaryColor: null, secondaryColor: null, tagline: null, heroBanner: null };
 
   constructor(
     private broadcastService: BroadcastService,
@@ -27,10 +27,10 @@ export class AdminConfigPage {
   }
 
   init() {
-    this.configModel.primaryColor = this.settingsService.primaryColor;
-    this.configModel.secondaryColor = this.settingsService.secondaryColor;
-    this.configModel.tagline = this.settingsService.tagline;
-    this.configModel.heroBanner = this.settingsService.heroBanner;
+    this.styleModel.primaryColor = this.settingsService.primaryColor;
+    this.styleModel.secondaryColor = this.settingsService.secondaryColor;
+    this.styleModel.tagline = this.settingsService.tagline;
+    this.styleModel.heroBanner = this.settingsService.heroBanner;
   }
 
   presentGradientPopover(e: Event) {
@@ -40,35 +40,35 @@ export class AdminConfigPage {
     });
     popover.onDidDismiss((data) => {
       if (data) {
-        this.configModel.primaryColor = data.primaryColor;
-        this.configModel.secondaryColor = data.secondaryColor;
+        this.styleModel.primaryColor = data.primaryColor;
+        this.styleModel.secondaryColor = data.secondaryColor;
       }
     });
   }
 
   presentImageUploaderPopover() {
-    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner' }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
+    const popover = this.popoverCtrl.create(ImageUploaderPopover, { type: 'banner', size: { width: 1200, height: 300 } }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
     popover.present();
     popover.onDidDismiss((data) => {
-      if (data) this.configModel.heroBanner = data.url;
+      if (data) this.styleModel.heroBanner = data[0].url;
     });
   }
 
-  saveConfig() {
-    this.apiService.updateConfig(this.configModel.primaryColor, this.configModel.secondaryColor, this.configModel.tagline, this.configModel.heroBanner)
-    .subscribe(() => {
-      this.settingsService.primaryColor = this.configModel.primaryColor;
-      this.settingsService.secondaryColor = this.configModel.secondaryColor;
-      this.settingsService.tagline = this.configModel.tagline;
-      this.settingsService.heroBanner = this.configModel.heroBanner;
+  updateStyle() {
+    this.apiService.updateConfig(this.styleModel.primaryColor, this.styleModel.secondaryColor, this.styleModel.tagline, this.styleModel.heroBanner).subscribe(
+      () => {
+        this.settingsService.primaryColor = this.styleModel.primaryColor;
+        this.settingsService.secondaryColor = this.styleModel.secondaryColor;
+        this.settingsService.tagline = this.styleModel.tagline;
+        this.settingsService.heroBanner = this.styleModel.heroBanner;
 
-      const toast = this.toastCtrl.create({
-        message: `New site settings saved`,
-        duration: 3000,
-        position: 'top'
+        const toast = this.toastCtrl.create({
+          message: `New site settings saved`,
+          duration: 3000,
+          position: 'top'
+        });
+
+        toast.present();
       });
-
-      toast.present();
-    });
   }
 }

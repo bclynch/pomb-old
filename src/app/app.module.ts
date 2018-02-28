@@ -127,6 +127,7 @@ import { ResetPage } from '../pages/reset/reset';
 import { ConstructionPage } from '../pages/construction/construction';
 import { ContactPage } from '../pages/contact/contact';
 import { AboutPage } from '../pages/about/about';
+import { TermsPage } from '../pages/terms/terms';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
 
@@ -243,7 +244,8 @@ import { AnalyticsService } from '../services/analytics.service';
     CountrySearch,
     ConstructionPage,
     ContactPage,
-    AboutPage
+    AboutPage,
+    TermsPage
   ],
   imports: [
     BrowserModule,
@@ -307,7 +309,8 @@ import { AnalyticsService } from '../services/analytics.service';
     TrackingPage,
     ConstructionPage,
     ContactPage,
-    AboutPage
+    AboutPage,
+    TermsPage
   ],
   providers: [
     APIService,

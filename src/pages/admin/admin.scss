@@ -3,77 +3,105 @@ page-admin {
         height: 100%;
     }
     ion-menu {
-        ion-content {
-            background: mapGet($basecolor, black)!important;
-            color: mapGet($basecolor, white)!important;
-
-            .closeMenuBtn {
-                position: absolute;
-                top: 20px;
-                left: 20px;
-                color: mapGet($basecolor, white);
-                font-size: 24px;
-                cursor: pointer;
-            }
-            .logo {
-                padding: 20px 50px 0;
-        
-                > span {
-                  cursor: pointer;
-                  font-size: 32px;
-                  font-weight: bold;
-                }
-              }
-            .listContainer {
-                // background: $color4;
-                margin-top: 50px;
-                
-                > div {
-                    padding: 15px 20px;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-
-                    ion-icon {
-                        flex: 1;
-                        text-align: center;
-                    }
-                    > div {
-                        flex: 7;
-                    }
-                }
-                > div:hover {
-                    // background: $color5;
-                }
-            }
-            .questionsContainer {
-                padding: 35px 25px;
-
-                > div {
-                    display: flex;
-                    align-items: center;
-                    padding: 5px 0;
-
-                    > ion-icon {
-                        margin-right: 20px;
-                    }
-                }
-            }
-        }
-    }
+			ion-content {
+				background: mapGet($basecolor, black)!important;
+				color: mapGet($basecolor, white)!important;
+	
+				.closeMenuBtn {
+					position: absolute;
+					top: 20px;
+					left: 20px;
+					color: mapGet($basecolor, white);
+					font-size: 24px;
+					cursor: pointer;
+				}
+				.logo {
+						padding: 20px 50px 0;
+		
+						> span {
+							cursor: pointer;
+							font-size: 32px;
+							font-weight: bold;
+						}
+					}
+				.listContainer {
+					margin-top: 50px;
+					
+					> .option {
+						padding: 15px 20px;
+						cursor: pointer;
+						display: flex;
+						align-items: center;
+						transition: .3s;
+	
+						ion-icon {
+							flex: 1;
+							text-align: center;
+						}
+						> div {
+								flex: 7;
+						}
+					}
+					> .option:hover {
+						color: var(--secondary);
+					}
+				}
+			}
+		}
     .dashboardContent {
-        position: relative;
-        height: 100%;
+			position: relative;
+			height: 100%;
 
-        .menuToggleBtn {
-            position: absolute;
-            top: 28px;
-            left: 25px;
-            font-size: 24px;
-            cursor: pointer;
-            color: mapGet($basecolor, white);
-            z-index: 99;
-        }
+			.menuToggleBtn {
+					position: absolute;
+					top: 28px;
+					left: 25px;
+					font-size: 24px;
+					cursor: pointer;
+					color: mapGet($basecolor, white);
+					z-index: 99;
+			}
+			.pageContainer {
+				height: 100vh;
+			}
+			.viewHeader {
+				background: mapGet($basecolor, black);
+				height: 80px;
+				color: mapGet($basecolor, white);
+				display: flex;
+				align-items: center;
+				padding: 0 60px;
+				font-size: 24px;
+			}
+			.viewContent {
+				background: mapGet($basecolor, border);
+				height: calc(100% - 80px);
+				padding: 15px 10px 0;
+				overflow: scroll;
+		
+				.contentGroup {     
+					background: white;
+					max-width: 700px;
+					margin: 0 auto 15px;
+		
+					.contentGroupHeader {
+						padding: 20px;
+						border-bottom: solid 1px #ddd;
+		
+						.contentGroupTitle {
+							font-size: 22px;
+							font-weight: 500;
+							margin-bottom: 15px;
+						}
+						.contentGroupSubtitle {
+							font-size: 16px;
+						}
+					}
+					.contentGroupContent {
+						padding: 20px;
+					}
+				}
+			}
     }
     // @media screen and (max-width: $break-medium) {
     //     .menu-inner{

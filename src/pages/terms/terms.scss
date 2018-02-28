@@ -1,0 +1,38 @@
+page-terms {
+
+  .termsPageWrapper {
+    height: 100%;
+
+    .tabBanner {
+      width: 80%;
+      max-width: 600px;
+      display: flex;
+      margin: 50px auto;
+      border: solid 1px black;
+      border-radius: 5px;
+      
+      > div {
+        flex: 1;
+        text-align: center;
+        padding: 15px 0;
+        cursor: pointer;
+
+        &.active {
+          font-weight: bold;
+        }
+      }
+      > div:first-child {
+        border-right: solid 1px black;
+      }
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }
+
+  @include respond-to(small) {
+
+  }
+}
