@@ -38,8 +38,7 @@ export class UserAdminTripsPage {
 
   init() {
     // splitting up to refetch below on edits
-    this.tripsQuery = this.apiService.getTripsUserDashboard(this.userService.user.id);
-    this.tripsQuery.valueChanges.subscribe(
+    this.tripsQuery = this.apiService.getTripsUserDashboard(this.userService.user.id).valueChanges.subscribe(
       result => {
         this.tripsData = result.data.allTrips.nodes;
         console.log(this.tripsData);
@@ -54,13 +53,13 @@ export class UserAdminTripsPage {
 
   editTrip(index: number) {
     this.tripService.openTripModal(this.tripsData[index].id).then(
-      result => this.tripsQuery.refetch()
+      result => {}
     );
   }
 
   editJuncture(index: number) {
     this.junctureService.openJunctureModal(this.tripsData[this.activeTrip].juncturesByTripId.nodes[index].id).then(
-      result => this.tripsQuery.refetch()
+      result => {}
     );
   }
 }

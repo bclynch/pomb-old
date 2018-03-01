@@ -27,7 +27,7 @@ export class TripService {
         if (data) {
           console.log(data);
           if (data.isExisting) {
-            this.apiService.updateTrip(tripId, data.name, data.description, +data.timeStart, +data.timeEnd, data.startLat, data.startLon).subscribe(
+            this.apiService.updateTrip(tripId, data.name, data.description, +data.timeStart, +data.timeEnd, data.startLat, data.startLon, this.userService.user.id).subscribe(
               result => {
                 console.log(result);
 
@@ -43,7 +43,7 @@ export class TripService {
             );
           } else {
             // create trip
-            this.apiService.createTrip(this.userService.user.id, data.name, data.description, data.timeStart, data.timeEnd, data.startLat, data.startLon).subscribe(
+            this.apiService.createTrip(this.userService.user.id, data.name, data.description, data.timeStart, data.timeEnd, data.startLat, data.startLon, this.userService.user.username).subscribe(
               (result: any) => {
                 // save banner photos
                 this.saveBannerPhotos(data.bannerImages, result.data.createTrip.trip.id).then(

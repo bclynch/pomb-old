@@ -49,7 +49,7 @@ export class TrackUser implements OnChanges {
       this.alertService.alert('Tracking Error', 'Please login in order to track users');
       return;
     } else {
-      this.apiService.createTrack(this.userService.user.id, this.trackUserId).subscribe(
+      this.apiService.createTrack(this.userService.user.id, this.trackUserId, this.userService.user.username).subscribe(
         result => {
           console.log(result);
           this.isTracking = true;
@@ -59,7 +59,7 @@ export class TrackUser implements OnChanges {
   }
 
   unTrackUser() {
-    this.apiService.deleteTrackById(this.trackingId).subscribe(
+    this.apiService.deleteTrackById(this.trackingId, this.userService.user.username).subscribe(
       result => {
         this.isTracking = false;
       }

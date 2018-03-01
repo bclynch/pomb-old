@@ -22,6 +22,7 @@ export class DashboardPage {
   isExpanded = false;
   postsData: any;
   posts: Post[] = [];
+  displayedPosts: Post[] = [];
   activePost: number = null;
   isPreview = false;
   previewedPost: Post;
@@ -42,12 +43,11 @@ export class DashboardPage {
 
   init() {
     this.settingsService.modPageMeta('Blog Dashboard', 'Create, edit, and share your own stories with Pack On My Back\'s blog generation tool. Make beautiful representations of your experiences to share and look back on.');
-    // splitting this out to be able to refetch later
-    this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id);
-    this.postsData.valueChanges.subscribe(
+    this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id).valueChanges.subscribe(
       ({data}) => {
         console.log(data);
         this.posts = data.allPosts.nodes;
+        this.displayedPosts = data.allPosts.nodes;
       });
   }
 
@@ -57,42 +57,29 @@ export class DashboardPage {
 
     switch (index) {
       case 0:
-        this.apiService.getAllPostsByUser(this.userService.user.id).valueChanges.subscribe(
-          ({data}) => {
-            this.posts = data.allPosts.nodes;
-          });
+        this.displayedPosts = this.posts;
         break;
       case 1:
-        this.apiService.getPostsByStatus(true, false, false, this.userService.user.id).valueChanges.subscribe(
-          ({data}) => {
-            this.posts = data.allPosts.nodes;
-          }
-        );
+        this.displayedPosts = this.posts.filter((post) => (post.isDraft));
         break;
       case 2:
-        this.apiService.getPostsByStatus(false, true, false, this.userService.user.id).valueChanges.subscribe(
-          ({data}) => {
-            this.posts = data.allPosts.nodes;
-          }
-        );
+      this.displayedPosts = this.posts.filter((post) => (post.isScheduled));
         break;
       case 3:
-        this.apiService.getPostsByStatus(false, false, true, this.userService.user.id).valueChanges.subscribe(
-          ({data}) => {
-            this.posts = data.allPosts.nodes;
-          }
-        );
+      this.displayedPosts = this.posts.filter((post) => (post.isPublished));
         break;
     }
   }
 
   launchPostEditor(post?: Post) {
-    console.log(post);
+    // bit of a dumb hack, but it keeps launch modal on update otherwise
+    let launch = true;
     const self = this;
     if (post) {
       this.apiService.getPostById(post.id, this.userService.user.id).valueChanges.subscribe(
         result => {
-          launchModal(result.data.postById);
+          if (launch) launchModal(result.data.postById);
+          launch = false;
         }
       );
     } else {
@@ -103,8 +90,6 @@ export class DashboardPage {
       const modal = self.modalCtrl.create(CreatePostModal, { post }, { cssClass: 'createPostModal', enableBackdropDismiss: false });
       modal.onDidDismiss(data => {
         if (data === 'delete') self.deletePost(post);
-        // causing weird behavior where it reopens modal
-        // if (data === 'refresh') self.postsData.refetch();
       });
       modal.present();
     }
@@ -113,7 +98,7 @@ export class DashboardPage {
   deletePost(post: Post) {
     // if not post passed in it means it wasn't saved yet anyway no need for api call
     if (post) {
-      this.apiService.deletePostById(post.id).subscribe(
+      this.apiService.deletePostById(post.id, this.userService.user.id).subscribe(
         result => {
           const deleteData = <any>result;
           const toast = this.toastCtrl.create({
@@ -123,8 +108,6 @@ export class DashboardPage {
           });
 
           toast.present();
-
-          this.postsData.refetch();
         }
       );
     }

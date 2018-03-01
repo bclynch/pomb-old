@@ -284,7 +284,7 @@ export class CreatePostModal {
   updatePost() {
     // this.data is the original data passed in and shouldn't be mutated
     // We can use this as a ref to know if we need to pass in new edits/changes
-    this.apiService.updatePostById(this.data.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.updatePostById(this.data.id, this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           const updatePromises = [];
@@ -297,7 +297,7 @@ export class CreatePostModal {
 
           // when all the above have resolved dismiss the modal
           Promise.all(updatePromises).then(() => {
-            this.viewCtrl.dismiss('refresh');
+            this.viewCtrl.dismiss();
           });
         }
       );
@@ -321,7 +321,7 @@ export class CreatePostModal {
 
                   // create tags + save as required
                   this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
-                    result => this.viewCtrl.dismiss('refresh'),
+                    result => this.viewCtrl.dismiss(),
                     err => createPostErrorHandler(err)
                   );
                 }, err => createPostErrorHandler(err)
@@ -334,7 +334,7 @@ export class CreatePostModal {
       function createPostErrorHandler(err: Error) {
         console.log(err);
         alert('something is fucked');
-        self.viewCtrl.dismiss('refresh');
+        self.viewCtrl.dismiss();
       }
   }
 
@@ -470,10 +470,10 @@ export class CreatePostModal {
       const promiseArr = [];
       // checking for dif between arrays
       const diffExisting = this.data.postToTagsByPostId.nodes.filter(x => this.tagOptions.map((optionToSave) => optionToSave.name).indexOf(x.postTagByPostTagId.name) < 0);
-      console.log(diffExisting); // remove post to tag
+      // console.log(diffExisting); // remove post to tag
       const moddedExisting = this.data.postToTagsByPostId.nodes.map((value) => value.postTagByPostTagId.name );
       const diffNew = this.tagOptions.filter(x => moddedExisting.indexOf(x.name) < 0);
-      console.log(diffNew); // create tag + post to tag
+      // console.log(diffNew); // create tag + post to tag
 
       // if no changes resolve
       if (!diffExisting.length && !diffNew.length) resolve();
@@ -498,7 +498,7 @@ export class CreatePostModal {
             const tagData = <any>tag;
             this.apiService.deletePostToTagById(tagData.id).subscribe(
               result => {
-                console.log(result);
+                // console.log(result);
 
                 // if the last tag deleted then cont
                 if (i === diffExisting.length - 1) {
@@ -567,7 +567,7 @@ export class CreatePostModal {
             // update edited gallery photos
             // make sure 'new' photos not on 'edited' arr
             const filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
-            console.log(filteredEditedArr);
+            // console.log(filteredEditedArr);
             // then bulk update imgs
             if (filteredEditedArr.length) {
               let query = `mutation {`;

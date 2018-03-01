@@ -189,7 +189,7 @@ export class TripModal {
       'Delete Trip',
       'Are you sure you want to delete this trip? All the associated information will be deleted and this action cannot be reversed',
       { label: 'Delete Trip', handler: () =>  {
-        this.apiService.deleteTripById(this.params.data.tripId).subscribe(
+        this.apiService.deleteTripById(this.params.data.tripId, this.userService.user.id).subscribe(
           result => {
             console.log(result);
             this.toastDelete('Trip deleted');

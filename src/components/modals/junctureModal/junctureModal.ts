@@ -317,7 +317,7 @@ export class JunctureModal {
       'Delete Juncture',
       'Are you sure you want to delete this juncture? All the associated information will be deleted and this action cannot be reversed',
       { label: 'Delete Juncture', handler: () =>  {
-        this.apiService.deleteJunctureById(this.params.data.junctureId).subscribe(
+        this.apiService.deleteJunctureById(this.params.data.junctureId, this.userService.user.id).subscribe(
           result => {
             console.log(result);
             this.toastDelete('Juncture deleted');

@@ -43,7 +43,6 @@ export class FadeCarousel implements OnChanges {
 
   editTrip() {
     this.tripService.openTripModal(this.tripData.tripId).then(
-      // would be nice to update store afterward so its reflected immediately
       result => console.log(result)
     );
   }

@@ -411,7 +411,6 @@ export class JuncturePage {
 
   editJuncture(index: number) {
     this.junctureService.openJunctureModal(this.junctureData.id).then(
-      // would like to update apollo store
       result => console.log(result)
     );
   }

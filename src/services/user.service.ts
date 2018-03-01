@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Apollo} from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 
 import { APIService } from './api.service';
@@ -120,6 +120,9 @@ export class UserService {
       switch (err.message) {
         case 'GraphQL error: duplicate key value violates unique constraint "account_username_key"':
           this.alertService.alert('Invalid Registration', 'That username already exists, please select a new one!');
+          break;
+        case 'GraphQL error: duplicate key value violates unique constraint "user_account_email_key"':
+          this.alertService.alert('Invalid Registration', 'The selected email already exists. Try resetting your password or use a new email address.');
           break;
         case 'GraphQL error: permission denied for function register_account':
           this.alertService.alert('Submission Error', 'Looks like you\'re still logged into another account. Make sure you\'re logged out or reload the page and try again');

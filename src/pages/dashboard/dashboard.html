@@ -43,7 +43,7 @@
         <DashboardCard 
           [data]="post" 
           [isActive]="i === activePost" 
-          *ngFor="let post of posts; let i = index"
+          *ngFor="let post of displayedPosts; let i = index"
           (changeActive)="activePost = i"
           (editPost)="launchPostEditor(post)"
           (deletePost)="deleteConfirm(post)"

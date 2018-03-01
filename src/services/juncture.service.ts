@@ -71,7 +71,7 @@ export class JunctureService {
                   }
                 );
               } else {
-                this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.type, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
+                this.apiService.createJuncture(this.userService.user.id, data.selectedTrip, data.type, data.name, data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg, this.userService.user.username).subscribe(
                   (result: any) => {
                     console.log(result);
 
@@ -89,6 +89,7 @@ export class JunctureService {
                         this.userService.user.autoUpdateLocation
                       ).subscribe(
                         (result: any) => {
+                          console.log(result);
                           // set user service to new returned user
                           this.userService.user = result.data.updateAccountById.account;
                         }

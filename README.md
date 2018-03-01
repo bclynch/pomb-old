@@ -4,6 +4,8 @@
 
 ### Top Priorities
 
+- Create admin registration / login / security for admin dash
+- paginated hub page
 - Mobile usage!
 - Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
 - Test test test
@@ -19,27 +21,20 @@
 *AFTER ONLINE*
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
-- paginated hub page
 - published / drafted junctures
-- Look at updating stores on mutation 
 - Look into search indexing (or lack there of...)
     - Running REFRESH MATERIALZE VIEW pomb.index_name will do it. On a schedule or??https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
 - netflix style infinite scroll for junctures view?
-- Add juncture type to model (hike, bike, vehicle, plane, run etc) - check
-    - Look at styling the data layer for various types - KML instead of geoJSON for styling
 - Google Analytics - Page views working at least (on CN email... Make domain email)
     - Track activities - https://codeburst.io/using-google-analytics-with-angular-25c93bffaa18
     - Set up reporting api calls - http://2ality.com/2015/10/google-analytics-api.html
         - https://stackoverflow.com/questions/12837748/analytics-google-api-error-403-user-does-not-have-any-google-analytics-account
-- Share buttons for posts / trips / junctures - in progress
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
-- Flesh out user --> country page (bleh) trips, junctures, posts, pics
-- Scroll to top when new route - fucked up because ionic...
 - Favorites / 'add to pack' for posts, images, trips
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
-- Communit hub - Map view of trips users have posted + some kind of way to explore various places
+- Community hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 
 

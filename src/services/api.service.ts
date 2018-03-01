@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 declare var google: any;
 
-import {Apollo} from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 import { AlertService } from './alert.service';
@@ -16,1580 +16,37 @@ import { JunctureType } from '../models/Juncture.model';
 const flickrKey = '691be9c5a38900c0249854a28a319e2c';
 const geonamesUser = 'bclynch';
 
-//////////////////////////
-/////////// queries
-////////////////////////
-const currentAccountQuery = gql`
-  query currentAccount {
-    currentAccount {
-      id,
-      firstName,
-      lastName,
-      username,
-      profilePhoto,
-      heroPhoto,
-      userStatus,
-      city,
-      country,
-      autoUpdateLocation,
-      autoUpdateVisited,
-      userToCountriesByUserId {
-        nodes {
-          id,
-          countryByCountry {
-            code,
-            name
-          }
-        }
-      }
-    }
-  }
-`;
+// queries
+import { currentAccountQuery, accountByUsernameQuery, recentUserActivityQuery } from '../api/queries/account.query';
+import { allPublishedPostsQuery, allPostsByUserQuery, postByIdQuery, postsByTripQuery, postsByTagQuery } from '../api/queries/post.query';
+import { allImagesByUserQuery, allImagesByTripQuery, recentImagesQuery } from '../api/queries/image.query';
+import { configQuery } from '../api/queries/config.query';
+import { allPostTagsQuery, tagByNameQuery } from '../api/queries/postTag.query';
+import { tripByIdQuery, tripsByUserQuery, tripsUserDashboardQuery, tripsByUserIdQuery } from '../api/queries/trip.query';
+import { partialJunctureByIdQuery, fullJunctureByIdQuery } from '../api/queries/juncture.query';
+import { searchSiteQuery, searchCountriesQuery, searchPostsQuery, searchTagsQuery } from '../api/queries/search.query';
+import { checkTrackingByUserQuery, userTrackedTripsQuery } from '../api/queries/tracking.query';
+import { allCountriesQuery } from '../api/queries/countries.query';
 
-const getAllPublishedPosts = gql`
-  query allPosts($quantity: Int, $offset: Int) {
-    allPosts(
-      orderBy: PRIMARY_KEY_DESC
-      condition:{
-        isPublished: true
-      },
-      first: $quantity,
-      offset: $offset
-    ) {
-      totalCount,
-      nodes {
-        id,
-        title,
-        subtitle,
-        content,
-        createdAt,
-        updatedAt,
-        accountByAuthor {
-          id,
-          firstName,
-          lastName,
-          username
-        },
-        imagesByPostId {
-          nodes {
-            id,
-            type,
-            url,
-            title,
-            accountByUserId {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getAllPostsByUser = gql`
-query allPosts($author: Int!) {
-  allPosts(
-    orderBy: PRIMARY_KEY_DESC,
-    condition: {
-      author: $author
-    }
-  ) {
-    nodes {
-      id,
-      title,
-      updatedAt,
-      isDraft,
-      isScheduled,
-      isPublished
-    }
-  }
-}
-`;
-
-const getAllImagesByUser = gql`
-  query allImages($userId: Int, $first: Int, $offset: Int) {
-    allImages(
-      condition:{
-        userId: $userId
-      },
-      first: $first,
-      offset: $offset
-    ) {
-      nodes {
-        id,
-        url,
-        description,
-        title,
-        accountByUserId {
-          id,
-          username
-        },
-        likesByUser: likesByImageId(
-          condition: {
-            userId: $userId
-          }
-        ) {
-          nodes {
-            id
-          }
-        },
-        totalLikes: likesByImageId {
-          totalCount
-        }
-      }
-    }
-  }
-`;
-
-const getAllImagesByTrip = gql`
-  query allImages($tripId: Int!, $first: Int, $offset: Int, $userId: Int) {
-    allImages(
-      condition: {
-        tripId: $tripId
-      },
-      first: $first,
-      offset: $offset
-    ) {
-      nodes {
-        id,
-        url,
-        description,
-        title,
-        accountByUserId {
-          id,
-          username
-        },
-        likesByUser: likesByImageId(
-          condition: {
-            userId: $userId
-          }
-        ) {
-          nodes {
-            id
-          }
-        },
-        totalLikes: likesByImageId {
-          totalCount
-        }
-      }
-    }
-  }
-`;
-
-const getRecentImages = gql`
-  query allImages($last: Int, $userId: Int) {
-    allImages(
-      condition: {
-        type: GALLERY
-      },
-      last: $last,
-    ) {
-      nodes {
-        id,
-        url,
-        description,
-        accountByUserId {
-          id,
-          username
-        },
-        likesByUser: likesByImageId(
-          condition: {
-            userId: $userId
-          }
-        ) {
-          nodes {
-            id
-          }
-        },
-        totalLikes: likesByImageId {
-          totalCount
-        }
-      }
-    }
-  }
-`;
-
-const getPostsByStatus = gql`
-query allPosts($isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $author: Int!) {
-  allPosts(condition: {
-    isDraft: $isDraft,
-    isScheduled: $isScheduled,
-    isPublished: $isPublished,
-    author: $author
-  },
-  orderBy: PRIMARY_KEY_DESC) {
-    nodes {
-      id,
-      title,
-      subtitle,
-      content,
-      createdAt,
-      updatedAt,
-      isDraft,
-      isScheduled,
-      isPublished,
-      scheduledDate,
-      publishedDate,
-      accountByAuthor {
-        id,
-        firstName,
-        lastName
-      },
-      postToTagsByPostId {
-        nodes {
-          postTagByPostTagId {
-            name
-          }
-        }
-      },
-      imagesByPostId {
-        nodes {
-          id,
-          type,
-          url,
-          description,
-          accountByUserId {
-            id
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const getAllPostTags = gql`
-  query allPostTags {
-    allPostTags {
-      nodes {
-        id,
-        name,
-        tagDescription
-      }
-    }
-  }
-`;
-
-const getConfig = gql`
-query allConfigs {
-  allConfigs {
-    nodes {
-      primaryColor,
-      secondaryColor,
-      tagline,
-      heroBanner,
-      postByFeaturedStory1 {
-        id,
-        title,
-        subtitle,
-        imagesByPostId(condition: {
-          type: LEAD_SMALL
-        }) {
-          nodes {
-            url
-          }
-        }
-      }
-      postByFeaturedStory2 {
-        id,
-        title,
-        subtitle,
-        imagesByPostId(condition: {
-          type: LEAD_SMALL
-        }) {
-          nodes {
-            url
-          }
-        }
-      }
-      postByFeaturedStory3 {
-        id,
-        title,
-        subtitle,
-        imagesByPostId(condition: {
-          type: LEAD_SMALL
-        }) {
-          nodes {
-            url
-          }
-        }
-      },
-      tripByFeaturedTrip1 {
-        id,
-        name,
-        startDate,
-        endDate,
-        imagesByTripId(
-          condition:{
-            type: BANNER
-          },
-          first: 1
-        ) {
-          nodes {
-            url
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const getAccountByUsername = gql`
-  query accountByUsername($username: String!, $userId: Int) {
-    accountByUsername(username: $username) {
-      id,
-      username,
-      firstName,
-      lastName,
-      profilePhoto,
-      heroPhoto,
-      city,
-      country,
-      userStatus,
-      postsByAuthor (
-        condition: {
-          isPublished: true
-        },
-        last: 11
-      ) {
-        nodes {
-          id,
-          title,
-          accountByAuthor {
-            id,
-            firstName,
-            lastName,
-            username
-          },
-          imagesByPostId(condition:{
-            type: LEAD_LARGE
-          }) {
-            nodes {
-              url,
-              type
-            }
-          }
-        }
-      },
-      imagesByUserId(last: 12) {
-        nodes {
-            id,
-            url,
-            title,
-            type,
-            description,
-            accountByUserId {
-              id,
-              username
-            },
-            likesByUser: likesByImageId(
-              condition: {
-                userId: $userId
-              }
-            ) {
-              nodes {
-                id
-              }
-            },
-            totalLikes: likesByImageId {
-              totalCount
-            }
-          }
-      }
-      tripsByUserId (
-        last: 5
-      ) {
-        nodes {
-          id,
-          name,
-          startDate,
-          endDate,
-          imagesByTripId(
-            condition: {
-              type: BANNER,
-            },
-            first: 1
-          ) {
-            nodes {
-              url
-            }
-          }
-        }
-      },
-      totalJunctureCount: juncturesByUserId {
-        totalCount
-      },
-      totalImageCount: imagesByUserId {
-        totalCount
-      },
-      totalPostCount: postsByAuthor {
-        totalCount
-      }
-      totalTripCount: tripsByUserId {
-        totalCount
-      },
-      tracksByUserId {
-        totalCount
-      },
-      tracksByTrackUserId {
-        totalCount
-      },
-      userToCountriesByUserId(
-        orderBy: COUNTRY_ASC
-      ) {
-        nodes {
-          countryByCountry {
-            code,
-            name
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getRecentUserActivity = gql`
-  query accountByUsername($username: String!) {
-    accountByUsername(username: $username) {
-      tripsByUserId(last: 1) {
-        nodes {
-          id,
-          name,
-          startDate,
-          endDate,
-          imagesByTripId(
-            condition: {
-              type: BANNER,
-            },
-            first: 1
-          ) {
-            nodes {
-              url
-            }
-          }
-        }
-      },
-      juncturesByUserId(first: 2, orderBy: PRIMARY_KEY_DESC) {
-        nodes {
-          id,
-          name,
-          markerImg,
-          city,
-          country,
-          type
-        }
-      },
-      postsByAuthor(
-        last: 3,
-        condition: {
-          isPublished: true
-        },
-        orderBy: ID_DESC
-      ) {
-        nodes {
-          title,
-          id,
-          imagesByPostId(
-            condition: {
-              type: LEAD_SMALL
-            }
-          ) {
-            nodes {
-              url
-            }
-          },
-          createdAt
-        }
-      }
-    }
-  }
-`;
-
-const getTripById = gql`
-  query tripById($id: Int!, $userId: Int) {
-    tripById(id: $id) {
-      id,
-      name,
-      startDate,
-      endDate,
-      startLat,
-      startLon,
-      description,
-      juncturesByTripId {
-        totalCount,
-        nodes {
-          name,
-          lat,
-          lon,
-          arrivalDate,
-          id,
-          markerImg,
-          description,
-          type,
-          city,
-          country,
-          coordsByJunctureId {
-            nodes {
-              lat,
-              lon,
-              elevation,
-              coordTime
-            }
-          }
-        }
-      },
-      accountByUserId {
-        id,
-        username,
-        firstName,
-        lastName,
-        profilePhoto
-      },
-      imagesByTripId {
-        totalCount,
-        nodes {
-          id,
-          url,
-          title,
-          type,
-          description,
-          accountByUserId {
-            id,
-            username
-          },
-          likesByUser: likesByImageId(
-            condition: {
-              userId: $userId
-            }
-          ) {
-            nodes {
-              id
-            }
-          },
-          totalLikes: likesByImageId {
-            totalCount
-          }
-        }
-      }
-      likesByUser: likesByTripId(
-        condition: {
-          userId: $userId
-        }
-      ) {
-        nodes {
-          id
-        }
-      },
-      totalLikes: likesByTripId {
-        totalCount
-      }
-    }
-  }
-`;
-
-const getTripsByUser = gql`
-  query allTrips($id: Int!) {
-    allTrips (
-      condition: {
-        userId: $id
-      }
-    ) {
-      nodes {
-        id,
-        name,
-        juncturesByTripId {
-          nodes {
-            name,
-            id,
-            city,
-            country
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getTripsUserDashboard = gql`
-  query allTrips($id: Int!) {
-    allTrips (
-      condition: {
-        userId: $id
-      }
-    ) {
-      nodes {
-        id,
-        name,
-        startDate,
-        endDate,
-        juncturesByTripId {
-          nodes {
-            id
-            name,
-            arrivalDate,
-            city,
-            country
-          }
-        },
-        imagesByTripId {
-          nodes {
-            url
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getPartialJunctureById = gql`
-  query junctureById($id: Int!, $userId: Int) {
-    junctureById(id: $id) {
-      id,
-      name,
-      arrivalDate,
-      description,
-      city,
-      country,
-      type,
-      postsByJunctureId {
-        nodes {
-          id,
-          title,
-          accountByAuthor {
-            id,
-            firstName,
-            lastName,
-            username
-          },
-          createdAt,
-          imagesByPostId {
-            nodes {
-              id,
-              url,
-              type
-            }
-          }
-        }
-      },
-      imagesByJunctureId(
-        condition:{
-          type: GALLERY
-        }
-      ) {
-        nodes {
-          id,
-          postId,
-          type,
-          url,
-          description,
-          accountByUserId {
-            id,
-            username
-          },
-          likesByUser: likesByImageId(
-            condition: {
-              userId: $userId
-            }
-          ) {
-            nodes {
-              id
-            }
-          },
-          totalLikes: likesByImageId {
-            totalCount
-          }
-        }
-      }
-      likesByUser: likesByJunctureId(
-        condition: {
-          userId: $userId
-        }
-      ) {
-        nodes {
-          id
-        }
-      },
-      totalLikes: likesByJunctureId {
-        totalCount
-      }
-    }
-  }
-`;
-
-const getFullJunctureById = gql`
-  query junctureById($id: Int!, $userId: Int) {
-    junctureById(id: $id) {
-      id,
-      name,
-      arrivalDate,
-      description,
-      type,
-      lat,
-      lon,
-      city,
-      country,
-      markerImg,
-      userId,
-      postsByJunctureId {
-        nodes {
-          id,
-          title,
-          accountByAuthor {
-            id,
-            firstName,
-            lastName,
-            username
-          }
-          imagesByPostId {
-            nodes {
-              id,
-              url,
-              type,
-              accountByUserId {
-                id
-              }
-            }
-          }
-        }
-      },
-      coordsByJunctureId {
-        nodes {
-          id,
-          lat,
-          lon,
-          elevation,
-          coordTime
-        }
-      },
-      imagesByJunctureId(
-        condition:{
-          type: GALLERY
-        }
-      ) {
-        nodes {
-          id,
-          postId,
-          type,
-          url,
-          description,
-          accountByUserId {
-            id,
-            username
-          },
-          likesByUser: likesByImageId(
-            condition: {
-              userId: $userId
-            }
-          ) {
-            nodes {
-              id
-            }
-          },
-          totalLikes: likesByImageId {
-            totalCount
-          }
-        }
-      }
-      tripByTripId {
-        id,
-        name,
-        juncturesByTripId {
-          nodes {
-            name
-            id
-          }
-        }
-      }
-      likesByUser: likesByJunctureId(
-        condition: {
-          userId: $userId
-        }
-      ) {
-        nodes {
-          id
-        }
-      },
-      totalLikes: likesByJunctureId {
-        totalCount
-      }
-    }
-  }
-`;
-
-const getPostById = gql`
-  query postById($id: Int!, $userId: Int) {
-    postById(id: $id) {
-      id,
-      title,
-      subtitle,
-      content,
-      createdAt,
-      updatedAt,
-      scheduledDate,
-      publishedDate,
-      tripId,
-      junctureId,
-      city,
-      country,
-      accountByAuthor {
-        id,
-        firstName,
-        lastName,
-        username
-      },
-      postToTagsByPostId {
-        nodes {
-          postTagByPostTagId {
-            name,
-            postToTagsByPostTagId(first: 5, orderBy: ID_DESC) {
-              nodes {
-                postByPostId {
-                  id,
-                  title,
-                  createdAt,
-                  accountByAuthor {
-                    id,
-                    firstName,
-                    lastName,
-                    username
-                  },
-                  imagesByPostId {
-                    nodes {
-                      id,
-                      url,
-                      type,
-                      accountByUserId {
-                        id
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      imagesByPostId {
-        nodes {
-          id,
-          type,
-          url,
-          description,
-          title,
-          accountByUserId {
-            id,
-            username
-          },
-          likesByUser: likesByImageId(
-            condition: {
-              userId: $userId
-            }
-          ) {
-            nodes {
-              id
-            }
-          },
-          totalLikes: likesByImageId {
-            totalCount
-          }
-        }
-      },
-      likesByUser: likesByPostId(
-        condition: {
-          userId: $userId
-        }
-      ) {
-        nodes {
-          id
-        }
-      },
-      totalLikes: likesByPostId {
-        totalCount
-      }
-    }
-  }
-`;
-
-const getPostsByTag = gql`
-  query allPostToTags($tagId: String) {
-    allPostToTags(
-      condition: {
-        postTagId: $tagId
-      }
-    ) {
-      nodes {
-        postByPostId {
-          id,
-          title,
-          accountByAuthor {
-            id,
-            firstName,
-            lastName
-          }
-          subtitle,
-          createdAt,
-          imagesByPostId {
-            nodes {
-              id,
-              type,
-              url,
-              title,
-              accountByUserId {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getPostsByTrip = gql`
-  query getPostsByTrip($id: Int!) {
-    tripById(id: $id) {
-      postsByTripId(
-        first: 10,
-        orderBy: ID_DESC
-      ) {
-        totalCount,
-        nodes {
-          id,
-          title,
-          accountByAuthor {
-            id,
-            firstName,
-            lastName,
-            username
-          }
-          subtitle,
-          createdAt,
-          imagesByPostId {
-            nodes {
-              id,
-              url,
-              type,
-              accountByUserId {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getTagByName = gql`
-query allPostTags($tagName: String!) {
-  allPostTags(condition: {
-    name: $tagName
-  }) {
-    nodes {
-      id,
-      tagDescription
-    }
-  }
-}
-`;
-
-const searchSite = gql`
-  query searchSite($query: String!) {
-    searchTrips(
-      query: $query,
-      first: 5
-    ) {
-      nodes {
-        id,
-        name
-      }
-    },
-    searchPosts(
-      query: $query,
-      first: 10
-    ) {
-      nodes {
-        id,
-        title,
-        subtitle,
-        createdAt
-      }
-    }
-    searchAccounts(
-      query: $query,
-      first: 10
-    ) {
-      nodes {
-        id,
-        username,
-        firstName,
-        lastName,
-        profilePhoto
-      }
-    }
-  }
-`;
-
-const searchTags = gql`
-  query searchTags($query: String!) {
-    searchTags(query: $query) {
-      nodes {
-        name
-      }
-    }
-  }
-`;
-
-const searchPosts = gql`
-  query searchPosts($query: String!, $postStatus: String) {
-    searchPosts(
-      query: $query,
-      first: 10
-    ) {
-      nodes {
-        id,
-        title,
-        updatedAt,
-        isDraft,
-        isScheduled,
-        isPublished
-      }
-    }
-  }
-`;
-
-const searchCountries = gql`
-  query searchCountries($query: String!) {
-    searchCountries(query: $query) {
-      nodes {
-        code,
-        name
-      }
-    }
-  }
-`;
-
-const tripsByUserId = gql`
-  query tripsByUserId($userId: Int!) {
-    allTrips(
-      condition: {
-        userId: $userId
-      },
-      orderBy: PRIMARY_KEY_DESC
-    ) {
-      nodes {
-        id,
-        name
-      }
-    }
-  }
-`;
-
-const checkTrackingByUser = gql`
-  query checkTrackingByUser($trackedUser: Int!, $trackingUser: Int!) {
-    accountById (
-      id: $trackedUser
-    ) {
-      tracksByTrackUserId(
-        condition: {
-          userId: $trackingUser
-        }
-      ) {
-        nodes {
-          id
-        }
-      }
-    }
-  }
-`;
-
-const getUserTrackedTrips = gql`
-  query getUserTrackedTrips($username: String!) {
-    accountByUsername(username: $username) {
-      tracksByUserId {
-        totalCount,
-        nodes {
-          accountByTrackUserId {
-            id,
-            username,
-            firstName,
-            lastName,
-            profilePhoto,
-            tripsByUserId (
-              orderBy: START_DATE_DESC
-            ) {
-              nodes {
-                id,
-                name,
-                startDate,
-                endDate,
-                imagesByTripId(
-                  condition: {
-                    type: BANNER,
-                  },
-                  first: 1
-                ) {
-                  nodes {
-                    id,
-                    url
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const getAllCountries = gql`
-  query getAllCountries {
-    allCountries {
-      nodes {
-        code,
-        name
-      }
-    }
-  }
-`;
-
-//////////////////////////
-/////////// mutations
-////////////////////////
-const registerAccount = gql`
-  mutation registerAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
-    registerAccount(input:{
-      username: $username
-      firstName: $firstName,
-      lastName: $lastName,
-      password: $password,
-      email: $email,
-    })
-    {
-      account {
-        id,
-        firstName,
-        lastName,
-        username
-      }
-    }
-  }
-`;
-
-const authAccount = gql`
-  mutation authAccount($email: String!, $password: String!) {
-    authenticateAccount(input:{
-      email: $email,
-      password: $password
-    }) {
-      jwtToken
-    }
-  }
-`;
-
-const updateAccountById = gql`
-  mutation updateAccountById($id: Int!, $firstName: String!, $lastName: String!, $userStatus: String, $heroPhoto: String, $profilePhoto: String, $city: String, $country: String, $autoUpdate: Boolean!) {
-    updateAccountById(input:{
-      id: $id,
-      accountPatch:{
-        firstName: $firstName,
-        lastName: $lastName,
-        userStatus: $userStatus,
-        profilePhoto: $profilePhoto,
-        heroPhoto: $heroPhoto,
-        city: $city,
-        country: $country,
-        autoUpdateLocation: $autoUpdate
-      }
-    }) {
-      account {
-        id,
-        username,
-        firstName,
-        lastName,
-        userStatus,
-        heroPhoto,
-        profilePhoto,
-        city,
-        country,
-        autoUpdateLocation
-      }
-    }
-  }
-`;
-
-const deletePostById = gql`
-  mutation deletePostById($id: Int!) {
-    deletePostById(input: {
-      id: $id
-    }) {
-      post {
-        title
-      }
-    }
-  }
-`;
-
-const createPost = gql`
-  mutation createPost($author: Int!, $title: String!, $subtitle: String!, $content: String!, $isDraft: Boolean!, $isScheduled: Boolean!, $isPublished: Boolean!, $tripId: Int, $city: String, $country: String, $junctureId: Int, $scheduledDate: BigInt, $publishedDate: BigInt) {
-    createPost(input: {
-      post: {
-        author: $author,
-        title: $title,
-        subtitle: $subtitle,
-        content: $content,
-        isDraft: $isDraft,
-        isScheduled: $isScheduled,
-        isPublished: $isPublished,
-        tripId: $tripId,
-        junctureId: $junctureId,
-        city: $city,
-        country: $country,
-        scheduledDate: $scheduledDate,
-        publishedDate: $publishedDate
-      }
-    }) {
-      post {
-        id
-      }
-    }
-  }
-`;
-
-const createPostTag = gql`
-  mutation createPostTag($name: String!, $tagDescription: String) {
-    createPostTag(input:{
-      postTag:{
-        name: $name,
-        tagDescription: $tagDescription
-      }
-    }) {
-      postTag {
-        name
-      }
-    }
-  }
-`;
-
-const deletePostToTagById = gql`
-  mutation deletePostToTagById($id: Int!) {
-    deletePostToTagById(input:{
-      id: $id
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const deleteImageById = gql`
-  mutation deleteImageById($id: Int!) {
-    deleteImageById(input:{
-      id: $id
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const createImage = gql`
-  mutation createImage($tripId: Int, $junctureId: Int, $postId: Int, $userId: Int!, $type: ImageType!, $url: String!, $title: String, $description: String) {
-    createImage(
-      input: {
-        image:{
-          tripId: $tripId,
-          junctureId: $junctureId,
-          postId: $postId,
-          userId: $userId,
-          type: $type,
-          url: $url,
-          title: $title,
-          description: $description
-        }
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const updateConfig = gql`
-  mutation updateConfig($primaryColor: String!, $secondaryColor: String!, $tagline: String!, $heroBanner: String!) {
-    updateConfigById(input:{
-      id: 1,
-      configPatch: {
-        primaryColor: $primaryColor,
-        secondaryColor: $secondaryColor,
-        tagline: $tagline,
-        heroBanner: $heroBanner
-      }
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const updatePostById = gql`
-  mutation updatePostById($postId: Int!, $title: String, $subtitle: String, $content: String, $tripId: Int, $junctureId: Int, $city: String, $country: String, $isDraft: Boolean, $isScheduled: Boolean, $isPublished: Boolean, $scheduledDate: BigInt, $publishedDate: BigInt) {
-    updatePostById(input:{
-      id: $postId,
-      postPatch:{
-        title: $title,
-        subtitle: $subtitle,
-        content: $content,
-        tripId: $tripId,
-        junctureId: $junctureId,
-        city: $city,
-        country: $country,
-        isDraft: $isDraft,
-        isScheduled: $isScheduled,
-        isPublished: $isPublished,
-        scheduledDate: $scheduledDate,
-        publishedDate: $publishedDate
-      }
-    }) {
-      post {
-        id
-      }
-    }
-  }
-`;
-
-const createJuncture = gql`
-  mutation($userId: Int!, $tripId: Int!, $type: JunctureType!, $name: String!, $arrivalDate: BigInt!, $description: String, $lat: BigFloat!, $lon: BigFloat!, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
-    createJuncture(input:{
-      juncture: {
-        userId: $userId,
-        tripId: $tripId,
-        type: $type,
-        name: $name,
-        arrivalDate: $arrivalDate,
-        description: $description,
-        lat: $lat,
-        lon: $lon,
-        city: $city,
-        country: $country,
-        isDraft: $isDraft,
-        markerImg: $markerImg
-      }
-    }) {
-      juncture {
-        id
-      }
-    }
-  }
-`;
-
-const updateJuncture = gql`
-  mutation($junctureId: Int!, $userId: Int, $tripId: Int, $type: JunctureType, $name: String, $arrivalDate: BigInt, $description: String, $lat: BigFloat, $lon: BigFloat, $city: String, $country: String, $isDraft: Boolean, $markerImg: String) {
-    updateJunctureById(input:{
-      id: $junctureId,
-      juncturePatch: {
-        userId: $userId,
-        tripId: $tripId,
-        name: $name,
-        arrivalDate: $arrivalDate,
-        description: $description,
-        type: $type,
-        lat: $lat,
-        lon: $lon,
-        city: $city,
-        country: $country,
-        isDraft: $isDraft,
-        markerImg: $markerImg
-      }
-    }) {
-      juncture {
-        id
-      }
-    }
-  }
-`;
-
-const deleteJunctureById = gql`
-  mutation($junctureId: Int!) {
-    deleteJunctureById (
-      input: {
-        id: $junctureId
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const createTrip = gql`
-  mutation($userId: Int!, $name: String!, $description: String, $startDate: BigInt!, $endDate: BigInt, $startLat: BigFloat!, $startLon: BigFloat!) {
-    createTrip(input:{
-      trip:{
-        userId: $userId,
-        name: $name,
-        description: $description,
-        startDate: $startDate,
-        endDate: $endDate,
-        startLat: $startLat,
-        startLon: $startLon
-      }
-    }) {
-      trip {
-        id
-      }
-    }
-  }
-`;
-
-const updateTrip = gql`
-  mutation($tripId: Int!, $name: String, $description: String, $startDate: BigInt, $endDate: BigInt, $startLat: BigFloat, $startLon: BigFloat) {
-    updateTripById (
-      input: {
-        id: $tripId,
-        tripPatch:{
-          name: $name,
-          description: $description,
-          startDate: $startDate,
-          endDate: $endDate,
-          startLat: $startLat,
-          startLon: $startLon
-        }
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const deleteTripById = gql`
-  mutation($tripId: Int!) {
-    deleteTripById (
-      input: {
-        id: $tripId
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const createEmailListEntry = gql`
-  mutation($email: String!) {
-    createEmailList(input:{
-      emailList: {
-        email: $email
-      }
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const createLike = gql`
-  mutation($tripId: Int, $junctureId: Int, $postId: Int, $imageId: Int, $userId: Int!) {
-    createLike(
-      input: {
-        like: {
-          tripId: $tripId,
-          junctureId: $junctureId,
-          postId: $postId,
-          imageId: $imageId,
-          userId: $userId
-        }
-      }
-    ) {
-      likeEdge {
-        node {
-          id
-        }
-      }
-    }
-  }
-`;
-
-const deleteLike = gql`
-  mutation($likeId: Int!) {
-    deleteLikeById(
-      input: {
-        id: $likeId
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const resetPassword = gql`
-  mutation($email: String!) {
-    resetPassword(input: {
-      email: $email
-    }) {
-      string
-    }
-  }
-`;
-
-const updatePassword = gql`
-  mutation($userId: Int!, $password: String!, $newPassword: String!) {
-    updatePassword(
-      input: {
-        userId: $userId,
-        password: $password,
-        newPassword: $newPassword
-      }
-    ) {
-      boolean
-    }
-  }
-`;
-
-const deleteAccountById = gql`
-  mutation($userId: Int!) {
-    deleteAccountById(input: {
-      id: $userId
-    }) {
-      clientMutationId
-    }
-  }
-`;
-
-const createTrack = gql`
-  mutation($userId: Int!, $trackUserId: Int!) {
-    createTrack(
-      input: {
-        track: {
-          userId: $userId,
-          trackUserId: $trackUserId
-        }
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const deleteTrackById = gql`
-  mutation($trackId: Int!) {
-    deleteTrackById(
-      input: {
-        id: $trackId
-      }
-    ) {
-      clientMutationId
-    }
-  }
-`;
-
-const createUserToCountry = gql`
-  mutation($code: String!, $userId: Int!) {
-    createUserToCountry(input: {
-      userToCountry: {
-        country: $code,
-        userId: $userId
-      }
-    }) {
-      clientMutationId
-    }
-  }
-`;
+// mutations
+import {
+  registerAccountMutation,
+  authAccountMutation,
+  updateAccountByIdMutation,
+  createEmailListEntryMutation,
+  resetPasswordMutation,
+  updatePasswordMutation,
+  deleteAccountByIdMutation,
+  createUserToCountryMutation
+} from '../api/mutations/account.mutation';
+import { createPostMutation, deletePostByIdMutation, updatePostByIdMutation } from '../api/mutations/post.mutation';
+import { createPostTagMutation, deletePostToTagByIdMutation } from '../api/mutations/postTag.mutation';
+import { createImageMutation, deleteImageByIdMutation } from '../api/mutations/image.mutation';
+import { updateConfigMutation } from '../api/mutations/config.mutation';
+import { createJunctureMutation, deleteJunctureByIdMutation, updateJunctureMutation } from '../api/mutations/juncture.mutation';
+import { createTripMutation, updateTripMutation, deleteTripByIdMutation } from '../api/mutations/trip.mutation';
+import { createLikeMutation, deleteLikeMutation } from '../api/mutations/like.mutation';
+import { createTrackMutation, deleteTrackByIdMutation } from '../api/mutations/tracking.mutation';
 
 @Injectable()
 export class APIService {
@@ -1599,22 +56,6 @@ export class APIService {
     private apollo: Apollo,
     private alertService: AlertService
   ) {}
-
-  // get all countries
-  // getAllCountries() {
-  //   return this.http.get('https://restcountries.eu/rest/v2/')
-  //   .map(
-  //     (response: Response) => {
-  //       const responseData = <any>response;
-  //       return JSON.parse(responseData._body);
-  //     }
-  //   )
-  //   .catch(
-  //     (error: Response) => {
-  //       return Observable.throw('Something went wrong');
-  //     }
-  //   );
-  // }
 
   // flickr photos
   getFlickrPhotos(place: string, tag: string, results: number, additionalTag?: string) {
@@ -1826,7 +267,7 @@ export class APIService {
 
   getAllPublishedPosts(quantity: number, offset: number) {
     return this.apollo.watchQuery<any>({
-      query: getAllPublishedPosts,
+      query: allPublishedPostsQuery,
       variables: {
         quantity,
         offset
@@ -1836,7 +277,7 @@ export class APIService {
 
   getAllPostsByUser(author: number) {
     return this.apollo.watchQuery<any>({
-      query: getAllPostsByUser,
+      query: allPostsByUserQuery,
       variables: {
         author
       }
@@ -1845,7 +286,7 @@ export class APIService {
 
   getAllImagesByUser(userId: number, first: number, offset: number) {
     return this.apollo.watchQuery<any>({
-      query: getAllImagesByUser,
+      query: allImagesByUserQuery,
       variables: {
         userId,
         first,
@@ -1856,7 +297,7 @@ export class APIService {
 
   getAllImagesByTrip(tripId: number, first: number, offset: number, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getAllImagesByTrip,
+      query: allImagesByTripQuery,
       variables: {
         tripId,
         first,
@@ -1868,7 +309,7 @@ export class APIService {
 
   getRecentImages(amount: number, $userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getRecentImages,
+      query: recentImagesQuery,
       variables: {
         last: amount,
         $userId
@@ -1876,21 +317,9 @@ export class APIService {
     });
   }
 
-  getPostsByStatus(isDraft: boolean, isScheduled: boolean, isPublished: boolean, author: number) {
-    return this.apollo.watchQuery<any>({
-      query: getPostsByStatus,
-      variables: {
-        isDraft,
-        isScheduled,
-        isPublished,
-        author
-      }
-    });
-  }
-
   getTripById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getTripById,
+      query: tripByIdQuery,
       variables: {
           id,
           userId
@@ -1900,7 +329,7 @@ export class APIService {
 
   getTripsByUser(id: number) {
     return this.apollo.watchQuery<any>({
-      query: getTripsByUser,
+      query: tripsByUserQuery,
       variables: {
           id
       }
@@ -1909,7 +338,7 @@ export class APIService {
 
   getTripsUserDashboard(id: number) {
     return this.apollo.watchQuery<any>({
-      query: getTripsUserDashboard,
+      query: tripsUserDashboardQuery,
       variables: {
           id
       }
@@ -1918,7 +347,7 @@ export class APIService {
 
   getPartialJunctureById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getPartialJunctureById,
+      query: partialJunctureByIdQuery,
       variables: {
           id,
           userId
@@ -1928,7 +357,7 @@ export class APIService {
 
   getFullJunctureById(id: number, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getFullJunctureById,
+      query: fullJunctureByIdQuery,
       variables: {
           id,
           userId
@@ -1938,7 +367,7 @@ export class APIService {
 
   getPostById(postId: number, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getPostById,
+      query: postByIdQuery,
       variables: {
           id: postId,
           userId
@@ -1948,7 +377,7 @@ export class APIService {
 
   getPostsByTag(tagId: string) {
     return this.apollo.watchQuery<any>({
-      query: getPostsByTag,
+      query: postsByTagQuery,
       variables: {
         tagId
       }
@@ -1957,7 +386,7 @@ export class APIService {
 
   getPostsByTrip(id: number) {
     return this.apollo.watchQuery<any>({
-      query: getPostsByTrip,
+      query: postsByTripQuery,
       variables: {
         id
       }
@@ -1966,19 +395,19 @@ export class APIService {
 
   getAllPostTags() {
     return this.apollo.watchQuery<any>({
-      query: getAllPostTags
+      query: allPostTagsQuery
     });
   }
 
   getConfig() {
     return this.apollo.watchQuery<any>({
-      query: getConfig
+      query: configQuery
     });
   }
 
   getAccountByUsername(username: string, userId: number) {
     return this.apollo.watchQuery<any>({
-      query: getAccountByUsername,
+      query: accountByUsernameQuery,
       variables: {
         username,
         userId
@@ -1988,7 +417,7 @@ export class APIService {
 
   getRecentUserActivity(username: string) {
     return this.apollo.watchQuery<any>({
-      query: getRecentUserActivity,
+      query: recentUserActivityQuery,
       variables: {
         username
       }
@@ -1997,7 +426,7 @@ export class APIService {
 
   getTagByName(tagName: string) {
     return this.apollo.watchQuery<any>({
-      query: getTagByName,
+      query: tagByNameQuery,
       variables: {
         tagName
       }
@@ -2006,7 +435,7 @@ export class APIService {
 
   searchSite(query: string) {
     return this.apollo.watchQuery<any>({
-      query: searchSite,
+      query: searchSiteQuery,
       variables: {
         query
       }
@@ -2015,7 +444,7 @@ export class APIService {
 
   searchTags(query: string) {
     return this.apollo.watchQuery<any>({
-      query: searchTags,
+      query: searchTagsQuery,
       variables: {
         query
       }
@@ -2024,7 +453,7 @@ export class APIService {
 
   searchPosts(query: string, postStatus: 'draft' | 'scheduled' | 'published') {
     return this.apollo.watchQuery<any>({
-      query: searchPosts,
+      query: searchPostsQuery,
       variables: {
         query,
         postStatus,
@@ -2035,7 +464,7 @@ export class APIService {
 
   searchCountries(query: string) {
     return this.apollo.watchQuery<any>({
-      query: searchCountries,
+      query: searchCountriesQuery,
       variables: {
         query
       }
@@ -2044,7 +473,7 @@ export class APIService {
 
   tripsByUserId(userId: number) {
     return this.apollo.watchQuery<any>({
-      query: tripsByUserId,
+      query: tripsByUserIdQuery,
       variables: {
         userId
       }
@@ -2053,7 +482,7 @@ export class APIService {
 
   checkTrackingByUser(trackedUser: number, trackingUser: number) {
     return this.apollo.watchQuery<any>({
-      query: checkTrackingByUser,
+      query: checkTrackingByUserQuery,
       variables: {
         trackedUser,
         trackingUser
@@ -2063,7 +492,7 @@ export class APIService {
 
   getUserTrackedTrips(username: string) {
     return this.apollo.watchQuery<any>({
-      query: getUserTrackedTrips,
+      query: userTrackedTripsQuery,
       variables: {
         username
       }
@@ -2072,7 +501,7 @@ export class APIService {
 
   getAllCountries() {
     return this.apollo.watchQuery<any>({
-      query: getAllCountries,
+      query: allCountriesQuery,
       variables: {
 
       }
@@ -2082,7 +511,7 @@ export class APIService {
   // Graphql mutations
   registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
     return this.apollo.mutate({
-      mutation: registerAccount,
+      mutation: registerAccountMutation,
       variables: {
         username,
         firstName,
@@ -2095,7 +524,7 @@ export class APIService {
 
   authAccount(email: string, password: string) {
     return this.apollo.mutate({
-      mutation: authAccount,
+      mutation: authAccountMutation,
       variables: {
         email,
         password
@@ -2103,18 +532,24 @@ export class APIService {
     });
   }
 
-  deletePostById(id: number) {
+  deletePostById(id: number, author: number) {
     return this.apollo.mutate({
-      mutation: deletePostById,
+      mutation: deletePostByIdMutation,
       variables: {
         id
-      }
+      },
+      refetchQueries: [{
+        query: allPostsByUserQuery,
+        variables: {
+          author
+        }
+      }]
     });
   }
 
   updateAccountById(id: number, firstName: string, lastName: string, userStatus: string, heroPhoto: string, profilePhoto: string, city: string, country: string, autoUpdate: boolean) {
     return this.apollo.mutate({
-      mutation: updateAccountById,
+      mutation: updateAccountByIdMutation,
       variables: {
         id,
         firstName,
@@ -2131,7 +566,7 @@ export class APIService {
 
   createPost(author: number, title: string, subtitle: string, content: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, tripId: number, junctureId: number, city: string, country: string, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
-      mutation: createPost,
+      mutation: createPostMutation,
       variables: {
         author,
         title,
@@ -2146,13 +581,19 @@ export class APIService {
         country,
         scheduledDate: scheduledDate ? scheduledDate : null,
         publishedDate: publishedDate ? publishedDate : null
-      }
+      },
+      refetchQueries: [{
+        query: allPostsByUserQuery,
+        variables: {
+          author
+        }
+      }]
     });
   }
 
   createPostTag(name: string, tagDescription?: string) {
     return this.apollo.mutate({
-      mutation: createPostTag,
+      mutation: createPostTagMutation,
       variables: {
         name,
         tagDescription
@@ -2168,7 +609,7 @@ export class APIService {
 
   deletePostToTagById(id: number) {
     return this.apollo.mutate({
-      mutation: deletePostToTagById,
+      mutation: deletePostToTagByIdMutation,
       variables: {
         id
       }
@@ -2177,7 +618,7 @@ export class APIService {
 
   deleteImageById(id: number) {
     return this.apollo.mutate({
-      mutation: deleteImageById,
+      mutation: deleteImageByIdMutation,
       variables: {
         id
       }
@@ -2186,7 +627,7 @@ export class APIService {
 
   createImage(tripId: number, junctureId: number, postId: number, userId: number, type: ImageType, url: string, title: string, description: string) {
     return this.apollo.mutate({
-      mutation: createImage,
+      mutation: createImageMutation,
       variables: {
         tripId,
         junctureId,
@@ -2202,7 +643,7 @@ export class APIService {
 
   updateConfig(primaryColor: string, secondaryColor: string, tagline: string, heroBanner: string) {
     return this.apollo.mutate({
-      mutation: updateConfig,
+      mutation: updateConfigMutation,
       variables: {
         primaryColor,
         secondaryColor,
@@ -2212,9 +653,9 @@ export class APIService {
     });
   }
 
-  updatePostById(postId: number, title: string, subtitle: string, content: string, tripId: number, junctureId: number, city: string, country: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
+  updatePostById(postId: number, author: number, title: string, subtitle: string, content: string, tripId: number, junctureId: number, city: string, country: string, isDraft: boolean, isScheduled: boolean, isPublished: boolean, scheduledDate?: number, publishedDate?: number) {
     return this.apollo.mutate({
-      mutation: updatePostById,
+      mutation: updatePostByIdMutation,
       variables: {
         postId,
         title,
@@ -2229,13 +670,19 @@ export class APIService {
         isPublished,
         scheduledDate: scheduledDate ? scheduledDate : null,
         publishedDate: publishedDate ? publishedDate : null
-      }
+      },
+      refetchQueries: [{
+        query: allPostsByUserQuery,
+        variables: {
+          author
+        }
+      }]
     });
   }
 
-  createJuncture(userId: number, tripId: number, type: JunctureType, name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean, markerImg: string) {
+  createJuncture(userId: number, tripId: number, type: JunctureType, name: string, arrivalDate: number, description: string, lat: number, lon: number, city: string, country: string, isDraft: boolean, markerImg: string, username: string) {
     return this.apollo.mutate({
-      mutation: createJuncture,
+      mutation: createJunctureMutation,
       variables: {
         userId,
         tripId,
@@ -2249,13 +696,19 @@ export class APIService {
         country,
         isDraft,
         markerImg
-      }
+      },
+      refetchQueries: [{
+        query: recentUserActivityQuery,
+        variables: {
+          username
+        }
+      }]
     });
   }
 
   updateJuncture(junctureId: number, userId: number, tripId: number, type: JunctureType, name?: string, arrivalDate?: number, description?: string, lat?: number, lon?: number, city?: string, country?: string, isDraft?: boolean, markerImg?: string) {
     return this.apollo.mutate({
-      mutation: updateJuncture,
+      mutation: updateJunctureMutation,
       variables: {
         junctureId,
         userId,
@@ -2270,22 +723,43 @@ export class APIService {
         country,
         isDraft,
         markerImg
-      }
+      },
+      refetchQueries: [
+        {
+          query: tripsUserDashboardQuery,
+          variables: {
+            id: userId
+          }
+        },
+        {
+          query: fullJunctureByIdQuery,
+          variables: {
+            id: junctureId,
+            userId
+          }
+        }
+      ]
     });
   }
 
-  deleteJunctureById(junctureId: number) {
+  deleteJunctureById(junctureId: number, userId: number) {
     return this.apollo.mutate({
-      mutation: deleteJunctureById,
+      mutation: deleteJunctureByIdMutation,
       variables: {
         junctureId
-      }
+      },
+      refetchQueries: [{
+        query: tripsUserDashboardQuery,
+        variables: {
+          id: userId
+        }
+      }]
     });
   }
 
-  createTrip(userId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number) {
+  createTrip(userId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number, username: string) {
     return this.apollo.mutate({
-      mutation: createTrip,
+      mutation: createTripMutation,
       variables: {
         userId,
         name,
@@ -2294,13 +768,19 @@ export class APIService {
         endDate,
         startLat,
         startLon
-      }
+      },
+      refetchQueries: [{
+        query: recentUserActivityQuery,
+        variables: {
+          username
+        }
+      }]
     });
   }
 
-  updateTrip(tripId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number) {
+  updateTrip(tripId: number, name: string, description: string, startDate: number, endDate: number, startLat: number, startLon: number, userId: number) {
     return this.apollo.mutate({
-      mutation: updateTrip,
+      mutation: updateTripMutation,
       variables: {
         tripId,
         name,
@@ -2309,22 +789,43 @@ export class APIService {
         endDate,
         startLat,
         startLon
-      }
+      },
+      refetchQueries: [
+        {
+          query: tripsUserDashboardQuery,
+          variables: {
+            id: userId
+          }
+        },
+        {
+          query: tripByIdQuery,
+          variables: {
+              id: tripId,
+              userId
+          }
+        }
+      ]
     });
   }
 
-  deleteTripById(tripId: number) {
+  deleteTripById(tripId: number, userId: number) {
     return this.apollo.mutate({
-      mutation: deleteTripById,
+      mutation: deleteTripByIdMutation,
       variables: {
         tripId
-      }
+      },
+      refetchQueries: [{
+        query: tripsUserDashboardQuery,
+        variables: {
+          id: userId
+        }
+      }]
     });
   }
 
   createEmailListEntry(email: string) {
     return this.apollo.mutate({
-      mutation: createEmailListEntry,
+      mutation: createEmailListEntryMutation,
       variables: {
         email
       }
@@ -2333,7 +834,7 @@ export class APIService {
 
   createLike(tripId: number, junctureId: number, postId: number, imageId: number, userId: number) {
     return this.apollo.mutate({
-      mutation: createLike,
+      mutation: createLikeMutation,
       variables: {
         tripId,
         junctureId,
@@ -2346,7 +847,7 @@ export class APIService {
 
   deleteLike(likeId: number) {
     return this.apollo.mutate({
-      mutation: deleteLike,
+      mutation: deleteLikeMutation,
       variables: {
         likeId
       }
@@ -2355,7 +856,7 @@ export class APIService {
 
   resetPassword(email: string) {
     return this.apollo.mutate({
-      mutation: resetPassword,
+      mutation: resetPasswordMutation,
       variables: {
         email
       }
@@ -2364,7 +865,7 @@ export class APIService {
 
   updatePassword(userId: number, password: string, newPassword: string) {
     return this.apollo.mutate({
-      mutation: updatePassword,
+      mutation: updatePasswordMutation,
       variables: {
         userId,
         password,
@@ -2375,35 +876,47 @@ export class APIService {
 
   deleteAccountById(userId: number) {
     return this.apollo.mutate({
-      mutation: deleteAccountById,
+      mutation: deleteAccountByIdMutation,
       variables: {
         userId
       }
     });
   }
 
-  createTrack(userId: number, trackUserId: number) {
+  createTrack(userId: number, trackUserId: number, username: string) {
     return this.apollo.mutate({
-      mutation: createTrack,
+      mutation: createTrackMutation,
       variables: {
         userId,
         trackUserId
-      }
+      },
+      refetchQueries: [{
+        query: userTrackedTripsQuery,
+        variables: {
+          username
+        }
+      }]
     });
   }
 
-  deleteTrackById(trackId: number) {
+  deleteTrackById(trackId: number, username: string) {
     return this.apollo.mutate({
-      mutation: deleteTrackById,
+      mutation: deleteTrackByIdMutation,
       variables: {
         trackId
-      }
+      },
+      refetchQueries: [{
+        query: userTrackedTripsQuery,
+        variables: {
+          username
+        }
+      }]
     });
   }
 
   createUserToCountry(code: string, userId: number) {
     return this.apollo.mutate({
-      mutation: createUserToCountry,
+      mutation: createUserToCountryMutation,
       variables: {
         code,
         userId

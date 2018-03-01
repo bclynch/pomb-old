@@ -20,15 +20,17 @@ storiesnavsection {
 
     .paneSection {
       width: 25%;
-      height: 305px;
+      height: 375px;
 
       &.story {
         cursor: pointer;
+        flex: 1;
       }
       .paneSectionHeader {
         transition: .3s;
         text-align: center;
         margin-bottom: 25px;
+        height: 60px; // to account for wrapping
       }
       .storyImage {
         width: 90%;
@@ -42,7 +44,7 @@ storiesnavsection {
         padding: 15px;
         font-size: 14px;
         text-align: center;
-        height: 130px;
+        height: 150px;
         line-height: 20px;
       }
     }
