@@ -25,12 +25,9 @@ export class TripService {
       const modal = this.modalCtrl.create(TripModal, { tripId }, {cssClass: 'tripModal', enableBackdropDismiss: false});
       modal.onDidDismiss(data => {
         if (data) {
-          console.log(data);
           if (data.isExisting) {
             this.apiService.updateTrip(tripId, data.name, data.description, +data.timeStart, +data.timeEnd, data.startLat, data.startLon, this.userService.user.id).subscribe(
               result => {
-                console.log(result);
-
                 // update banner images as required
                 this.comparePhotos(data.bannerImages, data.photoHasChanged, tripId).then(
                   result => resolve()
@@ -117,8 +114,6 @@ export class TripService {
     return new Promise((resolve, reject) => {
       const promiseArr = [];
 
-      console.log(photos);
-
       // next check out if gallery photos are different
       // create arr of new photos (we can tell because they don't have an id yet)
       const newPhotoArr = photos.filter((img) => !img.id );
@@ -127,7 +122,6 @@ export class TripService {
           // update edited gallery photos
           // make sure 'new' photos not on 'edited' arr
           const filteredEditedArr = changedPhotos.filter((img => newPhotoArr.indexOf(img) === -1));
-          console.log(filteredEditedArr);
           // then bulk update imgs
           if (filteredEditedArr.length) {
             let query = `mutation {`;

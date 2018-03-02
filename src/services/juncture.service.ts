@@ -28,7 +28,6 @@ export class JunctureService {
     return new Promise((resolve, reject) => {
       const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg, junctureId }, { cssClass: 'junctureModal', enableBackdropDismiss: false });
       modal.onDidDismiss(data => {
-        console.log(data);
         if (data) {
           this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
             result => {
@@ -41,7 +40,6 @@ export class JunctureService {
               if (data.isExisting) {
                 this.apiService.updateJuncture(junctureId, this.userService.user.id, data.selectedTrip, data.type, data.name, +data.time, data.description, data.location.lat, data.location.lon, city, country, data.saveType === 'Draft', data.markerImg).subscribe(
                   result => {
-                    console.log(result);
 
                     // upload new gpx if requred
                     if (data.gpxChanged) {
@@ -89,7 +87,6 @@ export class JunctureService {
                         this.userService.user.autoUpdateLocation
                       ).subscribe(
                         (result: any) => {
-                          console.log(result);
                           // set user service to new returned user
                           this.userService.user = result.data.updateAccountById.account;
                         }
@@ -100,7 +97,6 @@ export class JunctureService {
                     if (data.geoJSON) {
                       this.apiService.uploadGPX(data.geoJSON, result.data.createJuncture.juncture.id).subscribe(
                         jsonData => {
-                          console.log(jsonData);
                           this.saveGalleryPhotos(result.data.createJuncture.juncture.id, data.photos, data.selectedTrip).then(() => {
                             this.toast(data.saveType === 'Draft' ? 'Juncture draft successfully saved' : 'Juncture successfully published');
                             resolve();
@@ -170,7 +166,6 @@ export class JunctureService {
           // update edited gallery photos
           // make sure 'new' photos not on 'edited' arr
           const filteredEditedArr = changedPhotos.filter((img => newPhotoArr.indexOf(img) === -1));
-          console.log(filteredEditedArr);
           // then bulk update imgs
           if (filteredEditedArr.length) {
             let query = `mutation {`;
@@ -217,11 +212,10 @@ export class JunctureService {
     if (this.userService.user.autoUpdateVisited) {
       // create nicer arr to work with
       const countriesVisited = this.userService.user.userToCountriesByUserId.nodes.map((country) => (country.countryByCountry.code));
-      console.log(countriesVisited);
       // if country code doesn't exist then add it
       if (countriesVisited.indexOf(country) === -1) {
         this.apiService.createUserToCountry(country, this.userService.user.id).subscribe(
-          result => console.log('new country saved')
+          result => {}
         );
       }
     }

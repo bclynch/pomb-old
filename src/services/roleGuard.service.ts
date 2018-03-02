@@ -20,16 +20,16 @@ export class RoleGuardService implements CanActivate {
       const token = this.localStorageService.get('pomb-user').token;
       // decode the token to get its payload
       const tokenPayload = decode(token);
-      console.log(tokenPayload);
+      // console.log(tokenPayload);
       if (!tokenPayload) return false;
 
       if (tokenPayload.role !== expectedRole) {
-        this.router.navigate(['']);
+        expectedRole === 'pomb_admin' ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
         return false;
       }
       return true;
     } else {
-      this.router.navigate(['']);
+      expectedRole === 'pomb_admin' ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
       return false;
     }
   }

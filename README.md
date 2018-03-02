@@ -4,23 +4,17 @@
 
 ### Top Priorities
 
-- Create admin registration / login / security for admin dash
-- paginated hub page
-- Mobile usage!
-- Make sure ready to take live https://github.com/thedaviddias/Front-End-Checklist
-- Test test test
-- AWS domain email for S3 + RDS
 - Currently trying to get application online
     - test ionic app up and running
     - pomb builds in prod flag so should be ready
     - Server is running MINUS the postgraphql setup. Need to spin up rds to test
         - AWS config being wonky. Would be preferred to fix.
     - Env vars
-- Hosting
 
 *AFTER ONLINE*
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
+- paginated hub page
 - published / drafted junctures
 - Look into search indexing (or lack there of...)
     - Running REFRESH MATERIALZE VIEW pomb.index_name will do it. On a schedule or??https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
@@ -31,7 +25,6 @@
         - https://stackoverflow.com/questions/12837748/analytics-google-api-error-403-user-does-not-have-any-google-analytics-account
 - Need a way for user to reorder junctures or perhaps just by time ... need to consider
 - Admin panels
-- Favorites / 'add to pack' for posts, images, trips
 - Search results view more - Look at reddit + maybe infinite scroll
 - Think about sub trips ? i.e. a trek in the middle of a longer trip - Detour!
 - Community hub - Map view of trips users have posted + some kind of way to explore various places

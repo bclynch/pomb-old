@@ -34,7 +34,7 @@ export class FadeCarousel implements OnChanges {
 
   ngOnChanges() {
     if (!this.data.length) this.data = [{ imgURL: '../../assets/images/trip-default.jpg', tagline: '' }];
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   onBtnClick(): void {
@@ -43,7 +43,7 @@ export class FadeCarousel implements OnChanges {
 
   editTrip() {
     this.tripService.openTripModal(this.tripData.tripId).then(
-      result => console.log(result)
+      result => {}
     );
   }
 }

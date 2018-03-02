@@ -1,0 +1,30 @@
+
+<PageWrapper backgroundColor="#78d3b2">
+  <div class="adminLoginPageWrapper">
+    <h1>Pack On My Back</h1>
+    <form 
+      class="adminLoginForm" 
+      novalidate
+      #loginForm="ngForm"
+      (ngSubmit)="userService.loginAdminUser(loginModel)"
+    >
+      <h2>Admin Login</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        name="email"
+        [(ngModel)]="loginModel.email"
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        required
+        name="password"
+        [(ngModel)]="loginModel.password"
+      />
+      <button type="submit" [disabled]="!loginForm.valid">Login <ion-icon name="md-arrow-forward"></ion-icon></button>
+    </form>
+  </div>
+</PageWrapper>
+

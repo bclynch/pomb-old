@@ -18,7 +18,7 @@
             class="registrationForm" 
             novalidate
             #registrationForm="ngForm"
-            (ngSubmit)="userService.registerAccount(registrationModel)"
+            (ngSubmit)="userService.registerUserAccount(registrationModel)"
           >
             <input
               type="text"
@@ -43,7 +43,7 @@
               [(ngModel)]="registrationModel.password"
               minlength="8" 
             />
-            <button type="submit">Create Account <ion-icon name="md-arrow-forward"></ion-icon></button>
+            <button type="submit" [disabled]="!registrationForm.valid">Create Account <ion-icon name="md-arrow-forward"></ion-icon></button>
           </form>
           <div class="terms">By signing up you agree to the <span (click)="router.navigateByUrl('/terms')">Terms of Service</span></div>
         </div>

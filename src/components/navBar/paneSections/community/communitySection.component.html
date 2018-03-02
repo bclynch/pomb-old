@@ -1,14 +1,14 @@
 <div class="paneContainer">
   <div class="paneSection images">
     <div class="paneSectionHeader">Recent Images From Around POMB</div>
-    <div class="paneContent">
+    <div class="paneContent" *ngIf="settingsService.recentPhotos.length">
       <Grid [elements]="settingsService.recentPhotos" [gridConfig]="gridConfiguration" [isPost]="false"></Grid>
     </div>
   </div>
   <div class="paneSection">
     <div class="paneSectionHeader">Featured Trip</div>
     <div class="paneContent">
-      <div class="tripWrapper">
+      <div class="tripWrapper" *ngIf="settingsService.featuredTrip">
         <TripCard [trip]="settingsService.featuredTrip"></TripCard>
       </div>
       <div class="socialWrapper">

@@ -18,8 +18,8 @@
       <div class="content">{{utilService.stripHTMLTags(gridPosts[0].content) | truncate:[200, '...']}}</div>
     </div>
   </div>
-  <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
-  <CompactHero [post]="compactHeroPost"></CompactHero>
+  <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration" *ngIf="gridPosts.length"></Grid>
+  <CompactHero [post]="compactHeroPost" *ngIf="compactHeroPost"></CompactHero>
   <PostList [data]="otherPosts"></PostList>
   <div 
     class="more boldFont" 

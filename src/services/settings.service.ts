@@ -84,7 +84,6 @@ export class SettingsService {
           this.apiService.getRecentImages(5, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(
             result => {
               this.recentPhotos = result.data.allImages.nodes;
-              console.log(this.recentPhotos);
               resolve();
             }
           );
@@ -104,7 +103,7 @@ export class SettingsService {
 
   addFeaturedStory(stories: any[]) {
     this.featuredStories = stories.map((story) => {
-      return { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.imagesByPostId.nodes[0].url };
+      return story ? { id: story.id, title: story.title, subtitle: story.subtitle, imgURL: story.imagesByPostId.nodes[0].url } : null;
     });
   }
 

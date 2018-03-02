@@ -50,10 +50,7 @@ export class TrackUser implements OnChanges {
       return;
     } else {
       this.apiService.createTrack(this.userService.user.id, this.trackUserId, this.userService.user.username).subscribe(
-        result => {
-          console.log(result);
-          this.isTracking = true;
-        }
+        result => this.isTracking = true
       );
     }
   }

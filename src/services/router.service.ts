@@ -46,7 +46,6 @@ export class RouterService {
   }
 
   modifyQueryParams(fileTypes, tags) {
-    console.log(fileTypes);
     const params: any = {};
     if (fileTypes.length) {
       params.fileTypes = fileTypes;

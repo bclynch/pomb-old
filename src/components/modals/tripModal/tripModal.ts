@@ -48,12 +48,11 @@ export class TripModal {
     private toastCtrl: ToastController,
     private junctureService: JunctureService
   ) {
-    console.log(this.params);
     // grab existing trip if it exists
     if (this.params.data.tripId) {
       this.apiService.getTripById(this.params.data.tripId, this.userService.user.id).valueChanges.subscribe(
         result => {
-          console.log(result);
+          // console.log(result);
           const tripData: Trip = result.data.tripById;
           // populate model
           this.tripModel.name = tripData.name;
@@ -70,7 +69,6 @@ export class TripModal {
       // grab location for map
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((location: any) => {
-          console.log(location.coords);
           this.coords.lat = location.coords.latitude;
           this.coords.lon = location.coords.longitude;
           this.grabMapStyle();
@@ -129,7 +127,6 @@ export class TripModal {
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) {
-        console.log(data);
         this.tripModel.bannerImages = data.map((img) => {
           return { id: null, url: img.url, title: null };
         });
@@ -143,7 +140,6 @@ export class TripModal {
   }
 
   presentEditPopover(e, index: number) {
-    console.log(index);
     e.stopPropagation();
 
     const popover = this.popoverCtrl.create(GalleryImgActionPopover, { model: this.tripModel.bannerImages[index] }, { cssClass: 'galleryImgActionPopover' });
@@ -151,7 +147,6 @@ export class TripModal {
       ev: e
     });
     popover.onDidDismiss((data) => {
-      console.log(data);
       if (data) {
         if (data.action === 'delete') {
           this.alertService.confirm(
@@ -191,7 +186,6 @@ export class TripModal {
       { label: 'Delete Trip', handler: () =>  {
         this.apiService.deleteTripById(this.params.data.tripId, this.userService.user.id).subscribe(
           result => {
-            console.log(result);
             this.toastDelete('Trip deleted');
             this.viewCtrl.dismiss();
           }

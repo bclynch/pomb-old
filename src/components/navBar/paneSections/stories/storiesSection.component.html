@@ -4,7 +4,7 @@
 <div class="paneContainer" [attr.style]="sanitizer.bypassSecurityTrustStyle('--secondary:' + settingsService.secondaryColor)">
   <div 
     class="paneSection story" 
-    *ngFor="let story of settingsService.featuredStories; let i = index" 
+    *ngFor="let story of (settingsService.featuredStories[0] ? settingsService.featuredStories : []); let i = index" 
     (click)="navigateToPost(story)"
     [ngClass]="'story' + i"
   >

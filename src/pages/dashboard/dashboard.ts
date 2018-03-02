@@ -45,7 +45,6 @@ export class DashboardPage {
     this.settingsService.modPageMeta('Blog Dashboard', 'Create, edit, and share your own stories with Pack On My Back\'s blog generation tool. Make beautiful representations of your experiences to share and look back on.');
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id).valueChanges.subscribe(
       ({data}) => {
-        console.log(data);
         this.posts = data.allPosts.nodes;
         this.displayedPosts = data.allPosts.nodes;
       });
@@ -139,7 +138,6 @@ export class DashboardPage {
       result => {
         this.previewedPost = result.data.postById;
         this.isPreview = true;
-        console.log(result);
       }
     );
   }

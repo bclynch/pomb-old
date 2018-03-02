@@ -34,6 +34,7 @@ import { ConstructionPage } from '../pages/construction/construction';
 import { ContactPage } from '../pages/contact/contact';
 import { AboutPage } from '../pages/about/about';
 import { TermsPage } from '../pages/terms/terms';
+import { AdminLoginPage } from '../pages/adminLogin/adminLogin';
 
 const appRoutes: Routes = [
   {
@@ -134,10 +135,10 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'admin',
-  // canActivate: [RoleGuard],
-  // data: {
-  //   expectedRole: 'pomb_admin'
-  // },
+    canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'pomb_admin'
+    },
     children: [
       {
         path: '',
@@ -244,6 +245,7 @@ const appRoutes: Routes = [
   { path: 'reset', component: ResetPage },
   { path: 'contact', component: ContactPage },
   { path: 'about', component: AboutPage },
+  { path: 'admin-login', component: AdminLoginPage },
   { path: 'terms', component: TermsPage },
   { path: 'construction', component: ConstructionPage },
   {

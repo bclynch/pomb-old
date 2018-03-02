@@ -48,7 +48,7 @@ export class GeoService {
       });
     });
 
-    console.log(geoJSON);
+    // console.log(geoJSON);
 
     return geoJSON;
   }
@@ -58,7 +58,7 @@ export class GeoService {
 
     // calculate total distance + generate time arr
     const distanceObj = this.getTotalDistance(geoJSON.geometry.coordinates);
-    console.log('TOTAL DISTANCE in kms: ', distanceObj.totalDistance / 1000);
+    // console.log('TOTAL DISTANCE in kms: ', distanceObj.totalDistance / 1000);
     gpxData.totalDistance = distanceObj.totalDistance;
     gpxData.distanceArr = distanceObj.distanceArr;
 

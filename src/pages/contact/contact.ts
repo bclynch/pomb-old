@@ -36,10 +36,8 @@ export class ContactPage {
   }
 
   submitContact() {
-    console.log(this.contactModel);
     this.apiService.sendContactEmail(this.contactModel).subscribe(
       result => {
-        console.log(result);
         this.contactModel = { why: null, name: '', email: '', content: '' };
 
         const toast = this.toastCtrl.create({

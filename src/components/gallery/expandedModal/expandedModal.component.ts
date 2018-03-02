@@ -23,8 +23,6 @@ export class ExpandedModal {
   ) {
     this.photos = this.params.data.data;
     this.currentIndex = this.params.data.index;
-
-    console.log(this.photos);
   }
 
   onCloseModal() {

@@ -108,11 +108,10 @@ export class CreatePostModal {
     private ngZone: NgZone
   ) {
     this.data = params.get('post');
-    console.log(this.data);
+    // console.log(this.data);
     // get options to populate trip + juncture selects
     this.apiService.getTripsByUser(this.userService.user.id).valueChanges.subscribe(
       result => {
-        console.log(result);
         this.tripOptions = result.data.allTrips.nodes;
 
         // populate country options
@@ -309,7 +308,6 @@ export class CreatePostModal {
     this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
-          console.log(result);
           const createPostData = <any>result;
 
           // Create lead photo
@@ -343,7 +341,6 @@ export class CreatePostModal {
       // then bulk add links to post
       if (this.leadPhotoLinks.length) {
         let query = `mutation {`;
-        console.log(this.leadPhotoLinks);
         this.leadPhotoLinks.forEach((photo, i) => {
           query += `
             a${i}: createImage(
@@ -418,7 +415,6 @@ export class CreatePostModal {
               this.apiService.createPostTag(tag.name, null).subscribe(
                 data => {
                   const tagData = <any>data;
-                  console.log(tagData);
                   finalTags.push({name: tagData.data.createPostTag.postTag.name, exists: true});
                   resolve();
                 }
@@ -567,7 +563,6 @@ export class CreatePostModal {
             // update edited gallery photos
             // make sure 'new' photos not on 'edited' arr
             const filteredEditedArr = this.galleryItemHasChanged.filter((img => newPhotoArr.indexOf(img) === -1));
-            // console.log(filteredEditedArr);
             // then bulk update imgs
             if (filteredEditedArr.length) {
               let query = `mutation {`;
@@ -701,7 +696,6 @@ export class CreatePostModal {
     popover.present();
     popover.onDidDismiss((data) => {
       if (data) {
-        console.log(data);
         this.leadPhotoLinks = data;
         this.displayedLeadPhoto = this.selectSmallLeadPhoto(this.leadPhotoLinks);
       }
@@ -717,7 +711,6 @@ export class CreatePostModal {
         ev: e
       });
       modal.onDidDismiss((data: any) => {
-        console.log(Date.parse(data));
         if (data) {
           if (this.postOptions[this.activePostOption].name === 'Scheduled') {
             this.scheduledModel.label = moment(data).fromNow();
@@ -758,7 +751,6 @@ export class CreatePostModal {
     const selectedJuncture = this.junctureOptions.filter((option) => {
       return option.id === +this.postModel.junctureId;
     })[0];
-    console.log(selectedJuncture);
     this.postModel.city = selectedJuncture.city;
     this.postModel.country = selectedJuncture.country;
   }

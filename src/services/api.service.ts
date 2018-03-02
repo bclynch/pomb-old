@@ -30,8 +30,10 @@ import { allCountriesQuery } from '../api/queries/countries.query';
 
 // mutations
 import {
-  registerAccountMutation,
-  authAccountMutation,
+  registerUserAccountMutation,
+  authUserAccountMutation,
+  registerAdminAccountMutation,
+  authAdminAccountMutation,
   updateAccountByIdMutation,
   createEmailListEntryMutation,
   resetPasswordMutation,
@@ -509,9 +511,9 @@ export class APIService {
   }
 
   // Graphql mutations
-  registerAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
+  registerUserAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
     return this.apollo.mutate({
-      mutation: registerAccountMutation,
+      mutation: registerUserAccountMutation,
       variables: {
         username,
         firstName,
@@ -522,9 +524,32 @@ export class APIService {
       });
     }
 
-  authAccount(email: string, password: string) {
+  authUserAccount(email: string, password: string) {
     return this.apollo.mutate({
-      mutation: authAccountMutation,
+      mutation: authUserAccountMutation,
+      variables: {
+        email,
+        password
+      }
+    });
+  }
+
+  registerAdminAccount(username: string, firstName: string, lastName: string, password: string, email: string) {
+    return this.apollo.mutate({
+      mutation: registerAdminAccountMutation,
+      variables: {
+        username,
+        firstName,
+        lastName,
+        password,
+        email
+      }
+      });
+    }
+
+  authAdminAccount(email: string, password: string) {
+    return this.apollo.mutate({
+      mutation: authAdminAccountMutation,
       variables: {
         email,
         password

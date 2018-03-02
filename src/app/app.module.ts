@@ -128,6 +128,7 @@ import { ConstructionPage } from '../pages/construction/construction';
 import { ContactPage } from '../pages/contact/contact';
 import { AboutPage } from '../pages/about/about';
 import { TermsPage } from '../pages/terms/terms';
+import { AdminLoginPage } from '../pages/adminLogin/adminLogin';
 import { NotFoundPage } from '../pages/error/404/404';
 import { GeneralErrorPage } from '../pages/error/general/general';
 
@@ -245,7 +246,8 @@ import { AnalyticsService } from '../services/analytics.service';
     ConstructionPage,
     ContactPage,
     AboutPage,
-    TermsPage
+    TermsPage,
+    AdminLoginPage
   ],
   imports: [
     BrowserModule,
@@ -310,7 +312,8 @@ import { AnalyticsService } from '../services/analytics.service';
     ConstructionPage,
     ContactPage,
     AboutPage,
-    TermsPage
+    TermsPage,
+    AdminLoginPage
   ],
   providers: [
     APIService,

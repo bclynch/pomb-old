@@ -38,7 +38,6 @@ export class ExploreModal {
         // grab flickr images for the modal
         this.apiService.getFlickrPhotos(this.utilService.formatURLString(place.label), 'landscape', 1).subscribe(
           result => {
-            console.log(result.photos.photo);
             const photo = result.photos.photo[0];
             // using square photo size 75 x 75
             this.modalData[sectionIndex].top[placeIndex].img = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`;

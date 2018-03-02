@@ -91,7 +91,7 @@ export class ExploreService {
       this.apiService.getAllCountries().valueChanges.subscribe(
         result => {
           // create object by code
-          console.log(result);
+          // console.log(result);
           result.data.allCountries.nodes.forEach((country) => {
             this.countryCodeObj[country.code] = { name: country.name };
           });

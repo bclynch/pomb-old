@@ -26,13 +26,10 @@ export class TagSearch {
       .debounceTime(250)
       .subscribe(query => {
         if (query) {
-          console.log(query);
           this.apiService.searchTags(query).valueChanges.subscribe(
             result => {
-              console.log(result);
               // limiting to 5 results
               this.searchResults = result.data.searchTags.nodes.slice(0, 5).map((result) => result.name);
-              console.log(this.searchResults);
             }
           );
         } else {

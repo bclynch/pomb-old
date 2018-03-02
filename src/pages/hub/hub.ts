@@ -46,7 +46,6 @@ export class HubPage {
       this.apiService.getPostsByTrip(+this.currentHub).valueChanges.subscribe(
         data => {
           const tripPosts = [];
-          console.log(data);
           const tripData = <any>data;
           this.currentHub = `${tripData.data.tripById.name} Posts`;
           this.settingsService.modPageMeta(`${tripData.data.tripById.name} Posts`, `See all posts from the trip, ${tripData.data.tripById.name}, as it chronicles a journey with Pack On My Back`);
@@ -64,14 +63,12 @@ export class HubPage {
       );
     } else {
       this.apiService.getPostsByTag(this.currentHub).valueChanges.subscribe(({ data }) => {
-        console.log('got tag posts: ', data.allPostToTags.nodes);
         this.settingsService.modPageMeta(this.currentHub, `See all posts from the ${this.currentHub} tag`);
         this.posts = data.allPostToTags.nodes.map((node) => node.postByPostId);
         this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
         this.otherPosts = this.posts.slice(this.gridConfiguration.length);
-      }, (error) => {
-        console.log('there was an error sending the query', error);
-      });
+      },
+      (error) => console.log('there was an error sending the query', error));
     }
   }
 }

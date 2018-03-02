@@ -43,7 +43,6 @@ export class PlaceGuide implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.selectedOptions);
     this.selectedOptions.forEach((option) => {
       this.guides.push(this.options[option]);
     });

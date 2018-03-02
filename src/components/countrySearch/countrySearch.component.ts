@@ -23,13 +23,10 @@ export class CountrySearch {
       .debounceTime(250)
       .subscribe(query => {
         if (query) {
-          console.log(query);
           this.apiService.searchCountries(query).valueChanges.subscribe(
             result => {
-              console.log(result);
               // limiting to 5 results
               this.searchResults = result.data.searchCountries.nodes.slice(0, 5);
-              console.log(this.searchResults);
             }
           );
         } else {

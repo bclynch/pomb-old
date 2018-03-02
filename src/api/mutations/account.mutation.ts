@@ -3,9 +3,9 @@ import gql from 'graphql-tag';
 
 import { fragments as AccountFragments } from '../fragments/account.fragment';
 
-export const registerAccountMutation: DocumentNode = gql`
-  mutation registerAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
-    registerAccount(input:{
+export const registerUserAccountMutation: DocumentNode = gql`
+  mutation registerUserAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
+    registerUserAccount(input:{
       username: $username
       firstName: $firstName,
       lastName: $lastName,
@@ -22,9 +22,39 @@ export const registerAccountMutation: DocumentNode = gql`
   ${AccountFragments['accountByAuthor']}
 `;
 
-export const authAccountMutation: DocumentNode = gql`
-  mutation authAccount($email: String!, $password: String!) {
-    authenticateAccount(input:{
+export const authUserAccountMutation: DocumentNode = gql`
+  mutation authUserAccount($email: String!, $password: String!) {
+    authenticateUserAccount(input:{
+      email: $email,
+      password: $password
+    }) {
+      jwtToken
+    }
+  }
+`;
+
+export const registerAdminAccountMutation: DocumentNode = gql`
+  mutation registerAdminAccount($username: String!, $firstName: String!, $lastName: String!, $password: String!, $email: String!) {
+    registerAdminAccount(input:{
+      username: $username
+      firstName: $firstName,
+      lastName: $lastName,
+      password: $password,
+      email: $email,
+    })
+    {
+      account {
+        ...AccountByAuthor
+      }
+    }
+  }
+
+  ${AccountFragments['accountByAuthor']}
+`;
+
+export const authAdminAccountMutation: DocumentNode = gql`
+  mutation authAdminAccount($email: String!, $password: String!) {
+    authenticateAdminAccount(input:{
       email: $email,
       password: $password
     }) {

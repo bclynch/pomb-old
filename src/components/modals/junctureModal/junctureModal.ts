@@ -87,7 +87,7 @@ export class JunctureModal {
     if (this.params.data.junctureId) {
       this.apiService.getFullJunctureById(this.params.data.junctureId, this.userService.user.id).valueChanges.subscribe(
         result => {
-          console.log(result);
+          // console.log(result);
           const junctureData: Juncture = result.data.junctureById;
           // populate model
           this.junctureModel.name = junctureData.name;
@@ -144,7 +144,6 @@ export class JunctureModal {
       // grab location for map
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((location: any) => {
-          console.log(location.coords);
           this.coords.lat = location.coords.latitude;
           this.coords.lon = location.coords.longitude;
           this.grabMapStyle();
@@ -166,7 +165,6 @@ export class JunctureModal {
 
   onGPXProcessed(gpxData) {
     this.gpxLoaded = false;
-    console.log('GPX Data: ', gpxData);
 
     this.mapsAPILoader.load().then(() => {
       this.latlngBounds = new window['google'].maps.LatLngBounds();
@@ -207,7 +205,6 @@ export class JunctureModal {
       ev: e
     });
     modal.onDidDismiss((data: any) => {
-      console.log(Date.parse(data));
       if (data) {
         this.junctureModel.time = Date.parse(data);
       }
@@ -226,7 +223,6 @@ export class JunctureModal {
           if (data === 'maxErr') {
             this.alertService.alert('Gallery Max Exceeded', 'Please reduce the number of images in the gallery to 6 or less');
           } else {
-            console.log(data);
             data.forEach((img) => {
               if (img.size === 'marker') {
                 this.markerURL = img.url;
@@ -319,7 +315,6 @@ export class JunctureModal {
       { label: 'Delete Juncture', handler: () =>  {
         this.apiService.deleteJunctureById(this.params.data.junctureId, this.userService.user.id).subscribe(
           result => {
-            console.log(result);
             this.toastDelete('Juncture deleted');
             this.viewCtrl.dismiss();
           }

@@ -39,10 +39,7 @@ export class UserAdminTripsPage {
   init() {
     // splitting up to refetch below on edits
     this.tripsQuery = this.apiService.getTripsUserDashboard(this.userService.user.id).valueChanges.subscribe(
-      result => {
-        this.tripsData = result.data.allTrips.nodes;
-        console.log(this.tripsData);
-      }
+      result => this.tripsData = result.data.allTrips.nodes
     );
   }
 

@@ -35,7 +35,6 @@ export class UserService {
     return new Promise<string>((resolve, reject) => {
       this.apiService.getRecentUserActivity(this.user.username).valueChanges.subscribe(
         result => {
-          console.log(result);
           this.recentTrip = result.data.accountByUsername.tripsByUserId.nodes[0];
           this.recentJunctures = result.data.accountByUsername.juncturesByUserId.nodes;
           this.recentPosts = result.data.accountByUsername.postsByAuthor.nodes;
@@ -46,14 +45,13 @@ export class UserService {
   }
 
   loginUser(model) {
-    this.authAccount({email: model.email, password: model.password}).then((token) => {
+    this.authUserAccount({ email: model.email, password: model.password }).then((token) => {
       // need to get current user function rolling for other pertinent info
       const userObj: any = {};
       userObj.token = token;
 
       // save user to local storage
       this.localStorageService.set('pomb-user', userObj);
-      console.log(this.localStorageService.get('pomb-user'));
 
       // reload window to update db role
       window.location.reload();
@@ -72,16 +70,33 @@ export class UserService {
     window.location.reload();
   }
 
-  private authAccount(loginCredentials: Login): Promise<string> {
+  loginAdminUser(model) {
+    this.authAdminAccount({ email: model.email, password: model.password }).then((token) => {
+      // need to get current user function rolling for other pertinent info
+      const userObj: any = {};
+      userObj.token = token;
+
+      // save user to local storage
+      this.localStorageService.set('pomb-user', userObj);
+
+      this.router.navigateByUrl('/admin');
+      // reload window to update db role
+      window.location.reload();
+    }, (err) => {
+      this.alertService.alert('Invalid Login', 'The email or password is incorrect. Please check your account information and login again');
+    });
+  }
+
+  private authUserAccount(loginCredentials: Login): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      this.apiService.authAccount(loginCredentials.email, loginCredentials.password).subscribe(({ data }) => {
-        console.log('got data', data);
+      this.apiService.authUserAccount(loginCredentials.email, loginCredentials.password).subscribe(({ data }) => {
+        // console.log('got data', data);
         const authData = <any>data;
-        if (authData.authenticateAccount.jwtToken) {
+        if (authData.authenticateUserAccount.jwtToken) {
           this.signedIn = true;
           // reset apollo cache and refetch queries
           this.apollo.getClient().resetStore();
-          resolve(authData.authenticateAccount.jwtToken);
+          resolve(authData.authenticateUserAccount.jwtToken);
         } else {
           // incorrect login warning
           reject('invalid login');
@@ -93,19 +108,17 @@ export class UserService {
     });
   }
 
-  registerAccount(model: Registration) {
-    console.log(model);
-    this.apiService.registerAccount(model.username, model.firstName, model.lastName, model.password, model.email).subscribe(({ data }) => {
+  registerUserAccount(model: Registration) {
+    this.apiService.registerUserAccount(model.username, model.firstName, model.lastName, model.password, model.email).subscribe(({ data }) => {
       const userObj = data as any;
-      console.log('Successfully created account');
 
       // send welcome registration email
       this.apiService.sendRegistrationEmail(model.email).subscribe(
-        result => console.log(result)
+        result => {}
       );
 
       // auth to snag token
-      this.authAccount({email: model.email, password: model.password}).then((token) => {
+      this.authUserAccount({ email: model.email, password: model.password }).then((token) => {
         userObj.token = token;
         // save user token to local storage
         this.localStorageService.set('pomb-user', userObj);
@@ -116,7 +129,6 @@ export class UserService {
         console.log('err');
       });
     }, err => {
-      console.log(err);
       switch (err.message) {
         case 'GraphQL error: duplicate key value violates unique constraint "account_username_key"':
           this.alertService.alert('Invalid Registration', 'That username already exists, please select a new one!');
@@ -130,6 +142,26 @@ export class UserService {
         default:
           this.alertService.alert('Invalid Registration', 'There is an issue submitting your registration. Please reload and try again');
       }
+    });
+  }
+
+  private authAdminAccount(loginCredentials: Login): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      this.apiService.authAdminAccount(loginCredentials.email, loginCredentials.password).subscribe(({ data }) => {
+        const authData = <any>data;
+        if (authData.authenticateAdminAccount.jwtToken) {
+          this.signedIn = true;
+          // reset apollo cache and refetch queries
+          this.apollo.getClient().resetStore();
+          resolve(authData.authenticateAdminAccount.jwtToken);
+        } else {
+          // incorrect login warning
+          reject('invalid login');
+        }
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+        reject(error);
+      });
     });
   }
 }

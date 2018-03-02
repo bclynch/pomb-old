@@ -73,7 +73,7 @@ export class GoogleChartComponent implements OnChanges {
 
     google.visualization.events.addListener(this.chart, 'regionClick', myPageEventHandler);
     function myPageEventHandler(e) {
-      console.log(e);
+      // console.log(e);
       // // if its not a region code we know its a country code
       // if (Object.keys(self.exploreService.googleRegionCodes).indexOf(e.region) === -1) {
       //   self.routerService.navigateToPage(`/explore/country/${self.utilService.formatForURLString(self.exploreService.countryCodeObj[e.region].name)}`);

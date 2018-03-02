@@ -37,7 +37,6 @@ export class ImageUploaderPopover {
     const files: Array<File> = this.filesToUpload;
 
     for (const file of files) {
-      console.log(file);
       formData.append('uploads[]', file, file.name);
     }
 
@@ -57,7 +56,6 @@ export class ImageUploaderPopover {
     }
     this.apiService.uploadImages(formData, sizes, quality, isJuncture && this.params.get('existingPhotos') === 0 ? true : false).subscribe(
       result => {
-        console.log(result);
         this.isProcessing = false;
         this.viewCtrl.dismiss(result);
       }
@@ -74,7 +72,6 @@ export class ImageUploaderPopover {
     }
     this.apiService.uploadImagesLocal(formData, sizes, quality).subscribe(
       result => {
-        console.log(result);
         this.isProcessing = false;
         this.viewCtrl.dismiss(result);
       }

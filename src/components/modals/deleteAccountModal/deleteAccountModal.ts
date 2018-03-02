@@ -28,7 +28,6 @@ export class DeleteAccountModal {
   delete() {
     this.apiService.deleteAccountById(this.userService.user.id).subscribe(
       result => {
-        console.log(result);
         this.userService.signedIn = false;
         // reset apollo cache and refetch queries
         this.apollo.getClient().resetStore();

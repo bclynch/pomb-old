@@ -29,7 +29,6 @@ export class UploadGPX {
 
     this.apiService.processGPX(processedData).subscribe(
         result => {
-          console.log(result);
           this.gpxProcessed.emit(result.data.geoJSON);
 
           this.isProcessing = false;
