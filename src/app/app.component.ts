@@ -53,8 +53,8 @@ export class PackOnMyBack implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
       // JWT expired so get rid of it in local storage
-      // this.localStorageService.set('pomb-user', null);
-      // window.location.reload();
+      this.localStorageService.set('pomb-user', null);
+      window.location.reload();
     });
   }
 

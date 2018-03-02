@@ -137,7 +137,7 @@ const appRoutes: Routes = [
   { path: 'admin',
     canActivate: [RoleGuard],
     data: {
-      expectedRole: 'pomb_admin'
+      expectedRole: ['pomb_admin']
     },
     children: [
       {
@@ -215,7 +215,7 @@ const appRoutes: Routes = [
         path: 'admin',
         canActivate: [RoleGuard],
         data: {
-          expectedRole: 'pomb_account'
+          expectedRole: ['pomb_account', 'pomb_admin']
         },
         component: UserAdminPage
       },
@@ -223,7 +223,7 @@ const appRoutes: Routes = [
         path: 'post-dashboard',
         canActivate: [RoleGuard],
         data: {
-          expectedRole: 'pomb_account'
+          expectedRole: ['pomb_account', 'pomb_admin']
         },
         component: DashboardPage
       },
@@ -252,7 +252,7 @@ const appRoutes: Routes = [
     path: 'tracking',
     canActivate: [RoleGuard],
     data: {
-      expectedRole: 'pomb_account'
+      expectedRole: ['pomb_account', 'pomb_admin']
     },
     component: TrackingPage
   },

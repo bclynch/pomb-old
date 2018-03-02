@@ -343,7 +343,7 @@ export class AppModule {
     apollo: Apollo,
     httpLink: HttpLink
   ) {
-    const http = httpLink.create({ uri: 'http://localhost:8080/graphql' }); // prod --> /graphql dev --> http://localhost:5000/graphql node dev --> http://localhost:8080/graphql
+    const http = httpLink.create({ uri: 'graphql' }); // prod --> /api/graphql dev --> http://localhost:5000/graphql
 
     let link;
     let user: any = localStorage.getItem('pomb-user');

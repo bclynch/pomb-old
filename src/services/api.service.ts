@@ -96,7 +96,7 @@ export class APIService {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    return this.http.post(`http://localhost:8080/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
+    return this.http.post(`http://localhost:5000/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -115,7 +115,7 @@ export class APIService {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    return this.http.post(`http://localhost:8080/upload-images/local?sizes=${formattedSizes}&quality=${quality}`, formData)
+    return this.http.post(`http://localhost:5000/upload-images/local?sizes=${formattedSizes}&quality=${quality}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -131,7 +131,7 @@ export class APIService {
 
   // process gpx information
   processGPX(formData: FormData) {
-    return this.http.post(`http://localhost:8080/process-gpx`, formData)
+    return this.http.post(`http://localhost:5000/process-gpx`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -147,7 +147,7 @@ export class APIService {
 
   // upload gpx information
   uploadGPX(geoJSON, junctureId: number) {
-    return this.http.post(`http://localhost:8080/process-gpx/upload?juncture=${junctureId}`, geoJSON)
+    return this.http.post(`http://localhost:5000/process-gpx/upload?juncture=${junctureId}`, geoJSON)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -163,7 +163,7 @@ export class APIService {
 
   // get page views
   getViews(path: string) {
-    return this.http.get(`http://localhost:8080/analytics/getViews?path=${path}`)
+    return this.http.get(`http://localhost:5000/analytics/getViews?path=${path}`)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -216,7 +216,7 @@ export class APIService {
 
   // Email endpoints
   sendResetEmail(user: string, pw: string) {
-    return this.http.post('http://localhost:8080/mailing/reset', { user, pw })
+    return this.http.post('http://localhost:5000/mailing/reset', { user, pw })
       .map(
         (response: Response) => {
           const data = response.json();
@@ -231,7 +231,7 @@ export class APIService {
   }
 
   sendRegistrationEmail(user: string) {
-    return this.http.post('http://localhost:8080/mailing/registration', { user })
+    return this.http.post('http://localhost:5000/mailing/registration', { user })
       .map(
         (response: Response) => {
           const data = response.json();
@@ -246,7 +246,7 @@ export class APIService {
   }
 
   sendContactEmail(data: { why: string; name: string; email: string; content: string; }) {
-    return this.http.post('http://localhost:8080/mailing/contact', { data })
+    return this.http.post('http://localhost:5000/mailing/contact', { data })
       .map(
         (response: Response) => {
           const data = response.json();

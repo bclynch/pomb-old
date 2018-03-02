@@ -14,7 +14,7 @@ export class JunctureService {
 
   displayTripNav: boolean;
   defaultMarkerImg = 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png';
-  defaultStartImg = 'https://pttaviation.com/wp-content/uploads/2014/07/PPT-Plane-Icon-220x220.png';
+  defaultStartImg = '../assets/images/default_start_marker.png';
 
   constructor(
     private modalCtrl: ModalController,

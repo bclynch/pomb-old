@@ -15,7 +15,7 @@ export class RoleGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // this will be passed from the route config
     // on the data property
-    const expectedRole = route.data.expectedRole;
+    const expectedRole: string[] = route.data.expectedRole;
     if (this.localStorageService.get('pomb-user')) {
       const token = this.localStorageService.get('pomb-user').token;
       // decode the token to get its payload
@@ -23,13 +23,13 @@ export class RoleGuardService implements CanActivate {
       // console.log(tokenPayload);
       if (!tokenPayload) return false;
 
-      if (tokenPayload.role !== expectedRole) {
-        expectedRole === 'pomb_admin' ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
+      if (expectedRole.indexOf(tokenPayload.role) === -1) {
+        expectedRole === ['pomb_admin'] ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
         return false;
       }
       return true;
     } else {
-      expectedRole === 'pomb_admin' ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
+      expectedRole === ['pomb_admin'] ? this.router.navigate(['/admin-login']) : this.router.navigate(['']);
       return false;
     }
   }
