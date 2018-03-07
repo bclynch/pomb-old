@@ -45,3 +45,16 @@ ion-app {
   display: flex;
   justify-content: center;
 }
+// hide froala shit
+.fr-wrapper {
+  div {
+    a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+      display: none!important;
+    }
+  }
+  .fr-element {
+    .fr-placeholder {
+      margin-top: 0!important;
+    }
+  }
+}

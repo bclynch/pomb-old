@@ -50,7 +50,7 @@ footer {
       }
       .linksWrapper {
         display: flex;
-        margin: 10px 10px 30px;
+        margin: 10px 0 30px;
 
         > div {
           text-align: center;
@@ -60,7 +60,7 @@ footer {
         > div:after {
           content: "\2022";
           display: inline-block;
-          margin: 0 16px;
+          margin: 0 8px;
         }
         > div:last-child {
           &:after {
@@ -72,6 +72,11 @@ footer {
   }
 
   @include respond-to(small) {
-
+    .linksWrapper {
+      
+      > div:after {
+        margin: 0 16px!important;
+      }
+    }
   }
 }

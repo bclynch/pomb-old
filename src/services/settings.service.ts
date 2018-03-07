@@ -38,7 +38,7 @@ export class SettingsService {
   siteSections = {
     'Community': { subSections: ['Community Hub', 'Featured Trip'] },
     'Stories': { subSections: ['trekking', 'biking', 'travel', 'culture', 'gear', 'food'] },
-    'My Pack': { subSections: ['Create Trip', 'Create Juncture', 'Blog Dashboard', 'Tracking', 'User Dashboard'] }
+    'My Pack': { subSections: ['Profile', 'Create Trip', 'Create Juncture', 'Blog Dashboard', 'Tracking', 'User Dashboard'] }
   };
 
   constructor(

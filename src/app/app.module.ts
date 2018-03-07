@@ -258,7 +258,7 @@ import { AnalyticsService } from '../services/analytics.service';
     HttpLinkModule,
     ApolloModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA', // this.envVariables.googlePlacesKey Need to figure this our eventually THIS IS THE LAZE KEY
+      apiKey: 'AIzaSyAa8icfucqEezbxr0iAHg5sXaY2HbyOS2E',
     }),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     AgmSnazzyInfoWindowModule,
@@ -343,7 +343,7 @@ export class AppModule {
     apollo: Apollo,
     httpLink: HttpLink
   ) {
-    const http = httpLink.create({ uri: 'graphql' }); // prod --> /api/graphql dev --> http://localhost:5000/graphql
+    const http = httpLink.create({ uri: '/api/graphql' }); // prod --> /api/graphql dev --> http://localhost:5000/api/graphql
 
     let link;
     let user: any = localStorage.getItem('pomb-user');

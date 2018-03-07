@@ -12,7 +12,7 @@ import { RouterService } from '../../services/router.service';
 export class Footer {
   year = Date.now();
 
-  links: string[] = ['About', 'Contact', 'Terms of Service', 'Privacy Policy'];
+  links: string[] = ['About', 'Contact', 'Terms', 'Privacy Policy'];
   socialOptions = [
     { icon: 'logo-instagram', url: 'https://www.instagram.com/bclynch7/', label: 'instagram' },
     { icon: 'logo-facebook', url: 'https://www.facebook.com/brendan.lynch.90', label: 'facebook' },
@@ -34,7 +34,7 @@ export class Footer {
       case 'Contact':
         this.router.navigateByUrl('/contact');
         break;
-      case 'Terms of Service':
+      case 'Terms':
         this.router.navigateByUrl('/terms');
         break;
       case 'Privacy Policy':

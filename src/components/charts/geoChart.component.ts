@@ -50,7 +50,7 @@ export class GoogleChartComponent implements OnChanges {
   init() {
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
-      google.charts.load('current',  {packages: ['geochart'], mapsApiKey: 'AIzaSyC4sPLxEvc3uaQmlEpE81QQ5aY_1hytMEA'});
+      google.charts.load('current',  {packages: ['geochart'], mapsApiKey: 'AIzaSyAa8icfucqEezbxr0iAHg5sXaY2HbyOS2E'});
     }
     google.charts.setOnLoadCallback(() => this.drawGraph());
   }

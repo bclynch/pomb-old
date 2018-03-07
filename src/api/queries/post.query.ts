@@ -153,9 +153,7 @@ export const postsByTagQuery: DocumentNode = gql`
           id,
           title,
           accountByAuthor {
-            id,
-            firstName,
-            lastName
+            ...AccountByAuthor
           }
           subtitle,
           createdAt,
@@ -170,6 +168,7 @@ export const postsByTagQuery: DocumentNode = gql`
     }
   }
 
+  ${AccountFragments['accountByAuthor']}
   ${ImageFragments['imagesByPostId']}
 `;
 

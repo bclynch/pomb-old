@@ -4,12 +4,13 @@
 
 ### Top Priorities
 
-- Currently trying to get application online
-    - test ionic app up and running
-    - pomb builds in prod flag so should be ready
-    - Server is running MINUS the postgraphql setup. Need to spin up rds to test
-        - AWS config being wonky. Would be preferred to fix.
-    - Env vars
+### Front end fixes live prod
+
+- Env vars
+    - app.module apollo endpoint needs this
+    - api calls need it
+- mobilenav menu borked
+- Add countries still buggy
 
 *AFTER ONLINE*
 
