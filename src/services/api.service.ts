@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { ENV } from '@app/env';
 declare var google: any;
 
 import { Apollo } from 'apollo-angular';
@@ -13,7 +14,7 @@ import { ImageType } from '../models/Image.model';
 import { JunctureType } from '../models/Juncture.model';
 
 // needs to be an env var
-const flickrKey = '691be9c5a38900c0249854a28a319e2c';
+const flickrKey = ENV.flickrAPIKey;
 const geonamesUser = 'bclynch';
 
 // queries
@@ -96,7 +97,7 @@ export class APIService {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    return this.http.post(`http://localhost:5000/api/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
+    return this.http.post(`${ENV.apiBaseURL}/upload-images?sizes=${formattedSizes}&quality=${quality}&isJuncture=${isJuncture}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -115,7 +116,7 @@ export class APIService {
     const formattedSizes = sizes.map((size) => {
       return [size.width, 'x', size.height].join('');
     }).join(';');
-    return this.http.post(`http://localhost:5000/api/upload-images/local?sizes=${formattedSizes}&quality=${quality}`, formData)
+    return this.http.post(`${ENV.apiBaseURL}/upload-images/local?sizes=${formattedSizes}&quality=${quality}`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -131,7 +132,7 @@ export class APIService {
 
   // process gpx information
   processGPX(formData: FormData) {
-    return this.http.post(`http://localhost:5000/api/process-gpx`, formData)
+    return this.http.post(`${ENV.apiBaseURL}/process-gpx`, formData)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -147,9 +148,10 @@ export class APIService {
 
   // upload gpx information
   uploadGPX(geoJSON, junctureId: number) {
-    return this.http.post(`http://localhost:5000/api/process-gpx/upload?juncture=${junctureId}`, geoJSON)
+    return this.http.post(`${ENV.apiBaseURL}/process-gpx/upload?juncture=${junctureId}`, geoJSON)
       .map(
         (response: Response) => {
+          console.log('GPX RESP: ', response);
           const data = response.json();
           return data;
         }
@@ -163,7 +165,7 @@ export class APIService {
 
   // get page views
   getViews(path: string) {
-    return this.http.get(`http://localhost:5000/api/analytics/getViews?path=${path}`)
+    return this.http.get(`${ENV.apiBaseURL}/analytics/getViews?path=${path}`)
       .map(
         (response: Response) => {
           const data = response.json();
@@ -216,7 +218,7 @@ export class APIService {
 
   // Email endpoints
   sendResetEmail(user: string, pw: string) {
-    return this.http.post('http://localhost:5000/api/mailing/reset', { user, pw })
+    return this.http.post(`${ENV.apiBaseURL}/mailing/reset`, { user, pw })
       .map(
         (response: Response) => {
           const data = response.json();
@@ -231,7 +233,7 @@ export class APIService {
   }
 
   sendRegistrationEmail(user: string) {
-    return this.http.post('http://localhost:5000/api/mailing/registration', { user })
+    return this.http.post(`${ENV.apiBaseURL}/mailing/registration`, { user })
       .map(
         (response: Response) => {
           const data = response.json();
@@ -246,7 +248,7 @@ export class APIService {
   }
 
   sendContactEmail(data: { why: string; name: string; email: string; content: string; }) {
-    return this.http.post('http://localhost:5000/api/mailing/contact', { data })
+    return this.http.post(`${ENV.apiBaseURL}/mailing/contact`, { data })
       .map(
         (response: Response) => {
           const data = response.json();

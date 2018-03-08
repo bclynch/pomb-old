@@ -1,13 +1,35 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Pack On My Back",
+  "short_name": "POMB",
   "start_url": "index.html",
   "display": "standalone",
+  "description": "Software platform to track and archive travel and outdoor activities",
   "icons": [{
-    "src": "assets/imgs/logo.png",
+    "src": "assets/images/logo/logo48.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }, {
+    "src": "assets/images/logo/logo72.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "assets/images/logo/logo96.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }, {
+    "src": "assets/images/logo/logo144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }, {
+    "src": "assets/images/logo/logo192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  },
+  {
+    "src": "assets/images/logo/logo512.png",
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#4e8ef7",
-  "theme_color": "#4e8ef7"
+  "background_color": "#78d3b2",
+  "theme_color": "#78d3b2"
 }

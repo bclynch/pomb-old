@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { ENV } from '@app/env';
 
 import { SettingsService } from '../../services/settings.service';
 import { BroadcastService } from '../../services/broadcast.service';
@@ -50,7 +51,7 @@ export class GoogleChartComponent implements OnChanges {
   init() {
     if (!GoogleChartComponent.googleLoaded) {
       GoogleChartComponent.googleLoaded = true;
-      google.charts.load('current',  {packages: ['geochart'], mapsApiKey: 'AIzaSyAa8icfucqEezbxr0iAHg5sXaY2HbyOS2E'});
+      google.charts.load('current',  {packages: ['geochart'], mapsApiKey: ENV.googleAPIKey});
     }
     google.charts.setOnLoadCallback(() => this.drawGraph());
   }

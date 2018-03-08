@@ -14,7 +14,7 @@ export class JunctureService {
 
   displayTripNav: boolean;
   defaultMarkerImg = 'https://www.imojado.org/wp-content/uploads/2016/08/1470289254_skylab-studio.png';
-  defaultStartImg = '../assets/images/default_start_marker.png';
+  defaultStartImg = '../assets/images/logo/logo96.png';
 
   constructor(
     private modalCtrl: ModalController,

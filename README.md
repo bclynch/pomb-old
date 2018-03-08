@@ -4,18 +4,11 @@
 
 ### Top Priorities
 
-# FIX ENV VARS
-
-- env vars not saved to the remote server??
-- Check to make sure its working in ionic by consoling it in app.module
-- AWS env vars are not switching the s3 bucket
-- Create env vars for api keys in ionic
-- Create env vars for jwt secret on server
-
 ### Front end fixes live prod
 
-- mobilenav menu borked
+- mobilenav menu borked - check
 - Add countries still buggy
+- google analytics for dev
 
 *AFTER ONLINE*
 

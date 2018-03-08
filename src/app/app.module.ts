@@ -5,7 +5,6 @@ import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { ENV } from '@app/env';
-// import { getClient } from './client';
 import { MyHammerConfig } from './touchConfig';
 
 // 3rd Party Libraries
@@ -259,7 +258,7 @@ import { AnalyticsService } from '../services/analytics.service';
     HttpLinkModule,
     ApolloModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAa8icfucqEezbxr0iAHg5sXaY2HbyOS2E',
+      apiKey: ENV.googleAPIKey,
     }),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     AgmSnazzyInfoWindowModule,
@@ -344,7 +343,7 @@ export class AppModule {
     apollo: Apollo,
     httpLink: HttpLink
   ) {
-    const http = ENV.mode === 'Development' ? httpLink.create({ uri: 'http://localhost:5000/api/graphql' }) : httpLink.create({ uri: '/api/graphql' });
+    const http = httpLink.create({ uri: ENV.apolloBaseURL });
 
     let link;
     let user: any = localStorage.getItem('pomb-user');
