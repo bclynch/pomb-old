@@ -23,6 +23,7 @@ export const checkTrackingByUserQuery: DocumentNode = gql`
 
 export const userTrackedTripsQuery: DocumentNode = gql`
   query getUserTrackedTrips($username: String!) {
+    id,
     accountByUsername(username: $username) {
       tracksByUserId {
         totalCount,

@@ -12,7 +12,8 @@
     "ionic:serve": "ionic-app-scripts serve"
   },
   "config": {
-    "ionic_copy": "./config/copy.config.js"
+    "ionic_copy": "./config/copy.config.js",
+    "ionic_webpack": "./config/webpack.config.js"
   },
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",

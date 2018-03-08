@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { ENV } from '@app/env';
 // import { getClient } from './client';
 import { MyHammerConfig } from './touchConfig';
 
@@ -343,7 +344,7 @@ export class AppModule {
     apollo: Apollo,
     httpLink: HttpLink
   ) {
-    const http = httpLink.create({ uri: '/api/graphql' }); // prod --> /api/graphql dev --> http://localhost:5000/api/graphql
+    const http = ENV.mode === 'Development' ? httpLink.create({ uri: 'http://localhost:5000/api/graphql' }) : httpLink.create({ uri: '/api/graphql' });
 
     let link;
     let user: any = localStorage.getItem('pomb-user');

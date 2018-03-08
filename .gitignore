@@ -35,3 +35,7 @@ backend/node_modules
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+# Environment Variables
+**/environment.*
+!**/environment.model.ts

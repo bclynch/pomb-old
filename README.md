@@ -4,11 +4,16 @@
 
 ### Top Priorities
 
+# FIX ENV VARS
+
+- env vars not saved to the remote server??
+- Check to make sure its working in ionic by consoling it in app.module
+- AWS env vars are not switching the s3 bucket
+- Create env vars for api keys in ionic
+- Create env vars for jwt secret on server
+
 ### Front end fixes live prod
 
-- Env vars
-    - app.module apollo endpoint needs this
-    - api calls need it
 - mobilenav menu borked
 - Add countries still buggy
 
@@ -125,6 +130,11 @@ $ postgraphql  --schema pomb,pomb_private --secret some_secret -t pomb.jwt_token
 ```
 - Some kind of CORS extension will be needed for cross security issues
     - https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
+
+### ENV VARS
+
+- https://github.com/gshigeto/ionic-environment-variables
+- Import env vars around with import { ENV } from '@app/env'
 
 ## Local Postgraphql Setup
 
