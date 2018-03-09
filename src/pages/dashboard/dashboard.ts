@@ -89,7 +89,18 @@ export class DashboardPage {
     function launchModal(post: Post) {
       const modal = self.modalCtrl.create(CreatePostModal, { post }, { cssClass: 'createPostModal', enableBackdropDismiss: false });
       modal.onDidDismiss(data => {
-        if (data === 'delete') self.deletePost(post);
+        if (data) {
+          if (data.type === 'deleted') {
+            self.deletePost(post);
+          } else {
+            const toast = self.toastCtrl.create({
+              message: `Post ${data.title} ${data.type}`,
+              duration: 3000,
+              position: 'top'
+            });
+            toast.present();
+          }
+        }
       });
       modal.present();
     }

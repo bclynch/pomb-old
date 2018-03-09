@@ -8,6 +8,7 @@ import { APIService } from '../../services/api.service';
 import { JunctureService } from '../../services/juncture.service';
 import { RouterService } from '../../services/router.service';
 import { UserService } from '../../services/user.service';
+import { UtilService } from '../../services/util.service';
 
 import { Trip } from '../../models/Trip.model';
 
@@ -29,7 +30,8 @@ export class TripTimelinePage {
     private junctureService: JunctureService,
     private route: ActivatedRoute,
     private routerService: RouterService,
-    private userService: UserService
+    private userService: UserService,
+    private utilService: UtilService
   ) {
     this.route.params.subscribe((params) => {
       this.tripId = params.tripId;

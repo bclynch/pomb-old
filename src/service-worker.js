@@ -7,10 +7,6 @@
 'use strict';
 importScripts('./build/sw-toolbox.js');
 
-self.toolbox.options.cache = {
-  name: 'ionic-cache'
-};
-
 // pre-cache our key assets
 self.toolbox.precache(
   [
@@ -27,7 +23,7 @@ self.toolbox.options.cache = {
 	name: 'packonmyback-cache'
 };
 
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 5;
 
 // dynamically cache any other local assets
 self.toolbox.router.get('/(.*)', self.toolbox.cacheFirst, {

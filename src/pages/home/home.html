@@ -6,7 +6,7 @@
   <div class="mobileTopPost" *ngIf="gridPosts.length" (click)="navigateToPost(gridPosts[0])">
     <div 
       class="cardThumb" 
-      [ngStyle]="{ 'background-image': 'url(' + gridPosts[0].imagesByPostId.nodes[0].url + ')'}"
+      [ngStyle]="{ 'background-image': 'url(' + gridPosts[0].imagesByPostId.nodes[1].url + ')'}"
     ></div>
     <div class="cardContent">
       <div class="title">{{gridPosts[0].title}}</div>

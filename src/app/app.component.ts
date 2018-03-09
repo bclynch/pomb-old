@@ -73,8 +73,12 @@ export class PackOnMyBack implements OnInit, OnDestroy {
           message: 'New updates available! Reload Pack On My Back to see the latest.',
           position: 'bottom',
           showCloseButton: true,
+          closeButtonText: 'Reload'
         });
         toast.present();
+        toast.onDidDismiss(() => {
+          window.location.reload();
+        });
       }
     });
   }

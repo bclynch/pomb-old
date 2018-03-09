@@ -9,6 +9,15 @@
 - Add countries still buggy
 - google analytics for dev
 - Make it so user directed to stories page not splash when signed in
+- Recent posts in nav looks like ass
+- Assign featured trip / posts for prod
+- Maybe add search for manual junctures...
+- Color transport icons white on recent nav
+- All phoots of trips is showing doubles on post photos. Just show large
+- Blog dash overflowing with posts on side menu
+- Juncture timeline day 0, 1 etc is dumb on dragging thing
+- Should load smaller thumbnails for post list mobile
+- Make smaller version of device family photo - maybe a jpeg
 
 *AFTER ONLINE*
 

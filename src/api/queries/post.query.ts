@@ -46,7 +46,7 @@ export const allPostsByUserQuery: DocumentNode = gql`
       nodes {
         id,
         title,
-        updatedAt,
+        publishedDate,
         isDraft,
         isScheduled,
         isPublished

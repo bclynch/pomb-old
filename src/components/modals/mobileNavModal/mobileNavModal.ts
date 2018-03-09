@@ -48,4 +48,11 @@ export class MobileNavModal {
       }
     });
   }
+
+  logout(e) {
+    e.stopPropagation();
+
+    this.viewCtrl.dismiss();
+    this.userService.logoutUser();
+  }
 }

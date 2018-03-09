@@ -32,7 +32,7 @@
         <div class="dataGroup" (click)="routerService.navigateToPage('/juncture/' + juncture.id)">
           <div class="junctureTitle">{{juncture.name}}</div>
           <div class="junctureLocation">{{juncture.city}}, {{juncture.country}}</div>
-          <div class="junctureDescription">{{juncture.description | truncate:[200, '...']}}</div>
+          <div class="junctureDescription">{{utilService.stripHTMLTags(juncture.description) | truncate:[200, '...']}}</div>
         </div>
         <div class="mobileConnector" *ngIf="!last"></div>
       </div>

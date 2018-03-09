@@ -250,7 +250,7 @@ export class CreatePostModal {
         {
           text: 'Confirm',
           handler: () => {
-            this.viewCtrl.dismiss('delete');
+            this.viewCtrl.dismiss({ type: 'deleted', title: this.postModel.postTitle });
           }
         }
       ]
@@ -296,7 +296,7 @@ export class CreatePostModal {
 
           // when all the above have resolved dismiss the modal
           Promise.all(updatePromises).then(() => {
-            this.viewCtrl.dismiss();
+            this.viewCtrl.dismiss({ type: 'updated', title: this.postModel.postTitle });
           });
         }
       );
@@ -319,7 +319,7 @@ export class CreatePostModal {
 
                   // create tags + save as required
                   this.createTagsMutation(createPostData.data.createPost.post.id, this.tagOptions).then(
-                    result => this.viewCtrl.dismiss(),
+                    result => this.viewCtrl.dismiss({ type: 'created', title: this.postModel.postTitle }),
                     err => createPostErrorHandler(err)
                   );
                 }, err => createPostErrorHandler(err)
@@ -706,7 +706,7 @@ export class CreatePostModal {
     e.stopPropagation();
 
     if (this.postOptions[this.activePostOption].name !== 'Draft') {
-      const modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, {});
+      const modal = this.modalController.create(DatePickerModal, { date: this.postOptions[this.activePostOption].name === 'Scheduled' ? this.scheduledModel.value : this.publishModel.value }, { cssClass: 'datepickerModal' });
       modal.present({
         ev: e
       });

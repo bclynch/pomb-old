@@ -128,9 +128,6 @@ export class NavBar {
           case 'user dashboard':
             this.routerService.navigateToPage(`/user/admin`);
             break;
-          case 'logout':
-            this.userService.logoutUser();
-            break;
           case 'register':
             this.signinUser();
             break;
