@@ -6,14 +6,16 @@
 
 ### Front end fixes live prod
 
-- mobilenav menu borked - check
 - Add countries still buggy
 - google analytics for dev
+- Make it so user directed to stories page not splash when signed in
 
 *AFTER ONLINE*
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - paginated hub page
+- Scheduled blog posts - hidden for now
+- Preview for blog dashboard
 - published / drafted junctures
 - Look into search indexing (or lack there of...)
     - Running REFRESH MATERIALZE VIEW pomb.index_name will do it. On a schedule or??https://www.apollographql.com/docs/react/features/cache-updates.html#after-mutations
@@ -29,7 +31,11 @@
 - Community hub - Map view of trips users have posted + some kind of way to explore various places
 - Open graph stuff http://ogp.me/
 
+### Updating Production
 
+- Web app uses a service worked so we need to break the cache when we update. Change the cache version in service-worker.js to do this and prompt users to do the same.
+- Run `$ ionic build --prod` to run an AoT build
+- Use SFTP (cyber duck) to replace the www folder in /var/www/packonmyback.com/html on the server
 
 ### ROUTING ITEM
 

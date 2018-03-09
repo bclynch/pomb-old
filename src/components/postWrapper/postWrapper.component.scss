@@ -26,11 +26,6 @@ postwrapper {
         width: 80px;
       }
     }
-    .postSandbox {
-      img {
-        width: 100%!important;
-      }
-    }
     .bottomRow {
       display: flex;
       align-items: center;
@@ -80,17 +75,6 @@ postwrapper {
 
         newsletter {
           margin: 0 auto
-        }
-      }
-    }
-  }
-}
-@include respond-to(tiny) {
-  postwrapper {
-    .postContentWrapper {
-      .postSandbox {
-        img {
-          width: 300px!important; 
         }
       }
     }

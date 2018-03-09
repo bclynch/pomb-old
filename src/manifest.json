@@ -1,7 +1,7 @@
 {
   "name": "Pack On My Back",
   "short_name": "POMB",
-  "start_url": "index.html",
+  "start_url": "./?utm_source=web_app_manifest",
   "display": "standalone",
   "description": "Software platform to track and archive travel and outdoor activities",
   "icons": [{

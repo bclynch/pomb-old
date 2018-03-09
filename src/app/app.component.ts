@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ToastController } from 'ionic-angular';
 
 import { APIService } from '../services/api.service';
 import { LocalStorageService } from '../services/localStorage.service';
@@ -22,7 +23,8 @@ export class PackOnMyBack implements OnInit, OnDestroy {
     private alertService: AlertService,
     private settingsService: SettingsService,
     private broadcastService: BroadcastService,
-    private anaylticsService: AnalyticsService
+    private anaylticsService: AnalyticsService,
+    private toastCtrl: ToastController
   ) {
     // grab site config
     this.settingsService.appInit().then(() => {
@@ -54,13 +56,27 @@ export class PackOnMyBack implements OnInit, OnDestroy {
       console.log(error);
       // JWT expired so get rid of it in local storage
       this.localStorageService.set('pomb-user', null);
-      window.location.reload();
+      // window.location.reload();
     });
   }
 
   // analytics tracking
   ngOnInit() {
     this.anaylticsService.trackViews();
+
+    // listen to the service worker promise in index.html to see if there has been a new update.
+    // condition: the service-worker.js needs to have some kind of change - e.g. increment CACHE_VERSION.
+    window['isUpdateAvailable']
+    .then(isAvailable => {
+      if (isAvailable) {
+        const toast = this.toastCtrl.create({
+          message: 'New updates available! Reload Pack On My Back to see the latest.',
+          position: 'bottom',
+          showCloseButton: true,
+        });
+        toast.present();
+      }
+    });
   }
 
   ngOnDestroy() {

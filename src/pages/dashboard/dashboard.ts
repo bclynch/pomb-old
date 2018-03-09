@@ -17,7 +17,7 @@ import { Post } from '../../models/Post.model';
 })
 export class DashboardPage {
 
-  tabOptions: string[] = ['all', 'drafts', 'scheduled', 'published'];
+  tabOptions: string[] = ['all', 'drafts', 'published']; // scheduled removed for now
   activeTab = 0;
   isExpanded = false;
   postsData: any;
@@ -46,6 +46,7 @@ export class DashboardPage {
     this.postsData = this.apiService.getAllPostsByUser(this.userService.user.id).valueChanges.subscribe(
       ({data}) => {
         this.posts = data.allPosts.nodes;
+        console.log(this.posts);
         this.displayedPosts = data.allPosts.nodes;
       });
   }
@@ -61,10 +62,10 @@ export class DashboardPage {
       case 1:
         this.displayedPosts = this.posts.filter((post) => (post.isDraft));
         break;
+      // case 2:
+      // this.displayedPosts = this.posts.filter((post) => (post.isScheduled));
+      //   break;
       case 2:
-      this.displayedPosts = this.posts.filter((post) => (post.isScheduled));
-        break;
-      case 3:
       this.displayedPosts = this.posts.filter((post) => (post.isPublished));
         break;
     }

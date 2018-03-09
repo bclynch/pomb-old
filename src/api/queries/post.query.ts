@@ -66,6 +66,8 @@ export const postByIdQuery: DocumentNode = gql`
       updatedAt,
       scheduledDate,
       publishedDate,
+      isDraft,
+      isScheduled,
       tripId,
       junctureId,
       city,

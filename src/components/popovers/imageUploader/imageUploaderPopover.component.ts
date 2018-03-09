@@ -18,6 +18,7 @@ export class ImageUploaderPopover {
   urlArr: string[] = [];
   imgSize: { width: number, height: number };
   maxImgs: number;
+  postSize: 'small' | 'large' = null;
 
   constructor(
     public viewCtrl: ViewController,
@@ -96,6 +97,9 @@ export class ImageUploaderPopover {
         break;
       case 'profile':
         this.uploadImages([{ width: 250, height: 250 }], 80);
+        break;
+      case 'post':
+        this.uploadImages([{ width: this.postSize === 'small' ? 400 : 800, height: this.postSize === 'small' ? 267 : 533 }], 80);
         break;
       case 'custom':
         this.uploadImages([this.imgSize], 80);

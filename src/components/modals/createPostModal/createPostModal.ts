@@ -70,10 +70,10 @@ export class CreatePostModal {
   // https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
   editorOptions: Object;
 
-  activePostOption = 2;
+  activePostOption = 1; // 2 when scheduled exists
   postOptions: PostOption[] = [
     { name: 'Published', description: 'Publish this post now', secondaryDescription: 'Publish ' },
-    { name: 'Scheduled', description: 'Publish this post in the future', secondaryDescription: 'Schedule for ' },
+    // { name: 'Scheduled', description: 'Publish this post in the future', secondaryDescription: 'Schedule for ' },
     { name: 'Draft', description: 'Save this post for later editing', secondaryDescription: 'This post will not be visible' }
   ];
 
@@ -156,7 +156,7 @@ export class CreatePostModal {
             this.publishModel.label = moment(+this.data.publishedDate).fromNow();
           }
 
-          this.activePostOption = this.data.isDraft ? 2 : this.data.isScheduled ? 1 : 0;
+          this.activePostOption = this.data.isDraft ? 1 : this.data.isScheduled ? 123 : 0; // change back when scheduled is here
         }
 
         this.mapsAPILoader.load().then(() => {
@@ -175,7 +175,7 @@ export class CreatePostModal {
       refreshAfterCallback: false,
       callback: function () {
         self.presentImageUploaderPopover('post').then((data) => {
-          if (data) this.html.insert(`<img src="${data.arr[0].url}" width="${data.size === 'large' ? '100%' : '50%'}" />`);
+          if (data) this.html.insert(`<img src="${data[0].url}" width="${data[0].size === 800 ? '100%' : '50%'}" />`);
         });
       }
     });
@@ -260,7 +260,7 @@ export class CreatePostModal {
 
   savePost() {
     // validate required fields filled out if post status is scheduled or publish
-    if (this.activePostOption !== 2) {
+    if (this.activePostOption !== 1) { // is 2 when scheduled exists
       const requiredFields: { field: any, label: string }[] = [
         { field: this.postModel.postTitle, label: 'post title' },
         { field: this.postModel.postSubtitle, label: 'post subtitle' },
@@ -283,7 +283,7 @@ export class CreatePostModal {
   updatePost() {
     // this.data is the original data passed in and shouldn't be mutated
     // We can use this as a ref to know if we need to pass in new edits/changes
-    this.apiService.updatePostById(this.data.id, this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.updatePostById(this.data.id, this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 1, this.activePostOption === 123, this.activePostOption === 0, this.activePostOption === 123 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           const updatePromises = [];
@@ -305,7 +305,7 @@ export class CreatePostModal {
   createPost() {
     const self = this;
     // Add most of the model to our post table
-    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 2, this.activePostOption === 1, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 1 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
+    this.apiService.createPost(this.userService.user.id, this.postModel.postTitle, this.postModel.postSubtitle, this.postModel.content, this.activePostOption === 1, this.activePostOption === 123, this.activePostOption === 0, this.postModel.tripId, this.postModel.junctureId, this.postModel.city, this.postModel.country, this.activePostOption === 123 ? this.scheduledModel.value : null, this.activePostOption === 0 ? this.publishModel.value : null)
       .subscribe(
         result => {
           const createPostData = <any>result;
@@ -610,7 +610,7 @@ export class CreatePostModal {
     });
   }
 
-  presentImageUploaderPopover(type: string): Promise<{ arr: { url: string, width: number }[], size: string }> {
+  presentImageUploaderPopover(type: string): Promise<{ url: string, size: number }[]> {
     return new Promise((resolve, reject) => {
       const popover = this.popoverCtrl.create(ImageUploaderPopover, { type }, { cssClass: 'imageUploaderPopover', enableBackdropDismiss: false });
       popover.present();
