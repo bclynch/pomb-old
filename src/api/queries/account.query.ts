@@ -151,11 +151,11 @@ export const recentUserActivityQuery: DocumentNode = gql`
         }
       },
       postsByAuthor(
-        last: 3,
+        first: 3,
         condition: {
           isPublished: true
         },
-        orderBy: ID_DESC
+        orderBy: PRIMARY_KEY_DESC
       ) {
         nodes {
           title,

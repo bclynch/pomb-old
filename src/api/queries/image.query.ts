@@ -10,7 +10,12 @@ export const allImagesByUserQuery: DocumentNode = gql`
         userId: $userId
       },
       first: $first,
-      offset: $offset
+      offset: $offset,
+      filter: {
+        type: {
+          notEqualTo: LEAD_SMALL
+        }
+      }
     ) {
       nodes {
         ...Image
@@ -28,7 +33,12 @@ export const allImagesByTripQuery: DocumentNode = gql`
         tripId: $tripId
       },
       first: $first,
-      offset: $offset
+      offset: $offset,
+      filter: {
+        type: {
+          notEqualTo: LEAD_SMALL
+        }
+      }
     ) {
       nodes {
         ...Image

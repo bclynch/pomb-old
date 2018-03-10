@@ -21,6 +21,7 @@ export const fragments: {
       url,
       description,
       title,
+      type,
       accountByUserId {
         id,
         username

@@ -148,7 +148,8 @@ export const postsByTagQuery: DocumentNode = gql`
     allPostToTags(
       condition: {
         postTagId: $tagId
-      }
+      },
+      orderBy: PRIMARY_KEY_DESC
     ) {
       nodes {
         postByPostId {

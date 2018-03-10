@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
-import { UserService } from './user.service';
+import { LocalStorageService } from './localStorage.service';
 
 @Injectable()
 export class SplashGuardService implements CanActivate {
 
   constructor(
     public router: Router,
-    private userService: UserService
+    private localStorageService: LocalStorageService
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean>|Promise<boolean>|boolean {
-    if (this.userService.signedIn) {
-      this.router.navigate(['/stories']);
-    }
+    // for now this is better than the user service method because it isn't async and waiting for server
+    // its possible the token could be expired, but this is a solid bet
+    if (this.localStorageService.get('pomb-user').token) this.router.navigate(['/stories']);
     return true;
   }
 }
