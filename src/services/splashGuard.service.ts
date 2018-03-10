@@ -18,7 +18,8 @@ export class SplashGuardService implements CanActivate {
   ): Observable<boolean>|Promise<boolean>|boolean {
     // for now this is better than the user service method because it isn't async and waiting for server
     // its possible the token could be expired, but this is a solid bet
-    if (this.localStorageService.get('pomb-user').token) this.router.navigate(['/stories']);
+    const user = this.localStorageService.get('pomb-user');
+    if (user && user.token) this.router.navigate(['/stories']);
     return true;
   }
 }

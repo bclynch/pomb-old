@@ -49,13 +49,14 @@ export class PackOnMyBack implements OnInit, OnDestroy {
       }, (error) => {
         console.log('there was an error sending the query', error);
         this.localStorageService.set('pomb-user', null);
-        alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
+        // alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
         this.emitReady();
       });
     }, error => {
       console.log(error);
       // JWT expired so get rid of it in local storage
       this.localStorageService.set('pomb-user', null);
+      this.emitReady();
       // window.location.reload();
     });
   }
