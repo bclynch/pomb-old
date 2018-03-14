@@ -201,7 +201,6 @@ page-splash {
         padding: 16px;
         background: rgba(0, 15, 83, .2);
         margin: 10px 0;
-        cursor: pointer;
         // height: 350px;
         position: relative;
 
@@ -306,7 +305,7 @@ page-splash {
         align-items: center;
         background: linear-gradient(150deg,$color1 15%,$color2 70%,$color3 94%);
         transition: .5s;
-        cursor: pointer;
+        // cursor: pointer;
         padding: 30px 0;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -316,7 +315,7 @@ page-splash {
         }
       }
       .box:hover {
-        transform: scale(1.02);
+        // transform: scale(1.02);
       }
     }
   }

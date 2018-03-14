@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { SettingsService } from '../../services/settings.service';
 import { RouterService } from '../../services/router.service';
+import { UtilService } from '../../services/util.service';
 
 import { Post } from '../../models/Post.model';
 
@@ -14,11 +15,13 @@ export class PostCard {
   @Input() data: Post;
   @Input() displayAuthor = true;
   @Input() displayImage = true;
+  @Input() displayDescription = false;
 
   constructor(
     private settingsService: SettingsService,
     private routerService: RouterService,
     private sanitizer: DomSanitizer,
+    private utilService: UtilService
   ) {
 
   }

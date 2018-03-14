@@ -180,6 +180,7 @@ mypacknavsection {
           .rightContainer {
             flex: 3;
             margin-left: 20px;
+            display: none;
           }
           .emptyContainer {
             text-align: center;
@@ -194,6 +195,11 @@ mypacknavsection {
           margin: 15px 0;
         }
       }
+    }
+  }
+  @include respond-to(large) {
+    .rightContainer {
+      display: block !important;
     }
   }
   @include respond-to(medium) {

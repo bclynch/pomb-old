@@ -47,7 +47,7 @@ export class PackOnMyBack implements OnInit, OnDestroy {
           this.firstTry = false;
         }
       }, (error) => {
-        console.log('there was an error sending the query', error);
+        // console.log('there was an error sending the query', error);
         this.localStorageService.set('pomb-user', null);
         // alertService.alert('Internal Error', 'There was a problem with our servers, please be patient!');
         this.emitReady();

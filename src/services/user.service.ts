@@ -16,7 +16,7 @@ import { Post } from '../models/Post.model';
 @Injectable()
 export class UserService {
   signedIn = false;
-  user: User;
+  user: User = null;
 
   // for use in our nav panel
   recentTrip: Trip;

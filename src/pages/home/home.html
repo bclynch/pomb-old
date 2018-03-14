@@ -14,13 +14,13 @@
         <span [style.color]="settingsService.secondaryColor" *ngIf="gridPosts[0].accountByAuthor.firstName">{{gridPosts[0].accountByAuthor.firstName}} {{gridPosts[0].accountByAuthor.lastName}}</span>
         <span [style.color]="settingsService.secondaryColor" *ngIf="!gridPosts[0].accountByAuthor.firstName">{{gridPosts[0].accountByAuthor.username}}</span>
       </div>
-      <div>{{gridPosts[0].createdAt | date: 'mediumDate'}}</div>
+      <div>{{gridPosts[0].publishedDate | date: 'mediumDate'}}</div>
       <div class="content">{{utilService.stripHTMLTags(gridPosts[0].content) | truncate:[200, '...']}}</div>
     </div>
   </div>
   <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration" *ngIf="gridPosts.length"></Grid>
   <CompactHero [post]="compactHeroPost" *ngIf="compactHeroPost"></CompactHero>
-  <PostList [data]="otherPosts"></PostList>
+  <PostList [data]="otherPosts" [displayDescription]="true"></PostList>
   <div 
     class="more boldFont" 
     *ngIf="posts.length === 20" 

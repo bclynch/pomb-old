@@ -2,8 +2,6 @@
  * Check out https://googlechrome.github.io/sw-toolbox/ for
  * more info on how to use sw-toolbox to custom configure your service worker.
  */
-
-
 'use strict';
 importScripts('./build/sw-toolbox.js');
 
@@ -23,7 +21,7 @@ self.toolbox.options.cache = {
 	name: 'packonmyback-cache'
 };
 
-const CACHE_VERSION = 7;
+const CACHE_VERSION = 16;
 
 // dynamically cache any other local assets
 self.toolbox.router.get('/(.*)', self.toolbox.cacheFirst, {

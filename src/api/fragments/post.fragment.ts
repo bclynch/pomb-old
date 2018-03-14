@@ -11,7 +11,7 @@ export const fragments: {
       title,
       subtitle,
       content,
-      createdAt,
+      publishedDate,
       updatedAt
     }
   `,

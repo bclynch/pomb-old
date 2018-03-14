@@ -2,14 +2,17 @@ postcard {
 
   .postCardContainer {
     display: flex;
+    align-items: center;
     border-top: solid 1px mapGet($basecolor, border-light);
     margin-bottom: 8px;
+    min-height: 175px;
 
     .imgWrapper {
-      width: 40%;
+      width: 25%;
       @extend %fixedRatioWrapper;
       cursor: pointer;
       max-height: 240px;
+      min-height: 125px;
       overflow: hidden;
 
       .cardImg {
@@ -35,13 +38,13 @@ postcard {
         color: var(--secondary);
       }
       .bottomWrapper {
+        margin-bottom: 10px;
 
         .authorWrapper {
           cursor: pointer;
-
-          .pipeDivider {
-            display: none;
-          }
+        }
+        .pipeDivider {
+          display: none;
         }
       }
     }

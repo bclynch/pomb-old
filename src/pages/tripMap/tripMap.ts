@@ -29,6 +29,7 @@ export class TripMapPage {
   junctureMarkers = [];
   inited = false;
   defaultPhoto = '../../assets/images/trip-default.jpg';
+  tripBanner: string;
   junctureIndex = 0;
   junctureContentArr: any = [];
   tempPanStart: number;
@@ -85,7 +86,7 @@ export class TripMapPage {
       if (this.tripData.juncturesByTripId.nodes[1]) this.modJunctureContentArr(1, this.tripData.juncturesByTripId.nodes[1].id);
       // adding start trip marker
       this.junctureMarkers.unshift({ lat: +this.tripData.startLat, lon: +this.tripData.startLon, name: 'Trip Start', markerImg: this.junctureService.defaultStartImg, arrivalDate: this.tripData.startDate, city: '', country: '', coordsByJunctureId: { nodes: [] }, description: '' });
-      console.log('JUNCTURE MARKERS: ', this.junctureMarkers);
+      // console.log('JUNCTURE MARKERS: ', this.junctureMarkers);
 
       // trip coords
       const junctureArr = this.tripData.juncturesByTripId.nodes.map((juncture) => {
@@ -97,7 +98,7 @@ export class TripMapPage {
       });
       // push starting trip marker to front of arr
       junctureArr.unshift([{ lat: this.tripData.startLat, lon: this.tripData.startLon, elevation: 0, coordTime: new Date(+this.tripData.startDate).toString() }]);
-      console.log(junctureArr);
+      // console.log(junctureArr);
       this.geoJsonObject = this.geoService.generateGeoJSON(junctureArr);
 
       this.dataLayerStyle = {
@@ -105,6 +106,10 @@ export class TripMapPage {
         strokeColor: this.settingsService.secondaryColor,
         strokeWeight: 3
       };
+
+      // populate tripBanner
+      const bannerImages = this.tripData.imagesByTripId.nodes.filter((img) => img.type === 'BANNER');
+      this.tripBanner = bannerImages.length ? bannerImages[0].url : null;
 
       // fitting the map to the markers
       this.mapsAPILoader.load().then(() => {
@@ -124,7 +129,7 @@ export class TripMapPage {
           this.inited = true;
         });
 
-        console.log(this.junctureContentArr);
+        // console.log(this.junctureContentArr);
       });
     }, (error) => {
       console.log('there was an error sending the query', error);
@@ -164,11 +169,11 @@ export class TripMapPage {
       // make sure it doesn't already exist
       if (!this.junctureContentArr[index]) {
         this.apiService.getPartialJunctureById(id, this.userService.user ? this.userService.user.id : null).valueChanges.subscribe(({ data }) => {
-          console.log(data);
+          // console.log(data);
           const junctureData = data.junctureById;
           if (!this.junctureContentArr[index]) {
             this.junctureContentArr.splice(index, 1, junctureData);
-            console.log(this.junctureContentArr);
+            // console.log(this.junctureContentArr);
             resolve();
           }
         });
@@ -202,7 +207,8 @@ export class TripMapPage {
   panToCoords(lat: number, lon: number) {
     this.coords.lat = lat;
     this.coords.lon = lon;
-    this.zoomLevel = this.boundedZoom < 8 ? this.boundedZoom + 2 : this.boundedZoom + 1;
+    // this.zoomLevel = this.boundedZoom < 8 ? this.boundedZoom + 2 : this.boundedZoom + 1;
+    this.zoomLevel = 11;
     this.map._mapsWrapper.panTo({lat: this.coords.lat, lng: this.coords.lon});
   }
 

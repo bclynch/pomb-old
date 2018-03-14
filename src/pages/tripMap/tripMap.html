@@ -77,7 +77,7 @@
       </div>
       <div 
         class="paneBanner"
-        [ngStyle]="tripData.bannerPhoto ? { 'background-image': 'url(' + tripData.bannerPhoto + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
+        [ngStyle]="tripBanner ? { 'background-image': 'url(' + tripBanner + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
         (click)="routerService.navigateToPage('/trip/' + tripId)"
       >
         <div class="overlay">
@@ -127,7 +127,7 @@
                     *ngIf="juncture"
                   ></LikeCounter>
                 </div>
-                <div class="junctureDescription">{{juncture?.description}}</div>
+                <div class="junctureDescription" *ngIf="juncture?.description">{{utilService.stripHTMLTags(juncture.description)}}</div>
                 <Gallery [isSquare]="true" perRow="2" [data]="juncture?.imagesByJunctureId.nodes" gutterWidth="2px"></Gallery>
                 <div class="juncturePosts">
                   <PostCard [data]="post" *ngFor="let post of juncture?.postsByJunctureId.nodes"></PostCard>

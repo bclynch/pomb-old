@@ -15,7 +15,10 @@
         <span [style.color]="settingsService.secondaryColor" *ngIf="!data.accountByAuthor.firstName">{{data.accountByAuthor.username}}</span>
       </div>
       <span class="pipeDivider" *ngIf="displayAuthor"> | </span>
-      <div>{{data.createdAt | date:'mediumDate'}}</div>
+      <div>{{data.publishedDate | date:'mediumDate'}}</div>
+    </div>
+    <div class="descriptionWrapper" *ngIf="displayDescription">
+      {{utilService.stripHTMLTags(data.content) | truncate:[225, '...']}}
     </div>
   </div>
 </div>

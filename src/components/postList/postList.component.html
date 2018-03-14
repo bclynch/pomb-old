@@ -1,7 +1,7 @@
 <div class="postListContainer">
   <div class="contentWrapper">
     <div class="leftColumn">
-      <PostCard *ngFor="let post of data;" [data]="post"></PostCard>
+      <PostCard *ngFor="let post of data;" [data]="post" [displayDescription]="displayDescription"></PostCard>
     </div>
     <div class="rightColumn">
       <Newsletter *ngIf="userService.SignedIn"></Newsletter>

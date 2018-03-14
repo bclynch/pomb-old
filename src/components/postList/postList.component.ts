@@ -9,6 +9,7 @@ import { UserService } from '../../services/user.service';
 })
 export class PostList {
   @Input() data: Post[];
+  @Input() displayDescription = false;
 
   constructor(
     private userService: UserService

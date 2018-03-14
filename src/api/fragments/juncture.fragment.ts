@@ -22,7 +22,7 @@ export const fragments: {
           accountByAuthor {
             ...AccountByAuthor
           },
-          createdAt,
+          publishedDate,
           imagesByPostId {
             nodes {
               id,

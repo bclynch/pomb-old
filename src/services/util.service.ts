@@ -46,7 +46,7 @@ export class UtilService {
   }
 
   stripHTMLTags(string: string): string {
-    return string.replace(/<\/?[^>]+(>|$)/g, '');
+    return string.replace(/<(?!\/>)[^>]*>/g, '').replace(/&#39;/g, '\'');
   }
 
   getJSON(path: string) {
