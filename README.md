@@ -6,15 +6,21 @@
 
 ### Front end fixes live prod
 
-- Add countries still buggy
-- google analytics for dev
-- Maybe add search for manual junctures...
-- Color transport icons white on recent nav
+- Change about me photo - check
+- input focus colors (like contact / search)
+- Run search algorithm - attempted...
+- profile photo trip map
+- Juncture page photo
 
 *AFTER ONLINE*
 
 - Make sure we have efficient api calls and put some limiters on things like tripbyid so we dont get back all juncture or something when not required
 - paginated hub page
+- File drop https://github.com/georgipeltekov/ngx-file-drop
+- Add countries still buggy
+- google analytics for dev
+- Maybe add search for manual junctures...
+- Color transport icons white on recent nav
 - Scheduled blog posts - hidden for now
 - Preview for mobile blog dashboard
 - published / drafted junctures
