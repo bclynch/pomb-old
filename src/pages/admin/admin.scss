@@ -78,6 +78,7 @@ page-admin {
 				height: calc(100% - 80px);
 				padding: 15px 10px 0;
 				overflow: scroll;
+				-ms-overflow-style: none;
 		
 				.contentGroup {     
 					background: white;

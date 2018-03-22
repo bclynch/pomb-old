@@ -8,6 +8,7 @@ juncturemodal {
     .initWrapper {
       height: 100%;
       overflow: scroll;
+      -ms-overflow-style: none;
 
       .header {
         background: mapGet($basecolor, black);
@@ -174,6 +175,7 @@ juncturemodal {
             width: 100%;
             margin-top: 10px;
             overflow: scroll;
+            -ms-overflow-style: none;
             border: solid 1px #ddd;
           }
         }

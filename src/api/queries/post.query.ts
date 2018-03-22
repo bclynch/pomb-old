@@ -99,7 +99,13 @@ export const postByIdQuery: DocumentNode = gql`
           }
         }
       },
-      imagesByPostId {
+      imagesByPostId(
+        filter: {
+          type: {
+            notEqualTo: LEAD_SMALL
+          }
+        }
+      ) {
         nodes {
           id,
           type,

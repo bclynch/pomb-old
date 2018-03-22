@@ -117,6 +117,19 @@ page-profile {
   }
   .photosWrapper {
     width: 100%;
+
+    .navLink {
+      transition: .3s;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 20px;
+      margin: 15px 0 30px;
+      text-align: center;
+      color: white;
+    }
+    .navLink:hover {
+      color: var(--secondary);
+    }
   }
 
   @include respond-to(tiny) {

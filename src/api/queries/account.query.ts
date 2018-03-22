@@ -65,7 +65,15 @@ export const accountByUsernameQuery: DocumentNode = gql`
           }
         }
       },
-      imagesByUserId(last: 12) {
+      imagesByUserId(
+        first: 12,
+        filter: {
+          type: {
+            notEqualTo: LEAD_SMALL
+          }
+        },
+        orderBy: PRIMARY_KEY_DESC
+      ) {
         nodes {
             id,
             url,

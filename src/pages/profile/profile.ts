@@ -68,7 +68,7 @@ export class ProfilePage {
         // populate img array
         for (let i = 0; i < this.user.imagesByUserId.nodes.length; i++) {
           const img = this.user.imagesByUserId.nodes[i];
-          if (img.type === ImageType['GALLERY']) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
+          this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
           if (this.gallery.length === 12) break;
         }
         this.inited = true;

@@ -15,7 +15,8 @@ export const allImagesByUserQuery: DocumentNode = gql`
         type: {
           notEqualTo: LEAD_SMALL
         }
-      }
+      },
+      orderBy: PRIMARY_KEY_DESC
     ) {
       nodes {
         ...Image
@@ -38,7 +39,8 @@ export const allImagesByTripQuery: DocumentNode = gql`
         type: {
           notEqualTo: LEAD_SMALL
         }
-      }
+      },
+      orderBy: PRIMARY_KEY_DESC
     ) {
       nodes {
         ...Image

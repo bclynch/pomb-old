@@ -52,6 +52,7 @@
   <Grid class="container" *ngIf="gridPosts.length" [elements]="gridPosts" [gridConfig]="gridConfiguration"></Grid>
   <div class="photosWrapper container">
     <Gallery [data]="gallery" gutterWidth="2px"></Gallery>
+    <div class="navLink" (click)="routerService.navigateToPage('/user/' + user.username + '/photos')">Check out all of {{user.username}}'s photos</div>
   </div>
 </PageWrapper>
 

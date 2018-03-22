@@ -38,7 +38,6 @@ export class HomePage {
       this.gridPosts = this.posts.slice(0, this.gridConfiguration.length);
       this.compactHeroPost = this.posts.slice(this.gridConfiguration.length, this.gridConfiguration.length + 1)[0];
       this.otherPosts = this.posts.slice(this.gridConfiguration.length + 1);
-      this.otherPosts = this.posts;
     }, (error) => {
       console.log('there was an error sending the query', error);
     });

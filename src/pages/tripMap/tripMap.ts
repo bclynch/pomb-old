@@ -219,22 +219,23 @@ export class TripMapPage {
   }
 
   panStart(e) {
-    // console.log(e);
     this.tempPanStart = e.center.x;
   }
 
-  panEnd(e) {
-    // console.log(e);
-    if (e.additionalEvent === 'panright') {
-      if (e.center.x - this.tempPanStart > 200) {
-        if (this.junctureIndex > 0) this.changeIndex(this.junctureIndex - 1);
-      }
-    } else if (e.additionalEvent === 'panleft') {
-      if (this.tempPanStart - e.center.x > 200) {
-        if (this.junctureIndex < this.tripData.juncturesByTripId.nodes.length - 1) this.changeIndex(this.junctureIndex + 1);
+  pan(e, type) {
+    if (this.tempPanStart) {
+      if (type === 'right') {
+        if (e.distance > 400) {
+          if (this.junctureIndex > 0) this.changeIndex(this.junctureIndex - 1);
+          this.tempPanStart = null;
+        }
+      } else {
+        if (e.distance > 400) {
+          if (this.junctureIndex < this.tripData.juncturesByTripId.nodes.length - 1) this.changeIndex(this.junctureIndex + 1);
+          this.tempPanStart = null;
+        }
       }
     }
-    this.tempPanStart = 0;
   }
 
   mapReady(e) {

@@ -68,6 +68,7 @@ page-dashboard {
       }
       .postsList {
         overflow: scroll;
+        -ms-overflow-style: none;
         flex: 1; 
       }
       .searchContainer {
@@ -97,6 +98,7 @@ page-dashboard {
       position: relative;
       transition: margin .5s linear;
       overflow: scroll;
+      -ms-overflow-style: none;
       padding: 15px 10px 0;
       display: none;
       margin: 22px 22px 22px 422px;

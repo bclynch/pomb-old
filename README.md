@@ -6,7 +6,9 @@
 
 ### Front end fixes live prod
 
-- Change about me photo - check
+- gallery photos are starting at end. Need to reverse the arr
+- Browser fixes
+- Add featured trips to stories page. Needs to be more prominent
 - input focus colors (like contact / search)
 - Run search algorithm - attempted...
 - profile photo trip map

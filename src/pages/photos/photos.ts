@@ -87,7 +87,8 @@ export class PhotosPage {
           console.log(result);
           this.gallery = this.gallery.concat(result.data.allImages.nodes);
           if (result.data.allImages.nodes < this.callQuant) this.utilService.allFetched = true;
-        }
+        },
+        err => console.log(err)
       );
     }
 

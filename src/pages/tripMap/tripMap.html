@@ -85,7 +85,7 @@
           <div class="timeframe">{{tripData.startDate | date: 'MMM y'}} - {{tripData.endDate | date: 'MMM y' || Now}}</div>
         </div>
       </div>
-      <div (panstart)="panStart($event)" (panend)="panEnd($event)" >
+      <div (panstart)="panStart($event)" (panleft)="pan($event, 'left')" (panright)="pan($event, 'right')">
         <div class="paneJunctureTracker">
             <!-- width is 100 (% of parent to be) * number of junctures + 2 (to account for static first and last) / 3 (number junctures in view) -->
             <div 

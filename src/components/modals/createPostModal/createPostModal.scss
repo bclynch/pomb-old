@@ -39,6 +39,7 @@ createpostmodal {
       margin: 20px auto 0;
       height: calc(100vh - 111px); // subtract top and bototm row height
       overflow: scroll;
+      -ms-overflow-style: none;
 
       .topContainer {
         display: flex;
@@ -223,6 +224,7 @@ createpostmodal {
         width: 90%;
         margin: 44px 0 22px;
         overflow: scroll;
+        -ms-overflow-style: none;
 
         .fr-element {
           height: 80%;
@@ -241,6 +243,7 @@ createpostmodal {
     .galleryContainer {
       height: calc(100% - 91px);
       overflow-y: auto;
+      -ms-overflow-style: none;
 
       .addGalleryContainer {
 

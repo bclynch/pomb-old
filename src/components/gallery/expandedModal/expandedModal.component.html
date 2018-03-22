@@ -1,4 +1,4 @@
-<div class="modalContainer" (window:keydown)="onKey($event)">
+<div class="modalContainer" (window:keydown)="onKey($event)" (panstart)="panStart($event)" (panleft)="panGesture($event, 'left')" (panright)="panGesture($event, 'right')">
   <div 
     class="closeModal" 
     name="close"

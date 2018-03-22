@@ -14,6 +14,7 @@ export class ExpandedModal {
 
   photos: GalleryPhoto[];
   currentIndex: number;
+  tempPanStart: number;
 
   constructor(
     public viewCtrl: ViewController,
@@ -34,6 +35,27 @@ export class ExpandedModal {
       if (this.currentIndex !== this.photos.length - 1) this.currentIndex++;
     } else {
       if (this.currentIndex !== 0) this.currentIndex--;
+    }
+  }
+
+  panStart(e) {
+    this.tempPanStart = e.center.x;
+  }
+
+  panGesture(e, type) {
+    if (this.tempPanStart) {
+      console.log(e.distance);
+      if (type === 'right') {
+        if (e.distance > 200) {
+          this.pan('forward');
+          this.tempPanStart = null;
+        }
+      } else {
+        if (e.distance > 200) {
+          this.pan('back');
+          this.tempPanStart = null;
+        }
+      }
     }
   }
 

@@ -106,7 +106,7 @@ page-trip-map {
       ShareBtns {
         position: absolute;
         bottom: 15px;
-        right: -10px;
+        right: 0;
       }
       .fullScreenToggle {
         position: absolute;
@@ -216,6 +216,7 @@ page-trip-map {
           transition: .5s;
           height: 300px;
           overflow: scroll;
+          -ms-overflow-style: none;
 
           .junctureContentContainer {
             flex: 1;
@@ -308,6 +309,7 @@ page-trip-map {
         min-width: 500px;
         height: calc(100vh - 40px); //40px is size of nav
         overflow-y: scroll;
+        -ms-overflow-style: none;
 
         .paneBanner {
           display: block;

@@ -30,7 +30,7 @@
       ></LikeCounter>
     </div>
   </div>
-  <img [src]="post.imagesByPostId.nodes[1].url" class="leadImg" />
+  <img [src]="post.imagesByPostId.nodes[0].url" class="leadImg" />
   <div class="postSandbox" [froalaView]="post.content"></div>
   <Gallery [data]="galleryImages" gutterWidth="2px"></Gallery>
   <disqus [identifier]="disqusId" *ngIf="disqusId"></disqus>

@@ -5,6 +5,7 @@ pagewrapper {
   left:       0;
   right:      0;
   overflow:   scroll;
+  -ms-overflow-style: none;
   background: black;
 
   .pageWrapperContainer {

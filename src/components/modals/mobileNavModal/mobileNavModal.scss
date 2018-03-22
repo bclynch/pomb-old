@@ -45,6 +45,7 @@ $navbarHeight: 40px;
       .contentWrapper {
         padding: 0 20px;
         overflow: scroll;
+        -ms-overflow-style: none;
         height: calc(100% - 40px);
 
         .profileWrapper {

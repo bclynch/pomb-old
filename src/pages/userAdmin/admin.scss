@@ -71,6 +71,7 @@ page-useradmin {
     position: relative;
     height: 100%;
     overflow: scroll;
+    -ms-overflow-style: none;
 
     .menuToggleBtn {
       position: absolute;
@@ -98,6 +99,7 @@ page-useradmin {
       height: calc(100% - 80px);
       padding: 15px 10px 0;
       overflow: scroll;
+      -ms-overflow-style: none;
   
       .contentGroup {     
         background: white;
