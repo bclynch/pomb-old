@@ -14,6 +14,7 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { setContext } from 'apollo-link-context';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { AgmJsMarkerClustererModule, ClusterManager } from '@agm/js-marker-clusterer';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { Angulartics2Module } from 'angulartics2';
@@ -261,6 +262,7 @@ import { AnalyticsService } from '../services/analytics.service';
     }),
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     AgmSnazzyInfoWindowModule,
+    AgmJsMarkerClustererModule,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     ShareButtonsModule.forRoot(),

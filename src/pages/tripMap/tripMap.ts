@@ -44,6 +44,11 @@ export class TripMapPage {
   boundedZoom: number;
   dataLayerStyle;
   fullscreen = false;
+  clusterOptions = {
+    gridSize: 60,
+    minimumClusterSize: 2,
+    averageCenter: true
+  };
 
   constructor(
     private settingsService: SettingsService,
@@ -108,8 +113,7 @@ export class TripMapPage {
       };
 
       // populate tripBanner
-      const bannerImages = this.tripData.imagesByTripId.nodes.filter((img) => img.type === 'BANNER');
-      this.tripBanner = bannerImages.length ? bannerImages[0].url : null;
+      this.tripBanner = this.tripData.banners.nodes.length ? this.tripData.banners.nodes[0].url : null;
 
       // fitting the map to the markers
       this.mapsAPILoader.load().then(() => {

@@ -41,7 +41,26 @@ export const tripByIdQuery: DocumentNode = gql`
         profilePhoto
       },
       imagesByTripId {
-        totalCount,
+        totalCount
+      },
+      gallery: imagesByTripId(
+        first: 12,
+        filter: {
+          or: [
+						{
+              type: {
+                equalTo: GALLERY
+              }
+            },
+            {
+              type: {
+                equalTo: LEAD_LARGE
+              }
+            }
+          ]
+        },
+        orderBy: PRIMARY_KEY_DESC
+      ) {
         nodes {
           id,
           url,
@@ -54,7 +73,38 @@ export const tripByIdQuery: DocumentNode = gql`
           },
           likesByUser: likesByImageId(
             condition: {
-              userId: $userId
+              userId: 1
+            }
+          ) {
+            nodes {
+              id
+            }
+          },
+          totalLikes: likesByImageId {
+            totalCount
+          }
+        }
+      }
+    banners: imagesByTripId(
+        filter: {
+          type: {
+            equalTo: BANNER
+          }
+        }
+      ) {
+        nodes {
+          id,
+          url,
+          title,
+          type,
+          description,
+          accountByUserId {
+            id,
+            username
+          },
+          likesByUser: likesByImageId(
+            condition: {
+              userId: 1
             }
           ) {
             nodes {

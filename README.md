@@ -6,6 +6,7 @@
 
 ### Front end fixes live prod
 
+- Update postgraphile to the beta. Otherwise check versioning across the board. Ionic when it goes to 4 (after it's stable...)
 - gallery photos are starting at end. Need to reverse the arr
 - Browser fixes
 - Add featured trips to stories page. Needs to be more prominent
@@ -13,6 +14,8 @@
 - Run search algorithm - attempted...
 - profile photo trip map
 - Juncture page photo
+- Adding images fails with too many + memory issues
+- Remove html from map marker windows on description
 
 *AFTER ONLINE*
 

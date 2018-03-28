@@ -92,9 +92,11 @@ export class TripPage implements AfterViewInit {
       this.carouselImages = [];
       this.gallery = [];
       // populate img arrays
-      this.tripData.imagesByTripId.nodes.forEach((img) => {
-        if (img.type === ImageType['BANNER']) this.carouselImages.push({ imgURL: img.url, tagline: img.title });
-        if (img.type === ImageType['GALLERY'] && this.gallery.length < 12) this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
+      this.tripData.banners.nodes.forEach((img) => {
+        this.carouselImages.push({ imgURL: img.url, tagline: img.title });
+      });
+      this.tripData.gallery.nodes.forEach((img) => {
+        this.gallery.push({ url: img.url, description: img.description, accountByUserId: { username: img.accountByUserId.username }, totalLikes: img.totalLikes, likesByUser: img.likesByUser, id: img.id });
       });
       this.carouselTripData = { totalLikes: this.tripData.totalLikes.totalCount, likesArr: this.tripData.likesByUser.nodes, tripId: this.tripData.id };
 

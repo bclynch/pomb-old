@@ -15,43 +15,50 @@
         mapTypeId="terrain"
         #AgmMap
       >
-        <agm-marker 
-          *ngFor= "let marker of junctureMarkers; let i = index;"
-          [latitude]= "marker.lat" 
-          [longitude]= "marker.lon" 
-          [iconUrl]= "{
-            url: marker.markerImg || junctureService.defaultMarkerImg,
-            anchor: {x: 18, y: 18},
-            size: {width: 40, height: 40},
-            scaledSize: {width: 40, height: 40}
-          }"
-          (markerClick)="markerClick(i)"
+        <agm-marker-cluster 
+          [minimumClusterSize]="clusterOptions.minimumClusterSize" 
+          [gridSize]="clusterOptions.gridSize"
+          [averageCenter]="clusterOptions.averageCenter"
+          imagePath="https://googlemaps.github.io/js-marker-clusterer/images/m"
         >
-          <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true" *ngIf="i > 0">
-            <ng-template>
-              <div *ngIf="!markerLoading">
-                <div 
-                  class="juncturePhoto" 
-                  [ngStyle]="junctureContentArr[i - 1].imagesByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i - 1].imagesByJunctureId.nodes[0].url + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
-                >
-                  <div class="overlay">
-                    <div class="overlayName">{{junctureContentArr[i - 1].name}}</div>
-                    <div class="overlayDate">{{junctureContentArr[i - 1].arrivalDate | date: 'MMM d, y'}}</div>
+          <agm-marker 
+            *ngFor= "let marker of junctureMarkers; let i = index;"
+            [latitude]= "marker.lat" 
+            [longitude]= "marker.lon" 
+            [iconUrl]= "{
+              url: marker.markerImg || junctureService.defaultMarkerImg,
+              anchor: {x: 18, y: 18},
+              size: {width: 40, height: 40},
+              scaledSize: {width: 40, height: 40}
+            }"
+            (markerClick)="markerClick(i)"
+          >
+            <agm-snazzy-info-window [maxWidth]="200" placement="left" [closeWhenOthersOpen]="true" *ngIf="i > 0">
+              <ng-template>
+                <div *ngIf="!markerLoading">
+                  <div 
+                    class="juncturePhoto" 
+                    [ngStyle]="junctureContentArr[i - 1].imagesByJunctureId.nodes.length ? { 'background-image': 'url(' + junctureContentArr[i - 1].imagesByJunctureId.nodes[0].url + ')'} : { 'background-image': 'url(../../assets/images/trip-default.jpg)'}"
+                  >
+                    <div class="overlay">
+                      <div class="overlayName">{{junctureContentArr[i - 1].name}}</div>
+                      <div class="overlayDate">{{junctureContentArr[i - 1].arrivalDate | date: 'MMM d, y'}}</div>
+                    </div>
+                  </div>
+                  <div class="contentWrapper">
+                    <div class="topWrapper">
+                      <div class="windowCity">{{junctureContentArr[i - 1].city}}</div>
+                      <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + junctureContentArr[i - 1].type + '.svg'" />
+                    </div>
+                    <div class="windowCountry">{{junctureContentArr[i - 1].country}}</div>
+                    <div>{{junctureContentArr[i - 1].description | truncate:[200, '...']}}</div>
+                    <div class="windowBtn" (click)="goToJuncture(i)" *ngIf="i !== 0">See More</div>
                   </div>
                 </div>
-                <div class="contentWrapper">
-                  <div class="topWrapper">
-                    <div class="windowCity">{{junctureContentArr[i - 1].city}}</div>
-                    <img class="typeIcon" [src]="'../../assets/images/junctureTypes/' + junctureContentArr[i - 1].type + '.svg'" />
-                  </div>
-                  <div class="windowCountry">{{junctureContentArr[i - 1].country}}</div>
-                  <div>{{junctureContentArr[i - 1].description | truncate:[200, '...']}}</div>
-                  <div class="windowBtn" (click)="goToJuncture(i)" *ngIf="i !== 0">See More</div>
-                </div>
-              </div>
-            </ng-template>
-          </agm-snazzy-info-window>
-        </agm-marker>
+              </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker>
+        </agm-marker-cluster>
         <agm-data-layer [geoJson]="geoJsonObject" [style]="dataLayerStyle"></agm-data-layer>
       </agm-map>
       <ShareBtns 

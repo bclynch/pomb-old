@@ -21,7 +21,7 @@ self.toolbox.options.cache = {
 	name: 'packonmyback-cache'
 };
 
-const CACHE_VERSION = 17;
+const CACHE_VERSION = 19;
 
 // dynamically cache any other local assets
 self.toolbox.router.get('/(.*)', self.toolbox.cacheFirst, {

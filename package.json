@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",
+    "@agm/js-marker-clusterer": "^1.0.0-beta.2",
     "@agm/snazzy-info-window": "^1.0.0-beta.1",
     "@angular/common": "5.0.3",
     "@angular/compiler": "5.0.3",
@@ -44,6 +45,7 @@
     "graphql-tag": "^2.6.1",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
+    "js-marker-clusterer": "^1.0.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.18.1",
     "ngx-disqus": "^2.3.7",

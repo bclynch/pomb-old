@@ -12,6 +12,12 @@ export class Trip {
     totalCount: number;
     nodes: Image[];
   };
+  banners: {
+    nodes: Image[];
+  };
+  gallery: {
+    nodes: Image[];
+  };
   juncturesByTripId: {
     totalCount: number;
     nodes: Juncture[];
