@@ -44,6 +44,14 @@ page-home {
     cursor: pointer;
     max-width: 1280px;
   }
+  .featuredTitle {
+    font-size: 24px;
+    margin: 15px 0;
+    color: white;
+  }
+  tripcard {
+    margin-bottom: 15px;
+  }
 
   @include respond-to(small) {
     .mobileTopPost {

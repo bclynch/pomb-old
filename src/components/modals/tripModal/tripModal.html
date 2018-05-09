@@ -10,7 +10,7 @@
     <div class="contentWrapper">
       <div 
         class="imgLoadWrapper" 
-        [ngStyle]="tripModel.bannerImages.length ? { 'background-image': 'url(' + tripModel.bannerImages[0].url + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
+        [ngStyle]="tripModel.bannerImages?.length ? { 'background-image': 'url(' + tripModel.bannerImages[0].url + ')'} : { 'background-image': 'url(../../../assets/images/trip-default.jpg)'}" 
         (click)="presentBannerUploaderPopover()"
       >
         <div class="overlay">
@@ -21,11 +21,11 @@
             name="md-create" 
             title="Edit banner photo" 
             (click)="presentEditPopover($event, 0)" 
-            *ngIf="tripModel.bannerImages.length"
+            *ngIf="tripModel.bannerImages?.length"
           ></ion-icon> 
         </div>
       </div>
-      <div class="gridWrapper" *ngIf="tripModel.bannerImages.length > 1">
+      <div class="gridWrapper" *ngIf="tripModel.bannerImages?.length > 1">
         <div class="gridUnitWrapper" *ngFor="let image of tripModel.bannerImages | slice:1; let i = index">
           <div class="imgWrapper">
             <div [ngStyle]="{ 'background-image': 'url(' + image.url + ')'}"></div>

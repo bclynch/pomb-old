@@ -26,13 +26,20 @@ export class JunctureService {
 
   openJunctureModal(junctureId): Promise<void> {
     return new Promise((resolve, reject) => {
+      let country = null;
       const modal = this.modalCtrl.create(JunctureModal, { markerImg: this.defaultMarkerImg, junctureId }, { cssClass: 'junctureModal', enableBackdropDismiss: false });
       modal.onDidDismiss(data => {
         if (data) {
           this.apiService.reverseGeocodeCoords(data.location.lat, data.location.lon).subscribe(
             result => {
+              console.log(result);
               const city = this.utilService.extractCity(result.formattedAddress.address_components);
-              const country = result.country.address_components[0].short_name;
+              for (let i = 0; i < result.country.address_components.length; i++) {
+                if (result.country.address_components[i].types.indexOf('country') !== -1) {
+                  country = result.country.address_components[i].short_name;
+                  break;
+                }
+              }
 
               // check if country exists in user list. If not then add
               this.checkCountry(country);
@@ -212,10 +219,12 @@ export class JunctureService {
     if (this.userService.user.autoUpdateVisited) {
       // create nicer arr to work with
       const countriesVisited = this.userService.user.userToCountriesByUserId.nodes.map((country) => (country.countryByCountry.code));
+      console.log(country);
       // if country code doesn't exist then add it
       if (countriesVisited.indexOf(country) === -1) {
         this.apiService.createUserToCountry(country, this.userService.user.id).subscribe(
-          result => {}
+          result => {},
+          err => console.log(err)
         );
       }
     }

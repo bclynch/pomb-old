@@ -1,17 +1,17 @@
 <div 
   class="tripCardContainer"
-  [ngStyle]="trip.imagesByTripId.nodes.length ? { 'background-image': 'url(' + trip.imagesByTripId.nodes[0].url + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
+  [ngStyle]="trip?.imagesByTripId.nodes.length ? { 'background-image': 'url(' + trip.imagesByTripId.nodes[0].url + ')'} : { 'background-image': 'url(' + defaultPhoto + ')'}"
   (click)="navigateToTrip()"  
 >
   <div class="overlay">
     <div class="contentContainer">
-      <div class="tripTitle">{{trip.name}}</div>
+      <div class="tripTitle">{{trip?.name}}</div>
       <div class="infoRow">
-        <div>{{trip.startDate | date:'MMM yy'}}</div>
-        <span *ngIf="trip.endDate">-</span>
-        <div *ngIf="trip.endDate">{{trip.endDate | date:'MMM yy'}}</div>
+        <div>{{trip?.startDate | date:'MMM yy'}}</div>
+        <span *ngIf="trip?.endDate">-</span>
+        <div *ngIf="trip?.endDate">{{trip.endDate | date:'MMM yy'}}</div>
         <div>{{daysTraveling()}}</div>
-        <div class="tripStatus">{{tripService.tripStatus(+trip.startDate, trip.endDate ? +trip.endDate : null)}}</div>
+        <div *ngIf="trip?.startDate" class="tripStatus">{{tripService.tripStatus(+trip.startDate, trip.endDate ? +trip.endDate : null)}}</div>
       </div>
     </div>
   </div>

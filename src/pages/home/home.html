@@ -20,6 +20,8 @@
   </div>
   <Grid [elements]="gridPosts" [gridConfig]="gridConfiguration" *ngIf="gridPosts.length"></Grid>
   <CompactHero [post]="compactHeroPost" *ngIf="compactHeroPost"></CompactHero>
+  <div class="featuredTitle boldFont">Featured Trip</div>
+  <TripCard [trip]="settingsService.featuredTrip"></TripCard>
   <PostList [data]="otherPosts" [displayDescription]="true"></PostList>
   <div 
     class="more boldFont" 

@@ -30,6 +30,7 @@ export class TripCard {
   }
 
   daysTraveling() {
+    if (!this.trip) return;
     const days = this.utilService.differenceDays(+this.trip.startDate, +this.trip.endDate);
     return days === 1 ? `${days} day` : `${days} days`;
   }

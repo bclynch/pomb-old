@@ -6,16 +6,30 @@
 
 ### Front end fixes live prod
 
+- Fix defaulting end date when updating a trip and allowing to set back to null
 - Update postgraphile to the beta. Otherwise check versioning across the board. Ionic when it goes to 4 (after it's stable...)
 - gallery photos are starting at end. Need to reverse the arr
 - Browser fixes
-- Add featured trips to stories page. Needs to be more prominent
 - input focus colors (like contact / search)
 - Run search algorithm - attempted...
 - profile photo trip map
 - Juncture page photo
 - Adding images fails with too many + memory issues
 - Remove html from map marker windows on description
+- info window maps not opening with cluster mobile 
+    - https://github.com/SebastianM/angular-google-maps/pull/1140
+    - Might not be on npm version ?
+- blog dash left thing overlapping issue
+- Error getting to story hub from mobile menu
+- Lazy loading imgs would be great... Verge does it on stories page
+    - Can look at lazy loading modules too https://blog.cloudboost.io/angular-faster-performance-and-better-user-experience-with-lazy-loading-a4f323b2cf4a
+- Froala being annoying... Thinking about Quill which is FOSS
+    - https://quilljs.com/
+    - https://github.com/KillerCodeMonkey/ngx-quill
+    - Renderer - https://github.com/nozer/quill-delta-to-html
+    - Custom image uploader - https://github.com/quilljs/quill/issues/1400
+- Add apple web app meta tags
+    - https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html
 
 *AFTER ONLINE*
 
