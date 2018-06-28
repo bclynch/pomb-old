@@ -7,7 +7,7 @@
 ### Front end fixes live prod
 
 - Fix defaulting end date when updating a trip and allowing to set back to null
-- Update postgraphile to the beta. Otherwise check versioning across the board. Ionic when it goes to 4 (after it's stable...)
+- Update postgraphile to the beta. Otherwise check versioning across the board. Ionic when it goes to 4 (after it's stable... seriously wait its broken to update to prod)
 - gallery photos are starting at end. Need to reverse the arr
 - Browser fixes
 - input focus colors (like contact / search)
@@ -15,7 +15,6 @@
 - profile photo trip map
 - Juncture page photo
 - Adding images fails with too many + memory issues
-- Remove html from map marker windows on description
 - info window maps not opening with cluster mobile 
     - https://github.com/SebastianM/angular-google-maps/pull/1140
     - Might not be on npm version ?
@@ -223,7 +222,7 @@ $ postgraphql  --schema pomb,pomb_private --secret some_secret -t pomb.jwt_token
 ### Putting code on server
 
 - First we want to build our code to minify and all. With Ionic we can do this with the following command
-    - `$ npm run ionic:build -- --prod`
+    - `$ npm run ionic:build --prod`
 
 ### Updating Servers
 

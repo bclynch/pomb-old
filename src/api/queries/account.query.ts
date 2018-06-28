@@ -99,9 +99,11 @@ export const accountByUsernameQuery: DocumentNode = gql`
           }
       }
       tripsByUserId (
-        last: 5
+        last: 5,
+        orderBy: PRIMARY_KEY_DESC
       ) {
         nodes {
+          id,
           ...TripsByUserId
         }
       },
