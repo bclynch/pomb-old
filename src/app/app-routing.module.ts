@@ -256,10 +256,14 @@ const appRoutes: Routes = [
     },
     component: TrackingPage
   },
+  // {
+  //   path: '',
+  //   component: SplashPage,
+  //   canActivate: [SplashGuard]
+  // },
   {
     path: '',
-    component: SplashPage,
-    canActivate: [SplashGuard]
+    component: HomePage
   },
   { path: 'error', component: GeneralErrorPage },
   { path: '**', component: NotFoundPage }
